@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="da"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;ØLIV – Farm hospitality &amp;amp; ØLIV Brew på Bornholm&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>:root{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--charcoal:#121415;--charcoal-soft:#191c1e;--bluegreen:#123538;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--olive:#46552a;--olive-soft:#566637;--beige:#d1bca0;--cream:#f5f0e9;--muted:#9a8f82;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>--radius-lg:20px;--radius-xl:26px;--shadow-soft:0 18px 45px rgba(0,0,0,.55)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>*{box-sizing:border-box;margin:0;padding:0}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:radial-gradient(circle at top,#1f2426,#050607);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>a{color:inherit;text-decoration:none} img{max-width:100%;display:block}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.page{max-width:1200px;margin:0 auto;padding:20px 20px 60px}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* HEADER */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>header{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:linear-gradient(to bottom,rgba(5,5,6,.92),rgba(5,5,6,.75));border-bottom:1px solid rgba(255,255,255,.06)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:16px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.logo{font-family:"Georgia","Times New Roman",serif;font-size:26px;letter-spacing:.35em;text-transform:uppercase;color:var(--cream);white-space:nowrap}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav{display:flex;align-items:center;gap:18px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.8)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav a{position:relative;padding-bottom:4px;cursor:pointer}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--beige);transition:width .2s ease-out;opacity:.85}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nav a:hover::after{width:100%}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-book-nav{border-radius:999px;padding:8px 16px;background:var(--olive);color:var(--beige);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 26px rgba(0,0,0,.6);font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s ease,transform .15s ease;white-space:nowrap}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-book-nav:hover{background:var(--olive-soft);transform:translateY(-1px)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* HERO */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.1fr);gap:26px;margin-top:28px;padding:26px;border-radius:var(--radius-xl);background:radial-gradient(circle at top left,#222a29,#121416);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-left h1{font-family:"Georgia","Times New Roman",serif;font-size:clamp(30px,4vw,40px);letter-spacing:.18em;text-transform:uppercase}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-sub{margin-top:12px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-text{margin-top:18px;font-size:15px;max-width:470px;color:rgba(245,240,233,.87)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-badges{margin-top:18px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:8px;font-size:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pill{border-radius:999px;border:1px solid rgba(255,255,255,.08);padding:4px 10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6);font-size:10px;cursor:default;opacity:.9}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary,.btn-ghost{border-radius:999px;padding:11px 22px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .18s ease,transform .15s ease,box-shadow .18s ease;white-space:nowrap}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary{background:var(--olive);color:var(--beige);box-shadow:0 14px 30px rgba(0,0,0,.75)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-primary:hover{background:var(--olive-soft);transform:translateY(-1px)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-ghost{background:transparent;color:rgba(245,240,233,.85);border:1px solid rgba(255,255,255,.12);padding:11px 20px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.btn-ghost:hover{background:rgba(255,255,255,.03);transform:translateY(-1px)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-note{margin-top:14px;font-size:12px;color:rgba(245,240,233,.7)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-right{display:grid;grid-template-rows:1.3fr 1fr;gap:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-main-img{border-radius:20px;background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&amp;w=1400&amp;auto=format&amp;fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-main-img::after{content:"Farm hospitality · 300 m fra kysten";position:absolute;left:14px;bottom:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.8);padding:6px 12px;border-radius:999px;background:rgba(5,5,5,.55);backdrop-filter:blur(4px)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-small-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-img{border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-img.room{background-image:url("https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&amp;w=1200&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hero-img.beer{background-image:url("https://images.unsplash.com/photo-1518176258769-f227c798150e?q=80&amp;w=1200&amp;auto=format&amp;fit=crop")}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>section{margin-top:64px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-heading{font-family:"Georgia","Times New Roman",serif;font-size:20px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-subtitle{font-size:14px;color:rgba(245,240,233,.8);max-width:540px}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* ABOUT (BRYGGERI) */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-about{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:26px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#26201b,#16120f);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.about-text{font-size:15px;color:rgba(245,240,233,.87)} .about-text p+p{margin-top:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.about-tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;font-size:11px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.about-image{border-radius:18px;background-image:url("https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&amp;w=1400&amp;auto=format&amp;fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.about-image::after{content:"ØLIV Brew";position:absolute;right:12px;bottom:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:rgba(10,10,10,.65);color:rgba(245,240,233,.9)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* STAY / ROOMS */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-stay{padding:26px;border-radius:var(--radius-lg);background:linear-gradient(145deg,#15181a,#101111);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-grid{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-card{border-radius:18px;background:var(--charcoal-soft);border:1px solid rgba(255,255,255,.04);overflow:hidden;display:flex;flex-direction:column}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image{height:180px;background-size:cover;background-position:center}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image.coast{background-image:url("https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&amp;w=1400&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image.suite{background-image:url("https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&amp;w=1400&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image.suite-large{background-image:url("https://images.unsplash.com/photo-1521782462922-9318be1b9949?q=80&amp;w=1400&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image.apartment{background-image:url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&amp;w=1400&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-image.private{background-image:url("https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&amp;w=1400&amp;auto=format&amp;fit=crop")}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-content{padding:14px 16px 16px;font-size:14px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-content h3{font-size:15px;margin-bottom:4px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-tag{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-content ul{list-style:none;margin:8px 0;padding-left:0;font-size:13px;color:rgba(245,240,233,.75)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-content ul li::before{content:"• ";color:var(--beige)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-price{font-size:13px;color:var(--beige);margin-top:4px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-actions{margin-top:10px;display:flex;gap:8px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-actions button{padding:8px 14px;border-radius:999px;border:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:var(--olive);color:var(--beige);transition:background .15s ease,transform .15s ease}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.room-actions button:hover{background:var(--olive-soft);transform:translateY(-1px)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* PACKAGES */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-packages{padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#23201d,#14110f);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-grid{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;font-size:13px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-card{border-radius:18px;padding:14px 16px 16px;background:var(--charcoal-soft);border:1px solid rgba(255,255,255,.06)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-card h3{font-size:15px;margin-bottom:6px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-duration{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6);margin-bottom:6px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-card ul{list-style:none;padding-left:0;margin:6px 0 8px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-card li::before{content:"– ";color:var(--beige)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.pack-price{font-size:13px;color:var(--beige);margin-top:4px}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* SPA */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-spa{margin-top:56px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#191c1f,#101112);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-grid{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;font-size:14px;color:rgba(245,240,233,.88)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-text p+p{margin-top:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-list{margin-top:10px;list-style:none;padding-left:0;font-size:13px;color:rgba(245,240,233,.8)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-list li::before{content:"• ";color:var(--beige)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-image{border-radius:18px;background-image:url("https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&amp;w=1400&amp;auto=format&amp;fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.spa-image::after{content:"Sauna, koldtvand &amp; ro";position:absolute;left:14px;bottom:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(5,5,5,.6);color:rgba(245,240,233,.9);backdrop-filter:blur(4px)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* KYST */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-bornholm{margin-top:56px;border-radius:var(--radius-xl);overflow:hidden;position:relative;background-image:url("https://images.unsplash.com/photo-1508261303786-0e3b964c7e00?q=80&amp;w=1600&amp;auto=format&amp;fit=crop");background-size:cover;background-position:center;box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bornholm-overlay{padding:34px 26px;background:linear-gradient(to right,rgba(5,6,7,.85),rgba(5,6,7,.35),rgba(5,6,7,.2));max-width:560px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bornholm-overlay h2{font-family:"Georgia","Times New Roman",serif;font-size:20px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bornholm-overlay p{font-size:14px;color:rgba(245,240,233,.9)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.bornholm-link{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding-bottom:2px;border-bottom:1px solid rgba(245,240,233,.6);cursor:pointer}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* PHILOSOPHY */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-philosophy{margin-top:56px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#181a1d,#141617);box-shadow:var(--shadow-soft)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.philo-grid{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;font-size:14px;color:rgba(245,240,233,.85)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.philo-card h3{font-size:14px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;color:var(--beige)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* FINAL CTA */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.section-final-cta{margin-top:56px;padding:20px 24px;border-radius:999px;background:radial-gradient(circle at top left,#27302b,#101112);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;font-size:14px;box-shadow:var(--shadow-soft)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* FOOTER */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>footer{margin-top:42px;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;font-size:13px;color:rgba(245,240,233,.75);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.footer-links{display:flex;flex-wrap:wrap;gap:14px;font-size:12px}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* BOOKING MODAL */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-backdrop{position:fixed;inset:0;background:rgba(5,6,7,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:20px;z-index:80}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-backdrop.is-visible{display:flex}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal{width:100%;max-width:460px;background:#111316;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 26px 70px rgba(0,0,0,.85);padding:20px 20px 18px;position:relative}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-title{font-family:"Georgia","Times New Roman",serif;font-size:16px;letter-spacing:.18em;text-transform:uppercase}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-subtitle{font-size:13px;color:rgba(245,240,233,.8);margin-top:4px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-close{border-radius:999px;width:28px;height:28px;border:1px solid rgba(148,163,184,.4);background:rgba(15,23,42,.9);color:rgba(248,250,252,.9);display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-modal-body{margin-top:8px;display:grid;gap:10px;font-size:13px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-field-group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-field{display:grid;gap:3px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(209,213,219,.85)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-input,.booking-select,.booking-textarea{width:100%;padding:7px 9px;border-radius:999px;border:1px solid rgba(148,163,184,.7);background:rgba(15,23,42,.9);color:#f9fafb;font-size:13px;font-family:inherit}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-textarea{border-radius:14px;min-height:70px;resize:vertical}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-input:focus,.booking-select:focus,.booking-textarea:focus{outline:none;border-color:#38bdf8;box-shadow:0 0 0 1px rgba(56,189,248,.7)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-footer{margin-top:8px;display:flex;flex-direction:column;gap:6px;font-size:11px;color:rgba(209,213,219,.85)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-submit{margin-top:2px;width:100%;padding:9px 14px;border-radius:999px;border:none;background:linear-gradient(to right,var(--olive),var(--bluegreen));color:var(--beige);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.8)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-submit:hover{filter:brightness(1.03)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-note{font-size:11px;color:rgba(148,163,184,.95)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-toggle{margin-top:10px;width:100%;padding:7px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.8);background:rgba(15,23,42,.9);color:rgba(248,250,252,.9);font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-align:center}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-toggle:hover{background:rgba(30,64,175,.8)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-rate-panel{margin-top:8px;padding:10px 12px 12px;border-radius:16px;background:radial-gradient(circle at top left,rgba(15,23,42,.98),rgba(12,17,23,.96));border:1px solid rgba(148,163,184,.7);font-size:12px;color:rgba(226,232,240,.95)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.booking-rate-panel h4{font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px;color:rgba(248,250,252,.9)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-box{padding:8px 9px;border-radius:14px;background:rgba(15,23,42,.9);border:1px solid rgba(51,65,85,.95);font-size:11px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-box-title{font-weight:600;margin-bottom:2px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-box-small{font-size:10px;color:rgba(148,163,184,.95)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-example-week{margin-top:8px;padding-top:6px;border-top:1px dashed rgba(75,85,99,.9);font-size:10px;color:rgba(156,163,175,.95)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-example-week-row{margin-top:4px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-example-day{padding:4px 2px;border-radius:8px;background:rgba(15,23,42,.9);text-align:center;font-size:9px}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-example-day.is-weekend{border:1px solid rgba(209,213,219,.9)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-dynamic{margin-top:8px;display:grid;gap:2px;font-size:11px;color:rgba(156,163,175,.95)}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.rate-dynamic-line strong{color:rgba(248,250,252,.98)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* RESPONSIVE */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:900px){.page{padding:14px 16px 40px}nav{display:none}.hero,.section-about{grid-template-columns:1fr}.hero{padding:20px}.hero-right{order:-1}.section-bornholm{margin-top:42px}}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:768px){.spa-grid,.room-grid,.pack-grid,.philo-grid{grid-template-columns:1fr}.section-final-cta{border-radius:20px;align-items:flex-start}}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@media (max-width:480px){.hero{padding:18px 16px}.section-stay,.section-about,.section-packages,.section-philosophy{padding:18px 16px}}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="header-inner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="logo"&gt;ØLIV&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#overnatning"&gt;Overnatning&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#spa"&gt;Spa &amp;amp; oplevelser&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#bryggeri"&gt;ØLIV Brew&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-book-nav js-open-booking" type="button"&gt;Book ophold&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/nav&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="page"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- HERO --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="hero"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero-left"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Farm hospitality på Bornholm&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-sub"&gt;More than a place – it’s a rhythm of island life.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="hero-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ØLIV Bornholm er en lille gård med farm hospitality – et skridt væk fra badehotellerne.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Få, lyse værelser med gode senge og naturmaterialer. ØLIV Brew er en naturlig del af gårdlivet.</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Dage i et roligt tempo: morgener på gårdspladsen, ture ud på øen og aftener med mad, samtaler og øl brygget på stedet.</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-badges"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pill"&gt;Bornholm · Danmark&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pill"&gt;Gårdophold&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pill"&gt;300 m til kysten&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pill"&gt;ØLIV Brew&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pill"&gt;Solceller &amp; grøn drift&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-cta" id="booking"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn-primary js-open-booking" type="button"&gt;Book dit ophold&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="btn-ghost" type="button" onclick="document.getElementById('overnatning').scrollIntoView({behavior:'smooth'})"&gt;Se værelserne&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-note"&gt;Vi har få værelser – særligt weekender og ferier bliver hurtigt booket.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="hero-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-main-img"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="hero-small-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="hero-img room"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="hero-img beer"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- OVERNATNING --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-stay" id="overnatning"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="section-heading"&gt;Bo på gården&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="section-subtitle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="room-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="room-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-image coast"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Kystværelse · havudsigt&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="room-tag"&gt;5 værelser · Til 2 personer&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Direkte havblik fra værelset&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Rolig indretning i naturmaterialer&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Morgenmad med udsigt&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-price"&gt;Fra 1.400 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-actions"&gt;&lt;button class="js-open-booking" type="button"&gt;Se datoer&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="room-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-image suite"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Havsuite&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="room-tag"&gt;Til 2 personer&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Mere plads og komfort&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Havudsigt&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Velkomstøl fra bryggeriet&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-price"&gt;Fra 1.900 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-actions"&gt;&lt;button class="js-open-booking" type="button"&gt;Se datoer&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="room-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-image suite-large"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Stor havsuite med lounge&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="room-tag"&gt;Til 2–3 gæster&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Separat lounge til læsning &amp; samtaler&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Mest udsigt og blødeste senge&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Ideel til længere ophold&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-price"&gt;Fra 2.300 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-actions"&gt;&lt;button class="js-open-booking" type="button"&gt;Se datoer&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="room-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-image apartment"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;2-værelses ferielejlighed&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="room-tag"&gt;Til 2–4 gæster · Køkken&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Separat soveværelse og opholdsrum&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Lille køkken&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;God for familie/venner&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-price"&gt;Fra 2.600 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-actions"&gt;&lt;button class="js-open-booking" type="button"&gt;Se datoer&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;article class="room-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-image private"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="room-content"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Gårdværelser · eget bad&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="room-tag"&gt;2 større + 1 enkelt&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Kig/adgang til gården&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Eget badeværelse&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;li&gt;Tæt på sauna &amp; terrasse&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-price"&gt;Fra 1.200 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="room-actions"&gt;&lt;button class="js-open-booking" type="button"&gt;Se datoer&lt;/button&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/article&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- SPA --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-spa" id="spa"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="section-heading"&gt;Spa &amp;amp; oplevelser på gården&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="section-subtitle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>En lille gårdsauna, koldtvand og stille omgivelser – et simpelt ritual uden spa-musik og store armbevægelser.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="spa-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spa-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Land efter en dag ved havet, varm igennem og mærk roen.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Vi tænder op på udvalgte tidspunkter – kombiner med koldtvand, et glas øl eller bare helt ro.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ul class="spa-list"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Gårdsauna (få gæster ad gangen)&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Koldtvand &amp; frisk luft&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Tilkøb til udvalgte ophold&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="spa-image"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- PACKAGES --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-packages" id="ophold"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h2 class="section-heading"&gt;Smag &amp;amp; ophold&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="section-subtitle"&gt;Overnatning, bryggeri og små gård- og ø-oplevelser tænkt sammen.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="pack-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pack-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Gårdliv &amp;amp; Kande&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-duration"&gt;1 overnatning&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Overnatning i Kystværelse&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Lille bryggerirundvisning &amp; smagning&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Morgenmad med udsigt&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-price"&gt;Fra 2.100 DKK for 2 gæster&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pack-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Bryggerens Weekend&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-duration"&gt;2 overnatninger&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Bryggeri-loft eller Havsuite&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Udvidet smagning m. snacks&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Morgenmad begge dage&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Sen udcheck søndag&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-price"&gt;Fra 4.800 DKK for 2 gæster&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="pack-card"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3&gt;Ro på gården&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-duration"&gt;2 overnatninger&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Valgfrit værelse&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Rolig smagning i bryggeriet&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Forslag til kystture&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;li&gt;Fokus på tid og natur&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="pack-price"&gt;Fra 3.900 DKK for 2 gæster&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- BRYGGERIET --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-about" id="bryggeri"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="section-heading"&gt;ØLIV Brew – brygget ved kysten&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="section-subtitle"&gt;Lyse, rene øl inspireret af havet, lyset og rytmen på øen.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="about-text"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;ØLIV Brew er en naturlig del af opholdet – smag til maden, i bryggeriet eller på terrassen.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;Små smagninger med ro, tid og fortællinger om råvarer og proces. Godt håndværk uden shows.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="about-tags"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Små smagninger&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Nordiske råvarer&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Øl til maden&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="about-image"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- KYST --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-bornholm" id="kyst"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bornholm-overlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;Rundt om ØLIV&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;ØLIV ligger for sig selv – kun 300 meter fra kysten, tæt på stierne og små havne.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Morgendyp, lange gåture, cykelruter og stille aftener med udsigt – alt inden for rækkevidde.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bornholm-link"&gt;Sådan finder du herhen →&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- FINAL CTA --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;section class="section-final-cta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Klar på et par stille dage på gården – med et bryggeri i baghaven?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-primary js-open-booking" type="button"&gt;Skriv til os om datoer&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- FOOTER --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="logo" style="font-size:18px;"&gt;ØLIV&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Farm hospitality &amp;amp; ØLIV Brew · Bornholm, Danmark&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;mail@oliv-retreat.dk · +45 XX XX XX XX&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="footer-links"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#"&gt;Instagram&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#"&gt;Nyhedsbrev&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;a href="#"&gt;Persondata &amp;amp; vilkår&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;!-- BOOKING MODAL --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="booking-modal-backdrop" aria-hidden="true"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="booking-modal-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div id="booking-modal-title" class="booking-modal-title"&gt;Forespørgsel på ophold&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="booking-modal-subtitle"&gt;Fortæl os hvornår I ønsker at komme – vi svarer med ledighed og pris.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="booking-modal-close js-close-booking" type="button" aria-label="Luk"&gt;×&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;form class="booking-modal-body" id="booking-modal-form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="booking-field-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="booking-field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="booking-label" for="booking-date"&gt;Ankomst&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input class="booking-input" type="date" id="booking-date" name="date" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="booking-field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="booking-label" for="booking-nights"&gt;Nætter&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="booking-select" id="booking-nights" name="nights"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="1"&gt;1 nat&lt;/option&gt;&lt;option value="2"&gt;2 nætter&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="3"&gt;3 nætter&lt;/option&gt;&lt;option value="4"&gt;4+ nætter&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="booking-field"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="booking-label" for="booking-guests"&gt;Gæster&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="booking-select" id="booking-guests" name="guests"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="2"&gt;2 gæster&lt;/option&gt;&lt;option value="1"&gt;1 gæst&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="3"&gt;3 gæster&lt;/option&gt;&lt;option value="4"&gt;4 gæster&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="rate-toggle js-toggle-rates" type="button"&gt;Se priser &amp;amp; min. nætter&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="booking-rate-panel" hidden&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h4&gt;Priser &amp;amp; min. antal nætter (vejledende)&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="rate-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="rate-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-title"&gt;Lavsæson&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Okt–apr (ekskl. helligdage)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;Fra 1.200 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Min. 1 nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="rate-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-title"&gt;Skuldersæson&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Maj–jun &amp;amp; sep&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;Fra 1.400 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Min. 2 nætter (weekender)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="rate-box"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-title"&gt;Højsæson&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Sommer &amp;amp; helligdage&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;Fra 1.700 DKK / nat&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-box-small"&gt;Min. 3 nætter (udvalgte perioder)&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="rate-example-week"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>Eksempel (fra-priser pr. nat):</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="rate-example-week-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day"&gt;Man&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day"&gt;Tirs&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day"&gt;Ons&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day"&gt;Tors&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day is-weekend"&gt;Fre&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day is-weekend"&gt;Lør&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="rate-example-day"&gt;Søn&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="rate-dynamic"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="rate-season-line" class="rate-dynamic-line"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>Vælg en ankomstdato for at se sæson og prisestimat.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="rate-min-nights-line" class="rate-dynamic-line"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="booking-footer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;textarea class="booking-textarea" name="message" placeholder="Evt. besked/ønsker (valgfrit)"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button class="booking-submit" type="submit"&gt;Send forespørgsel&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="booking-note"&gt;Vi svarer normalt inden for 24 timer.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Modal open/close</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const openBtns = document.querySelectorAll('.js-open-booking');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const modal = document.querySelector('.booking-modal-backdrop');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const closeBtn = document.querySelector('.js-close-booking');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>openBtns.forEach(btn =&gt; btn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.classList.add('is-visible');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.setAttribute('aria-hidden','false');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>document.getElementById('booking-date')?.focus();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>closeBtn?.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.classList.remove('is-visible');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.setAttribute('aria-hidden','true');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>modal?.addEventListener('click', (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (e.target === modal) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>modal.classList.remove('is-visible');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>modal.setAttribute('aria-hidden','true');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Toggle rates panel</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const toggleRates = document.querySelector('.js-toggle-rates');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const ratePanel = document.querySelector('.booking-rate-panel');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>toggleRates?.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const hidden = ratePanel.hasAttribute('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (hidden) ratePanel.removeAttribute('hidden'); else ratePanel.setAttribute('hidden','');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Simple season logic for dynamic hint</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const dateInput = document.getElementById('booking-date');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const nightsSelect = document.getElementById('booking-nights');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const seasonLine = document.getElementById('rate-season-line');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const minNightsLine = document.getElementById('rate-min-nights-line');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function updateRateHint(){</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const val = dateInput.value;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(!val){ seasonLine.textContent = "Vælg en ankomstdato for at se sæson og prisestimat."; minNightsLine.textContent = ""; return; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const d = new Date(val);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const m = d.getMonth() + 1; // 1-12</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let season = "Lavsæson";</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let price = 1200;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let minNights = 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if ((m&gt;=10 &amp;&amp; m&lt;=12) || (m&gt;=1 &amp;&amp; m&lt;=4)) { season = "Lavsæson"; price = 1200; minNights = 1; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if ((m===5) || (m===6) || (m===9)) { season = "Skuldersæson"; price = 1400; minNights = 2; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (m===7 || m===8) { season = "Højsæson"; price = 1700; minNights = 3; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>seasonLine.innerHTML = `Estimat: &lt;strong&gt;${season}&lt;/strong&gt; · fra ca. &lt;strong&gt;${price} DKK&lt;/strong&gt; pr. nat.`;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const chosen = parseInt(nightsSelect.value || "1", 10);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>minNightsLine.textContent = chosen &lt; minNights</p>
+<p class="p1"><span class="Apple-converted-space">        </span>? `Bemærk: Min. ${minNights} nætter i ${season.toLowerCase()}.`</p>
+<p class="p1"><span class="Apple-converted-space">        </span>: `Valg: ${chosen} nat/ nætter opfylder min. krav i ${season.toLowerCase()}.`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>dateInput?.addEventListener('change', updateRateHint);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>nightsSelect?.addEventListener('change', updateRateHint);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Fake submit → console + close</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('booking-modal-form')?.addEventListener('submit', (e)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const data = new FormData(e.target);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>console.log("Booking request:", Object.fromEntries(data.entries()));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>alert("Tak for din forespørgsel! Vi vender tilbage snarest.");</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.classList.remove('is-visible');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>modal.setAttribute('aria-hidden','true');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>e.target.reset();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
