@@ -1616,11 +1616,25 @@ h1, h2, h3, h4 {
 .calendar-grid {
   position: relative;
   z-index: 1;
+  pointer-events: auto;
 }
 
 .calendar-grid > * {
   position: relative;
   z-index: auto;
+  pointer-events: auto;
+}
+
+/* Make sure calendar container doesn't block */
+.booking-calendar-container {
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.booking-calendar {
+  pointer-events: auto;
+  position: relative;
 }
 
 .calendar-legend {

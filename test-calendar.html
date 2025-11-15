@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body style="padding: 50px; background: #f5f0e9;">
+  <h1>Kalender Test</h1>
+  <p>Klik på datoer i kalenderen nedenfor:</p>
+  
+  <div id="test-calendar" style="max-width: 600px; margin: 0 auto;"></div>
+  
+  <div style="margin-top: 30px; padding: 20px; background: white; border-radius: 8px;">
+    <h3>Valgte datoer:</h3>
+    <p id="selected-dates">Ingen datoer valgt endnu</p>
+  </div>
+  
+  <script src="booking.js"></script>
+  <script>
+    // Wait for DOM
+    setTimeout(() => {
+      const calendar = new BookingCalendar('test-calendar', {
+        onSelect: (dates) => {
+          console.log('Dates selected:', dates);
+          const datesEl = document.getElementById('selected-dates');
+          if (dates.start && dates.end) {
+            const startStr = dates.start.toLocaleDateString('da-DK');
+            const endStr = dates.end.toLocaleDateString('da-DK');
+            datesEl.textContent = `Fra: ${startStr} - Til: ${endStr}`;
+          } else if (dates.start) {
+            datesEl.textContent = `Start: ${dates.start.toLocaleDateString('da-DK')} - Vælg slutdato`;
+          }
+        }
+      });
+      
+      console.log('Calendar initialized:', calendar);
+    }, 100);
+  </script>
+</body>
+</html>
