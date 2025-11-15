@@ -80,11 +80,11 @@
       }
     }
     
-    // Add package note if package button clicked
+    // Add experience note if experience button clicked
     if (packageName) {
       const noteField = modalForm?.querySelector('#booking-note');
       if (noteField) {
-        noteField.value = `Jeg er interesseret i "${packageName}" pakken.`;
+        noteField.value = `Jeg er interesseret i "${packageName}".`;
       }
     }
     
@@ -614,9 +614,9 @@
     const packages = {
       da: {
         spring: {
-          name: 'Forårsophold',
+          name: 'Forårsoplevelse',
           season: 'Forår (marts-maj)',
-          description: 'Når naturen vågner og lyset kommer tilbage. Perfekt til par der søger ro og fornyelse efter vinteren.',
+          description: 'Når naturen vågner og lyset kommer tilbage. En oplevelse for par der søger ro og fornyelse efter vinteren. Vågn op til blomstring, gåture langs kysten og lange aftener med øl fra bryggeriet.',
           includes: [
             '2-3 nætter i valgfrit værelse',
             'Morgenmad med lokale råvarer',
@@ -627,16 +627,16 @@
           price: 'Fra 3.500 DKK',
           badge: 'Forår',
           planning: 'Planlæg 2-3 måneder i forvejen',
-          button: 'Forespørg pakke',
-          includesLabel: 'Inkluderet:',
-          toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun anbefalede pakker',
+          button: 'Forespørg oplevelse',
+          includesLabel: 'Oplevelsen inkluderer:',
+          toggleAll: 'Se alle sæsonoplevelser',
+          toggleCurrent: 'Vis kun anbefalede oplevelser',
           recommendedLabel: 'Anbefalet nu'
         },
         summer: {
-          name: 'Sommerophold',
+          name: 'Sommeroplevelse',
           season: 'Sommer (juni-august)',
-          description: 'Bornholms højsæson med lang dagslys og varmt vejr. Intimate stays for par der vil undgå sommerens travlhed.',
+          description: 'Bornholms højsæson med lang dagslys og varmt vejr. En rolig oplevelse for par der vil undgå sommerens travlhed. Morgenmad på terrassen, dage ved havet og aftener med øl.',
           includes: [
             '2-4 nætter i valgfrit værelse',
             'Morgenmad på terrassen',
@@ -648,16 +648,16 @@
           price: 'Fra 4.500 DKK',
           badge: 'Sommer',
           planning: 'Planlæg 3-6 måneder i forvejen',
-          button: 'Forespørg pakke',
-          includesLabel: 'Inkluderet:',
-          toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun anbefalede pakker',
+          button: 'Forespørg oplevelse',
+          includesLabel: 'Oplevelsen inkluderer:',
+          toggleAll: 'Se alle sæsonoplevelser',
+          toggleCurrent: 'Vis kun anbefalede oplevelser',
           recommendedLabel: 'Anbefalet nu'
         },
         fall: {
-          name: 'Efterårsophold',
+          name: 'Efterårsoplevelse',
           season: 'Efterår (september-november)',
-          description: 'Naturen skifter farver, og temperaturen falder. Perfekt til rolige dage ved saunaen og lange aftener med øl.',
+          description: 'Naturen skifter farver, og temperaturen falder. En oplevelse med rolige dage ved saunaen, lange aftener med mørke øl og gåture gennem det farverige landskab.',
           includes: [
             '2-3 nætter i valgfrit værelse',
             'Morgenmad med lokale råvarer',
@@ -669,16 +669,16 @@
           price: 'Fra 3.200 DKK',
           badge: 'Efterår',
           planning: 'Planlæg 1-2 måneder i forvejen',
-          button: 'Forespørg pakke',
-          includesLabel: 'Inkluderet:',
-          toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun anbefalede pakker',
+          button: 'Forespørg oplevelse',
+          includesLabel: 'Oplevelsen inkluderer:',
+          toggleAll: 'Se alle sæsonoplevelser',
+          toggleCurrent: 'Vis kun anbefalede oplevelser',
           recommendedLabel: 'Anbefalet nu'
         },
         winter: {
-          name: 'Vinterophold',
+          name: 'Vinteroplevelse',
           season: 'Vinter (december-februar)',
-          description: 'Stille dage med fokus på ro og nærvær. Saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade.',
+          description: 'Stille dage med fokus på ro og nærvær. En oplevelse hvor saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade i rolige omgivelser.',
           includes: [
             '2-4 nætter i valgfrit værelse',
             'Morgenmad med lokale råvarer',
@@ -690,18 +690,18 @@
           price: 'Fra 2.800 DKK',
           badge: 'Vinter',
           planning: 'Planlæg 2-4 uger i forvejen',
-          button: 'Forespørg pakke',
-          includesLabel: 'Inkluderet:',
-          toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun anbefalede pakker',
+          button: 'Forespørg oplevelse',
+          includesLabel: 'Oplevelsen inkluderer:',
+          toggleAll: 'Se alle sæsonoplevelser',
+          toggleCurrent: 'Vis kun anbefalede oplevelser',
           recommendedLabel: 'Anbefalet nu'
         }
       },
       en: {
         spring: {
-          name: 'Spring Stay',
+          name: 'Spring Experience',
           season: 'Spring (March-May)',
-          description: 'When nature awakens and light returns. Perfect for couples seeking peace and renewal after winter.',
+          description: 'When nature awakens and light returns. An experience for couples seeking peace and renewal after winter. Wake up to blooming nature, coastal walks and evenings with beer from the brewery.',
           includes: [
             '2-3 nights in chosen room',
             'Breakfast with local ingredients',
@@ -712,16 +712,16 @@
           price: 'From 3,500 DKK',
           badge: 'Spring',
           planning: 'Plan 2-3 months ahead',
-          button: 'Inquire about package',
-          includesLabel: 'Included:',
-          toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only recommended packages',
+          button: 'Inquire about experience',
+          includesLabel: 'The experience includes:',
+          toggleAll: 'See all seasonal experiences',
+          toggleCurrent: 'Show only recommended experiences',
           recommendedLabel: 'Recommended now'
         },
         summer: {
-          name: 'Summer Stay',
+          name: 'Summer Experience',
           season: 'Summer (June-August)',
-          description: 'Bornholm\'s high season with long daylight and warm weather. Intimate stays for couples who want to avoid summer\'s hustle.',
+          description: 'Bornholm\'s high season with long daylight and warm weather. A peaceful experience for couples who want to avoid summer\'s hustle. Breakfast on the terrace, days by the sea and evenings with beer.',
           includes: [
             '2-4 nights in chosen room',
             'Breakfast on the terrace',
@@ -733,16 +733,16 @@
           price: 'From 4,500 DKK',
           badge: 'Summer',
           planning: 'Plan 3-6 months ahead',
-          button: 'Inquire about package',
-          includesLabel: 'Included:',
-          toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only recommended packages',
+          button: 'Inquire about experience',
+          includesLabel: 'The experience includes:',
+          toggleAll: 'See all seasonal experiences',
+          toggleCurrent: 'Show only recommended experiences',
           recommendedLabel: 'Recommended now'
         },
         fall: {
-          name: 'Fall Stay',
+          name: 'Fall Experience',
           season: 'Fall (September-November)',
-          description: 'Nature changes colors, and temperatures drop. Perfect for quiet days at the sauna and long evenings with beer.',
+          description: 'Nature changes colors, and temperatures drop. An experience with quiet days at the sauna, long evenings with dark beers and walks through the colorful landscape.',
           includes: [
             '2-3 nights in chosen room',
             'Breakfast with local ingredients',
@@ -754,16 +754,16 @@
           price: 'From 3,200 DKK',
           badge: 'Fall',
           planning: 'Plan 1-2 months ahead',
-          button: 'Inquire about package',
-          includesLabel: 'Included:',
-          toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only recommended packages',
+          button: 'Inquire about experience',
+          includesLabel: 'The experience includes:',
+          toggleAll: 'See all seasonal experiences',
+          toggleCurrent: 'Show only recommended experiences',
           recommendedLabel: 'Recommended now'
         },
         winter: {
-          name: 'Winter Stay',
+          name: 'Winter Experience',
           season: 'Winter (December-February)',
-          description: 'Quiet days focused on peace and presence. The sauna is warm, the beers are dark, and nature is at rest. Perfect for relaxing and recharging.',
+          description: 'Quiet days focused on peace and presence. An experience where the sauna is warm, the beers are dark, and nature is at rest. Perfect for relaxing and recharging in peaceful surroundings.',
           includes: [
             '2-4 nights in chosen room',
             'Breakfast with local ingredients',
@@ -775,18 +775,18 @@
           price: 'From 2,800 DKK',
           badge: 'Winter',
           planning: 'Plan 2-4 weeks ahead',
-          button: 'Inquire about package',
-          includesLabel: 'Included:',
-          toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only recommended packages',
+          button: 'Inquire about experience',
+          includesLabel: 'The experience includes:',
+          toggleAll: 'See all seasonal experiences',
+          toggleCurrent: 'Show only recommended experiences',
           recommendedLabel: 'Recommended now'
         }
       },
       de: {
         spring: {
-          name: 'Frühlingsaufenthalt',
+          name: 'Frühlingserlebnis',
           season: 'Frühling (März-Mai)',
-          description: 'Wenn die Natur erwacht und das Licht zurückkehrt. Perfekt für Paare, die nach dem Winter Ruhe und Erneuerung suchen.',
+          description: 'Wenn die Natur erwacht und das Licht zurückkehrt. Ein Erlebnis für Paare, die nach dem Winter Ruhe und Erneuerung suchen. Erwachen Sie zur Blüte, Küstenspaziergänge und Abende mit Bier aus der Brauerei.',
           includes: [
             '2-3 Nächte im gewählten Zimmer',
             'Frühstück mit lokalen Zutaten',
@@ -797,16 +797,16 @@
           price: 'Ab 3.500 DKK',
           badge: 'Frühling',
           planning: '2-3 Monate im Voraus planen',
-          button: 'Paket anfragen',
-          includesLabel: 'Inklusive:',
-          toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          button: 'Erlebnis anfragen',
+          includesLabel: 'Das Erlebnis beinhaltet:',
+          toggleAll: 'Alle Saisonerlebnisse anzeigen',
+          toggleCurrent: 'Nur empfohlene Erlebnisse anzeigen',
           recommendedLabel: 'Jetzt empfohlen'
         },
         summer: {
-          name: 'Sommeraufenthalt',
+          name: 'Sommererlebnis',
           season: 'Sommer (Juni-August)',
-          description: 'Bornholms Hochsaison mit langem Tageslicht und warmem Wetter. Intimate Stays für Paare, die dem Sommertrubel entgehen wollen.',
+          description: 'Bornholms Hochsaison mit langem Tageslicht und warmem Wetter. Ein ruhiges Erlebnis für Paare, die dem Sommertrubel entgehen wollen. Frühstück auf der Terrasse, Tage am Meer und Abende mit Bier.',
           includes: [
             '2-4 Nächte im gewählten Zimmer',
             'Frühstück auf der Terrasse',
@@ -818,16 +818,16 @@
           price: 'Ab 4.500 DKK',
           badge: 'Sommer',
           planning: '3-6 Monate im Voraus planen',
-          button: 'Paket anfragen',
-          includesLabel: 'Inklusive:',
-          toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          button: 'Erlebnis anfragen',
+          includesLabel: 'Das Erlebnis beinhaltet:',
+          toggleAll: 'Alle Saisonerlebnisse anzeigen',
+          toggleCurrent: 'Nur empfohlene Erlebnisse anzeigen',
           recommendedLabel: 'Jetzt empfohlen'
         },
         fall: {
-          name: 'Herbstaufenthalt',
+          name: 'Herbsterlebnis',
           season: 'Herbst (September-November)',
-          description: 'Die Natur wechselt die Farben und die Temperaturen sinken. Perfekt für ruhige Tage in der Sauna und lange Abende mit Bier.',
+          description: 'Die Natur wechselt die Farben und die Temperaturen sinken. Ein Erlebnis mit ruhigen Tagen in der Sauna, langen Abenden mit dunklen Bieren und Spaziergängen durch die farbenfrohe Landschaft.',
           includes: [
             '2-3 Nächte im gewählten Zimmer',
             'Frühstück mit lokalen Zutaten',
@@ -839,16 +839,16 @@
           price: 'Ab 3.200 DKK',
           badge: 'Herbst',
           planning: '1-2 Monate im Voraus planen',
-          button: 'Paket anfragen',
-          includesLabel: 'Inklusive:',
-          toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          button: 'Erlebnis anfragen',
+          includesLabel: 'Das Erlebnis beinhaltet:',
+          toggleAll: 'Alle Saisonerlebnisse anzeigen',
+          toggleCurrent: 'Nur empfohlene Erlebnisse anzeigen',
           recommendedLabel: 'Jetzt empfohlen'
         },
         winter: {
-          name: 'Winteraufenthalt',
+          name: 'Wintererlebnis',
           season: 'Winter (Dezember-Februar)',
-          description: 'Ruhige Tage mit Fokus auf Ruhe und Präsenz. Die Sauna ist warm, die Biere sind dunkel und die Natur ruht. Perfekt zum Entspannen und Aufladen.',
+          description: 'Ruhige Tage mit Fokus auf Ruhe und Präsenz. Ein Erlebnis, bei dem die Sauna warm ist, die Biere dunkel sind und die Natur ruht. Perfekt zum Entspannen und Aufladen in ruhiger Umgebung.',
           includes: [
             '2-4 Nächte im gewählten Zimmer',
             'Frühstück mit lokalen Zutaten',
@@ -860,10 +860,10 @@
           price: 'Ab 2.800 DKK',
           badge: 'Winter',
           planning: '2-4 Wochen im Voraus planen',
-          button: 'Paket anfragen',
-          includesLabel: 'Inklusive:',
-          toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          button: 'Erlebnis anfragen',
+          includesLabel: 'Das Erlebnis beinhaltet:',
+          toggleAll: 'Alle Saisonerlebnisse anzeigen',
+          toggleCurrent: 'Nur empfohlene Erlebnisse anzeigen',
           recommendedLabel: 'Jetzt empfohlen'
         }
       }
@@ -897,7 +897,7 @@
           </div>
           <p class="package-price">${pkg.price}</p>
           <p class="package-note">${pkg.planning}</p>
-          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}">
+          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}" data-experience="${pkg.name}">
             ${pkg.button}
           </button>
         </div>
