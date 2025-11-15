@@ -242,52 +242,76 @@
     </div>
   </footer>
 
-  <!-- Booking Modal (same as index.html) -->
+  <!-- Booking Modal -->
   <div class="modal-backdrop" id="booking-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-modal="true">
     <div class="modal">
       <div class="modal-header">
-        <h2 id="modal-title" class="modal-title">Forespørgsel på ophold</h2>
+        <div>
+          <h2 id="modal-title" class="modal-title">Forespørg ophold</h2>
+          <p class="modal-subtitle">Fortæl os om dine ønsker, så vender vi tilbage med tilgængelighed og priser.</p>
+        </div>
         <button class="modal-close js-close-booking" type="button" aria-label="Luk modal">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <form class="modal-body" id="booking-form">
+        <div id="booking-calendar"></div>
         <div class="form-group">
-          <label for="booking-date" class="form-label">Ankomst</label>
-          <input type="date" id="booking-date" name="date" class="form-input" required />
+          <label for="booking-date" class="form-label">Ønsket ankomst</label>
+          <input type="date" id="booking-date" name="date" class="form-input" aria-describedby="date-help" />
+          <small id="date-help" class="form-help">Vælg dato i kalenderen eller indtast manuelt</small>
         </div>
         <div class="form-group">
-          <label for="booking-nights" class="form-label">Nætter</label>
-          <select id="booking-nights" name="nights" class="form-select" required>
+          <label for="booking-nights" class="form-label">Antal nætter</label>
+          <select id="booking-nights" name="nights" class="form-select" aria-describedby="nights-help">
             <option value="1">1 nat</option>
-            <option value="2">2 nætter</option>
+            <option value="2" selected>2 nætter</option>
             <option value="3">3 nætter</option>
-            <option value="4">4+ nætter</option>
+            <option value="4">4 nætter</option>
+            <option value="5">5 nætter</option>
+            <option value="6">6 nætter</option>
+            <option value="7">7 nætter</option>
           </select>
+          <small id="nights-help" class="form-help">Minimum antal nætter kan variere efter sæson</small>
         </div>
         <div class="form-group">
-          <label for="booking-guests" class="form-label">Gæster</label>
-          <select id="booking-guests" name="guests" class="form-select" required>
+          <label for="booking-guests" class="form-label">Antal gæster</label>
+          <select id="booking-guests" name="guests" class="form-select" aria-describedby="guests-help">
+            <option value="">Vælg antal gæster</option>
             <option value="1">1 gæst</option>
-            <option value="2" selected>2 gæster</option>
+            <option value="2">2 gæster</option>
             <option value="3">3 gæster</option>
             <option value="4">4 gæster</option>
           </select>
+          <small id="guests-help" class="form-help">Vi har værelser til 1-4 personer</small>
         </div>
         <div class="form-group">
-          <label for="booking-room" class="form-label">Værelse</label>
-          <select id="booking-room" name="room" class="form-select">
-            <option value="">Vælg værelse</option>
-            <option value="Kystværelse">Kystværelse</option>
-            <option value="Havsuite">Havsuite</option>
-            <option value="Stor havsuite">Stor havsuite</option>
-            <option value="Ferielejlighed">Ferielejlighed</option>
-            <option value="Gårdsværelser">Gårdsværelser</option>
+          <label for="booking-room" class="form-label">Foretrukket værelse</label>
+          <select id="booking-room" name="room" class="form-select" aria-describedby="room-help">
+            <option value="">Vælg værelse...</option>
+            <!-- Options will be loaded dynamically from API -->
           </select>
+          <small id="room-help" class="form-help">Værelser vises baseret på tilgængelighed for valgte datoer</small>
         </div>
         <div class="form-group">
-          <label for="booking-note" class="form-label">Note (valgfrit)</label>
-          <textarea id="booking-note" name="note" class="form-textarea" rows="3" placeholder="Evt. besked eller ønsker"></textarea>
+          <label for="booking-name" class="form-label">Navn</label>
+          <input type="text" id="booking-name" name="name" class="form-input" aria-describedby="name-help" />
+          <small id="name-help" class="form-help">Dit fulde navn</small>
+        </div>
+        <div class="form-group">
+          <label for="booking-email" class="form-label">Email</label>
+          <input type="email" id="booking-email" name="email" class="form-input" aria-describedby="email-help" />
+          <small id="email-help" class="form-help">Vi bruger denne til at kontakte dig</small>
+        </div>
+        <div class="form-group">
+          <label for="booking-phone" class="form-label">Telefon</label>
+          <input type="tel" id="booking-phone" name="phone" class="form-input" aria-describedby="phone-help" />
+          <small id="phone-help" class="form-help">Valgfrit – hvis du foretrækker telefonisk kontakt</small>
+        </div>
+        <div class="form-group">
+          <label for="booking-note" class="form-label">Besked</label>
+          <textarea id="booking-note" name="note" class="form-textarea" rows="4" placeholder="Fortæl os om dine ønsker, spørgsmål eller særlige behov..." aria-describedby="note-help"></textarea>
+          <small id="note-help" class="form-help">Alt der kan hjælpe os med at skabe den rigtige oplevelse for dig</small>
         </div>
         <button type="button" class="btn-secondary btn-toggle-rates js-toggle-rates">
           Se priser & min. nætter
@@ -315,10 +339,10 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn-primary btn-submit">
+        <button type="submit" class="btn-secondary btn-submit">
           Send forespørgsel
         </button>
-        <p class="form-note">Vi svarer normalt inden for 24 timer.</p>
+        <p class="form-note">Vi vender tilbage inden for 24 timer med tilgængelighed og priser.</p>
       </form>
     </div>
   </div>
@@ -328,6 +352,9 @@
     <p class="toast-message">Tak for din forespørgsel! Vi vender tilbage snarest.</p>
   </div>
 
+  <!-- API Configuration - Update this with your deployed API URL -->
+  <script>window.API_BASE_URL = 'https://web-production-367a.up.railway.app';</script>
   <script src="main.js"></script>
+  <script src="booking.js"></script>
 </body>
 </html>
