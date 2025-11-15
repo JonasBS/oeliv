@@ -1688,29 +1688,76 @@ h1, h2, h3, h4 {
   background: rgba(70, 85, 42, 0.05);
   border-radius: var(--border-radius-sm);
   display: none;
+  border: 2px solid transparent;
+  transition: all var(--transition-base);
+}
+
+.calendar-selection-info.selection-complete {
+  background: rgba(70, 85, 42, 0.1);
+  border-color: var(--olive);
 }
 
 .selection-info {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.selection-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+.selection-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 .selection-date {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   color: var(--charcoal);
   font-weight: 500;
 }
 
-.selection-nights {
-  font-size: 0.875rem;
+.selection-date.selected {
   color: var(--olive);
   font-weight: 600;
-  padding: 0.25rem 0.75rem;
-  background: rgba(70, 85, 42, 0.1);
+}
+
+.selection-prompt {
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
+  border-top: 1px dashed rgba(70, 85, 42, 0.2);
+}
+
+.selection-prompt-text {
+  font-size: 0.875rem;
+  color: var(--olive);
+  font-weight: 500;
+  font-style: italic;
+  width: 100%;
+  text-align: center;
+}
+
+.selection-total {
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-sm);
+  border-top: 2px solid var(--olive);
+}
+
+.selection-nights {
+  font-size: 1rem;
+  color: var(--olive);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  background: rgba(70, 85, 42, 0.15);
   border-radius: 999px;
+  margin: 0 auto;
 }
 
 .calendar-day.in-range {

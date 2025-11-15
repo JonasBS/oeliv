@@ -196,21 +196,38 @@
         );
         infoEl.innerHTML = `
           <div class="selection-info">
-            <span class="selection-date">Ankomst: ${formatDate(this.formatDate(this.selectedDates.start))}</span>
-            <span class="selection-date">Afrejse: ${formatDate(this.formatDate(this.selectedDates.end))}</span>
-            <span class="selection-nights">${nights} ${nights === 1 ? 'nat' : 'nætter'}</span>
+            <div class="selection-row">
+              <span class="selection-label">Check-in:</span>
+              <span class="selection-date">${formatDate(this.formatDate(this.selectedDates.start))}</span>
+            </div>
+            <div class="selection-row">
+              <span class="selection-label">Check-out:</span>
+              <span class="selection-date">${formatDate(this.formatDate(this.selectedDates.end))}</span>
+            </div>
+            <div class="selection-row selection-total">
+              <span class="selection-nights">${nights} ${nights === 1 ? 'nat' : 'nætter'}</span>
+            </div>
           </div>
         `;
         infoEl.style.display = 'block';
+        infoEl.classList.add('selection-complete');
       } else if (this.selectedDates.start) {
         infoEl.innerHTML = `
           <div class="selection-info">
-            <span class="selection-date">Vælg afrejsedato</span>
+            <div class="selection-row">
+              <span class="selection-label">Check-in:</span>
+              <span class="selection-date selected">${formatDate(this.formatDate(this.selectedDates.start))}</span>
+            </div>
+            <div class="selection-row selection-prompt">
+              <span class="selection-prompt-text">👆 Klik på afrejsedato</span>
+            </div>
           </div>
         `;
         infoEl.style.display = 'block';
+        infoEl.classList.remove('selection-complete');
       } else {
         infoEl.style.display = 'none';
+        infoEl.classList.remove('selection-complete');
       }
     }
 
@@ -425,13 +442,21 @@
       this.renderMonth(this.currentMonth);
       this.updateSelectionInfo();
       
-      // Only trigger onSelect when we have both start and end
+      // Trigger onSelect when we have both start and end
       if (this.options.onSelect && this.selectedDates.start && this.selectedDates.end) {
-        console.log('Calling onSelect callback');
+        console.log('Calling onSelect callback - both dates selected');
         this.options.onSelect({
           start: this.selectedDates.start,
           end: this.selectedDates.end
         });
+      } else if (this.selectedDates.start) {
+        // Show feedback that check-in is selected
+        console.log('Check-in selected, waiting for check-out');
+        // Update date input with start date
+        const dateInput = document.getElementById('booking-date');
+        if (dateInput) {
+          dateInput.value = this.formatDate(this.selectedDates.start);
+        }
       }
     }
 
@@ -766,12 +791,12 @@
     async handleDateSelection(dates) {
       console.log('handleDateSelection called:', dates);
       
-      if (!dates.start || !dates.end) {
-        console.log('Missing start or end date');
+      if (!dates.start) {
+        console.log('No start date');
         return;
       }
       
-      // Update date input
+      // Update date input with start date
       const dateInput = document.getElementById('booking-date');
       if (dateInput) {
         const startDateStr = this.calendar.formatDate(dates.start);
@@ -779,22 +804,27 @@
         console.log('Updated date input to:', startDateStr);
       }
 
-      // Update nights
-      const startDateStr = this.calendar.formatDate(dates.start);
-      const endDateStr = this.calendar.formatDate(dates.end);
-      const nights = calculateNights(startDateStr, endDateStr);
-      
-      const nightsSelect = document.getElementById('booking-nights');
-      if (nightsSelect) {
-        nightsSelect.value = nights;
-        console.log('Updated nights to:', nights);
+      // If we have both dates, update nights and check availability
+      if (dates.start && dates.end) {
+        const startDateStr = this.calendar.formatDate(dates.start);
+        const endDateStr = this.calendar.formatDate(dates.end);
+        const nights = calculateNights(startDateStr, endDateStr);
+        
+        const nightsSelect = document.getElementById('booking-nights');
+        if (nightsSelect) {
+          nightsSelect.value = nights;
+          console.log('Updated nights to:', nights);
+        }
+
+        // Show toast feedback
+        showToast(`Vælg ${nights} ${nights === 1 ? 'nat' : 'nætter'} fra ${formatDate(startDateStr)}`, 'success');
+
+        // Check availability
+        await this.checkAvailability();
+      } else if (dates.start) {
+        // Only start date selected - show prompt
+        showToast('Vælg nu afrejsedato', 'success');
       }
-
-      // Show toast feedback
-      showToast(`Vælg ${nights} ${nights === 1 ? 'nat' : 'nætter'} fra ${formatDate(startDateStr)}`, 'success');
-
-      // Check availability
-      await this.checkAvailability();
     }
 
     updateNightsFromDates() {
