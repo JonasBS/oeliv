@@ -1011,12 +1011,13 @@ h1, h2, h3, h4 {
   background: var(--cream);
   border-radius: var(--border-radius);
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transform: scale(0.95);
   transition: transform var(--transition-base);
+  position: relative;
 }
 
 .modal-backdrop[aria-hidden="false"] .modal {
@@ -1074,6 +1075,358 @@ h1, h2, h3, h4 {
 
 .modal-body {
   padding: var(--spacing-lg);
+  position: relative;
+}
+
+/* Booking Progress Indicator */
+.booking-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xl);
+  padding: 0 var(--spacing-md);
+  position: relative;
+}
+
+.booking-progress::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.progress-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all var(--transition-base);
+  margin-bottom: var(--spacing-xs);
+}
+
+.progress-step.active .progress-circle {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: white;
+  transform: scale(1.1);
+}
+
+.progress-step.completed .progress-circle {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: white;
+}
+
+.progress-step.completed .progress-circle::after {
+  content: '✓';
+  font-size: 1.2rem;
+}
+
+.progress-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-align: center;
+  transition: color var(--transition-base);
+}
+
+.progress-step.active .progress-label {
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+/* Form Steps */
+.form-step {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.form-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-header {
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+}
+
+.step-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--charcoal);
+}
+
+.step-description {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+/* Guests Selector */
+.guests-selector {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.guest-btn {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-sm);
+  background: white;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.guest-btn:hover {
+  border-color: var(--olive);
+  background: rgba(70, 85, 42, 0.05);
+}
+
+.guest-btn.active {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: white;
+}
+
+/* Rooms Selection */
+.rooms-selection {
+  margin-bottom: var(--spacing-lg);
+}
+
+.rooms-loading {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.room-card {
+  padding: var(--spacing-lg);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-sm);
+  margin-bottom: var(--spacing-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background: white;
+  position: relative;
+}
+
+.room-card:hover {
+  border-color: var(--olive);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.room-card.selected {
+  border-color: var(--olive);
+  background: rgba(70, 85, 42, 0.03);
+  box-shadow: 0 4px 12px rgba(70, 85, 42, 0.2);
+}
+
+.room-card.selected::before {
+  content: '✓';
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 24px;
+  height: 24px;
+  background: var(--olive);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.room-card.unavailable {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.room-card.unavailable:hover {
+  transform: none;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.room-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.room-card-name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.room-card-capacity {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.room-card-price {
+  text-align: right;
+}
+
+.room-price-total {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+
+.room-price-per-night {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Step Actions */
+.step-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: space-between;
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.btn-next-step,
+.btn-prev-step {
+  flex: 1;
+}
+
+.btn-prev-step {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: var(--charcoal);
+}
+
+.btn-prev-step:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.required {
+  color: #d32f2f;
+}
+
+/* Form Input Improvements */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(70, 85, 42, 0.1);
+}
+
+.form-input:invalid:not(:placeholder-shown),
+.form-input:required:invalid:not(:placeholder-shown) {
+  border-color: #d32f2f;
+}
+
+.form-input:valid:not(:placeholder-shown) {
+  border-color: var(--olive);
+}
+
+/* Submit Button Improvements */
+.btn-submit {
+  position: relative;
+  min-width: 160px;
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submit-loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Mobile Improvements */
+@media (max-width: 768px) {
+  .modal {
+    max-width: 100%;
+    border-radius: 0;
+    max-height: 100vh;
+  }
+  
+  .booking-progress {
+    padding: 0;
+  }
+  
+  .progress-label {
+    font-size: 0.625rem;
+  }
+  
+  .progress-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+  
+  .step-actions {
+    flex-direction: column;
+  }
+  
+  .guests-selector {
+    gap: var(--spacing-xs);
+  }
+  
+  .guest-btn {
+    padding: var(--spacing-sm);
+    font-size: 1rem;
+  }
 }
 
 .form-group {

@@ -337,6 +337,7 @@
       this.rooms = [];
       this.availableRooms = [];
       this.isLoading = false;
+      this.currentStep = 1;
       this.init();
     }
 
@@ -353,6 +354,8 @@
               const isOpen = bookingModal.getAttribute('aria-hidden') === 'false';
               if (isOpen && !this.calendar) {
                 this.initCalendar();
+                this.setupStepNavigation();
+                this.setupGuestsSelector();
               }
               if (!isOpen) {
                 this.resetForm();
@@ -365,6 +368,122 @@
 
       // Add form field listeners
       this.setupFormListeners();
+    }
+
+    setupStepNavigation() {
+      // Next step buttons
+      document.querySelectorAll('.btn-next-step').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const nextStep = parseInt(btn.dataset.next);
+          if (this.validateStep(this.currentStep)) {
+            this.goToStep(nextStep);
+          }
+        });
+      });
+
+      // Previous step buttons
+      document.querySelectorAll('.btn-prev-step').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const prevStep = parseInt(btn.dataset.prev);
+          this.goToStep(prevStep);
+        });
+      });
+    }
+
+    setupGuestsSelector() {
+      const guestButtons = document.querySelectorAll('.guest-btn');
+      const guestSelect = document.getElementById('booking-guests');
+      
+      guestButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          guestButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const guests = parseInt(btn.dataset.guests);
+          if (guestSelect) {
+            guestSelect.value = guests;
+            // Trigger change event
+            guestSelect.dispatchEvent(new Event('change'));
+          }
+        });
+      });
+    }
+
+    validateStep(step) {
+      if (step === 1) {
+        const dateInput = document.getElementById('booking-date');
+        const nightsSelect = document.getElementById('booking-nights');
+        if (!dateInput || !dateInput.value || !nightsSelect || !nightsSelect.value) {
+          showToast('Vælg venligst datoer og antal nætter', 'error');
+          return false;
+        }
+        return true;
+      } else if (step === 2) {
+        const roomSelect = document.getElementById('booking-room');
+        if (!roomSelect || !roomSelect.value) {
+          showToast('Vælg venligst et værelse', 'error');
+          return false;
+        }
+        return true;
+      } else if (step === 3) {
+        const nameInput = document.getElementById('booking-name');
+        const emailInput = document.getElementById('booking-email');
+        if (!nameInput || !nameInput.value || !emailInput || !emailInput.value) {
+          showToast('Navn og email er påkrævet', 'error');
+          return false;
+        }
+        if (emailInput && !emailInput.validity.valid) {
+          showToast('Indtast venligst en gyldig email', 'error');
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    goToStep(step) {
+      // Hide all steps
+      document.querySelectorAll('.form-step').forEach(s => {
+        s.classList.remove('active');
+      });
+
+      // Show target step
+      const targetStep = document.querySelector(`.form-step[data-step="${step}"]`);
+      if (targetStep) {
+        targetStep.classList.add('active');
+        this.currentStep = step;
+        this.updateProgress(step);
+
+        // If going to step 2, load rooms
+        if (step === 2) {
+          this.loadRoomsForSelection();
+        }
+
+        // If going to step 3, show summary
+        if (step === 3) {
+          this.showBookingSummary();
+        }
+
+        // Scroll to top of modal
+        const modal = document.querySelector('.modal');
+        if (modal) {
+          modal.scrollTop = 0;
+        }
+      }
+    }
+
+    updateProgress(activeStep) {
+      document.querySelectorAll('.progress-step').forEach((step, index) => {
+        const stepNum = index + 1;
+        step.classList.remove('active', 'completed');
+        
+        if (stepNum < activeStep) {
+          step.classList.add('completed');
+        } else if (stepNum === activeStep) {
+          step.classList.add('active');
+        }
+      });
     }
 
     setupFormListeners() {
@@ -555,49 +674,98 @@
       }
     }
 
+    async loadRoomsForSelection() {
+      const roomsContainer = document.getElementById('rooms-selection');
+      if (!roomsContainer) return;
+
+      // Check availability first
+      await this.checkAvailability();
+    }
+
     updateAvailableRooms() {
       const roomSelect = document.getElementById('booking-room');
-      if (!roomSelect) return;
+      const roomsContainer = document.getElementById('rooms-selection');
+      
+      if (!roomsContainer) return;
 
-      // Clear and rebuild options
-      roomSelect.innerHTML = '<option value="">Vælg værelse...</option>';
-      
       const availableRoomIds = this.availableRooms.map(r => r.room_id);
+      const nights = parseInt(document.getElementById('booking-nights')?.value) || 1;
       
+      // Clear container
+      roomsContainer.innerHTML = '';
+      
+      if (this.availableRooms.length === 0) {
+        roomsContainer.innerHTML = '<div class="rooms-loading">Ingen værelser tilgængelige for valgte datoer</div>';
+        return;
+      }
+
+      // Create room cards
       this.rooms.forEach(room => {
         const isAvailable = availableRoomIds.includes(room.id);
-        const option = document.createElement('option');
-        option.value = room.id;
+        const roomData = isAvailable ? this.availableRooms.find(r => r.room_id === room.id) : null;
+        const totalPrice = roomData ? roomData.total_price : null;
+        const pricePerNight = totalPrice ? Math.round(totalPrice / nights) : null;
+
+        const card = document.createElement('div');
+        card.className = `room-card ${isAvailable ? '' : 'unavailable'}`;
+        card.dataset.roomId = room.id;
         
         if (isAvailable) {
-          const roomData = this.availableRooms.find(r => r.room_id === room.id);
-          const price = roomData ? roomData.total_price : null;
-          const nights = parseInt(document.getElementById('booking-nights')?.value) || 1;
-          const pricePerNight = price ? Math.round(price / nights) : null;
-          
-          option.textContent = `${room.name} (op til ${room.max_guests} gæster)`;
-          if (price) {
-            option.textContent += ` - ${formatCurrency(price)} totalt`;
-            if (nights > 1 && pricePerNight) {
-              option.textContent += ` (${formatCurrency(pricePerNight)}/nat)`;
+          card.addEventListener('click', () => {
+            // Remove selected from all cards
+            document.querySelectorAll('.room-card').forEach(c => c.classList.remove('selected'));
+            // Add selected to clicked card
+            card.classList.add('selected');
+            // Update hidden select
+            if (roomSelect) {
+              roomSelect.value = room.id;
+              roomSelect.dispatchEvent(new Event('change'));
             }
-          }
+            this.selectedRoom = room;
+            this.showBookingSummary();
+          });
+
+          card.innerHTML = `
+            <div class="room-card-header">
+              <div>
+                <div class="room-card-name">${room.name}</div>
+                <div class="room-card-capacity">Op til ${room.max_guests} gæster</div>
+              </div>
+              <div class="room-card-price">
+                ${totalPrice ? `
+                  <div class="room-price-total">${formatCurrency(totalPrice)}</div>
+                  <div class="room-price-per-night">${nights} ${nights === 1 ? 'nat' : 'nætter'} • ${formatCurrency(pricePerNight)}/nat</div>
+                ` : ''}
+              </div>
+            </div>
+          `;
         } else {
-          option.textContent = `${room.name} - Ikke tilgængelig`;
-          option.disabled = true;
+          card.innerHTML = `
+            <div class="room-card-header">
+              <div>
+                <div class="room-card-name">${room.name}</div>
+                <div class="room-card-capacity">Ikke tilgængelig</div>
+              </div>
+            </div>
+          `;
         }
-        
-        option.dataset.maxGuests = room.max_guests;
-        option.dataset.basePrice = room.base_price;
-        roomSelect.appendChild(option);
+
+        roomsContainer.appendChild(card);
       });
 
-      // Show summary if rooms available
-      if (this.availableRooms.length > 0) {
-        this.showBookingSummary();
-      } else {
-        this.hideBookingSummary();
-        showToast('Ingen værelser tilgængelige for valgte datoer', 'error');
+      // Also update hidden select for form submission
+      if (roomSelect) {
+        roomSelect.innerHTML = '<option value="">Vælg værelse...</option>';
+        this.rooms.forEach(room => {
+          const isAvailable = availableRoomIds.includes(room.id);
+          const option = document.createElement('option');
+          option.value = room.id;
+          option.textContent = room.name;
+          if (!isAvailable) {
+            option.disabled = true;
+          }
+          roomSelect.appendChild(option);
+        });
       }
     }
 
@@ -748,11 +916,21 @@
     resetForm() {
       this.selectedRoom = null;
       this.availableRooms = [];
+      this.currentStep = 1;
       this.hideBookingSummary();
       this.hideRoomDetails();
       if (this.calendar) {
         this.calendar.selectedDates = { start: null, end: null };
       }
+      // Reset to step 1
+      this.goToStep(1);
+      // Reset guest buttons
+      document.querySelectorAll('.guest-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.guests === '2') {
+          btn.classList.add('active');
+        }
+      });
     }
 
     async submitBooking(formData) {
@@ -823,13 +1001,21 @@
       const originalText = submitButton.textContent;
       
       try {
-        submitButton.textContent = 'Sender...';
+        const submitText = submitButton.querySelector('.submit-text');
+        const submitLoading = submitButton.querySelector('.submit-loading');
+        
+        if (submitText) submitText.style.display = 'none';
+        if (submitLoading) submitLoading.style.display = 'inline-flex';
         submitButton.disabled = true;
         submitButton.classList.add('loading');
         
         const result = await bookingEngine.submitBooking(formData);
         
-        // Show success
+        // Show success animation
+        submitButton.style.background = 'var(--olive)';
+        submitButton.innerHTML = '<span style="color: white;">✓ Booking oprettet!</span>';
+        
+        // Show success toast
         showToast(`Tak! Booking #${result.booking_id} er oprettet. Vi kontakter dig snarest.`, 'success');
         
         // Close modal after delay
@@ -839,17 +1025,22 @@
           if (window.closeModal) {
             closeModal();
           }
-          submitButton.textContent = originalText;
-          submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
+          submitButton.style.background = '';
           submitButton.classList.remove('loading');
-        }, 2000);
+          submitButton.disabled = false;
+        }, 3000);
         
       } catch (error) {
-        submitButton.textContent = error.message || 'Fejl ved booking';
+        const submitText = submitButton.querySelector('.submit-text');
+        const submitLoading = submitButton.querySelector('.submit-loading');
+        
+        if (submitText) submitText.textContent = error.message || 'Fejl ved booking';
+        if (submitLoading) submitLoading.style.display = 'none';
         submitButton.style.background = '#d32f2f';
         submitButton.classList.add('error');
         setTimeout(() => {
-          submitButton.textContent = originalText;
+          submitButton.innerHTML = originalText;
           submitButton.style.background = '';
           submitButton.classList.remove('error', 'loading');
           submitButton.disabled = false;
