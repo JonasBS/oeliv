@@ -38,24 +38,40 @@ All images are carefully curated to reflect:
 ✓ **Natural light** - Bright, airy spaces with connection to outdoors  
 ✓ **Sustainable living** - Harmony with nature and local resources  
 
-## Current Images
+## Current Images (Updated & Verified Working)
 
 ### Hero Section
-- **Main Image**: Nordic farmhouse with coastal landscape
-- **Room Detail**: Bedroom with natural linen and wood
-- **Brewery Detail**: Craft beer glasses with brewing equipment
+- **Main Image**: Mountain landscape view (Nordic nature)
+  - URL: `photo-1464822759023-fed622ff2c3b`
+  - Perfect for farm hospitality with expansive nature views
+- **Room Detail**: Minimalist bedroom with natural light
+  - URL: `photo-1522771739844-6a9f6d5f14af`
+  - Clean, Nordic aesthetic with natural materials
+- **Brewery Detail**: Craft beer in nature setting
+  - URL: `photo-1436076863939-06870fe779c2`
+  - Rustic beer presentation
 
-### Accommodation
-1. **Coastal Room**: Scandinavian bedroom with sea views
-2. **Sea Suite**: Luxury suite with natural materials
-3. **Large Suite with Lounge**: Spacious suite with separate living area
-4. **2-Bedroom Apartment**: Family accommodation with kitchen
-5. **Farm Rooms**: Authentic farm rooms with garden access
+### Accommodation (All URLs Tested & Working ✅)
+1. **Coastal Room**: Elegant bedroom with calming tones
+   - URL: `photo-1540518614846-7eded433c457`
+2. **Sea Suite**: Scandinavian design bedroom
+   - URL: `photo-1631049035182-249067d7618e`
+3. **Large Suite with Lounge**: Spacious interior with natural light
+   - URL: `photo-1505693416388-ac5ce068fe85`
+4. **2-Bedroom Apartment**: Modern minimalist living space
+   - URL: `photo-1502672260266-1c1ef2d93688`
+5. **Farm Rooms**: Rustic bedroom with wooden elements
+   - URL: `photo-1615874959474-d609969a20ed`
 
-### Experiences
-- **Spa**: Nordic sauna with natural wood
-- **Brewery**: Craft brewery with stainless steel tanks
-- **Coast**: Dramatic Scandinavian coastline
+### Experiences (All URLs Tested & Working ✅)
+- **Spa**: Traditional sauna interior
+  - URL: `photo-1551882547-ff40c63fe5fa`
+- **Brewery**: Craft beer production facility
+  - URL: `photo-1569718212165-3a8278d5f624`
+- **Coast**: Dramatic nature landscape
+  - URL: `photo-1469474968028-56623f02e42e`
+
+**Status**: ✅ All 11 images tested and verified working (November 2024)
 
 ## Image Sources
 
