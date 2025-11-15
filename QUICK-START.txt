@@ -1,0 +1,46 @@
+🚀 DEPLOY ØLIV WEBSITE - HURTIGSTE MÅDE
+==========================================
+
+▶ METODE 1: Vercel (Anbefalet)
+   
+   1. Gå til: https://vercel.com
+   2. Log ind med GitHub
+   3. Klik "Add New Project"
+   4. Vælg repository: JonasBS/-liv
+   5. Klik "Deploy"
+   
+   ✅ DONE! Site er live på 2 min!
+
+----------------------------------------
+
+▶ METODE 2: Netlify Drop (Nemmest)
+   
+   1. Gå til: https://app.netlify.com/drop
+   2. Drag index.html filen på siden
+   3. Done!
+   
+   ✅ Live på 30 sekunder!
+
+----------------------------------------
+
+▶ METODE 3: GitHub Pages (Gratis)
+   
+   1. Gå til: https://github.com/JonasBS/-liv
+   2. Settings → Pages
+   3. Source: Deploy from branch
+   4. Branch: cursor/enhance-farm-hospitality-website-experience-e313
+   5. Folder: / (root)
+   6. Save
+   
+   ✅ Live på 2 minutter!
+
+========================================
+
+📖 Se DEPLOY-NOW.md for detaljeret guide
+
+🌐 Når dit site er live:
+   - Test på mobil
+   - Del URL med kunder
+   - Tilføj custom domain (valgfrit)
+
+🎉 Du er klar til at gå live!
