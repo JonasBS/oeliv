@@ -518,7 +518,7 @@ app.post('/api/channel/booking', (req, res) => {
 
 // Initialize availability for date range (admin)
 app.post('/api/admin/availability', (req, res) => {
-  const { room_id, start_date, end_date, price, min_stay } = req.body;
+  const { room_id, start_date, end_date, price, min_stay, available } = req.body;
   
   if (!room_id || !start_date || !end_date) {
     res.status(400).json({ error: 'room_id, start_date, and end_date are required' });
@@ -534,14 +534,17 @@ app.post('/api/admin/availability', (req, res) => {
     dates.push(d.toISOString().split('T')[0]);
   }
   
+  // Use provided available status or default to 1 (available)
+  const isAvailable = available !== undefined ? parseInt(available) : 1;
+  
   // Insert/update availability
   const stmt = db.prepare(`
     INSERT OR REPLACE INTO availability (room_id, date, available, price, min_stay, source)
-    VALUES (?, ?, 1, ?, ?, 'manual')
+    VALUES (?, ?, ?, ?, ?, 'manual')
   `);
   
   dates.forEach(date => {
-    stmt.run(room_id, date, price || null, min_stay || 1);
+    stmt.run(room_id, date, isAvailable, price || null, min_stay || 1);
   });
   
   stmt.finalize((err) => {
