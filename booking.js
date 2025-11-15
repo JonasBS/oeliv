@@ -2,7 +2,9 @@
 (function() {
   'use strict';
 
-  const API_BASE = window.location.origin + '/api';
+  // Use environment variable if set, otherwise use current origin
+  // For production, set window.API_BASE_URL in HTML before loading this script
+  const API_BASE = (window.API_BASE_URL || window.location.origin) + '/api';
   
   // ========================================
   // Calendar Component
