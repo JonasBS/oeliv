@@ -178,18 +178,16 @@
     
     if (!modalForm) return;
     
-    // Validate form
     const formData = new FormData(modalForm);
-    const date = formData.get('date');
-    const nights = formData.get('nights');
-    const guests = formData.get('guests');
+    const email = formData.get('email');
+    const name = formData.get('name');
     
     const submitButton = modalForm.querySelector('.btn-submit');
     
-    if (!date || !nights || !guests) {
-      // Show error
+    // Only require email OR name (not both)
+    if (!email && !name) {
       const originalText = submitButton.textContent;
-      submitButton.textContent = 'Udfyld alle påkrævede felter';
+      submitButton.textContent = 'Indtast mindst navn eller email';
       submitButton.style.background = '#d32f2f';
       setTimeout(() => {
         submitButton.textContent = originalText;
