@@ -59,7 +59,7 @@
   // Modal Functions
   // ========================================
   
-  const openModal = (roomType = null, isSpa = false) => {
+  const openModal = (roomType = null, isSpa = false, packageName = null) => {
     state.modalOpen = true;
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -69,6 +69,22 @@
       const roomSelect = document.getElementById('booking-room');
       if (roomSelect) {
         roomSelect.value = roomType;
+      }
+    }
+    
+    // Add spa note if spa button clicked
+    if (isSpa) {
+      const noteField = modalForm?.querySelector('#booking-note');
+      if (noteField) {
+        noteField.value = 'Jeg er interesseret i spa-tilvalg.';
+      }
+    }
+    
+    // Add package note if package button clicked
+    if (packageName) {
+      const noteField = modalForm?.querySelector('#booking-note');
+      if (noteField) {
+        noteField.value = `Jeg er interesseret i "${packageName}" pakken.`;
       }
     }
     
@@ -538,115 +554,281 @@
   if (packagesGrid) {
     const getCurrentSeason = () => {
       const month = new Date().getMonth() + 1; // 1-12
-      if (month >= 3 && month <= 5) return 'spring'; // Forår
-      if (month >= 6 && month <= 8) return 'summer'; // Sommer
-      if (month >= 9 && month <= 11) return 'fall'; // Efterår
-      return 'winter'; // Vinter
+      if (month >= 3 && month <= 5) return 'spring';
+      if (month >= 6 && month <= 8) return 'summer';
+      if (month >= 9 && month <= 11) return 'fall';
+      return 'winter';
     };
 
+    // Detect language from URL or page
+    const getLanguage = () => {
+      const path = window.location.pathname;
+      if (path.includes('/en/')) return 'en';
+      if (path.includes('/de/')) return 'de';
+      return 'da';
+    };
+
+    const lang = getLanguage();
+
     const packages = {
-      spring: {
-        name: 'Forårsophold',
-        season: 'Forår (marts-maj)',
-        description: 'Når naturen vågner og lyset kommer tilbage. Perfekt til par der søger ro og fornyelse efter vinteren.',
-        includes: [
-          '2-3 nætter i valgfrit værelse',
-          'Morgenmad med lokale råvarer',
-          'Gårdsauna & koldtvand',
-          'Ølsmagning fra ØLIV Brew',
-          'Guide til forårsgåture langs kysten'
-        ],
-        price: 'Fra 3.500 DKK',
-        badge: 'Forår',
-        planning: 'Planlæg 2-3 måneder i forvejen'
+      da: {
+        spring: {
+          name: 'Forårsophold',
+          season: 'Forår (marts-maj)',
+          description: 'Når naturen vågner og lyset kommer tilbage. Perfekt til par der søger ro og fornyelse efter vinteren.',
+          includes: [
+            '2-3 nætter i valgfrit værelse',
+            'Morgenmad med lokale råvarer',
+            'Gårdsauna & koldtvand',
+            'Ølsmagning fra ØLIV Brew',
+            'Guide til forårsgåture langs kysten'
+          ],
+          price: 'Fra 3.500 DKK',
+          badge: 'Forår',
+          planning: 'Planlæg 2-3 måneder i forvejen',
+          button: 'Forespørg pakke',
+          includesLabel: 'Inkluderet:',
+          toggleAll: 'Se alle sæsonpakker',
+          toggleCurrent: 'Vis kun nuværende sæson'
+        },
+        summer: {
+          name: 'Sommerophold',
+          season: 'Sommer (juni-august)',
+          description: 'Bornholms højsæson med lang dagslys og varmt vejr. Intimate stays for par der vil undgå sommerens travlhed.',
+          includes: [
+            '2-4 nætter i valgfrit værelse',
+            'Morgenmad på terrassen',
+            'Gårdsauna & koldtvand',
+            'Privat ølsmagning',
+            'Guide til skjulte steder langs kysten',
+            'Mulighed for SUP/kajak (tilkøb)'
+          ],
+          price: 'Fra 4.500 DKK',
+          badge: 'Sommer',
+          planning: 'Planlæg 3-6 måneder i forvejen',
+          button: 'Forespørg pakke',
+          includesLabel: 'Inkluderet:',
+          toggleAll: 'Se alle sæsonpakker',
+          toggleCurrent: 'Vis kun nuværende sæson'
+        },
+        fall: {
+          name: 'Efterårsophold',
+          season: 'Efterår (september-november)',
+          description: 'Naturen skifter farver, og temperaturen falder. Perfekt til rolige dage ved saunaen og lange aftener med øl.',
+          includes: [
+            '2-3 nætter i valgfrit værelse',
+            'Morgenmad med lokale råvarer',
+            'Gårdsauna & koldtvand',
+            'Ølsmagning med mørke øl',
+            'Guide til efterårsgåture',
+            'Snacks til øllene'
+          ],
+          price: 'Fra 3.200 DKK',
+          badge: 'Efterår',
+          planning: 'Planlæg 1-2 måneder i forvejen',
+          button: 'Forespørg pakke',
+          includesLabel: 'Inkluderet:',
+          toggleAll: 'Se alle sæsonpakker',
+          toggleCurrent: 'Vis kun nuværende sæson'
+        },
+        winter: {
+          name: 'Vinterophold',
+          season: 'Vinter (december-februar)',
+          description: 'Stille dage med fokus på ro og nærvær. Saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade.',
+          includes: [
+            '2-4 nætter i valgfrit værelse',
+            'Morgenmad med lokale råvarer',
+            'Gårdsauna & koldtvand (dagligt)',
+            'Privat ølsmagning med mørke øl',
+            'Snacks og varme drikke',
+            'Rolige omgivelser uden turister'
+          ],
+          price: 'Fra 2.800 DKK',
+          badge: 'Vinter',
+          planning: 'Planlæg 2-4 uger i forvejen',
+          button: 'Forespørg pakke',
+          includesLabel: 'Inkluderet:',
+          toggleAll: 'Se alle sæsonpakker',
+          toggleCurrent: 'Vis kun nuværende sæson'
+        }
       },
-      summer: {
-        name: 'Sommerophold',
-        season: 'Sommer (juni-august)',
-        description: 'Bornholms højsæson med lang dagslys og varmt vejr. Intimate stays for par der vil undgå sommerens travlhed.',
-        includes: [
-          '2-4 nætter i valgfrit værelse',
-          'Morgenmad på terrassen',
-          'Gårdsauna & koldtvand',
-          'Privat ølsmagning',
-          'Guide til skjulte steder langs kysten',
-          'Mulighed for SUP/kajak (tilkøb)'
-        ],
-        price: 'Fra 4.500 DKK',
-        badge: 'Sommer',
-        planning: 'Planlæg 3-6 måneder i forvejen'
+      en: {
+        spring: {
+          name: 'Spring Stay',
+          season: 'Spring (March-May)',
+          description: 'When nature awakens and light returns. Perfect for couples seeking peace and renewal after winter.',
+          includes: [
+            '2-3 nights in chosen room',
+            'Breakfast with local ingredients',
+            'Farm sauna & cold water',
+            'Beer tasting from ØLIV Brew',
+            'Guide to spring walks along the coast'
+          ],
+          price: 'From 3,500 DKK',
+          badge: 'Spring',
+          planning: 'Plan 2-3 months ahead',
+          button: 'Inquire about package',
+          includesLabel: 'Included:',
+          toggleAll: 'See all seasonal packages',
+          toggleCurrent: 'Show only current season'
+        },
+        summer: {
+          name: 'Summer Stay',
+          season: 'Summer (June-August)',
+          description: 'Bornholm\'s high season with long daylight and warm weather. Intimate stays for couples who want to avoid summer\'s hustle.',
+          includes: [
+            '2-4 nights in chosen room',
+            'Breakfast on the terrace',
+            'Farm sauna & cold water',
+            'Private beer tasting',
+            'Guide to hidden spots along the coast',
+            'Option for SUP/kayak (add-on)'
+          ],
+          price: 'From 4,500 DKK',
+          badge: 'Summer',
+          planning: 'Plan 3-6 months ahead',
+          button: 'Inquire about package',
+          includesLabel: 'Included:',
+          toggleAll: 'See all seasonal packages',
+          toggleCurrent: 'Show only current season'
+        },
+        fall: {
+          name: 'Fall Stay',
+          season: 'Fall (September-November)',
+          description: 'Nature changes colors, and temperatures drop. Perfect for quiet days at the sauna and long evenings with beer.',
+          includes: [
+            '2-3 nights in chosen room',
+            'Breakfast with local ingredients',
+            'Farm sauna & cold water',
+            'Beer tasting with dark beers',
+            'Guide to fall walks',
+            'Snacks for the beers'
+          ],
+          price: 'From 3,200 DKK',
+          badge: 'Fall',
+          planning: 'Plan 1-2 months ahead',
+          button: 'Inquire about package',
+          includesLabel: 'Included:',
+          toggleAll: 'See all seasonal packages',
+          toggleCurrent: 'Show only current season'
+        },
+        winter: {
+          name: 'Winter Stay',
+          season: 'Winter (December-February)',
+          description: 'Quiet days focused on peace and presence. The sauna is warm, the beers are dark, and nature is at rest. Perfect for relaxing and recharging.',
+          includes: [
+            '2-4 nights in chosen room',
+            'Breakfast with local ingredients',
+            'Farm sauna & cold water (daily)',
+            'Private beer tasting with dark beers',
+            'Snacks and warm drinks',
+            'Peaceful surroundings without tourists'
+          ],
+          price: 'From 2,800 DKK',
+          badge: 'Winter',
+          planning: 'Plan 2-4 weeks ahead',
+          button: 'Inquire about package',
+          includesLabel: 'Included:',
+          toggleAll: 'See all seasonal packages',
+          toggleCurrent: 'Show only current season'
+        }
       },
-      fall: {
-        name: 'Efterårsophold',
-        season: 'Efterår (september-november)',
-        description: 'Naturen skifter farver, og temperaturen falder. Perfekt til rolige dage ved saunaen og lange aftener med øl.',
-        includes: [
-          '2-3 nætter i valgfrit værelse',
-          'Morgenmad med lokale råvarer',
-          'Gårdsauna & koldtvand',
-          'Ølsmagning med mørke øl',
-          'Guide til efterårsgåture',
-          'Snacks til øllene'
-        ],
-        price: 'Fra 3.200 DKK',
-        badge: 'Efterår',
-        planning: 'Planlæg 1-2 måneder i forvejen'
-      },
-      winter: {
-        name: 'Vinterophold',
-        season: 'Vinter (december-februar)',
-        description: 'Stille dage med fokus på ro og nærvær. Saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade.',
-        includes: [
-          '2-4 nætter i valgfrit værelse',
-          'Morgenmad med lokale råvarer',
-          'Gårdsauna & koldtvand (dagligt)',
-          'Privat ølsmagning med mørke øl',
-          'Snacks og varme drikke',
-          'Rolige omgivelser uden turister'
-        ],
-        price: 'Fra 2.800 DKK',
-        badge: 'Vinter',
-        planning: 'Planlæg 2-4 uger i forvejen'
+      de: {
+        spring: {
+          name: 'Frühlingsaufenthalt',
+          season: 'Frühling (März-Mai)',
+          description: 'Wenn die Natur erwacht und das Licht zurückkehrt. Perfekt für Paare, die nach dem Winter Ruhe und Erneuerung suchen.',
+          includes: [
+            '2-3 Nächte im gewählten Zimmer',
+            'Frühstück mit lokalen Zutaten',
+            'Hofsauna & kaltes Wasser',
+            'Bierverkostung von ØLIV Brew',
+            'Führung zu Frühlingsspaziergängen entlang der Küste'
+          ],
+          price: 'Ab 3.500 DKK',
+          badge: 'Frühling',
+          planning: '2-3 Monate im Voraus planen',
+          button: 'Paket anfragen',
+          includesLabel: 'Inklusive:',
+          toggleAll: 'Alle Saisonpakete anzeigen',
+          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+        },
+        summer: {
+          name: 'Sommeraufenthalt',
+          season: 'Sommer (Juni-August)',
+          description: 'Bornholms Hochsaison mit langem Tageslicht und warmem Wetter. Intimate Stays für Paare, die dem Sommertrubel entgehen wollen.',
+          includes: [
+            '2-4 Nächte im gewählten Zimmer',
+            'Frühstück auf der Terrasse',
+            'Hofsauna & kaltes Wasser',
+            'Private Bierverkostung',
+            'Führung zu versteckten Orten entlang der Küste',
+            'Option für SUP/Kajak (Zusatz)'
+          ],
+          price: 'Ab 4.500 DKK',
+          badge: 'Sommer',
+          planning: '3-6 Monate im Voraus planen',
+          button: 'Paket anfragen',
+          includesLabel: 'Inklusive:',
+          toggleAll: 'Alle Saisonpakete anzeigen',
+          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+        },
+        fall: {
+          name: 'Herbstaufenthalt',
+          season: 'Herbst (September-November)',
+          description: 'Die Natur wechselt die Farben und die Temperaturen sinken. Perfekt für ruhige Tage in der Sauna und lange Abende mit Bier.',
+          includes: [
+            '2-3 Nächte im gewählten Zimmer',
+            'Frühstück mit lokalen Zutaten',
+            'Hofsauna & kaltes Wasser',
+            'Bierverkostung mit dunklen Bieren',
+            'Führung zu Herbstspaziergängen',
+            'Snacks zu den Bieren'
+          ],
+          price: 'Ab 3.200 DKK',
+          badge: 'Herbst',
+          planning: '1-2 Monate im Voraus planen',
+          button: 'Paket anfragen',
+          includesLabel: 'Inklusive:',
+          toggleAll: 'Alle Saisonpakete anzeigen',
+          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+        },
+        winter: {
+          name: 'Winteraufenthalt',
+          season: 'Winter (Dezember-Februar)',
+          description: 'Ruhige Tage mit Fokus auf Ruhe und Präsenz. Die Sauna ist warm, die Biere sind dunkel und die Natur ruht. Perfekt zum Entspannen und Aufladen.',
+          includes: [
+            '2-4 Nächte im gewählten Zimmer',
+            'Frühstück mit lokalen Zutaten',
+            'Hofsauna & kaltes Wasser (täglich)',
+            'Private Bierverkostung mit dunklen Bieren',
+            'Snacks und warme Getränke',
+            'Ruhige Umgebung ohne Touristen'
+          ],
+          price: 'Ab 2.800 DKK',
+          badge: 'Winter',
+          planning: '2-4 Wochen im Voraus planen',
+          button: 'Paket anfragen',
+          includesLabel: 'Inklusive:',
+          toggleAll: 'Alle Saisonpakete anzeigen',
+          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+        }
       }
     };
 
     const currentSeason = getCurrentSeason();
-    const package = packages[currentSeason];
+    const packageData = packages[lang][currentSeason];
+    const allPackages = packages[lang];
 
-    if (package) {
-      const packageHTML = `
-        <div class="package-card">
-          <span class="package-badge">${package.badge}</span>
-          <h3>${package.name}</h3>
-          <p class="package-season">${package.season}</p>
-          <p class="package-description">${package.description}</p>
-          <div class="package-includes">
-            <h4>Inkluderet:</h4>
-            <ul>
-              ${package.includes.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-          <p class="package-price">${package.price}</p>
-          <p class="package-note">${package.planning}</p>
-          <button class="btn-primary js-open-booking" type="button" data-package="${package.name}">
-            Forespørg pakke
-          </button>
-        </div>
-      `;
-      
-      packagesGrid.innerHTML = packageHTML;
-    }
-
-    // Show all packages on hover/click
-    const showAllPackages = () => {
-      const allPackagesHTML = Object.values(packages).map(pkg => `
+    if (packageData) {
+      const renderPackage = (pkg) => `
         <div class="package-card">
           <span class="package-badge">${pkg.badge}</span>
           <h3>${pkg.name}</h3>
           <p class="package-season">${pkg.season}</p>
           <p class="package-description">${pkg.description}</p>
           <div class="package-includes">
-            <h4>Inkluderet:</h4>
+            <h4>${pkg.includesLabel}</h4>
             <ul>
               ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
             </ul>
@@ -654,49 +836,36 @@
           <p class="package-price">${pkg.price}</p>
           <p class="package-note">${pkg.planning}</p>
           <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}">
-            Forespørg pakke
+            ${pkg.button}
           </button>
         </div>
-      `).join('');
+      `;
       
-      packagesGrid.innerHTML = allPackagesHTML;
-    };
+      packagesGrid.innerHTML = renderPackage(packageData);
 
-    // Add toggle button to show all packages
-    const toggleButton = document.createElement('button');
-    toggleButton.className = 'btn-secondary';
-    toggleButton.textContent = 'Se alle sæsonpakker';
-    toggleButton.style.cssText = 'margin: var(--spacing-lg) auto 0; display: block;';
-    toggleButton.addEventListener('click', () => {
-      if (packagesGrid.children.length === 1) {
-        showAllPackages();
-        toggleButton.textContent = 'Vis kun nuværende sæson';
-      } else {
-        const currentPackageHTML = `
-          <div class="package-card">
-            <span class="package-badge">${package.badge}</span>
-            <h3>${package.name}</h3>
-            <p class="package-season">${package.season}</p>
-            <p class="package-description">${package.description}</p>
-            <div class="package-includes">
-              <h4>Inkluderet:</h4>
-              <ul>
-                ${package.includes.map(item => `<li>${item}</li>`).join('')}
-              </ul>
-            </div>
-            <p class="package-price">${package.price}</p>
-            <p class="package-note">${package.planning}</p>
-            <button class="btn-primary js-open-booking" type="button" data-package="${package.name}">
-              Forespørg pakke
-            </button>
-          </div>
-        `;
-        packagesGrid.innerHTML = currentPackageHTML;
-        toggleButton.textContent = 'Se alle sæsonpakker';
-      }
-    });
-    
-    packagesGrid.parentElement.appendChild(toggleButton);
+      // Show all packages
+      const showAllPackages = () => {
+        const allPackagesHTML = Object.values(allPackages).map(pkg => renderPackage(pkg)).join('');
+        packagesGrid.innerHTML = allPackagesHTML;
+      };
+
+      // Add toggle button to show all packages
+      const toggleButton = document.createElement('button');
+      toggleButton.className = 'btn-secondary';
+      toggleButton.textContent = packageData.toggleAll;
+      toggleButton.style.cssText = 'margin: var(--spacing-lg) auto 0; display: block;';
+      toggleButton.addEventListener('click', () => {
+        if (packagesGrid.children.length === 1) {
+          showAllPackages();
+          toggleButton.textContent = packageData.toggleCurrent;
+        } else {
+          packagesGrid.innerHTML = renderPackage(packageData);
+          toggleButton.textContent = packageData.toggleAll;
+        }
+      });
+      
+      packagesGrid.parentElement.appendChild(toggleButton);
+    }
   }
 
   // ========================================
