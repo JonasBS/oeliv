@@ -215,10 +215,16 @@
     }
 
     renderMonth(month) {
-      const monthYear = month.toLocaleDateString('da-DK', { month: 'long', year: 'numeric' });
-      this.container.querySelector('.calendar-month-year').textContent = monthYear;
+      if (!this.container) return;
+      
+      const monthYearEl = this.container.querySelector('.calendar-month-year');
+      if (monthYearEl) {
+        monthYearEl.textContent = month.toLocaleDateString('da-DK', { month: 'long', year: 'numeric' });
+      }
       
       const grid = this.container.querySelector('.calendar-grid');
+      if (!grid) return;
+      
       grid.innerHTML = '';
       
       // Day names
@@ -581,25 +587,55 @@
       const guestsSelect = document.getElementById('booking-guests');
       const roomSelect = document.getElementById('booking-room');
 
-      // Update nights when date changes
+      // Update nights when date changes (from date input)
       if (dateInput) {
-        dateInput.addEventListener('change', () => {
-          this.updateNightsFromDates();
+        dateInput.addEventListener('change', async () => {
+          if (dateInput.value && nightsSelect && nightsSelect.value) {
+            // Update calendar if it exists
+            if (this.calendar) {
+              const startDate = new Date(dateInput.value);
+              const nights = parseInt(nightsSelect.value);
+              const endDate = new Date(startDate);
+              endDate.setDate(endDate.getDate() + nights);
+              
+              this.calendar.selectedDates.start = startDate;
+              this.calendar.selectedDates.end = endDate;
+              this.calendar.renderMonth(this.calendar.currentMonth);
+              this.calendar.updateSelectionInfo();
+            }
+            // Check availability
+            await this.checkAvailability();
+          }
         });
       }
 
       // Update dates when nights changes
       if (nightsSelect) {
-        nightsSelect.addEventListener('change', () => {
-          this.updateDatesFromNights();
+        nightsSelect.addEventListener('change', async () => {
+          if (dateInput && dateInput.value && nightsSelect.value) {
+            // Update calendar if it exists
+            if (this.calendar) {
+              const startDate = new Date(dateInput.value);
+              const nights = parseInt(nightsSelect.value);
+              const endDate = new Date(startDate);
+              endDate.setDate(endDate.getDate() + nights);
+              
+              this.calendar.selectedDates.start = startDate;
+              this.calendar.selectedDates.end = endDate;
+              this.calendar.renderMonth(this.calendar.currentMonth);
+              this.calendar.updateSelectionInfo();
+            }
+            // Check availability
+            await this.checkAvailability();
+          }
         });
       }
 
-      // Check availability when guests or dates change
+      // Check availability when guests change
       if (guestsSelect) {
-        guestsSelect.addEventListener('change', () => {
-          if (dateInput && dateInput.value) {
-            this.checkAvailability();
+        guestsSelect.addEventListener('change', async () => {
+          if (dateInput && dateInput.value && nightsSelect && nightsSelect.value) {
+            await this.checkAvailability();
           }
         });
       }
@@ -683,8 +719,23 @@
               this.handleDateSelection(dates);
             }
           });
+          
+          // Set min date on date input
+          const dateInput = document.getElementById('booking-date');
+          if (dateInput) {
+            const today = new Date();
+            dateInput.min = today.toISOString().split('T')[0];
+          }
         } catch (error) {
           console.error('Error initializing calendar:', error);
+          // Show fallback message
+          if (calendarContainer) {
+            calendarContainer.innerHTML = `
+              <div style="padding: var(--spacing-lg); text-align: center; color: var(--muted);">
+                <p>Brug dato-feltet nedenfor til at vælge datoer</p>
+              </div>
+            `;
+          }
         }
       }
     }
