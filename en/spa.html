@@ -1,31 +1,36 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Spa & oplevelser på ØLIV – Gårdsauna, koldtvand og stille omgivelser. Et simpelt ritual uden spa-musik." />
-  <title>Spa & Oplevelser – ØLIV Farm hospitality</title>
+  <meta name="description" content="Spa & experiences at ØLIV – Farm sauna, cold water and quiet surroundings. A simple ritual without spa music." />
+  <title>Spa & Experiences – ØLIV Farm hospitality</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../styles.css" />
 </head>
 <body>
   <!-- Navigation -->
-  <nav class="navbar" role="navigation" aria-label="Hovednavigation">
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="navbar-container">
-      <a href="index.html" class="logo" aria-label="ØLIV hjem">ØLIV</a>
+      <a href="index.html" class="logo" aria-label="ØLIV home">ØLIV</a>
       <div class="nav-links">
-        <a href="overnatning.html" class="nav-link">Overnatning</a>
-        <a href="spa.html" class="nav-link active">Spa & Oplevelser</a>
-        <a href="bryggeri.html" class="nav-link">ØLIV Brew</a>
-        <button class="btn-primary nav-cta js-open-booking" type="button" aria-label="Book ophold">
-          Book ophold
+        <a href="accommodation.html" class="nav-link">Accommodation</a>
+        <a href="spa.html" class="nav-link active">Spa & Experiences</a>
+        <a href="brewery.html" class="nav-link">ØLIV Brew</a>
+        <div class="language-switcher">
+          <a href="../index.html" class="lang-link" aria-label="Dansk">DA</a>
+          <a href="index.html" class="lang-link active" aria-label="English">EN</a>
+          <a href="../de/index.html" class="lang-link" aria-label="Deutsch">DE</a>
+        </div>
+        <button class="btn-primary nav-cta js-open-booking" type="button" aria-label="Book stay">
+          Book stay
         </button>
       </div>
-      <button class="mobile-menu-toggle" aria-label="Åbn menu" aria-expanded="false">
+      <button class="mobile-menu-toggle" aria-label="Open menu" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -36,8 +41,8 @@
   <!-- Page Header -->
   <section class="page-header page-header-dark">
     <div class="container">
-      <h1 class="page-title">Spa & Oplevelser</h1>
-      <p class="page-intro">En lille gårdsauna, koldtvand og stille omgivelser — et simpelt ritual uden spa-musik og store armbevægelser.</p>
+      <h1 class="page-title">Spa & Experiences</h1>
+      <p class="page-intro">A small farm sauna, cold water and quiet surroundings — a simple ritual without spa music and grand gestures.</p>
     </div>
   </section>
 
@@ -46,23 +51,23 @@
     <div class="container">
       <div class="spa-layout">
         <div class="spa-content">
-          <h2 class="section-title">Gårdsauna & koldtvand</h2>
-          <p class="spa-intro">Land efter en dag ved havet, varm igennem og mærk roen.</p>
-          <p class="spa-text">Vi tænder op på udvalgte tidspunkter — kombiner med koldtvand, et glas øl eller bare helt ro. Det er et sted hvor tempoet sænkes, og hvor du kan mærke forskellen fra bylivet.</p>
-          <p class="spa-text">Saunaen er lille og intim — få gæster ad gangen. Det handler om at være til stede, ikke om at nå alle behandlinger.</p>
+          <h2 class="section-title">Farm sauna & cold water</h2>
+          <p class="spa-intro">Land after a day by the sea, warm through and feel the peace.</p>
+          <p class="spa-text">We light the sauna at selected times — combine with cold water, a glass of beer or just complete peace. It's a place where the pace slows down, and where you can feel the difference from city life.</p>
+          <p class="spa-text">The sauna is small and intimate — few guests at a time. It's about being present, not about reaching all treatments.</p>
           <ul class="spa-features">
-            <li>Gårdsauna (få gæster ad gangen)</li>
-            <li>Koldtvand & frisk luft</li>
-            <li>Tilkøb til udvalgte ophold</li>
-            <li>Bademandskab og håndklæder</li>
-            <li>Rolige omgivelser</li>
+            <li>Farm sauna (few guests at a time)</li>
+            <li>Cold water & fresh air</li>
+            <li>Add-on for selected stays</li>
+            <li>Towels and bathrobes</li>
+            <li>Quiet surroundings</li>
           </ul>
           <button class="btn-primary js-open-booking" type="button" data-spa="true">
-            Føj spa til ophold
+            Add spa to stay
           </button>
         </div>
         <div class="spa-image">
-          <img src="https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1200&auto=format&fit=crop" alt="Gårdsauna" loading="lazy" />
+          <img src="https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1200&auto=format&fit=crop" alt="Farm sauna" loading="lazy" />
         </div>
       </div>
     </div>
@@ -71,27 +76,27 @@
   <!-- Ritual Section -->
   <section class="section section-ritual">
     <div class="container">
-      <h2 class="section-title">Ritualet</h2>
+      <h2 class="section-title">The ritual</h2>
       <div class="ritual-steps">
         <div class="ritual-step">
           <div class="ritual-number">1</div>
-          <h3>Varm op</h3>
-          <p>Kom ind i saunaen og lad varmen trænge igennem. Vi tænder op på udvalgte tidspunkter — normalt om eftermiddagen og aftenen.</p>
+          <h3>Warm up</h3>
+          <p>Enter the sauna and let the heat penetrate. We light it at selected times — usually in the afternoon and evening.</p>
         </div>
         <div class="ritual-step">
           <div class="ritual-number">2</div>
-          <h3>Køl ned</h3>
-          <p>Efter saunaen, køl ned med koldtvand eller frisk luft. Spring i havet hvis du tør, eller brug vores koldtvandsbad.</p>
+          <h3>Cool down</h3>
+          <p>After the sauna, cool down with cold water or fresh air. Jump in the sea if you dare, or use our cold water bath.</p>
         </div>
         <div class="ritual-step">
           <div class="ritual-number">3</div>
-          <h3>Slap af</h3>
-          <p>Tag en pause. Drik et glas vand, et glas øl fra bryggeriet, eller bare sid stille og mærk roen.</p>
+          <h3>Relax</h3>
+          <p>Take a break. Drink a glass of water, a glass of beer from the brewery, or just sit quietly and feel the peace.</p>
         </div>
         <div class="ritual-step">
           <div class="ritual-number">4</div>
-          <h3>Gentag</h3>
-          <p>Gentag cyklussen så mange gange du vil. Det handler om at finde din egen rytme.</p>
+          <h3>Repeat</h3>
+          <p>Repeat the cycle as many times as you want. It's about finding your own rhythm.</p>
         </div>
       </div>
     </div>
@@ -102,20 +107,20 @@
     <div class="container">
       <div class="info-grid">
         <div class="info-card">
-          <h3>Hvornår er saunaen åben?</h3>
-          <p>Vi tænder op på udvalgte tidspunkter, normalt om eftermiddagen (15-17) og aftenen (19-21). Kontakt os ved booking for at høre de præcise tidspunkter.</p>
+          <h3>When is the sauna open?</h3>
+          <p>We light it at selected times, usually in the afternoon (3-5 PM) and evening (7-9 PM). Contact us when booking to hear the exact times.</p>
         </div>
         <div class="info-card">
-          <h3>Hvad skal man medbringe?</h3>
-          <p>Vi stiller bademandskab og håndklæder til rådighed. Medbring kun dig selv og tid til at slappe af.</p>
+          <h3>What should I bring?</h3>
+          <p>We provide towels and bathrobes. Just bring yourself and time to relax.</p>
         </div>
         <div class="info-card">
-          <h3>Er det inkluderet?</h3>
-          <p>Spa kan tilkøbes til udvalgte ophold. Kontakt os for at høre om spa-pakker og priser.</p>
+          <h3>Is it included?</h3>
+          <p>Spa can be added to selected stays. Contact us to hear about spa packages and prices.</p>
         </div>
         <div class="info-card">
-          <h3>Kan børn deltage?</h3>
-          <p>Ja, børn er velkomne, men vi anbefaler at de er over 8 år og altid under opsyn af voksne.</p>
+          <h3>Can children participate?</h3>
+          <p>Yes, children are welcome, but we recommend they are over 8 years old and always supervised by adults.</p>
         </div>
       </div>
     </div>
@@ -124,23 +129,23 @@
   <!-- Other Experiences -->
   <section class="section section-experiences">
     <div class="container">
-      <h2 class="section-title">Andre oplevelser</h2>
+      <h2 class="section-title">Other experiences</h2>
       <div class="experiences-grid">
         <div class="experience-card">
-          <h3>Gårdture</h3>
-          <p>Få en rundvisning på gården. Se hønsene, haven, og lær om gårdslivet. Gratis for alle gæster.</p>
+          <h3>Farm tours</h3>
+          <p>Get a tour of the farm. See the chickens, the garden, and learn about farm life. Free for all guests.</p>
         </div>
         <div class="experience-card">
-          <h3>Kystture</h3>
-          <p>Vi kan anbefale de bedste stier og steder langs kysten. Få vores guide til området ved ankomst.</p>
+          <h3>Coastal walks</h3>
+          <p>We can recommend the best trails and places along the coast. Get our guide to the area upon arrival.</p>
         </div>
         <div class="experience-card">
-          <h3>Bryggerismagning</h3>
-          <p>Smag øl fra ØLIV Brew. Lær om bryggeprocessen og smag forskellige typer. Se bryggeri-siden for mere info.</p>
+          <h3>Brewery tasting</h3>
+          <p>Taste beer from ØLIV Brew. Learn about the brewing process and taste different types. See the brewery page for more info.</p>
         </div>
         <div class="experience-card">
-          <h3>Morgenmad på terrassen</h3>
-          <p>Nyd morgenmaden på terrassen med udsigt til havet. Serveres hver morgen fra 8-10.</p>
+          <h3>Breakfast on the terrace</h3>
+          <p>Enjoy breakfast on the terrace with sea views. Served every morning from 8-10 AM.</p>
         </div>
       </div>
     </div>
@@ -150,9 +155,9 @@
   <section class="section section-cta">
     <div class="container">
       <div class="cta-content">
-        <h2 class="cta-title">Klar til spa-oplevelsen?</h2>
+        <h2 class="cta-title">Ready for the spa experience?</h2>
         <button class="btn-primary btn-large js-open-booking" type="button" data-spa="true">
-          Book ophold med spa
+          Book stay with spa
         </button>
       </div>
     </div>
@@ -164,14 +169,14 @@
       <div class="footer-content">
         <div class="footer-brand">
           <div class="logo">ØLIV</div>
-          <p>Farm hospitality & ØLIV Brew · Bornholm, Danmark</p>
+          <p>Farm hospitality & ØLIV Brew · Bornholm, Denmark</p>
         </div>
         <div class="footer-links">
-          <a href="index.html" class="footer-link">Forside</a>
-          <a href="overnatning.html" class="footer-link">Overnatning</a>
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="accommodation.html" class="footer-link">Accommodation</a>
           <a href="spa.html" class="footer-link">Spa</a>
-          <a href="bryggeri.html" class="footer-link">Bryggeri</a>
-          <a href="om-os.html" class="footer-link">Om os</a>
+          <a href="brewery.html" class="footer-link">Brewery</a>
+          <a href="about.html" class="footer-link">About us</a>
         </div>
       </div>
     </div>
@@ -181,88 +186,88 @@
   <div class="modal-backdrop" id="booking-modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-modal="true">
     <div class="modal">
       <div class="modal-header">
-        <h2 id="modal-title" class="modal-title">Forespørgsel på ophold</h2>
-        <button class="modal-close js-close-booking" type="button" aria-label="Luk modal">
+        <h2 id="modal-title" class="modal-title">Stay inquiry</h2>
+        <button class="modal-close js-close-booking" type="button" aria-label="Close modal">
           <span aria-hidden="true">×</span>
         </button>
       </div>
       <form class="modal-body" id="booking-form">
         <div class="form-group">
-          <label for="booking-date" class="form-label">Ankomst</label>
+          <label for="booking-date" class="form-label">Arrival</label>
           <input type="date" id="booking-date" name="date" class="form-input" required />
         </div>
         <div class="form-group">
-          <label for="booking-nights" class="form-label">Nætter</label>
+          <label for="booking-nights" class="form-label">Nights</label>
           <select id="booking-nights" name="nights" class="form-select" required>
-            <option value="1">1 nat</option>
-            <option value="2">2 nætter</option>
-            <option value="3">3 nætter</option>
-            <option value="4">4+ nætter</option>
+            <option value="1">1 night</option>
+            <option value="2">2 nights</option>
+            <option value="3">3 nights</option>
+            <option value="4">4+ nights</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="booking-guests" class="form-label">Gæster</label>
+          <label for="booking-guests" class="form-label">Guests</label>
           <select id="booking-guests" name="guests" class="form-select" required>
-            <option value="1">1 gæst</option>
-            <option value="2" selected>2 gæster</option>
-            <option value="3">3 gæster</option>
-            <option value="4">4 gæster</option>
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="booking-room" class="form-label">Værelse</label>
+          <label for="booking-room" class="form-label">Room</label>
           <select id="booking-room" name="room" class="form-select">
-            <option value="">Vælg værelse</option>
-            <option value="Kystværelse">Kystværelse</option>
-            <option value="Havsuite">Havsuite</option>
-            <option value="Stor havsuite">Stor havsuite</option>
-            <option value="Ferielejlighed">Ferielejlighed</option>
-            <option value="Gårdsværelser">Gårdsværelser</option>
+            <option value="">Select room</option>
+            <option value="Coast room">Coast room</option>
+            <option value="Sea suite">Sea suite</option>
+            <option value="Large sea suite">Large sea suite</option>
+            <option value="Holiday apartment">Holiday apartment</option>
+            <option value="Farm rooms">Farm rooms</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="booking-note" class="form-label">Note (valgfrit)</label>
-          <textarea id="booking-note" name="note" class="form-textarea" rows="3" placeholder="Evt. besked eller ønsker (fx. spa-tilvalg)"></textarea>
+          <label for="booking-note" class="form-label">Note (optional)</label>
+          <textarea id="booking-note" name="note" class="form-textarea" rows="3" placeholder="Any message or requests (e.g. spa add-on)"></textarea>
         </div>
         <button type="button" class="btn-secondary btn-toggle-rates js-toggle-rates">
-          Se priser & min. nætter
+          View rates & min. nights
         </button>
         <div class="rates-panel" id="rates-panel" hidden>
-          <h3 class="rates-title">Priser & min. antal nætter (vejledende)</h3>
+          <h3 class="rates-title">Rates & min. nights (indicative)</h3>
           <div class="rates-grid">
             <div class="rate-box">
-              <h4 class="rate-title">Lavsæson</h4>
-              <p class="rate-period">Okt–apr (ekskl. helligdage)</p>
-              <p class="rate-price">Fra 1.200 DKK / nat</p>
-              <p class="rate-min">Min. 1 nat</p>
+              <h4 class="rate-title">Low season</h4>
+              <p class="rate-period">Oct–Apr (excl. holidays)</p>
+              <p class="rate-price">From 1,200 DKK / night</p>
+              <p class="rate-min">Min. 1 night</p>
             </div>
             <div class="rate-box">
-              <h4 class="rate-title">Skuldersæson</h4>
-              <p class="rate-period">Maj–jun & sep</p>
-              <p class="rate-price">Fra 1.400 DKK / nat</p>
-              <p class="rate-min">Min. 2 nætter (weekender)</p>
+              <h4 class="rate-title">Shoulder season</h4>
+              <p class="rate-period">May–Jun & Sep</p>
+              <p class="rate-price">From 1,400 DKK / night</p>
+              <p class="rate-min">Min. 2 nights (weekends)</p>
             </div>
             <div class="rate-box">
-              <h4 class="rate-title">Højsæson</h4>
-              <p class="rate-period">Sommer & helligdage</p>
-              <p class="rate-price">Fra 1.700 DKK / nat</p>
-              <p class="rate-min">Min. 3 nætter (udvalgte perioder)</p>
+              <h4 class="rate-title">High season</h4>
+              <p class="rate-period">Summer & holidays</p>
+              <p class="rate-price">From 1,700 DKK / night</p>
+              <p class="rate-min">Min. 3 nights (selected periods)</p>
             </div>
           </div>
         </div>
         <button type="submit" class="btn-primary btn-submit">
-          Send forespørgsel
+          Send inquiry
         </button>
-        <p class="form-note">Vi svarer normalt inden for 24 timer.</p>
+        <p class="form-note">We usually respond within 24 hours.</p>
       </form>
     </div>
   </div>
 
   <!-- Toast Notification -->
   <div class="toast" id="toast" role="alert" aria-live="polite" hidden>
-    <p class="toast-message">Tak for din forespørgsel! Vi vender tilbage snarest.</p>
+    <p class="toast-message">Thank you for your inquiry! We'll get back to you soon.</p>
   </div>
 
-  <script src="main.js"></script>
+  <script src="../main.js"></script>
 </body>
 </html>
