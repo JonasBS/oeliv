@@ -624,14 +624,11 @@
             'Ølsmagning fra ØLIV Brew',
             'Guide til forårsgåture langs kysten'
           ],
-          price: 'Fra 3.500 DKK',
           badge: 'Forår',
           planning: 'Planlæg 2-3 måneder i forvejen',
-          button: 'Forespørg oplevelse',
           includesLabel: 'Oplevelsen inkluderer:',
           toggleAll: 'Se alle sæsonoplevelser',
-          toggleCurrent: 'Vis kun anbefalede oplevelser',
-          recommendedLabel: 'Anbefalet nu'
+          toggleCurrent: 'Vis kun anbefalede oplevelser'
         },
         summer: {
           name: 'Sommeroplevelse',
@@ -645,14 +642,11 @@
             'Guide til skjulte steder langs kysten',
             'Mulighed for SUP/kajak (tilkøb)'
           ],
-          price: 'Fra 4.500 DKK',
           badge: 'Sommer',
           planning: 'Planlæg 3-6 måneder i forvejen',
-          button: 'Forespørg oplevelse',
           includesLabel: 'Oplevelsen inkluderer:',
           toggleAll: 'Se alle sæsonoplevelser',
-          toggleCurrent: 'Vis kun anbefalede oplevelser',
-          recommendedLabel: 'Anbefalet nu'
+          toggleCurrent: 'Vis kun anbefalede oplevelser'
         },
         fall: {
           name: 'Efterårsoplevelse',
@@ -666,14 +660,11 @@
             'Guide til efterårsgåture',
             'Snacks til øllene'
           ],
-          price: 'Fra 3.200 DKK',
           badge: 'Efterår',
           planning: 'Planlæg 1-2 måneder i forvejen',
-          button: 'Forespørg oplevelse',
           includesLabel: 'Oplevelsen inkluderer:',
           toggleAll: 'Se alle sæsonoplevelser',
-          toggleCurrent: 'Vis kun anbefalede oplevelser',
-          recommendedLabel: 'Anbefalet nu'
+          toggleCurrent: 'Vis kun anbefalede oplevelser'
         },
         winter: {
           name: 'Vinteroplevelse',
@@ -687,14 +678,11 @@
             'Snacks og varme drikke',
             'Rolige omgivelser uden turister'
           ],
-          price: 'Fra 2.800 DKK',
           badge: 'Vinter',
           planning: 'Planlæg 2-4 uger i forvejen',
-          button: 'Forespørg oplevelse',
           includesLabel: 'Oplevelsen inkluderer:',
           toggleAll: 'Se alle sæsonoplevelser',
-          toggleCurrent: 'Vis kun anbefalede oplevelser',
-          recommendedLabel: 'Anbefalet nu'
+          toggleCurrent: 'Vis kun anbefalede oplevelser'
         }
       },
       en: {
@@ -709,7 +697,6 @@
             'Beer tasting from ØLIV Brew',
             'Guide to spring walks along the coast'
           ],
-          price: 'From 3,500 DKK',
           badge: 'Spring',
           planning: 'Plan 2-3 months ahead',
           button: 'Inquire about experience',
@@ -730,7 +717,6 @@
             'Guide to hidden spots along the coast',
             'Option for SUP/kayak (add-on)'
           ],
-          price: 'From 4,500 DKK',
           badge: 'Summer',
           planning: 'Plan 3-6 months ahead',
           button: 'Inquire about experience',
@@ -751,7 +737,6 @@
             'Guide to fall walks',
             'Snacks for the beers'
           ],
-          price: 'From 3,200 DKK',
           badge: 'Fall',
           planning: 'Plan 1-2 months ahead',
           button: 'Inquire about experience',
@@ -772,7 +757,6 @@
             'Snacks and warm drinks',
             'Peaceful surroundings without tourists'
           ],
-          price: 'From 2,800 DKK',
           badge: 'Winter',
           planning: 'Plan 2-4 weeks ahead',
           button: 'Inquire about experience',
@@ -794,7 +778,6 @@
             'Bierverkostung von ØLIV Brew',
             'Führung zu Frühlingsspaziergängen entlang der Küste'
           ],
-          price: 'Ab 3.500 DKK',
           badge: 'Frühling',
           planning: '2-3 Monate im Voraus planen',
           button: 'Erlebnis anfragen',
@@ -815,7 +798,6 @@
             'Führung zu versteckten Orten entlang der Küste',
             'Option für SUP/Kajak (Zusatz)'
           ],
-          price: 'Ab 4.500 DKK',
           badge: 'Sommer',
           planning: '3-6 Monate im Voraus planen',
           button: 'Erlebnis anfragen',
@@ -836,7 +818,6 @@
             'Führung zu Herbstspaziergängen',
             'Snacks zu den Bieren'
           ],
-          price: 'Ab 3.200 DKK',
           badge: 'Herbst',
           planning: '1-2 Monate im Voraus planen',
           button: 'Erlebnis anfragen',
@@ -857,7 +838,6 @@
             'Snacks und warme Getränke',
             'Ruhige Umgebung ohne Touristen'
           ],
-          price: 'Ab 2.800 DKK',
           badge: 'Winter',
           planning: '2-4 Wochen im Voraus planen',
           button: 'Erlebnis anfragen',
@@ -885,7 +865,6 @@
       const renderPackage = (pkg, isHighlighted = false) => `
         <div class="package-card ${isHighlighted ? 'package-card-highlighted' : ''}">
           <span class="package-badge">${pkg.badge}</span>
-          ${isHighlighted ? `<span class="package-recommended">${pkg.recommendedLabel || 'Anbefalet nu'}</span>` : ''}
           <h3>${pkg.name}</h3>
           <p class="package-season">${pkg.season}</p>
           <p class="package-description">${pkg.description}</p>
@@ -895,11 +874,8 @@
               ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
             </ul>
           </div>
-          <p class="package-price">${pkg.price}</p>
           <p class="package-note">${pkg.planning}</p>
-          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}" data-experience="${pkg.name}">
-            ${pkg.button}
-          </button>
+          <a href="overnatning.html" class="btn-secondary">Læs mere</a>
         </div>
       `;
       
