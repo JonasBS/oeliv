@@ -560,6 +560,47 @@
       return 'winter';
     };
 
+    // Get recommended season based on planning timeline
+    // This shows the season people should be planning for NOW, not just current season
+    const getRecommendedSeason = () => {
+      const month = new Date().getMonth() + 1; // 1-12
+      const currentDate = new Date();
+      
+      // Planning timelines:
+      // Spring (Mar-May): Plan 2-3 months ahead → Show from January
+      // Summer (Jun-Aug): Plan 3-6 months ahead → Show from December/January
+      // Fall (Sep-Nov): Plan 1-2 months ahead → Show from July/August
+      // Winter (Dec-Feb): Plan 2-4 weeks ahead → Show from November
+      
+      // If we're in Jan-Feb, people should be planning for Spring (starts in 1-2 months)
+      if (month === 1 || month === 2) return 'spring';
+      
+      // If we're in Mar-May, show Spring (current) but also start showing Summer
+      if (month >= 3 && month <= 5) {
+        // Early spring (Mar-Apr): Show spring, but also highlight summer planning
+        // Late spring (May): Start transitioning to summer
+        return month === 5 ? 'summer' : 'spring';
+      }
+      
+      // If we're in Jun-Aug, show Summer (current) but also start showing Fall
+      if (month >= 6 && month <= 8) {
+        // Early summer (Jun-Jul): Show summer
+        // Late summer (Aug): Start showing fall (plan 1-2 months ahead)
+        return month === 8 ? 'fall' : 'summer';
+      }
+      
+      // If we're in Sep-Nov, show Fall (current) but also start showing Winter
+      if (month >= 9 && month <= 11) {
+        // Early fall (Sep-Oct): Show fall
+        // Late fall (Nov): Start showing winter (plan 2-4 weeks ahead)
+        return month === 11 ? 'winter' : 'fall';
+      }
+      
+      // If we're in Dec, show Winter (current) but also start showing Spring for next year
+      // People planning 2-3 months ahead for spring should see it in December
+      return 'winter';
+    };
+
     // Detect language from URL or page
     const getLanguage = () => {
       const path = window.location.pathname;
@@ -817,10 +858,45 @@
     };
 
     const currentSeason = getCurrentSeason();
-    const packageData = packages[lang][currentSeason];
+    const recommendedSeason = getRecommendedSeason();
+    
+    // Show recommended season (what people should plan for now) as primary
+    // But also show current season if different
+    const primaryPackage = packages[lang][recommendedSeason];
+    const currentPackage = packages[lang][currentSeason];
     const allPackages = packages[lang];
 
-    if (packageData) {
+    if (primaryPackage) {
+      // If recommended season differs from current season, show both
+      const showBothSeasons = recommendedSeason !== currentSeason && currentPackage;
+      
+      const renderPackage = (pkg, isHighlighted = false) => `
+        <div class="package-card ${isHighlighted ? 'package-card-highlighted' : ''}">
+          <span class="package-badge">${pkg.badge}</span>
+          ${isHighlighted ? `<span class="package-recommended">${pkg.recommendedLabel || 'Anbefalet nu'}</span>` : ''}
+          <h3>${pkg.name}</h3>
+          <p class="package-season">${pkg.season}</p>
+          <p class="package-description">${pkg.description}</p>
+          <div class="package-includes">
+            <h4>${pkg.includesLabel}</h4>
+            <ul>
+              ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+          <p class="package-price">${pkg.price}</p>
+          <p class="package-note">${pkg.planning}</p>
+          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}">
+            ${pkg.button}
+          </button>
+        </div>
+      `;
+      
+      // Show recommended season first, then current if different
+      if (showBothSeasons) {
+        packagesGrid.innerHTML = renderPackage(primaryPackage, true) + renderPackage(currentPackage, false);
+      } else {
+        packagesGrid.innerHTML = renderPackage(primaryPackage, true);
+      }
       const renderPackage = (pkg) => `
         <div class="package-card">
           <span class="package-badge">${pkg.badge}</span>
@@ -845,22 +921,31 @@
 
       // Show all packages
       const showAllPackages = () => {
-        const allPackagesHTML = Object.values(allPackages).map(pkg => renderPackage(pkg)).join('');
+        const allPackagesHTML = Object.values(allPackages).map((pkg, index) => {
+          const isHighlighted = pkg.badge === primaryPackage.badge;
+          return renderPackage(pkg, isHighlighted);
+        }).join('');
         packagesGrid.innerHTML = allPackagesHTML;
       };
 
       // Add toggle button to show all packages
       const toggleButton = document.createElement('button');
       toggleButton.className = 'btn-secondary';
-      toggleButton.textContent = packageData.toggleAll;
+      toggleButton.textContent = primaryPackage.toggleAll;
       toggleButton.style.cssText = 'margin: var(--spacing-lg) auto 0; display: block;';
       toggleButton.addEventListener('click', () => {
-        if (packagesGrid.children.length === 1) {
+        const currentCount = packagesGrid.children.length;
+        if (currentCount <= 2) { // 1 or 2 packages shown
           showAllPackages();
-          toggleButton.textContent = packageData.toggleCurrent;
+          toggleButton.textContent = primaryPackage.toggleCurrent;
         } else {
-          packagesGrid.innerHTML = renderPackage(packageData);
-          toggleButton.textContent = packageData.toggleAll;
+          // Reset to recommended/current view
+          if (showBothSeasons) {
+            packagesGrid.innerHTML = renderPackage(primaryPackage, true) + renderPackage(currentPackage, false);
+          } else {
+            packagesGrid.innerHTML = renderPackage(primaryPackage, true);
+          }
+          toggleButton.textContent = primaryPackage.toggleAll;
         }
       });
       

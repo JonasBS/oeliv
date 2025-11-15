@@ -2266,6 +2266,26 @@ h1, h2, h3, h4 {
   border-color: var(--olive);
 }
 
+.package-card-highlighted {
+  border-color: var(--olive);
+  border-width: 2px;
+  background: rgba(70, 85, 42, 0.05);
+}
+
+.package-recommended {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  padding: 0.25rem 0.75rem;
+  background: var(--olive);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 999px;
+}
+
 .package-badge {
   position: absolute;
   top: var(--spacing-md);
