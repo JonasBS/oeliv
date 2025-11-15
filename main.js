@@ -105,7 +105,8 @@
     button.addEventListener('click', (e) => {
       const roomType = button.getAttribute('data-room');
       const isSpa = button.getAttribute('data-spa') === 'true';
-      openModal(roomType, isSpa);
+      const packageName = button.getAttribute('data-package');
+      openModal(roomType, isSpa, packageName);
     });
   });
 
@@ -527,6 +528,175 @@
     skipLink.className = 'skip-link';
     skipLink.textContent = 'Spring til hovedindhold';
     document.body.insertBefore(skipLink, document.body.firstChild);
+  }
+
+  // ========================================
+  // Intimate Stays Packages (Seasonal)
+  // ========================================
+  
+  const packagesGrid = document.getElementById('packages-grid');
+  if (packagesGrid) {
+    const getCurrentSeason = () => {
+      const month = new Date().getMonth() + 1; // 1-12
+      if (month >= 3 && month <= 5) return 'spring'; // Forår
+      if (month >= 6 && month <= 8) return 'summer'; // Sommer
+      if (month >= 9 && month <= 11) return 'fall'; // Efterår
+      return 'winter'; // Vinter
+    };
+
+    const packages = {
+      spring: {
+        name: 'Forårsophold',
+        season: 'Forår (marts-maj)',
+        description: 'Når naturen vågner og lyset kommer tilbage. Perfekt til par der søger ro og fornyelse efter vinteren.',
+        includes: [
+          '2-3 nætter i valgfrit værelse',
+          'Morgenmad med lokale råvarer',
+          'Gårdsauna & koldtvand',
+          'Ølsmagning fra ØLIV Brew',
+          'Guide til forårsgåture langs kysten'
+        ],
+        price: 'Fra 3.500 DKK',
+        badge: 'Forår',
+        planning: 'Planlæg 2-3 måneder i forvejen'
+      },
+      summer: {
+        name: 'Sommerophold',
+        season: 'Sommer (juni-august)',
+        description: 'Bornholms højsæson med lang dagslys og varmt vejr. Intimate stays for par der vil undgå sommerens travlhed.',
+        includes: [
+          '2-4 nætter i valgfrit værelse',
+          'Morgenmad på terrassen',
+          'Gårdsauna & koldtvand',
+          'Privat ølsmagning',
+          'Guide til skjulte steder langs kysten',
+          'Mulighed for SUP/kajak (tilkøb)'
+        ],
+        price: 'Fra 4.500 DKK',
+        badge: 'Sommer',
+        planning: 'Planlæg 3-6 måneder i forvejen'
+      },
+      fall: {
+        name: 'Efterårsophold',
+        season: 'Efterår (september-november)',
+        description: 'Naturen skifter farver, og temperaturen falder. Perfekt til rolige dage ved saunaen og lange aftener med øl.',
+        includes: [
+          '2-3 nætter i valgfrit værelse',
+          'Morgenmad med lokale råvarer',
+          'Gårdsauna & koldtvand',
+          'Ølsmagning med mørke øl',
+          'Guide til efterårsgåture',
+          'Snacks til øllene'
+        ],
+        price: 'Fra 3.200 DKK',
+        badge: 'Efterår',
+        planning: 'Planlæg 1-2 måneder i forvejen'
+      },
+      winter: {
+        name: 'Vinterophold',
+        season: 'Vinter (december-februar)',
+        description: 'Stille dage med fokus på ro og nærvær. Saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade.',
+        includes: [
+          '2-4 nætter i valgfrit værelse',
+          'Morgenmad med lokale råvarer',
+          'Gårdsauna & koldtvand (dagligt)',
+          'Privat ølsmagning med mørke øl',
+          'Snacks og varme drikke',
+          'Rolige omgivelser uden turister'
+        ],
+        price: 'Fra 2.800 DKK',
+        badge: 'Vinter',
+        planning: 'Planlæg 2-4 uger i forvejen'
+      }
+    };
+
+    const currentSeason = getCurrentSeason();
+    const package = packages[currentSeason];
+
+    if (package) {
+      const packageHTML = `
+        <div class="package-card">
+          <span class="package-badge">${package.badge}</span>
+          <h3>${package.name}</h3>
+          <p class="package-season">${package.season}</p>
+          <p class="package-description">${package.description}</p>
+          <div class="package-includes">
+            <h4>Inkluderet:</h4>
+            <ul>
+              ${package.includes.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+          <p class="package-price">${package.price}</p>
+          <p class="package-note">${package.planning}</p>
+          <button class="btn-primary js-open-booking" type="button" data-package="${package.name}">
+            Forespørg pakke
+          </button>
+        </div>
+      `;
+      
+      packagesGrid.innerHTML = packageHTML;
+    }
+
+    // Show all packages on hover/click
+    const showAllPackages = () => {
+      const allPackagesHTML = Object.values(packages).map(pkg => `
+        <div class="package-card">
+          <span class="package-badge">${pkg.badge}</span>
+          <h3>${pkg.name}</h3>
+          <p class="package-season">${pkg.season}</p>
+          <p class="package-description">${pkg.description}</p>
+          <div class="package-includes">
+            <h4>Inkluderet:</h4>
+            <ul>
+              ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
+            </ul>
+          </div>
+          <p class="package-price">${pkg.price}</p>
+          <p class="package-note">${pkg.planning}</p>
+          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}">
+            Forespørg pakke
+          </button>
+        </div>
+      `).join('');
+      
+      packagesGrid.innerHTML = allPackagesHTML;
+    };
+
+    // Add toggle button to show all packages
+    const toggleButton = document.createElement('button');
+    toggleButton.className = 'btn-secondary';
+    toggleButton.textContent = 'Se alle sæsonpakker';
+    toggleButton.style.cssText = 'margin: var(--spacing-lg) auto 0; display: block;';
+    toggleButton.addEventListener('click', () => {
+      if (packagesGrid.children.length === 1) {
+        showAllPackages();
+        toggleButton.textContent = 'Vis kun nuværende sæson';
+      } else {
+        const currentPackageHTML = `
+          <div class="package-card">
+            <span class="package-badge">${package.badge}</span>
+            <h3>${package.name}</h3>
+            <p class="package-season">${package.season}</p>
+            <p class="package-description">${package.description}</p>
+            <div class="package-includes">
+              <h4>Inkluderet:</h4>
+              <ul>
+                ${package.includes.map(item => `<li>${item}</li>`).join('')}
+              </ul>
+            </div>
+            <p class="package-price">${package.price}</p>
+            <p class="package-note">${package.planning}</p>
+            <button class="btn-primary js-open-booking" type="button" data-package="${package.name}">
+              Forespørg pakke
+            </button>
+          </div>
+        `;
+        packagesGrid.innerHTML = currentPackageHTML;
+        toggleButton.textContent = 'Se alle sæsonpakker';
+      }
+    });
+    
+    packagesGrid.parentElement.appendChild(toggleButton);
   }
 
   // ========================================
