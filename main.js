@@ -441,6 +441,64 @@
   }
 
   // ========================================
+  // Newsletter Form
+  // ========================================
+  
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const email = formData.get('email');
+      
+      // Here you would typically send to your backend/email service
+      console.log('Newsletter signup:', email);
+      
+      // Show success message
+      const input = newsletterForm.querySelector('.newsletter-input');
+      const originalPlaceholder = input.placeholder;
+      input.value = '';
+      input.placeholder = 'Tak! Vi sender dig en bekræftelse.';
+      input.style.borderColor = 'var(--olive)';
+      
+      setTimeout(() => {
+        input.placeholder = originalPlaceholder;
+        input.style.borderColor = '';
+      }, 4000);
+    });
+  }
+
+  // ========================================
+  // Performance: Lazy load images
+  // ========================================
+  
+  if ('loading' in HTMLImageElement.prototype) {
+    // Browser supports native lazy loading
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    images.forEach(img => {
+      img.src = img.dataset.src || img.src;
+    });
+  } else {
+    // Fallback for browsers without native lazy loading
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+    document.body.appendChild(script);
+  }
+
+  // ========================================
+  // Accessibility: Skip to main content link
+  // ========================================
+  
+  // Create skip link if it doesn't exist
+  if (!document.querySelector('.skip-link')) {
+    const skipLink = document.createElement('a');
+    skipLink.href = '#hero';
+    skipLink.className = 'skip-link';
+    skipLink.textContent = 'Spring til hovedindhold';
+    document.body.insertBefore(skipLink, document.body.firstChild);
+  }
+
+  // ========================================
   // Initialize
   // ========================================
   

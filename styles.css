@@ -78,6 +78,25 @@ body > * {
   z-index: 1;
 }
 
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--olive);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 0 0 4px 0;
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -1074,6 +1093,17 @@ h1, h2, h3, h4 {
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(70, 85, 42, 0.1);
+}
+
+.form-input:invalid:not(:placeholder-shown),
+.form-select:invalid:not(:placeholder-shown) {
+  border-color: #d32f2f;
+}
+
+.form-input:valid:not(:placeholder-shown),
+.form-select:valid:not(:placeholder-shown) {
   border-color: var(--olive);
 }
 
@@ -2114,6 +2144,212 @@ h1, h2, h3, h4 {
   color: var(--muted);
   line-height: 1.7;
   font-size: 1.125rem;
+}
+
+/* ========================================
+   Seasonal Content Section
+   ======================================== */
+
+.section-seasonal {
+  background: rgba(209, 188, 160, 0.03);
+}
+
+.seasonal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+}
+
+.seasonal-card {
+  padding: var(--spacing-xl);
+  background: white;
+  border-radius: var(--border-radius-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.seasonal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.seasonal-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+.seasonal-text {
+  color: var(--muted);
+  line-height: 1.8;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* ========================================
+   Press & Reviews Section
+   ======================================== */
+
+.section-press {
+  background: var(--cream);
+}
+
+.press-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.press-item {
+  padding: var(--spacing-lg);
+  text-align: center;
+  border-top: 2px solid var(--olive);
+  padding-top: var(--spacing-md);
+}
+
+.press-quote {
+  font-size: 1.125rem;
+  font-style: italic;
+  color: var(--charcoal);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 400;
+}
+
+.press-source {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.reviews-cta {
+  text-align: center;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.reviews-text {
+  color: var(--muted);
+  margin-bottom: var(--spacing-md);
+  font-size: 1rem;
+}
+
+.reviews-links {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.review-link {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--olive);
+  border-radius: 4px;
+  color: var(--olive);
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.review-link:hover {
+  background: var(--olive);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Newsletter Section
+   ======================================== */
+
+.section-newsletter {
+  background: rgba(70, 85, 42, 0.05);
+}
+
+.newsletter-content {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.newsletter-text {
+  font-size: 1.125rem;
+  color: var(--muted);
+  margin-bottom: var(--spacing-xl);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.newsletter-form {
+  margin-bottom: var(--spacing-md);
+}
+
+.newsletter-input-group {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: white;
+  color: var(--charcoal);
+  transition: border-color 0.3s ease;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--olive);
+}
+
+.newsletter-submit {
+  padding: var(--spacing-md) var(--spacing-lg);
+  white-space: nowrap;
+}
+
+.newsletter-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: var(--spacing-sm);
+}
+
+.newsletter-link {
+  color: var(--olive);
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.newsletter-link:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .newsletter-input-group {
+    flex-direction: column;
+  }
+  
+  .newsletter-submit {
+    width: 100%;
+  }
+  
+  .seasonal-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .press-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ========================================
