@@ -1546,23 +1546,35 @@ h1, h2, h3, h4 {
   font-size: 0.875rem;
   color: var(--charcoal);
   background: white;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-.calendar-day:hover:not(.past):not(.booked) {
-  background: rgba(70, 85, 42, 0.05);
+.calendar-day:hover:not(.past):not(.booked):not(.other-month) {
+  background: rgba(70, 85, 42, 0.1);
   border-color: var(--olive);
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+.calendar-day:active:not(.past):not(.booked):not(.other-month) {
+  transform: scale(0.95);
 }
 
 .calendar-day.past {
   opacity: 0.3;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .calendar-day.other-month {
   opacity: 0.3;
+  cursor: default;
 }
 
-.calendar-day.available {
+.calendar-day.available:not(.past):not(.booked) {
   background: rgba(70, 85, 42, 0.05);
   border-color: rgba(70, 85, 42, 0.2);
 }
@@ -1572,13 +1584,21 @@ h1, h2, h3, h4 {
   opacity: 0.5;
   cursor: not-allowed;
   text-decoration: line-through;
+  pointer-events: none;
 }
 
 .calendar-day.selected {
   background: var(--olive);
   color: white;
   border-color: var(--olive);
-  font-weight: 500;
+  font-weight: 600;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(70, 85, 42, 0.3);
+}
+
+.calendar-day.in-range:not(.selected) {
+  background: rgba(70, 85, 42, 0.15);
+  border-color: rgba(70, 85, 42, 0.3);
 }
 
 .calendar-legend {

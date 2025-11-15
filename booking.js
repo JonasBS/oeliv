@@ -79,10 +79,22 @@
     }
 
     async init() {
+      if (!this.container) {
+        console.error('Calendar container not found');
+        return;
+      }
       this.showLoading();
-      await this.loadAvailability();
-      this.hideLoading();
-      this.render();
+      try {
+        await this.loadAvailability();
+        this.hideLoading();
+        this.render();
+      } catch (error) {
+        console.error('Calendar init error:', error);
+        this.hideLoading();
+        if (this.container) {
+          this.container.innerHTML = '<div class="calendar-loading">Kunne ikke indlæse kalender. Opdater siden.</div>';
+        }
+      }
     }
 
     showLoading() {
@@ -254,10 +266,16 @@
       day.dataset.date = dateStr;
       
       if (!isPast && isCurrentMonth) {
-        day.addEventListener('click', () => this.selectDate(date));
+        day.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.selectDate(date);
+        });
         day.addEventListener('mouseenter', () => {
-          this.hoverDate = date;
-          this.renderMonth(this.currentMonth);
+          if (this.selectedDates.start && !this.selectedDates.end) {
+            this.hoverDate = date;
+            this.renderMonth(this.currentMonth);
+          }
         });
       }
       
@@ -289,27 +307,44 @@
     }
 
     selectDate(date) {
+      // Prevent selecting past dates
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (date < today) {
+        return;
+      }
+
       if (this.options.selectMode === 'single') {
         this.selectedDates.start = date;
         this.selectedDates.end = null;
       } else {
         if (!this.selectedDates.start || this.selectedDates.end) {
+          // Start new selection
           this.selectedDates.start = date;
           this.selectedDates.end = null;
+          this.hoverDate = null;
         } else {
+          // Complete selection
           if (date < this.selectedDates.start) {
+            // If clicked date is before start, swap them
             this.selectedDates.end = this.selectedDates.start;
             this.selectedDates.start = date;
+          } else if (date.getTime() === this.selectedDates.start.getTime()) {
+            // If clicking same date, reset
+            this.selectedDates.start = date;
+            this.selectedDates.end = null;
           } else {
+            // Normal case: set end date
             this.selectedDates.end = date;
           }
+          this.hoverDate = null;
         }
       }
       
       this.renderMonth(this.currentMonth);
       this.updateSelectionInfo();
       
-      if (this.options.onSelect) {
+      if (this.options.onSelect && this.selectedDates.start && this.selectedDates.end) {
         this.options.onSelect({
           start: this.selectedDates.start,
           end: this.selectedDates.end
@@ -551,25 +586,33 @@
     }
 
     initCalendar() {
-      const calendarContainer = document.getElementById('booking-calendar');
-      if (!calendarContainer) {
-        const form = document.getElementById('booking-form');
-        if (form) {
-          const calendarDiv = document.createElement('div');
-          calendarDiv.id = 'booking-calendar';
-          calendarDiv.className = 'booking-calendar-container';
-          form.insertBefore(calendarDiv, form.firstChild);
-        }
-      }
-      
-      const container = document.getElementById('booking-calendar');
-      if (container) {
-        this.calendar = new BookingCalendar('booking-calendar', {
-          onSelect: (dates) => {
-            this.handleDateSelection(dates);
+      // Wait a bit to ensure DOM is ready
+      setTimeout(() => {
+        const calendarContainer = document.getElementById('booking-calendar');
+        if (!calendarContainer) {
+          const form = document.getElementById('booking-form');
+          if (form) {
+            const calendarDiv = document.createElement('div');
+            calendarDiv.id = 'booking-calendar';
+            calendarDiv.className = 'booking-calendar-container';
+            const firstStep = form.querySelector('.form-step[data-step="1"]');
+            if (firstStep) {
+              firstStep.insertBefore(calendarDiv, firstStep.querySelector('.form-group'));
+            } else {
+              form.insertBefore(calendarDiv, form.firstChild);
+            }
           }
-        });
-      }
+        }
+        
+        const container = document.getElementById('booking-calendar');
+        if (container && !this.calendar) {
+          this.calendar = new BookingCalendar('booking-calendar', {
+            onSelect: (dates) => {
+              this.handleDateSelection(dates);
+            }
+          });
+        }
+      }, 100);
     }
 
     async handleDateSelection(dates) {
