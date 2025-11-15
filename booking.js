@@ -1,13 +1,59 @@
-// Booking Engine Frontend
+// Booking Engine Frontend - Enhanced Version
 (function() {
   'use strict';
 
   // Use environment variable if set, otherwise use current origin
-  // For production, set window.API_BASE_URL in HTML before loading this script
   const API_BASE = (window.API_BASE_URL || window.location.origin) + '/api';
   
   // ========================================
-  // Calendar Component
+  // Utility Functions
+  // ========================================
+  
+  const showToast = (message, type = 'success') => {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    
+    const messageEl = toast.querySelector('.toast-message');
+    if (messageEl) {
+      messageEl.textContent = message;
+    }
+    
+    toast.className = `toast toast-${type}`;
+    toast.hidden = false;
+    toast.setAttribute('aria-live', 'polite');
+    
+    setTimeout(() => {
+      toast.hidden = true;
+    }, 5000);
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('da-DK', {
+      style: 'currency',
+      currency: 'DKK',
+      minimumFractionDigits: 0
+    }).format(amount);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('da-DK', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+  };
+
+  const calculateNights = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffTime = Math.abs(endDate - startDate);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  };
+
+  // ========================================
+  // Enhanced Calendar Component
   // ========================================
   
   class BookingCalendar {
@@ -16,12 +62,13 @@
       this.options = {
         minDate: options.minDate || new Date(),
         maxDate: options.maxDate || this.addMonths(new Date(), 12),
-        selectMode: options.selectMode || 'range', // 'single' or 'range'
+        selectMode: options.selectMode || 'range',
         onSelect: options.onSelect || null,
         ...options
       };
       this.selectedDates = { start: null, end: null };
       this.availability = {};
+      this.hoverDate = null;
       this.init();
     }
 
@@ -32,8 +79,20 @@
     }
 
     async init() {
+      this.showLoading();
       await this.loadAvailability();
+      this.hideLoading();
       this.render();
+    }
+
+    showLoading() {
+      if (this.container) {
+        this.container.innerHTML = '<div class="calendar-loading">Indlæser tilgængelighed...</div>';
+      }
+    }
+
+    hideLoading() {
+      // Loading will be replaced by render()
     }
 
     async loadAvailability() {
@@ -42,6 +101,7 @@
       
       try {
         const response = await fetch(`${API_BASE}/availability?start_date=${start}&end_date=${end}`);
+        if (!response.ok) throw new Error('Failed to load availability');
         const data = await response.json();
         
         // Organize by date
@@ -53,6 +113,7 @@
         });
       } catch (error) {
         console.error('Error loading availability:', error);
+        showToast('Kunne ikke indlæse tilgængelighed. Prøv igen senere.', 'error');
       }
     }
 
@@ -67,21 +128,24 @@
       this.container.innerHTML = `
         <div class="booking-calendar">
           <div class="calendar-header">
-            <button class="calendar-nav prev-month" type="button">‹</button>
+            <button class="calendar-nav prev-month" type="button" aria-label="Forrige måned">‹</button>
             <h3 class="calendar-month-year"></h3>
-            <button class="calendar-nav next-month" type="button">›</button>
+            <button class="calendar-nav next-month" type="button" aria-label="Næste måned">›</button>
           </div>
+          <div class="calendar-selection-info" id="calendar-selection-info"></div>
           <div class="calendar-grid"></div>
           <div class="calendar-legend">
             <span class="legend-item"><span class="legend-color available"></span> Ledig</span>
             <span class="legend-item"><span class="legend-color booked"></span> Optaget</span>
             <span class="legend-item"><span class="legend-color selected"></span> Valgt</span>
+            <span class="legend-item"><span class="legend-color in-range"></span> I perioden</span>
           </div>
         </div>
       `;
       
       this.currentMonth = currentMonth;
       this.renderMonth(currentMonth);
+      this.updateSelectionInfo();
       
       // Event listeners
       this.container.querySelector('.prev-month').addEventListener('click', () => {
@@ -93,6 +157,35 @@
         this.currentMonth.setMonth(this.currentMonth.getMonth() + 1);
         this.renderMonth(this.currentMonth);
       });
+    }
+
+    updateSelectionInfo() {
+      const infoEl = this.container.querySelector('#calendar-selection-info');
+      if (!infoEl) return;
+
+      if (this.selectedDates.start && this.selectedDates.end) {
+        const nights = calculateNights(
+          this.formatDate(this.selectedDates.start),
+          this.formatDate(this.selectedDates.end)
+        );
+        infoEl.innerHTML = `
+          <div class="selection-info">
+            <span class="selection-date">Ankomst: ${formatDate(this.formatDate(this.selectedDates.start))}</span>
+            <span class="selection-date">Afrejse: ${formatDate(this.formatDate(this.selectedDates.end))}</span>
+            <span class="selection-nights">${nights} ${nights === 1 ? 'nat' : 'nætter'}</span>
+          </div>
+        `;
+        infoEl.style.display = 'block';
+      } else if (this.selectedDates.start) {
+        infoEl.innerHTML = `
+          <div class="selection-info">
+            <span class="selection-date">Vælg afrejsedato</span>
+          </div>
+        `;
+        infoEl.style.display = 'block';
+      } else {
+        infoEl.style.display = 'none';
+      }
     }
 
     renderMonth(month) {
@@ -138,11 +231,13 @@
       const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
       const isPast = date < new Date().setHours(0, 0, 0, 0);
       const isSelected = this.isDateSelected(date);
+      const isInRange = this.isDateInRange(date);
       
       day.className = 'calendar-day';
       if (!isCurrentMonth) day.classList.add('other-month');
       if (isPast) day.classList.add('past');
       if (isSelected) day.classList.add('selected');
+      if (isInRange) day.classList.add('in-range');
       
       // Check availability
       const avail = this.availability[dateStr];
@@ -160,6 +255,10 @@
       
       if (!isPast && isCurrentMonth) {
         day.addEventListener('click', () => this.selectDate(date));
+        day.addEventListener('mouseenter', () => {
+          this.hoverDate = date;
+          this.renderMonth(this.currentMonth);
+        });
       }
       
       return day;
@@ -167,16 +266,26 @@
 
     isDateSelected(date) {
       if (!this.selectedDates.start) return false;
-      if (this.options.selectMode === 'single') {
-        return this.formatDate(date) === this.formatDate(this.selectedDates.start);
+      const dateStr = this.formatDate(date);
+      const startStr = this.formatDate(this.selectedDates.start);
+      if (this.selectedDates.end) {
+        const endStr = this.formatDate(this.selectedDates.end);
+        return dateStr === startStr || dateStr === endStr;
       }
-      if (!this.selectedDates.end) {
-        return this.formatDate(date) === this.formatDate(this.selectedDates.start);
+      return dateStr === startStr;
+    }
+
+    isDateInRange(date) {
+      if (!this.selectedDates.start || !this.selectedDates.end) {
+        if (this.selectedDates.start && this.hoverDate && date > this.selectedDates.start && date <= this.hoverDate) {
+          return true;
+        }
+        return false;
       }
       const dateStr = this.formatDate(date);
       const startStr = this.formatDate(this.selectedDates.start);
       const endStr = this.formatDate(this.selectedDates.end);
-      return dateStr >= startStr && dateStr <= endStr;
+      return dateStr > startStr && dateStr < endStr;
     }
 
     selectDate(date) {
@@ -198,6 +307,7 @@
       }
       
       this.renderMonth(this.currentMonth);
+      this.updateSelectionInfo();
       
       if (this.options.onSelect) {
         this.options.onSelect({
@@ -216,7 +326,7 @@
   }
 
   // ========================================
-  // Booking Form Handler
+  // Enhanced Booking Form Handler
   // ========================================
   
   class BookingEngine {
@@ -225,6 +335,8 @@
       this.selectedRoom = null;
       this.bookingData = {};
       this.rooms = [];
+      this.availableRooms = [];
+      this.isLoading = false;
       this.init();
     }
 
@@ -242,20 +354,65 @@
               if (isOpen && !this.calendar) {
                 this.initCalendar();
               }
+              if (!isOpen) {
+                this.resetForm();
+              }
             }
           });
         });
         observer.observe(bookingModal, { attributes: true });
+      }
+
+      // Add form field listeners
+      this.setupFormListeners();
+    }
+
+    setupFormListeners() {
+      const dateInput = document.getElementById('booking-date');
+      const nightsSelect = document.getElementById('booking-nights');
+      const guestsSelect = document.getElementById('booking-guests');
+      const roomSelect = document.getElementById('booking-room');
+
+      // Update nights when date changes
+      if (dateInput) {
+        dateInput.addEventListener('change', () => {
+          this.updateNightsFromDates();
+        });
+      }
+
+      // Update dates when nights changes
+      if (nightsSelect) {
+        nightsSelect.addEventListener('change', () => {
+          this.updateDatesFromNights();
+        });
+      }
+
+      // Check availability when guests or dates change
+      if (guestsSelect) {
+        guestsSelect.addEventListener('change', () => {
+          if (dateInput && dateInput.value) {
+            this.checkAvailability();
+          }
+        });
+      }
+
+      // Show room details when selected
+      if (roomSelect) {
+        roomSelect.addEventListener('change', () => {
+          this.updateRoomDetails();
+        });
       }
     }
 
     async loadRooms() {
       try {
         const response = await fetch(`${API_BASE}/rooms`);
+        if (!response.ok) throw new Error('Failed to load rooms');
         this.rooms = await response.json();
         this.updateRoomSelect();
       } catch (error) {
         console.error('Error loading rooms:', error);
+        showToast('Kunne ikke indlæse værelser. Prøv igen senere.', 'error');
       }
     }
 
@@ -267,6 +424,8 @@
           const option = document.createElement('option');
           option.value = room.id;
           option.textContent = `${room.name} (op til ${room.max_guests} gæster)`;
+          option.dataset.maxGuests = room.max_guests;
+          option.dataset.basePrice = room.base_price;
           roomSelect.appendChild(option);
         });
       }
@@ -275,7 +434,6 @@
     initCalendar() {
       const calendarContainer = document.getElementById('booking-calendar');
       if (!calendarContainer) {
-        // Create calendar container
         const form = document.getElementById('booking-form');
         if (form) {
           const calendarDiv = document.createElement('div');
@@ -285,7 +443,8 @@
         }
       }
       
-      if (calendarContainer) {
+      const container = document.getElementById('booking-calendar');
+      if (container) {
         this.calendar = new BookingCalendar('booking-calendar', {
           onSelect: (dates) => {
             this.handleDateSelection(dates);
@@ -297,88 +456,303 @@
     async handleDateSelection(dates) {
       if (!dates.start || !dates.end) return;
       
+      // Update date input
+      const dateInput = document.getElementById('booking-date');
+      if (dateInput) {
+        dateInput.value = this.calendar.formatDate(dates.start);
+      }
+
+      // Update nights
+      const nights = calculateNights(
+        this.calendar.formatDate(dates.start),
+        this.calendar.formatDate(dates.end)
+      );
+      const nightsSelect = document.getElementById('booking-nights');
+      if (nightsSelect) {
+        nightsSelect.value = nights;
+      }
+
       // Check availability
-      const guests = parseInt(document.getElementById('booking-guests')?.value) || 2;
-      const roomId = document.getElementById('booking-room')?.value;
+      await this.checkAvailability();
+    }
+
+    updateNightsFromDates() {
+      const dateInput = document.getElementById('booking-date');
+      const nightsSelect = document.getElementById('booking-nights');
+      
+      if (!dateInput || !dateInput.value || !nightsSelect) return;
+      
+      // If we have calendar selection, use that
+      if (this.calendar) {
+        const dates = this.calendar.getSelectedDates();
+        if (dates.start && dates.end) {
+          const nights = calculateNights(dates.start, dates.end);
+          nightsSelect.value = nights;
+        }
+      }
+    }
+
+    updateDatesFromNights() {
+      const dateInput = document.getElementById('booking-date');
+      const nightsSelect = document.getElementById('booking-nights');
+      
+      if (!dateInput || !dateInput.value || !nightsSelect || !nightsSelect.value) return;
+      
+      const startDate = new Date(dateInput.value);
+      const nights = parseInt(nightsSelect.value);
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + nights);
+      
+      // Update calendar if it exists
+      if (this.calendar) {
+        this.calendar.selectedDates.start = startDate;
+        this.calendar.selectedDates.end = endDate;
+        this.calendar.renderMonth(this.calendar.currentMonth);
+        this.calendar.updateSelectionInfo();
+      }
+    }
+
+    async checkAvailability() {
+      const dateInput = document.getElementById('booking-date');
+      const nightsSelect = document.getElementById('booking-nights');
+      const guestsSelect = document.getElementById('booking-guests');
+      
+      if (!dateInput || !dateInput.value || !nightsSelect || !nightsSelect.value) {
+        return;
+      }
+
+      const checkIn = dateInput.value;
+      const nights = parseInt(nightsSelect.value);
+      const guests = parseInt(guestsSelect?.value) || 2;
+      
+      const checkOut = new Date(checkIn);
+      checkOut.setDate(checkOut.getDate() + nights);
+      const checkOutStr = checkOut.toISOString().split('T')[0];
+
+      this.setLoadingState(true);
       
       try {
         const response = await fetch(`${API_BASE}/check-availability`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            check_in: dates.start,
-            check_out: dates.end,
-            guests: guests,
-            room_id: roomId || null
+            check_in: checkIn,
+            check_out: checkOutStr,
+            guests: guests
           })
         });
+
+        if (!response.ok) throw new Error('Failed to check availability');
         
         const data = await response.json();
-        
-        if (data.available && data.available.length > 0) {
-          this.updateAvailableRooms(data.available, dates);
-        } else {
-          this.showNoAvailability();
-        }
+        this.availableRooms = data.available || [];
+        this.updateAvailableRooms();
       } catch (error) {
         console.error('Error checking availability:', error);
+        showToast('Kunne ikke tjekke tilgængelighed. Prøv igen senere.', 'error');
+      } finally {
+        this.setLoadingState(false);
       }
     }
 
-    updateAvailableRooms(rooms, dates) {
-      // Update room selector with available rooms
+    updateAvailableRooms() {
       const roomSelect = document.getElementById('booking-room');
-      if (roomSelect && this.rooms.length > 0) {
-        // Clear and rebuild options
-        roomSelect.innerHTML = '<option value="">Vælg værelse...</option>';
+      if (!roomSelect) return;
+
+      // Clear and rebuild options
+      roomSelect.innerHTML = '<option value="">Vælg værelse...</option>';
+      
+      const availableRoomIds = this.availableRooms.map(r => r.room_id);
+      
+      this.rooms.forEach(room => {
+        const isAvailable = availableRoomIds.includes(room.id);
+        const option = document.createElement('option');
+        option.value = room.id;
         
-        const availableRoomIds = rooms.map(r => r.room_id);
-        
-        this.rooms.forEach(room => {
-          const isAvailable = availableRoomIds.includes(room.id);
-          const option = document.createElement('option');
-          option.value = room.id;
+        if (isAvailable) {
+          const roomData = this.availableRooms.find(r => r.room_id === room.id);
+          const price = roomData ? roomData.total_price : null;
+          const nights = parseInt(document.getElementById('booking-nights')?.value) || 1;
+          const pricePerNight = price ? Math.round(price / nights) : null;
           
-          if (isAvailable) {
-            const roomData = rooms.find(r => r.room_id === room.id);
-            const price = roomData ? roomData.total_price : null;
-            option.textContent = `${room.name} (op til ${room.max_guests} gæster)${price ? ` - ${price} DKK` : ''}`;
-          } else {
-            option.textContent = `${room.name} - Ikke tilgængelig`;
-            option.disabled = true;
+          option.textContent = `${room.name} (op til ${room.max_guests} gæster)`;
+          if (price) {
+            option.textContent += ` - ${formatCurrency(price)} totalt`;
+            if (nights > 1 && pricePerNight) {
+              option.textContent += ` (${formatCurrency(pricePerNight)}/nat)`;
+            }
           }
-          
-          roomSelect.appendChild(option);
-        });
+        } else {
+          option.textContent = `${room.name} - Ikke tilgængelig`;
+          option.disabled = true;
+        }
+        
+        option.dataset.maxGuests = room.max_guests;
+        option.dataset.basePrice = room.base_price;
+        roomSelect.appendChild(option);
+      });
+
+      // Show summary if rooms available
+      if (this.availableRooms.length > 0) {
+        this.showBookingSummary();
+      } else {
+        this.hideBookingSummary();
+        showToast('Ingen værelser tilgængelige for valgte datoer', 'error');
       }
-      
-      // Update dates in form
+    }
+
+    updateRoomDetails() {
+      const roomSelect = document.getElementById('booking-room');
+      if (!roomSelect || !roomSelect.value) {
+        this.hideRoomDetails();
+        return;
+      }
+
+      const selectedRoom = this.rooms.find(r => r.id === parseInt(roomSelect.value));
+      if (selectedRoom) {
+        this.selectedRoom = selectedRoom;
+        this.showRoomDetails(selectedRoom);
+      }
+    }
+
+    showRoomDetails(room) {
+      let detailsEl = document.getElementById('room-details');
+      if (!detailsEl) {
+        detailsEl = document.createElement('div');
+        detailsEl.id = 'room-details';
+        detailsEl.className = 'room-details';
+        const roomSelect = document.getElementById('booking-room');
+        roomSelect.parentElement.appendChild(detailsEl);
+      }
+
+      const roomData = this.availableRooms.find(r => r.room_id === room.id);
+      const nights = parseInt(document.getElementById('booking-nights')?.value) || 1;
+      const totalPrice = roomData ? roomData.total_price : null;
+      const pricePerNight = totalPrice ? Math.round(totalPrice / nights) : null;
+
+      detailsEl.innerHTML = `
+        <div class="room-details-content">
+          <h4>${room.name}</h4>
+          <p>Op til ${room.max_guests} gæster</p>
+          ${totalPrice ? `
+            <div class="room-price">
+              <span class="price-total">${formatCurrency(totalPrice)}</span>
+              <span class="price-details">for ${nights} ${nights === 1 ? 'nat' : 'nætter'}</span>
+              ${pricePerNight ? `<span class="price-per-night">(${formatCurrency(pricePerNight)}/nat)</span>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+      detailsEl.style.display = 'block';
+    }
+
+    hideRoomDetails() {
+      const detailsEl = document.getElementById('room-details');
+      if (detailsEl) {
+        detailsEl.style.display = 'none';
+      }
+    }
+
+    showBookingSummary() {
+      let summaryEl = document.getElementById('booking-summary');
+      if (!summaryEl) {
+        summaryEl = document.createElement('div');
+        summaryEl.id = 'booking-summary';
+        summaryEl.className = 'booking-summary';
+        const form = document.getElementById('booking-form');
+        const submitButton = form.querySelector('.btn-submit');
+        if (submitButton) {
+          submitButton.parentElement.insertBefore(summaryEl, submitButton);
+        }
+      }
+
       const dateInput = document.getElementById('booking-date');
-      if (dateInput && dates.start) {
-        dateInput.value = dates.start;
+      const nightsSelect = document.getElementById('booking-nights');
+      const guestsSelect = document.getElementById('booking-guests');
+      const roomSelect = document.getElementById('booking-room');
+
+      if (!dateInput || !dateInput.value || !nightsSelect || !nightsSelect.value) {
+        summaryEl.style.display = 'none';
+        return;
       }
-      
-      // Calculate nights
-      if (dates.start && dates.end) {
-        const nights = this.calculateNights(dates.start, dates.end);
-        const nightsSelect = document.getElementById('booking-nights');
-        if (nightsSelect) {
-          nightsSelect.value = nights;
+
+      const checkIn = dateInput.value;
+      const nights = parseInt(nightsSelect.value);
+      const guests = parseInt(guestsSelect?.value) || 2;
+      const checkOut = new Date(checkIn);
+      checkOut.setDate(checkOut.getDate() + nights);
+
+      const selectedRoomId = roomSelect?.value;
+      const selectedRoom = selectedRoomId ? this.rooms.find(r => r.id === parseInt(selectedRoomId)) : null;
+      const roomData = selectedRoom ? this.availableRooms.find(r => r.room_id === selectedRoom.id) : null;
+      const totalPrice = roomData ? roomData.total_price : null;
+
+      summaryEl.innerHTML = `
+        <div class="summary-content">
+          <h4>Booking oversigt</h4>
+          <div class="summary-row">
+            <span class="summary-label">Ankomst:</span>
+            <span class="summary-value">${formatDate(checkIn)}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Afrejse:</span>
+            <span class="summary-value">${formatDate(checkOut.toISOString().split('T')[0])}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Ophold:</span>
+            <span class="summary-value">${nights} ${nights === 1 ? 'nat' : 'nætter'}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Gæster:</span>
+            <span class="summary-value">${guests}</span>
+          </div>
+          ${selectedRoom ? `
+            <div class="summary-row">
+              <span class="summary-label">Værelse:</span>
+              <span class="summary-value">${selectedRoom.name}</span>
+            </div>
+          ` : ''}
+          ${totalPrice ? `
+            <div class="summary-row summary-total">
+              <span class="summary-label">Total pris:</span>
+              <span class="summary-value">${formatCurrency(totalPrice)}</span>
+            </div>
+          ` : ''}
+        </div>
+      `;
+      summaryEl.style.display = 'block';
+    }
+
+    hideBookingSummary() {
+      const summaryEl = document.getElementById('booking-summary');
+      if (summaryEl) {
+        summaryEl.style.display = 'none';
+      }
+    }
+
+    setLoadingState(loading) {
+      this.isLoading = loading;
+      const submitButton = document.querySelector('.btn-submit');
+      if (submitButton) {
+        submitButton.disabled = loading;
+        if (loading) {
+          submitButton.textContent = 'Tjekker tilgængelighed...';
+          submitButton.classList.add('loading');
+        } else {
+          submitButton.textContent = 'Send forespørgsel';
+          submitButton.classList.remove('loading');
         }
       }
     }
 
-    calculateNights(start, end) {
-      const startDate = new Date(start);
-      const endDate = new Date(end);
-      const diffTime = Math.abs(endDate - startDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      return diffDays;
-    }
-
-    showNoAvailability() {
-      // Show message that no rooms are available
-      console.log('No availability for selected dates');
+    resetForm() {
+      this.selectedRoom = null;
+      this.availableRooms = [];
+      this.hideBookingSummary();
+      this.hideRoomDetails();
+      if (this.calendar) {
+        this.calendar.selectedDates = { start: null, end: null };
+      }
     }
 
     async submitBooking(formData) {
@@ -394,12 +768,17 @@
         source: 'website'
       };
       
+      // Validation
       if (!bookingData.check_in || !bookingData.check_out) {
-        throw new Error('Please select dates');
+        throw new Error('Vælg venligst ankomst- og afrejsedato');
       }
       
       if (!bookingData.guest_name || !bookingData.guest_email) {
-        throw new Error('Name and email are required');
+        throw new Error('Navn og email er påkrævet');
+      }
+
+      if (!bookingData.room_id) {
+        throw new Error('Vælg venligst et værelse');
       }
       
       try {
@@ -411,7 +790,7 @@
         
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error.error || 'Booking failed');
+          throw new Error(error.error || 'Booking fejlede');
         }
         
         const result = await response.json();
@@ -444,40 +823,52 @@
       const originalText = submitButton.textContent;
       
       try {
-        submitButton.textContent = 'Booker...';
+        submitButton.textContent = 'Sender...';
         submitButton.disabled = true;
+        submitButton.classList.add('loading');
         
         const result = await bookingEngine.submitBooking(formData);
         
         // Show success
-        if (window.showToast) {
-          showToast(`Tak! Booking #${result.booking_id} er oprettet. Vi kontakter dig snarest.`);
-        }
+        showToast(`Tak! Booking #${result.booking_id} er oprettet. Vi kontakter dig snarest.`, 'success');
         
-        // Close modal
+        // Close modal after delay
         setTimeout(() => {
           modalForm.reset();
+          bookingEngine.resetForm();
           if (window.closeModal) {
             closeModal();
           }
           submitButton.textContent = originalText;
           submitButton.disabled = false;
+          submitButton.classList.remove('loading');
         }, 2000);
         
       } catch (error) {
         submitButton.textContent = error.message || 'Fejl ved booking';
         submitButton.style.background = '#d32f2f';
+        submitButton.classList.add('error');
         setTimeout(() => {
           submitButton.textContent = originalText;
           submitButton.style.background = '';
+          submitButton.classList.remove('error', 'loading');
           submitButton.disabled = false;
-        }, 3000);
+        }, 4000);
       }
+    });
+
+    // Update summary when form changes
+    const formInputs = modalForm.querySelectorAll('input, select');
+    formInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        bookingEngine.showBookingSummary();
+      });
     });
   }
 
   // Export for global use
   window.BookingEngine = BookingEngine;
   window.BookingCalendar = BookingCalendar;
+  window.showToast = showToast;
 
 })();

@@ -1262,6 +1262,219 @@ h1, h2, h3, h4 {
   background: var(--olive);
 }
 
+.legend-color.in-range {
+  background: rgba(70, 85, 42, 0.15);
+}
+
+.calendar-loading {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--muted);
+  font-style: italic;
+}
+
+.calendar-selection-info {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.05);
+  border-radius: var(--border-radius-sm);
+  display: none;
+}
+
+.selection-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  align-items: center;
+  justify-content: center;
+}
+
+.selection-date {
+  font-size: 0.875rem;
+  color: var(--charcoal);
+  font-weight: 500;
+}
+
+.selection-nights {
+  font-size: 0.875rem;
+  color: var(--olive);
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  background: rgba(70, 85, 42, 0.1);
+  border-radius: 999px;
+}
+
+.calendar-day.in-range {
+  background: rgba(70, 85, 42, 0.1);
+  border-color: rgba(70, 85, 42, 0.3);
+}
+
+/* Booking Summary */
+.booking-summary {
+  margin: var(--spacing-lg) 0;
+  padding: var(--spacing-lg);
+  background: rgba(70, 85, 42, 0.03);
+  border: 1px solid rgba(70, 85, 42, 0.1);
+  border-radius: var(--border-radius-sm);
+  display: none;
+}
+
+.summary-content h4 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--charcoal);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.summary-total {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-md);
+  border-top: 2px solid var(--olive);
+  font-weight: 600;
+}
+
+.summary-label {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.summary-value {
+  color: var(--charcoal);
+  font-weight: 500;
+  text-align: right;
+}
+
+.summary-total .summary-value {
+  color: var(--olive);
+  font-size: 1.125rem;
+}
+
+/* Room Details */
+.room-details {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.02);
+  border-left: 3px solid var(--olive);
+  border-radius: var(--border-radius-sm);
+  display: none;
+}
+
+.room-details-content h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--charcoal);
+}
+
+.room-details-content p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+.room-price {
+  margin-top: var(--spacing-sm);
+}
+
+.price-total {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--olive);
+  display: block;
+}
+
+.price-details {
+  font-size: 0.875rem;
+  color: var(--muted);
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.price-per-night {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Loading States */
+.btn-submit.loading {
+  opacity: 0.7;
+  cursor: wait;
+  position: relative;
+}
+
+.btn-submit.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.btn-submit.error {
+  animation: shake 0.5s;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* Toast Improvements */
+.toast-error {
+  background: rgba(211, 47, 47, 0.1);
+  border-left: 3px solid #d32f2f;
+}
+
+.toast-error .toast-message {
+  color: #d32f2f;
+}
+
+/* Mobile Improvements */
+@media (max-width: 768px) {
+  .calendar-grid {
+    gap: 2px;
+  }
+  
+  .calendar-day {
+    font-size: 0.75rem;
+  }
+  
+  .selection-info {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .summary-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .summary-value {
+    text-align: left;
+  }
+}
+
 .form-input,
 .form-select,
 .form-textarea {
