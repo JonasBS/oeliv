@@ -80,6 +80,74 @@
       background: rgba(211, 47, 47, 0.2);
       color: #d32f2f;
     }
+    .admin-form {
+      background: white;
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      margin-bottom: var(--spacing-lg);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--charcoal);
+    }
+    .form-group input,
+    .form-group select {
+      padding: 0.75rem;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: var(--border-radius-sm);
+      font-size: 0.9375rem;
+    }
+    .quick-actions {
+      background: rgba(70, 85, 42, 0.03);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-sm);
+    }
+    .quick-actions h3 {
+      margin-bottom: var(--spacing-md);
+      font-size: 1rem;
+    }
+    .quick-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--border-radius-sm);
+      cursor: pointer;
+      font-size: 0.9375rem;
+      transition: all var(--transition-fast);
+    }
+    .btn-primary {
+      background: var(--olive);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #556b2f;
+    }
+    .btn-secondary {
+      background: white;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--charcoal);
+    }
+    .btn-secondary:hover {
+      background: rgba(70, 85, 42, 0.05);
+      border-color: var(--olive);
+    }
   </style>
 </head>
 <body>
@@ -103,7 +171,53 @@
     
     <div id="availability-tab" class="admin-content">
       <h2>Tilgængelighed</h2>
-      <p>Her kan du administrere tilgængelighed og priser</p>
+      <div class="availability-form-container">
+        <form id="availability-form" class="admin-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="avail-room">Værelse</label>
+              <select id="avail-room" name="room_id" required>
+                <option value="">Vælg værelse...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="avail-start">Start dato</label>
+              <input type="date" id="avail-start" name="start_date" required>
+            </div>
+            <div class="form-group">
+              <label for="avail-end">Slut dato</label>
+              <input type="date" id="avail-end" name="end_date" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="avail-price">Pris (DKK)</label>
+              <input type="number" id="avail-price" name="price" min="0" placeholder="F.eks. 1200">
+            </div>
+            <div class="form-group">
+              <label for="avail-min-stay">Min. ophold (nætter)</label>
+              <input type="number" id="avail-min-stay" name="min_stay" value="1" min="1">
+            </div>
+            <div class="form-group">
+              <label for="avail-status">Status</label>
+              <select id="avail-status" name="available">
+                <option value="1">Ledig</option>
+                <option value="0">Optaget</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Sæt tilgængelighed</button>
+        </form>
+        
+        <div class="quick-actions">
+          <h3>Hurtige handlinger</h3>
+          <div class="quick-buttons">
+            <button class="btn-secondary" onclick="setSeason('low')">Sæt lavsæson (1.200 DKK)</button>
+            <button class="btn-secondary" onclick="setSeason('shoulder')">Sæt skuldersæson (1.400 DKK)</button>
+            <button class="btn-secondary" onclick="setSeason('high')">Sæt højsæson (1.700 DKK)</button>
+          </div>
+        </div>
+      </div>
     </div>
     
     <div id="channels-tab" class="admin-content">
@@ -198,13 +312,115 @@
             `).join('')}
           </div>
         `;
+        
+        // Populate room select in availability form
+        const roomSelect = document.getElementById('avail-room');
+        if (roomSelect) {
+          roomSelect.innerHTML = '<option value="">Vælg værelse...</option>';
+          rooms.forEach(room => {
+            const option = document.createElement('option');
+            option.value = room.id;
+            option.textContent = `${room.name} (ID: ${room.id})`;
+            roomSelect.appendChild(option);
+          });
+        }
       } catch (error) {
         console.error('Error loading rooms:', error);
       }
     }
     
+    // Availability form handler
+    const availabilityForm = document.getElementById('availability-form');
+    if (availabilityForm) {
+      availabilityForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = {
+          room_id: parseInt(formData.get('room_id')),
+          start_date: formData.get('start_date'),
+          end_date: formData.get('end_date'),
+          price: formData.get('price') ? parseInt(formData.get('price')) : null,
+          min_stay: parseInt(formData.get('min_stay')) || 1
+        };
+        
+        try {
+          const response = await fetch('/api/admin/availability', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          
+          const result = await response.json();
+          if (result.success) {
+            alert(`Tilgængelighed sat for ${result.dates_updated} datoer`);
+            availabilityForm.reset();
+          } else {
+            alert('Fejl: ' + (result.error || 'Ukendt fejl'));
+          }
+        } catch (error) {
+          console.error('Error setting availability:', error);
+          alert('Fejl ved at sætte tilgængelighed');
+        }
+      });
+    }
+    
+    // Quick season setter
+    async function setSeason(season) {
+      const roomSelect = document.getElementById('avail-room');
+      const startInput = document.getElementById('avail-start');
+      const endInput = document.getElementById('avail-end');
+      
+      if (!roomSelect || !roomSelect.value) {
+        alert('Vælg venligst et værelse først');
+        return;
+      }
+      
+      if (!startInput || !startInput.value || !endInput || !endInput.value) {
+        alert('Vælg venligst start- og slutdato først');
+        return;
+      }
+      
+      const seasons = {
+        low: { price: 1200, min_stay: 1 },
+        shoulder: { price: 1400, min_stay: 2 },
+        high: { price: 1700, min_stay: 3 }
+      };
+      
+      const seasonData = seasons[season];
+      if (!seasonData) return;
+      
+      const data = {
+        room_id: parseInt(roomSelect.value),
+        start_date: startInput.value,
+        end_date: endInput.value,
+        price: seasonData.price,
+        min_stay: seasonData.min_stay
+      };
+      
+      try {
+        const response = await fetch('/api/admin/availability', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        if (result.success) {
+          alert(`${season === 'low' ? 'Lavsæson' : season === 'shoulder' ? 'Skuldersæson' : 'Højsæson'} sat for ${result.dates_updated} datoer`);
+        } else {
+          alert('Fejl: ' + (result.error || 'Ukendt fejl'));
+        }
+      } catch (error) {
+        console.error('Error setting season:', error);
+        alert('Fejl ved at sætte sæson');
+      }
+    }
+    
+    window.setSeason = setSeason;
+    
     // Load initial data
     loadBookings();
+    loadRooms();
   </script>
 </body>
 </html>
