@@ -134,6 +134,11 @@
     }
 
     render() {
+      if (!this.container) {
+        console.error('Calendar container not found for render');
+        return;
+      }
+
       const today = new Date();
       const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
       
@@ -159,16 +164,25 @@
       this.renderMonth(currentMonth);
       this.updateSelectionInfo();
       
-      // Event listeners
-      this.container.querySelector('.prev-month').addEventListener('click', () => {
-        this.currentMonth.setMonth(this.currentMonth.getMonth() - 1);
-        this.renderMonth(this.currentMonth);
-      });
+      // Event listeners for navigation
+      const prevBtn = this.container.querySelector('.prev-month');
+      const nextBtn = this.container.querySelector('.next-month');
       
-      this.container.querySelector('.next-month').addEventListener('click', () => {
-        this.currentMonth.setMonth(this.currentMonth.getMonth() + 1);
-        this.renderMonth(this.currentMonth);
-      });
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.currentMonth.setMonth(this.currentMonth.getMonth() - 1);
+          this.renderMonth(this.currentMonth);
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.currentMonth.setMonth(this.currentMonth.getMonth() + 1);
+          this.renderMonth(this.currentMonth);
+        });
+      }
     }
 
     updateSelectionInfo() {
@@ -586,33 +600,53 @@
     }
 
     initCalendar() {
-      // Wait a bit to ensure DOM is ready
-      setTimeout(() => {
-        const calendarContainer = document.getElementById('booking-calendar');
-        if (!calendarContainer) {
-          const form = document.getElementById('booking-form');
-          if (form) {
-            const calendarDiv = document.createElement('div');
-            calendarDiv.id = 'booking-calendar';
-            calendarDiv.className = 'booking-calendar-container';
-            const firstStep = form.querySelector('.form-step[data-step="1"]');
-            if (firstStep) {
-              firstStep.insertBefore(calendarDiv, firstStep.querySelector('.form-group'));
-            } else {
-              form.insertBefore(calendarDiv, form.firstChild);
-            }
-          }
+      // Check if calendar already exists
+      if (this.calendar) {
+        return;
+      }
+
+      // Find or create calendar container
+      let calendarContainer = document.getElementById('booking-calendar');
+      
+      if (!calendarContainer) {
+        const form = document.getElementById('booking-form');
+        if (!form) {
+          console.error('Booking form not found');
+          return;
         }
         
-        const container = document.getElementById('booking-calendar');
-        if (container && !this.calendar) {
+        const calendarDiv = document.createElement('div');
+        calendarDiv.id = 'booking-calendar';
+        calendarDiv.className = 'booking-calendar-container';
+        
+        // Insert into step 1 if it exists
+        const firstStep = form.querySelector('.form-step[data-step="1"]');
+        if (firstStep) {
+          const stepHeader = firstStep.querySelector('.step-header');
+          if (stepHeader && stepHeader.nextSibling) {
+            firstStep.insertBefore(calendarDiv, stepHeader.nextSibling);
+          } else {
+            firstStep.appendChild(calendarDiv);
+          }
+        } else {
+          // Fallback: insert at beginning of form
+          form.insertBefore(calendarDiv, form.firstChild);
+        }
+        
+        calendarContainer = document.getElementById('booking-calendar');
+      }
+      
+      if (calendarContainer && !this.calendar) {
+        try {
           this.calendar = new BookingCalendar('booking-calendar', {
             onSelect: (dates) => {
               this.handleDateSelection(dates);
             }
           });
+        } catch (error) {
+          console.error('Error initializing calendar:', error);
         }
-      }, 100);
+      }
     }
 
     async handleDateSelection(dates) {
