@@ -291,19 +291,30 @@
       // Make clickable if not past and in current month
       if (!isPast && isCurrentMonth && !day.classList.contains('booked')) {
         day.style.cursor = 'pointer';
+        day.style.pointerEvents = 'auto';
         day.setAttribute('role', 'button');
         day.setAttribute('tabindex', '0');
         day.setAttribute('aria-label', `Vælg ${date.toLocaleDateString('da-DK')}`);
         
-        // Click handler
+        // Store date reference on element for debugging
+        day._date = date;
+        day._dateStr = dateStr;
+        
+        // Click handler - use capture phase to ensure it fires
         const clickHandler = (e) => {
           e.preventDefault();
           e.stopPropagation();
-          console.log('Date clicked:', dateStr, date);
-          this.selectDate(date);
+          e.stopImmediatePropagation();
+          console.log('✅ Date clicked:', dateStr, date, 'Element:', day);
+          this.selectDate(new Date(date)); // Create new date object
         };
         
-        day.addEventListener('click', clickHandler);
+        // Add multiple event types to ensure it works
+        day.addEventListener('click', clickHandler, true); // Use capture
+        day.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          clickHandler(e);
+        }, true);
         
         // Keyboard support
         day.addEventListener('keydown', (e) => {
@@ -320,8 +331,20 @@
             this.renderMonth(this.currentMonth);
           }
         });
+        
+        // Visual feedback on mouse down
+        day.addEventListener('mousedown', () => {
+          day.style.transform = 'scale(0.9)';
+        });
+        day.addEventListener('mouseup', () => {
+          day.style.transform = '';
+        });
+        day.addEventListener('mouseleave', () => {
+          day.style.transform = '';
+        });
       } else {
         day.style.cursor = 'default';
+        day.style.pointerEvents = 'none';
         day.setAttribute('aria-disabled', 'true');
       }
       
