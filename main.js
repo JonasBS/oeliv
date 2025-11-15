@@ -630,7 +630,8 @@
           button: 'Forespørg pakke',
           includesLabel: 'Inkluderet:',
           toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun nuværende sæson'
+          toggleCurrent: 'Vis kun anbefalede pakker',
+          recommendedLabel: 'Anbefalet nu'
         },
         summer: {
           name: 'Sommerophold',
@@ -714,7 +715,8 @@
           button: 'Inquire about package',
           includesLabel: 'Included:',
           toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only current season'
+          toggleCurrent: 'Show only recommended packages',
+          recommendedLabel: 'Recommended now'
         },
         summer: {
           name: 'Summer Stay',
