@@ -1539,7 +1539,7 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 2px solid rgba(0, 0, 0, 0.05);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -1550,55 +1550,77 @@ h1, h2, h3, h4 {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  min-height: 40px;
 }
 
 .calendar-day:hover:not(.past):not(.booked):not(.other-month) {
-  background: rgba(70, 85, 42, 0.1);
-  border-color: var(--olive);
-  transform: scale(1.05);
-  z-index: 1;
+  background: rgba(70, 85, 42, 0.15) !important;
+  border-color: var(--olive) !important;
+  transform: scale(1.08);
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(70, 85, 42, 0.2);
 }
 
 .calendar-day:active:not(.past):not(.booked):not(.other-month) {
-  transform: scale(0.95);
+  transform: scale(0.92);
+  background: rgba(70, 85, 42, 0.25) !important;
+}
+
+.calendar-day:focus:not(.past):not(.booked):not(.other-month) {
+  outline: 2px solid var(--olive);
+  outline-offset: 2px;
 }
 
 .calendar-day.past {
   opacity: 0.3;
-  cursor: not-allowed;
-  pointer-events: none;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  background: rgba(0, 0, 0, 0.02) !important;
 }
 
 .calendar-day.other-month {
   opacity: 0.3;
   cursor: default;
-}
-
-.calendar-day.available:not(.past):not(.booked) {
-  background: rgba(70, 85, 42, 0.05);
-  border-color: rgba(70, 85, 42, 0.2);
-}
-
-.calendar-day.booked {
-  background: rgba(0, 0, 0, 0.05);
-  opacity: 0.5;
-  cursor: not-allowed;
-  text-decoration: line-through;
   pointer-events: none;
 }
 
-.calendar-day.selected {
-  background: var(--olive);
-  color: white;
-  border-color: var(--olive);
-  font-weight: 600;
-  z-index: 2;
-  box-shadow: 0 2px 8px rgba(70, 85, 42, 0.3);
+.calendar-day.available:not(.past):not(.booked):not(.other-month) {
+  background: rgba(70, 85, 42, 0.08);
+  border-color: rgba(70, 85, 42, 0.25);
 }
 
-.calendar-day.in-range:not(.selected) {
-  background: rgba(70, 85, 42, 0.15);
-  border-color: rgba(70, 85, 42, 0.3);
+.calendar-day.booked {
+  background: rgba(0, 0, 0, 0.05) !important;
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  text-decoration: line-through;
+  pointer-events: none !important;
+}
+
+.calendar-day.selected {
+  background: var(--olive) !important;
+  color: white !important;
+  border-color: var(--olive) !important;
+  font-weight: 700;
+  z-index: 20;
+  box-shadow: 0 4px 12px rgba(70, 85, 42, 0.4);
+  transform: scale(1.1);
+}
+
+.calendar-day.in-range:not(.selected):not(.past):not(.booked) {
+  background: rgba(70, 85, 42, 0.2) !important;
+  border-color: rgba(70, 85, 42, 0.4) !important;
+}
+
+/* Ensure calendar grid doesn't block clicks */
+.calendar-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-grid > * {
+  position: relative;
+  z-index: auto;
 }
 
 .calendar-legend {

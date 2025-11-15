@@ -255,7 +255,9 @@
       const day = document.createElement('div');
       const dateStr = this.formatDate(date);
       const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
-      const isPast = date < new Date().setHours(0, 0, 0, 0);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const isPast = date < today;
       const isSelected = this.isDateSelected(date);
       const isInRange = this.isDateInRange(date);
       
@@ -278,19 +280,43 @@
       
       day.textContent = date.getDate();
       day.dataset.date = dateStr;
+      day.dataset.timestamp = date.getTime();
       
-      if (!isPast && isCurrentMonth) {
-        day.addEventListener('click', (e) => {
+      // Make clickable if not past and in current month
+      if (!isPast && isCurrentMonth && !day.classList.contains('booked')) {
+        day.style.cursor = 'pointer';
+        day.setAttribute('role', 'button');
+        day.setAttribute('tabindex', '0');
+        day.setAttribute('aria-label', `Vælg ${date.toLocaleDateString('da-DK')}`);
+        
+        // Click handler
+        const clickHandler = (e) => {
           e.preventDefault();
           e.stopPropagation();
+          console.log('Date clicked:', dateStr, date);
           this.selectDate(date);
+        };
+        
+        day.addEventListener('click', clickHandler);
+        
+        // Keyboard support
+        day.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            clickHandler(e);
+          }
         });
+        
+        // Hover effect for range selection
         day.addEventListener('mouseenter', () => {
           if (this.selectedDates.start && !this.selectedDates.end) {
             this.hoverDate = date;
             this.renderMonth(this.currentMonth);
           }
         });
+      } else {
+        day.style.cursor = 'default';
+        day.setAttribute('aria-disabled', 'true');
       }
       
       return day;
@@ -321,10 +347,13 @@
     }
 
     selectDate(date) {
+      console.log('selectDate called with:', date);
+      
       // Prevent selecting past dates
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       if (date < today) {
+        console.log('Date is in the past, ignoring');
         return;
       }
 
@@ -332,33 +361,44 @@
         this.selectedDates.start = date;
         this.selectedDates.end = null;
       } else {
+        // Range selection mode
         if (!this.selectedDates.start || this.selectedDates.end) {
           // Start new selection
-          this.selectedDates.start = date;
+          console.log('Starting new selection:', date);
+          this.selectedDates.start = new Date(date);
           this.selectedDates.end = null;
           this.hoverDate = null;
         } else {
-          // Complete selection
+          // Complete selection - we already have a start date
+          console.log('Completing selection. Start:', this.selectedDates.start, 'End:', date);
+          
           if (date < this.selectedDates.start) {
             // If clicked date is before start, swap them
-            this.selectedDates.end = this.selectedDates.start;
-            this.selectedDates.start = date;
+            this.selectedDates.end = new Date(this.selectedDates.start);
+            this.selectedDates.start = new Date(date);
           } else if (date.getTime() === this.selectedDates.start.getTime()) {
             // If clicking same date, reset
-            this.selectedDates.start = date;
+            this.selectedDates.start = new Date(date);
             this.selectedDates.end = null;
           } else {
             // Normal case: set end date
-            this.selectedDates.end = date;
+            this.selectedDates.end = new Date(date);
           }
           this.hoverDate = null;
         }
       }
       
+      console.log('Selected dates:', {
+        start: this.selectedDates.start,
+        end: this.selectedDates.end
+      });
+      
       this.renderMonth(this.currentMonth);
       this.updateSelectionInfo();
       
+      // Only trigger onSelect when we have both start and end
       if (this.options.onSelect && this.selectedDates.start && this.selectedDates.end) {
+        console.log('Calling onSelect callback');
         this.options.onSelect({
           start: this.selectedDates.start,
           end: this.selectedDates.end
@@ -650,23 +690,34 @@
     }
 
     async handleDateSelection(dates) {
-      if (!dates.start || !dates.end) return;
+      console.log('handleDateSelection called:', dates);
+      
+      if (!dates.start || !dates.end) {
+        console.log('Missing start or end date');
+        return;
+      }
       
       // Update date input
       const dateInput = document.getElementById('booking-date');
       if (dateInput) {
-        dateInput.value = this.calendar.formatDate(dates.start);
+        const startDateStr = this.calendar.formatDate(dates.start);
+        dateInput.value = startDateStr;
+        console.log('Updated date input to:', startDateStr);
       }
 
       // Update nights
-      const nights = calculateNights(
-        this.calendar.formatDate(dates.start),
-        this.calendar.formatDate(dates.end)
-      );
+      const startDateStr = this.calendar.formatDate(dates.start);
+      const endDateStr = this.calendar.formatDate(dates.end);
+      const nights = calculateNights(startDateStr, endDateStr);
+      
       const nightsSelect = document.getElementById('booking-nights');
       if (nightsSelect) {
         nightsSelect.value = nights;
+        console.log('Updated nights to:', nights);
       }
+
+      // Show toast feedback
+      showToast(`Vælg ${nights} ${nights === 1 ? 'nat' : 'nætter'} fra ${formatDate(startDateStr)}`, 'success');
 
       // Check availability
       await this.checkAvailability();
