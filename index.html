@@ -337,12 +337,14 @@
       </div>
       <form class="modal-body" id="booking-form">
         <div class="form-group">
-          <label for="booking-date" class="form-label">Ankomst</label>
-          <input type="date" id="booking-date" name="date" class="form-input" required />
+          <label for="booking-date" class="form-label">Ankomst <span class="required">*</span></label>
+          <input type="date" id="booking-date" name="date" class="form-input" required aria-required="true" aria-describedby="date-help" />
+          <small id="date-help" class="form-help">Vælg ankomstdato</small>
         </div>
         <div class="form-group">
-          <label for="booking-nights" class="form-label">Nætter</label>
-          <select id="booking-nights" name="nights" class="form-select" required>
+          <label for="booking-nights" class="form-label">Nætter <span class="required">*</span></label>
+          <select id="booking-nights" name="nights" class="form-select" required aria-required="true">
+            <option value="">Vælg antal nætter</option>
             <option value="1">1 nat</option>
             <option value="2">2 nætter</option>
             <option value="3">3 nætter</option>
@@ -350,18 +352,19 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="booking-guests" class="form-label">Gæster</label>
-          <select id="booking-guests" name="guests" class="form-select" required>
+          <label for="booking-guests" class="form-label">Gæster <span class="required">*</span></label>
+          <select id="booking-guests" name="guests" class="form-select" required aria-required="true">
+            <option value="">Vælg antal gæster</option>
             <option value="1">1 gæst</option>
-            <option value="2" selected>2 gæster</option>
+            <option value="2">2 gæster</option>
             <option value="3">3 gæster</option>
             <option value="4">4 gæster</option>
           </select>
         </div>
         <div class="form-group">
           <label for="booking-room" class="form-label">Værelse</label>
-          <select id="booking-room" name="room" class="form-select">
-            <option value="">Vælg værelse</option>
+          <select id="booking-room" name="room" class="form-select" aria-label="Vælg værelse (valgfrit)">
+            <option value="">Vælg værelse (valgfrit)</option>
             <option value="Kystværelse">Kystværelse</option>
             <option value="Havsuite">Havsuite</option>
             <option value="Stor havsuite">Stor havsuite</option>
@@ -371,7 +374,7 @@
         </div>
         <div class="form-group">
           <label for="booking-note" class="form-label">Note (valgfrit)</label>
-          <textarea id="booking-note" name="note" class="form-textarea" rows="3" placeholder="Evt. besked eller ønsker"></textarea>
+          <textarea id="booking-note" name="note" class="form-textarea" rows="3" placeholder="Evt. besked eller ønsker" aria-label="Note eller besked"></textarea>
         </div>
         <button type="button" class="btn-secondary btn-toggle-rates js-toggle-rates">
           Se priser & min. nætter

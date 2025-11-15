@@ -161,12 +161,36 @@
     
     if (!modalForm) return;
     
-    // Get form data
+    // Validate form
     const formData = new FormData(modalForm);
+    const date = formData.get('date');
+    const nights = formData.get('nights');
+    const guests = formData.get('guests');
+    
+    const submitButton = modalForm.querySelector('.btn-submit');
+    
+    if (!date || !nights || !guests) {
+      // Show error
+      const originalText = submitButton.textContent;
+      submitButton.textContent = 'Udfyld alle påkrævede felter';
+      submitButton.style.background = '#d32f2f';
+      setTimeout(() => {
+        submitButton.textContent = originalText;
+        submitButton.style.background = '';
+      }, 3000);
+      return;
+    }
+    
+    // Show loading state
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Sender...';
+    submitButton.disabled = true;
+    
+    // Get form data
     const data = {
-      date: formData.get('date'),
-      nights: formData.get('nights'),
-      guests: formData.get('guests'),
+      date: date,
+      nights: nights,
+      guests: guests,
       room: formData.get('room'),
       note: formData.get('note')
     };
@@ -174,13 +198,20 @@
     // Log to console (in production, this would send to backend)
     console.log('Booking request:', data);
     
-    // Show toast notification
-    showToast('Tak for din forespørgsel! Vi vender tilbage snarest.');
-    
-    // Close modal after delay
+    // Simulate API call
     setTimeout(() => {
-      closeModal();
-    }, 1500);
+      // Show toast notification
+      showToast('Tak for din forespørgsel! Vi vender tilbage snarest.');
+      
+      // Reset button
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+      
+      // Close modal after delay
+      setTimeout(() => {
+        closeModal();
+      }, 1500);
+    }, 1000);
   };
 
   if (modalForm) {

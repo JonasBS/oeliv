@@ -1182,6 +1182,13 @@ h1, h2, h3, h4 {
 .btn-submit {
   width: 100%;
   margin-bottom: var(--spacing-sm);
+  transition: all 0.3s ease;
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .form-note {
