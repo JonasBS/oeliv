@@ -340,7 +340,8 @@
           start_date: formData.get('start_date'),
           end_date: formData.get('end_date'),
           price: formData.get('price') ? parseInt(formData.get('price')) : null,
-          min_stay: parseInt(formData.get('min_stay')) || 1
+          min_stay: parseInt(formData.get('min_stay')) || 1,
+          available: parseInt(formData.get('available')) || 1
         };
         
         try {
