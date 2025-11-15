@@ -7,14 +7,12 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 // Enable CORS for all routes (needed for frontend on different domain)
 app.use(cors({
   origin: process.env.FRONTEND_URL || '*',
   credentials: true
 }));
-
-// Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
