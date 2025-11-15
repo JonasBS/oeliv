@@ -375,7 +375,7 @@ app.get('/api/admin/bookings', (req, res) => {
   let query = `
     SELECT b.*, r.name as room_name, r.type as room_type
     FROM bookings b
-    JOIN rooms r ON b.room_id = r.id
+    LEFT JOIN rooms r ON b.room_id = r.id
     WHERE 1=1
   `;
   const params = [];
@@ -393,14 +393,16 @@ app.get('/api/admin/bookings', (req, res) => {
     params.push(end_date);
   }
   
-  query += ' ORDER BY b.check_in DESC';
+  query += ' ORDER BY b.created_at DESC, b.id DESC';
   
   db.all(query, params, (err, rows) => {
     if (err) {
+      console.error('Error fetching bookings:', err);
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json(rows);
+    console.log(`Fetched ${rows.length} bookings`);
+    res.json(rows || []);
   });
 });
 

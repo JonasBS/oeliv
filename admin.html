@@ -251,48 +251,64 @@
     async function loadBookings() {
       try {
         const response = await fetch('/api/admin/bookings');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const bookings = await response.json();
         
         const list = document.getElementById('bookings-list');
-        if (bookings.length === 0) {
-          list.innerHTML = '<p>Ingen bookings endnu</p>';
+        if (!list) {
+          console.error('Bookings list element not found');
+          return;
+        }
+        
+        if (!bookings || bookings.length === 0) {
+          list.innerHTML = '<p style="padding: var(--spacing-lg); color: var(--muted);">Ingen bookings endnu. Bookinger vil blive vist her når de oprettes.</p>';
           return;
         }
         
         list.innerHTML = `
-          <table class="bookings-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Værelse</th>
-                <th>Gæst</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Gæster</th>
-                <th>Pris</th>
-                <th>Status</th>
-                <th>Betaling</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${bookings.map(b => `
+          <div style="overflow-x: auto;">
+            <table class="bookings-table">
+              <thead>
                 <tr>
-                  <td>#${b.id}</td>
-                  <td>${b.room_name}</td>
-                  <td>${b.guest_name}<br><small>${b.guest_email}</small></td>
-                  <td>${b.check_in}</td>
-                  <td>${b.check_out}</td>
-                  <td>${b.guests}</td>
-                  <td>${b.total_price} DKK</td>
-                  <td><span class="status-badge ${b.status}">${b.status}</span></td>
-                  <td><span class="status-badge ${b.payment_status}">${b.payment_status}</span></td>
+                  <th>ID</th>
+                  <th>Værelse</th>
+                  <th>Gæst</th>
+                  <th>Check-in</th>
+                  <th>Check-out</th>
+                  <th>Gæster</th>
+                  <th>Pris</th>
+                  <th>Status</th>
+                  <th>Betaling</th>
+                  <th>Oprettet</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                ${bookings.map(b => `
+                  <tr>
+                    <td>#${b.id}</td>
+                    <td>${b.room_name || 'N/A'}</td>
+                    <td>${b.guest_name || 'N/A'}<br><small style="color: var(--muted);">${b.guest_email || ''}</small></td>
+                    <td>${b.check_in || 'N/A'}</td>
+                    <td>${b.check_out || 'N/A'}</td>
+                    <td>${b.guests || 'N/A'}</td>
+                    <td>${b.total_price ? b.total_price + ' DKK' : 'N/A'}</td>
+                    <td><span class="status-badge ${b.status || 'pending'}">${b.status || 'pending'}</span></td>
+                    <td><span class="status-badge ${b.payment_status || 'unpaid'}">${b.payment_status || 'unpaid'}</span></td>
+                    <td><small style="color: var(--muted);">${b.created_at ? new Date(b.created_at).toLocaleDateString('da-DK') : 'N/A'}</small></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
         `;
       } catch (error) {
         console.error('Error loading bookings:', error);
+        const list = document.getElementById('bookings-list');
+        if (list) {
+          list.innerHTML = `<p style="padding: var(--spacing-lg); color: #d32f2f;">Fejl ved indlæsning af bookings: ${error.message}<br><small>Tjek console for flere detaljer.</small></p>`;
+        }
       }
     }
     

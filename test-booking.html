@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Booking</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #46552a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #556b2f;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Booking Test Tool</h1>
+  
+  <div class="test-section">
+    <h2>1. Test API Connection</h2>
+    <button onclick="testConnection()">Test Forbindelse</button>
+    <div id="connection-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>2. Se Alle Bookings</h2>
+    <button onclick="getAllBookings()">Hent Bookings</button>
+    <div id="bookings-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>3. Opret Test Booking</h2>
+    <button onclick="createTestBooking()">Opret Test Booking</button>
+    <div id="create-result"></div>
+  </div>
+  
+  <div class="test-section">
+    <h2>4. Se Alle Værelser</h2>
+    <button onclick="getRooms()">Hent Værelser</button>
+    <div id="rooms-result"></div>
+  </div>
+  
+  <script>
+    const API_BASE = (window.API_BASE_URL || window.location.origin) + '/api';
+    
+    async function testConnection() {
+      const result = document.getElementById('connection-result');
+      result.innerHTML = 'Tester...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/rooms`);
+        if (response.ok) {
+          result.innerHTML = '<p class="success">✅ API forbindelse virker!</p>';
+        } else {
+          result.innerHTML = `<p class="error">❌ API fejl: ${response.status}</p>`;
+        }
+      } catch (error) {
+        result.innerHTML = `<p class="error">❌ Fejl: ${error.message}</p>`;
+      }
+    }
+    
+    async function getAllBookings() {
+      const result = document.getElementById('bookings-result');
+      result.innerHTML = 'Henter bookings...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/admin/bookings`);
+        const bookings = await response.json();
+        
+        if (bookings.length === 0) {
+          result.innerHTML = '<p>Ingen bookings fundet i databasen.</p>';
+          return;
+        }
+        
+        result.innerHTML = `
+          <h3>Fundet ${bookings.length} booking(s):</h3>
+          <pre>${JSON.stringify(bookings, null, 2)}</pre>
+        `;
+      } catch (error) {
+        result.innerHTML = `<p class="error">Fejl: ${error.message}</p>`;
+      }
+    }
+    
+    async function createTestBooking() {
+      const result = document.getElementById('create-result');
+      result.innerHTML = 'Opretter test booking...';
+      
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const checkOut = new Date(tomorrow);
+      checkOut.setDate(checkOut.getDate() + 2);
+      
+      const bookingData = {
+        room_id: 1,
+        check_in: tomorrow.toISOString().split('T')[0],
+        check_out: checkOut.toISOString().split('T')[0],
+        guests: 2,
+        guest_name: 'Test Gæst',
+        guest_email: 'test@example.com',
+        guest_phone: '12345678',
+        notes: 'Test booking fra test tool',
+        source: 'test'
+      };
+      
+      try {
+        const response = await fetch(`${API_BASE}/bookings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookingData)
+        });
+        
+        const result_data = await response.json();
+        
+        if (response.ok) {
+          result.innerHTML = `
+            <p class="success">✅ Booking oprettet!</p>
+            <pre>${JSON.stringify(result_data, null, 2)}</pre>
+          `;
+        } else {
+          result.innerHTML = `
+            <p class="error">❌ Fejl: ${result_data.error || 'Ukendt fejl'}</p>
+            <pre>${JSON.stringify(result_data, null, 2)}</pre>
+          `;
+        }
+      } catch (error) {
+        result.innerHTML = `<p class="error">Fejl: ${error.message}</p>`;
+      }
+    }
+    
+    async function getRooms() {
+      const result = document.getElementById('rooms-result');
+      result.innerHTML = 'Henter værelser...';
+      
+      try {
+        const response = await fetch(`${API_BASE}/rooms`);
+        const rooms = await response.json();
+        
+        result.innerHTML = `
+          <h3>Fundet ${rooms.length} værelse(r):</h3>
+          <pre>${JSON.stringify(rooms, null, 2)}</pre>
+        `;
+      } catch (error) {
+        result.innerHTML = `<p class="error">Fejl: ${error.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
