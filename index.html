@@ -1,563 +1,1871 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2758
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <title>ØLIV – Farm hospitality & ØLIV Brew på Bornholm</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Farm hospitality på Bornholm – stille dage ved kysten med gode senge, naturmaterialer og ØLIV Brew bryggeri i baghaven." />
+  <style>
+    :root {
+      --charcoal: #121415;
+      --charcoal-soft: #191c1e;
+      --bluegreen: #123538;
+      --olive: #46552a;
+      --olive-soft: #566637;
+      --beige: #d1bca0;
+      --cream: #f5f0e9;
+      --muted: #9a8f82;
+      --radius-lg: 20px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,.55);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: radial-gradient(circle at top, #1f2426, #050607);
+      color: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    img {
+      max-width: 100%;
+      display: block;
+    }
+    
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 20px 60px;
+    }
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="da">\
-<head>\
-  <meta charset="UTF-8" />\
-  <title>\'d8LIV \'96 Farm hospitality &amp; \'d8LIV Brew p\'e5 Bornholm</title>\
-  <meta name="viewport" content="width=device-width, initial-scale=1" />\
-  <style>\
-    :root\{\
-      --charcoal:#121415;--charcoal-soft:#191c1e;--bluegreen:#123538;\
-      --olive:#46552a;--olive-soft:#566637;--beige:#d1bca0;--cream:#f5f0e9;--muted:#9a8f82;\
-      --radius-lg:20px;--radius-xl:26px;--shadow-soft:0 18px 45px rgba(0,0,0,.55)\
-    \}\
-    *\{box-sizing:border-box;margin:0;padding:0\}\
-    body\{font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;background:radial-gradient(circle at top,#1f2426,#050607);color:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased\}\
-    a\{color:inherit;text-decoration:none\} img\{max-width:100%;display:block\}\
-    .page\{max-width:1200px;margin:0 auto;padding:20px 20px 60px\}\
-\
-    /* HEADER */\
-    header\{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:linear-gradient(to bottom,rgba(5,5,6,.92),rgba(5,5,6,.75));border-bottom:1px solid rgba(255,255,255,.06)\}\
-    .header-inner\{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:16px\}\
-    .logo\{font-family:"Georgia","Times New Roman",serif;font-size:26px;letter-spacing:.35em;text-transform:uppercase;color:var(--cream);white-space:nowrap\}\
-    nav\{display:flex;align-items:center;gap:18px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.8)\}\
-    nav a\{position:relative;padding-bottom:4px;cursor:pointer\}\
-    nav a::after\{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--beige);transition:width .2s ease-out;opacity:.85\}\
-    nav a:hover::after\{width:100%\}\
-    .btn-book-nav\{border-radius:999px;padding:8px 16px;background:var(--olive);color:var(--beige);border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 26px rgba(0,0,0,.6);font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s ease,transform .15s ease;white-space:nowrap\}\
-    .btn-book-nav:hover\{background:var(--olive-soft);transform:translateY(-1px)\}\
-\
-    /* HERO */\
-    .hero\{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.1fr);gap:26px;margin-top:28px;padding:26px;border-radius:var(--radius-xl);background:radial-gradient(circle at top left,#222a29,#121416);box-shadow:var(--shadow-soft)\}\
-    .hero-left h1\{font-family:"Georgia","Times New Roman",serif;font-size:clamp(30px,4vw,40px);letter-spacing:.18em;text-transform:uppercase\}\
-    .hero-sub\{margin-top:12px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)\}\
-    .hero-text\{margin-top:18px;font-size:15px;max-width:470px;color:rgba(245,240,233,.87)\}\
-    .hero-badges\{margin-top:18px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:8px;font-size:10px\}\
-    .pill\{border-radius:999px;border:1px solid rgba(255,255,255,.08);padding:4px 10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6);font-size:10px;cursor:default;opacity:.9\}\
-    .hero-cta\{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px\}\
-    .btn-primary,.btn-ghost\{border-radius:999px;padding:11px 22px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:background .18s ease,transform .15s ease,box-shadow .18s ease;white-space:nowrap\}\
-    .btn-primary\{background:var(--olive);color:var(--beige);box-shadow:0 14px 30px rgba(0,0,0,.75)\}\
-    .btn-primary:hover\{background:var(--olive-soft);transform:translateY(-1px)\}\
-    .btn-ghost\{background:transparent;color:rgba(245,240,233,.85);border:1px solid rgba(255,255,255,.12);padding:11px 20px\}\
-    .btn-ghost:hover\{background:rgba(255,255,255,.03);transform:translateY(-1px)\}\
-    .hero-note\{margin-top:14px;font-size:12px;color:rgba(245,240,233,.7)\}\
-    .hero-right\{display:grid;grid-template-rows:1.3fr 1fr;gap:10px\}\
-    .hero-main-img\{border-radius:20px;background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden\}\
-    .hero-main-img::after\{content:"Farm hospitality \'b7 300 m fra kysten";position:absolute;left:14px;bottom:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.8);padding:6px 12px;border-radius:999px;background:rgba(5,5,5,.55);backdrop-filter:blur(4px)\}\
-    .hero-small-grid\{display:grid;grid-template-columns:1.2fr 1fr;gap:10px\}\
-    .hero-img\{border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden\}\
-    .hero-img.room\{background-image:url("https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1200&auto=format&fit=crop")\}\
-    .hero-img.beer\{background-image:url("https://images.unsplash.com/photo-1518176258769-f227c798150e?q=80&w=1200&auto=format&fit=crop")\}\
-\
-    section\{margin-top:64px\}\
-    .section-heading\{font-family:"Georgia","Times New Roman",serif;font-size:20px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px\}\
-    .section-subtitle\{font-size:14px;color:rgba(245,240,233,.8);max-width:540px\}\
-\
-    /* ABOUT (BRYGGERI) */\
-    .section-about\{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:26px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#26201b,#16120f);box-shadow:var(--shadow-soft)\}\
-    .about-text\{font-size:15px;color:rgba(245,240,233,.87)\} .about-text p+p\{margin-top:10px\}\
-    .about-tags\{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;font-size:11px\}\
-    .about-image\{border-radius:18px;background-image:url("https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&w=1400&auto=format&fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden\}\
-    .about-image::after\{content:"\'d8LIV Brew";position:absolute;right:12px;bottom:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:rgba(10,10,10,.65);color:rgba(245,240,233,.9)\}\
-\
-    /* STAY / ROOMS */\
-    .section-stay\{padding:26px;border-radius:var(--radius-lg);background:linear-gradient(145deg,#15181a,#101111);box-shadow:var(--shadow-soft)\}\
-    .room-grid\{margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px\}\
-    .room-card\{border-radius:18px;background:var(--charcoal-soft);border:1px solid rgba(255,255,255,.04);overflow:hidden;display:flex;flex-direction:column\}\
-    .room-image\{height:180px;background-size:cover;background-position:center\}\
-    .room-image.coast\{background-image:url("https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&w=1400&auto=format&fit=crop")\}\
-    .room-image.suite\{background-image:url("https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1400&auto=format&fit=crop")\}\
-    .room-image.suite-large\{background-image:url("https://images.unsplash.com/photo-1521782462922-9318be1b9949?q=80&w=1400&auto=format&fit=crop")\}\
-    .room-image.apartment\{background-image:url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1400&auto=format&fit=crop")\}\
-    .room-image.private\{background-image:url("https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1400&auto=format&fit=crop")\}\
-    .room-content\{padding:14px 16px 16px;font-size:14px\}\
-    .room-content h3\{font-size:15px;margin-bottom:4px\}\
-    .room-tag\{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6)\}\
-    .room-content ul\{list-style:none;margin:8px 0;padding-left:0;font-size:13px;color:rgba(245,240,233,.75)\}\
-    .room-content ul li::before\{content:"\'95 ";color:var(--beige)\}\
-    .room-price\{font-size:13px;color:var(--beige);margin-top:4px\}\
-    .room-actions\{margin-top:10px;display:flex;gap:8px\}\
-    .room-actions button\{padding:8px 14px;border-radius:999px;border:none;font-size:11px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;background:var(--olive);color:var(--beige);transition:background .15s ease,transform .15s ease\}\
-    .room-actions button:hover\{background:var(--olive-soft);transform:translateY(-1px)\}\
-\
-    /* PACKAGES */\
-    .section-packages\{padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#23201d,#14110f);box-shadow:var(--shadow-soft)\}\
-    .pack-grid\{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;font-size:13px\}\
-    .pack-card\{border-radius:18px;padding:14px 16px 16px;background:var(--charcoal-soft);border:1px solid rgba(255,255,255,.06)\}\
-    .pack-card h3\{font-size:15px;margin-bottom:6px\}\
-    .pack-duration\{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,233,.6);margin-bottom:6px\}\
-    .pack-card ul\{list-style:none;padding-left:0;margin:6px 0 8px\}\
-    .pack-card li::before\{content:"\'96 ";color:var(--beige)\}\
-    .pack-price\{font-size:13px;color:var(--beige);margin-top:4px\}\
-\
-    /* SPA */\
-    .section-spa\{margin-top:56px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#191c1f,#101112);box-shadow:var(--shadow-soft)\}\
-    .spa-grid\{margin-top:18px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:18px;font-size:14px;color:rgba(245,240,233,.88)\}\
-    .spa-text p+p\{margin-top:10px\}\
-    .spa-list\{margin-top:10px;list-style:none;padding-left:0;font-size:13px;color:rgba(245,240,233,.8)\}\
-    .spa-list li::before\{content:"\'95 ";color:var(--beige)\}\
-    .spa-image\{border-radius:18px;background-image:url("https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1400&auto=format&fit=crop");background-size:cover;background-position:center;position:relative;overflow:hidden\}\
-    .spa-image::after\{content:"Sauna, koldtvand & ro";position:absolute;left:14px;bottom:14px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:6px 12px;border-radius:999px;background:rgba(5,5,5,.6);color:rgba(245,240,233,.9);backdrop-filter:blur(4px)\}\
-\
-    /* KYST */\
-    .section-bornholm\{margin-top:56px;border-radius:var(--radius-xl);overflow:hidden;position:relative;background-image:url("https://images.unsplash.com/photo-1508261303786-0e3b964c7e00?q=80&w=1600&auto=format&fit=crop");background-size:cover;background-position:center;box-shadow:var(--shadow-soft)\}\
-    .bornholm-overlay\{padding:34px 26px;background:linear-gradient(to right,rgba(5,6,7,.85),rgba(5,6,7,.35),rgba(5,6,7,.2));max-width:560px\}\
-    .bornholm-overlay h2\{font-family:"Georgia","Times New Roman",serif;font-size:20px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px\}\
-    .bornholm-overlay p\{font-size:14px;color:rgba(245,240,233,.9)\}\
-    .bornholm-link\{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;padding-bottom:2px;border-bottom:1px solid rgba(245,240,233,.6);cursor:pointer\}\
-\
-    /* PHILOSOPHY */\
-    .section-philosophy\{margin-top:56px;padding:24px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#181a1d,#141617);box-shadow:var(--shadow-soft)\}\
-    .philo-grid\{margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;font-size:14px;color:rgba(245,240,233,.85)\}\
-    .philo-card h3\{font-size:14px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px;color:var(--beige)\}\
-\
-    /* FINAL CTA */\
-    .section-final-cta\{margin-top:56px;padding:20px 24px;border-radius:999px;background:radial-gradient(circle at top left,#27302b,#101112);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;font-size:14px;box-shadow:var(--shadow-soft)\}\
-\
-    /* FOOTER */\
-    footer\{margin-top:42px;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;font-size:13px;color:rgba(245,240,233,.75);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px\}\
-    .footer-links\{display:flex;flex-wrap:wrap;gap:14px;font-size:12px\}\
-\
-    /* BOOKING MODAL */\
-    .booking-modal-backdrop\{position:fixed;inset:0;background:rgba(5,6,7,.78);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;padding:20px;z-index:80\}\
-    .booking-modal-backdrop.is-visible\{display:flex\}\
-    .booking-modal\{width:100%;max-width:460px;background:#111316;border-radius:22px;border:1px solid rgba(255,255,255,.08);box-shadow:0 26px 70px rgba(0,0,0,.85);padding:20px 20px 18px;position:relative\}\
-    .booking-modal-header\{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px\}\
-    .booking-modal-title\{font-family:"Georgia","Times New Roman",serif;font-size:16px;letter-spacing:.18em;text-transform:uppercase\}\
-    .booking-modal-subtitle\{font-size:13px;color:rgba(245,240,233,.8);margin-top:4px\}\
-    .booking-modal-close\{border-radius:999px;width:28px;height:28px;border:1px solid rgba(148,163,184,.4);background:rgba(15,23,42,.9);color:rgba(248,250,252,.9);display:inline-flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer\}\
-    .booking-modal-body\{margin-top:8px;display:grid;gap:10px;font-size:13px\}\
-    .booking-field-group\{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px\}\
-    .booking-field\{display:grid;gap:3px\}\
-    .booking-label\{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(209,213,219,.85)\}\
-    .booking-input,.booking-select,.booking-textarea\{width:100%;padding:7px 9px;border-radius:999px;border:1px solid rgba(148,163,184,.7);background:rgba(15,23,42,.9);color:#f9fafb;font-size:13px;font-family:inherit\}\
-    .booking-textarea\{border-radius:14px;min-height:70px;resize:vertical\}\
-    .booking-input:focus,.booking-select:focus,.booking-textarea:focus\{outline:none;border-color:#38bdf8;box-shadow:0 0 0 1px rgba(56,189,248,.7)\}\
-    .booking-footer\{margin-top:8px;display:flex;flex-direction:column;gap:6px;font-size:11px;color:rgba(209,213,219,.85)\}\
-    .booking-submit\{margin-top:2px;width:100%;padding:9px 14px;border-radius:999px;border:none;background:linear-gradient(to right,var(--olive),var(--bluegreen));color:var(--beige);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;box-shadow:0 18px 40px rgba(0,0,0,.8)\}\
-    .booking-submit:hover\{filter:brightness(1.03)\}\
-    .booking-note\{font-size:11px;color:rgba(148,163,184,.95)\}\
-    .rate-toggle\{margin-top:10px;width:100%;padding:7px 12px;border-radius:999px;border:1px solid rgba(148,163,184,.8);background:rgba(15,23,42,.9);color:rgba(248,250,252,.9);font-size:11px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-align:center\}\
-    .rate-toggle:hover\{background:rgba(30,64,175,.8)\}\
-    .booking-rate-panel\{margin-top:8px;padding:10px 12px 12px;border-radius:16px;background:radial-gradient(circle at top left,rgba(15,23,42,.98),rgba(12,17,23,.96));border:1px solid rgba(148,163,184,.7);font-size:12px;color:rgba(226,232,240,.95)\}\
-    .booking-rate-panel h4\{font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:6px;color:rgba(248,250,252,.9)\}\
-    .rate-grid\{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px\}\
-    .rate-box\{padding:8px 9px;border-radius:14px;background:rgba(15,23,42,.9);border:1px solid rgba(51,65,85,.95);font-size:11px\}\
-    .rate-box-title\{font-weight:600;margin-bottom:2px\}\
-    .rate-box-small\{font-size:10px;color:rgba(148,163,184,.95)\}\
-    .rate-example-week\{margin-top:8px;padding-top:6px;border-top:1px dashed rgba(75,85,99,.9);font-size:10px;color:rgba(156,163,175,.95)\}\
-    .rate-example-week-row\{margin-top:4px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px\}\
-    .rate-example-day\{padding:4px 2px;border-radius:8px;background:rgba(15,23,42,.9);text-align:center;font-size:9px\}\
-    .rate-example-day.is-weekend\{border:1px solid rgba(209,213,219,.9)\}\
-    .rate-dynamic\{margin-top:8px;display:grid;gap:2px;font-size:11px;color:rgba(156,163,175,.95)\}\
-    .rate-dynamic-line strong\{color:rgba(248,250,252,.98)\}\
-\
-    /* RESPONSIVE */\
-    @media (max-width:900px)\{.page\{padding:14px 16px 40px\}nav\{display:none\}.hero,.section-about\{grid-template-columns:1fr\}.hero\{padding:20px\}.hero-right\{order:-1\}.section-bornholm\{margin-top:42px\}\}\
-    @media (max-width:768px)\{.spa-grid,.room-grid,.pack-grid,.philo-grid\{grid-template-columns:1fr\}.section-final-cta\{border-radius:20px;align-items:flex-start\}\}\
-    @media (max-width:480px)\{.hero\{padding:18px 16px\}.section-stay,.section-about,.section-packages,.section-philosophy\{padding:18px 16px\}\}\
-  </style>\
-</head>\
-<body>\
-  <header>\
-    <div class="header-inner">\
-      <div class="logo">\'d8LIV</div>\
-      <nav>\
-        <a href="#overnatning">Overnatning</a>\
-        <a href="#spa">Spa &amp; oplevelser</a>\
-        <a href="#bryggeri">\'d8LIV Brew</a>\
-        <button class="btn-book-nav js-open-booking" type="button">Book ophold</button>\
-      </nav>\
-    </div>\
-  </header>\
-\
-  <div class="page">\
-    <!-- HERO -->\
-    <section class="hero">\
-      <div class="hero-left">\
-        <h1>Farm hospitality p\'e5 Bornholm</h1>\
-        <div class="hero-sub">More than a place \'96 it\'92s a rhythm of island life.</div>\
-        <p class="hero-text">\
-          \'d8LIV Bornholm er en lille g\'e5rd med farm hospitality \'96 et skridt v\'e6k fra badehotellerne.\
-          F\'e5, lyse v\'e6relser med gode senge og naturmaterialer. \'d8LIV Brew er en naturlig del af g\'e5rdlivet.\
-          Dage i et roligt tempo: morgener p\'e5 g\'e5rdspladsen, ture ud p\'e5 \'f8en og aftener med mad, samtaler og \'f8l brygget p\'e5 stedet.\
-        </p>\
-        <div class="hero-badges">\
-          <div class="pill">Bornholm \'b7 Danmark</div>\
-          <div class="pill">G\'e5rdophold</div>\
-          <div class="pill">300 m til kysten</div>\
-          <div class="pill">\'d8LIV Brew</div>\
-          <div class="pill">Solceller & gr\'f8n drift</div>\
-        </div>\
-        <div class="hero-cta" id="booking">\
-          <button class="btn-primary js-open-booking" type="button">Book dit ophold</button>\
-          <button class="btn-ghost" type="button" onclick="document.getElementById('overnatning').scrollIntoView(\{behavior:'smooth'\})">Se v\'e6relserne</button>\
-        </div>\
-        <div class="hero-note">Vi har f\'e5 v\'e6relser \'96 s\'e6rligt weekender og ferier bliver hurtigt booket.</div>\
-      </div>\
-      <div class="hero-right">\
-        <div class="hero-main-img"></div>\
-        <div class="hero-small-grid">\
-          <div class="hero-img room"></div>\
-          <div class="hero-img beer"></div>\
-        </div>\
-      </div>\
-    </section>\
-\
-    <!-- OVERNATNING -->\
-    <section class="section-stay" id="overnatning">\
-      <h2 class="section-heading">Bo p\'e5 g\'e5rden</h2>\
-      <p class="section-subtitle">\
-        Enkle, nordiske v\'e6relser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor d\'f8ren.\
-      </p>\
-\
-      <div class="room-grid">\
-        <article class="room-card">\
-          <div class="room-image coast"></div>\
-          <div class="room-content">\
-            <h3>Kystv\'e6relse \'b7 havudsigt</h3>\
-            <span class="room-tag">5 v\'e6relser \'b7 Til 2 personer</span>\
-            <ul>\
-              <li>Direkte havblik fra v\'e6relset</li>\
-              <li>Rolig indretning i naturmaterialer</li>\
-              <li>Morgenmad med udsigt</li>\
-            </ul>\
-            <div class="room-price">Fra 1.400 DKK / nat</div>\
-            <div class="room-actions"><button class="js-open-booking" type="button">Se datoer</button></div>\
-          </div>\
-        </article>\
-\
-        <article class="room-card">\
-          <div class="room-image suite"></div>\
-          <div class="room-content">\
-            <h3>Havsuite</h3>\
-            <span class="room-tag">Til 2 personer</span>\
-            <ul>\
-              <li>Mere plads og komfort</li>\
-              <li>Havudsigt</li>\
-              <li>Velkomst\'f8l fra bryggeriet</li>\
-            </ul>\
-            <div class="room-price">Fra 1.900 DKK / nat</div>\
-            <div class="room-actions"><button class="js-open-booking" type="button">Se datoer</button></div>\
-          </div>\
-        </article>\
-\
-        <article class="room-card">\
-          <div class="room-image suite-large"></div>\
-          <div class="room-content">\
-            <h3>Stor havsuite med lounge</h3>\
-            <span class="room-tag">Til 2\'963 g\'e6ster</span>\
-            <ul>\
-              <li>Separat lounge til l\'e6sning & samtaler</li>\
-              <li>Mest udsigt og bl\'f8deste senge</li>\
-              <li>Ideel til l\'e6ngere ophold</li>\
-            </ul>\
-            <div class="room-price">Fra 2.300 DKK / nat</div>\
-            <div class="room-actions"><button class="js-open-booking" type="button">Se datoer</button></div>\
-          </div>\
-        </article>\
-\
-        <article class="room-card">\
-          <div class="room-image apartment"></div>\
-          <div class="room-content">\
-            <h3>2-v\'e6relses ferielejlighed</h3>\
-            <span class="room-tag">Til 2\'964 g\'e6ster \'b7 K\'f8kken</span>\
-            <ul>\
-              <li>Separat sovev\'e6relse og opholdsrum</li>\
-              <li>Lille k\'f8kken</li>\
-              <li>God for familie/venner</li>\
-            </ul>\
-            <div class="room-price">Fra 2.600 DKK / nat</div>\
-            <div class="room-actions"><button class="js-open-booking" type="button">Se datoer</button></div>\
-          </div>\
-        </article>\
-\
-        <article class="room-card">\
-          <div class="room-image private"></div>\
-          <div class="room-content">\
-            <h3>G\'e5rdv\'e6relser \'b7 eget bad</h3>\
-            <span class="room-tag">2 st\'f8rre + 1 enkelt</span>\
-            <ul>\
-              <li>Kig/adgang til g\'e5rden</li>\
-              <li>Eget badev\'e6relse</li>\
-              <li>T\'e6t p\'e5 sauna & terrasse</li>\
-            </ul>\
-            <div class="room-price">Fra 1.200 DKK / nat</div>\
-            <div class="room-actions"><button class="js-open-booking" type="button">Se datoer</button></div>\
-          </div>\
-        </article>\
-      </div>\
-    </section>\
-\
-    <!-- SPA -->\
-    <section class="section-spa" id="spa">\
-      <h2 class="section-heading">Spa &amp; oplevelser p\'e5 g\'e5rden</h2>\
-      <p class="section-subtitle">\
-        En lille g\'e5rdsauna, koldtvand og stille omgivelser \'96 et simpelt ritual uden spa-musik og store armbev\'e6gelser.\
-      </p>\
-      <div class="spa-grid">\
-        <div class="spa-text">\
-          <p>Land efter en dag ved havet, varm igennem og m\'e6rk roen.</p>\
-          <p>Vi t\'e6nder op p\'e5 udvalgte tidspunkter \'96 kombiner med koldtvand, et glas \'f8l eller bare helt ro.</p>\
-          <ul class="spa-list">\
-            <li>G\'e5rdsauna (f\'e5 g\'e6ster ad gangen)</li>\
-            <li>Koldtvand & frisk luft</li>\
-            <li>Tilk\'f8b til udvalgte ophold</li>\
-          </ul>\
-        </div>\
-        <div class="spa-image"></div>\
-      </div>\
-    </section>\
-\
-    <!-- PACKAGES -->\
-    <section class="section-packages" id="ophold">\
-      <h2 class="section-heading">Smag &amp; ophold</h2>\
-      <p class="section-subtitle">Overnatning, bryggeri og sm\'e5 g\'e5rd- og \'f8-oplevelser t\'e6nkt sammen.</p>\
-      <div class="pack-grid">\
-        <div class="pack-card">\
-          <h3>G\'e5rdliv &amp; Kande</h3>\
-          <div class="pack-duration">1 overnatning</div>\
-          <ul>\
-            <li>Overnatning i Kystv\'e6relse</li>\
-            <li>Lille bryggerirundvisning & smagning</li>\
-            <li>Morgenmad med udsigt</li>\
-          </ul>\
-          <div class="pack-price">Fra 2.100 DKK for 2 g\'e6ster</div>\
-        </div>\
-        <div class="pack-card">\
-          <h3>Bryggerens Weekend</h3>\
-          <div class="pack-duration">2 overnatninger</div>\
-          <ul>\
-            <li>Bryggeri-loft eller Havsuite</li>\
-            <li>Udvidet smagning m. snacks</li>\
-            <li>Morgenmad begge dage</li>\
-            <li>Sen udcheck s\'f8ndag</li>\
-          </ul>\
-          <div class="pack-price">Fra 4.800 DKK for 2 g\'e6ster</div>\
-        </div>\
-        <div class="pack-card">\
-          <h3>Ro p\'e5 g\'e5rden</h3>\
-          <div class="pack-duration">2 overnatninger</div>\
-          <ul>\
-            <li>Valgfrit v\'e6relse</li>\
-            <li>Rolig smagning i bryggeriet</li>\
-            <li>Forslag til kystture</li>\
-            <li>Fokus p\'e5 tid og natur</li>\
-          </ul>\
-          <div class="pack-price">Fra 3.900 DKK for 2 g\'e6ster</div>\
-        </div>\
-      </div>\
-    </section>\
-\
-    <!-- BRYGGERIET -->\
-    <section class="section-about" id="bryggeri">\
-      <div>\
-        <h2 class="section-heading">\'d8LIV Brew \'96 brygget ved kysten</h2>\
-        <p class="section-subtitle">Lyse, rene \'f8l inspireret af havet, lyset og rytmen p\'e5 \'f8en.</p>\
-        <div class="about-text">\
-          <p>\'d8LIV Brew er en naturlig del af opholdet \'96 smag til maden, i bryggeriet eller p\'e5 terrassen.</p>\
-          <p>Sm\'e5 smagninger med ro, tid og fort\'e6llinger om r\'e5varer og proces. Godt h\'e5ndv\'e6rk uden shows.</p>\
-        </div>\
-        <div class="about-tags">\
-          <span class="pill">Sm\'e5 smagninger</span>\
-          <span class="pill">Nordiske r\'e5varer</span>\
-          <span class="pill">\'d8l til maden</span>\
-        </div>\
-      </div>\
-      <div class="about-image"></div>\
-    </section>\
-\
-    <!-- KYST -->\
-    <section class="section-bornholm" id="kyst">\
-      <div class="bornholm-overlay">\
-        <h2>Rundt om \'d8LIV</h2>\
-        <p>\'d8LIV ligger for sig selv \'96 kun 300 meter fra kysten, t\'e6t p\'e5 stierne og sm\'e5 havne.</p>\
-        <p>Morgendyp, lange g\'e5ture, cykelruter og stille aftener med udsigt \'96 alt inden for r\'e6kkevidde.</p>\
-        <div class="bornholm-link">S\'e5dan finder du herhen \uc0\u8594 </div>\
-      </div>\
-    </section>\
-\
-    <!-- FINAL CTA -->\
-    <section class="section-final-cta">\
-      <p>Klar p\'e5 et par stille dage p\'e5 g\'e5rden \'96 med et bryggeri i baghaven?</p>\
-      <button class="btn-primary js-open-booking" type="button">Skriv til os om datoer</button>\
-    </section>\
-\
-    <!-- FOOTER -->\
-    <footer>\
-      <div>\
-        <div class="logo" style="font-size:18px;">\'d8LIV</div>\
-        <p>Farm hospitality &amp; \'d8LIV Brew \'b7 Bornholm, Danmark</p>\
-        <p>mail@oliv-retreat.dk \'b7 +45 XX XX XX XX</p>\
-      </div>\
-      <div class="footer-links">\
-        <a href="#">Instagram</a>\
-        <a href="#">Nyhedsbrev</a>\
-        <a href="#">Persondata &amp; vilk\'e5r</a>\
-      </div>\
-    </footer>\
-  </div>\
-\
-  <!-- BOOKING MODAL -->\
-  <div class="booking-modal-backdrop" aria-hidden="true">\
-    <div class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">\
-      <div class="booking-modal-header">\
-        <div>\
-          <div id="booking-modal-title" class="booking-modal-title">Foresp\'f8rgsel p\'e5 ophold</div>\
-          <div class="booking-modal-subtitle">Fort\'e6l os hvorn\'e5r I \'f8nsker at komme \'96 vi svarer med ledighed og pris.</div>\
-        </div>\
-        <button class="booking-modal-close js-close-booking" type="button" aria-label="Luk">\'d7</button>\
-      </div>\
-      <form class="booking-modal-body" id="booking-modal-form">\
-        <div class="booking-field-group">\
-          <div class="booking-field">\
-            <label class="booking-label" for="booking-date">Ankomst</label>\
-            <input class="booking-input" type="date" id="booking-date" name="date" />\
-          </div>\
-          <div class="booking-field">\
-            <label class="booking-label" for="booking-nights">N\'e6tter</label>\
-            <select class="booking-select" id="booking-nights" name="nights">\
-              <option value="1">1 nat</option><option value="2">2 n\'e6tter</option>\
-              <option value="3">3 n\'e6tter</option><option value="4">4+ n\'e6tter</option>\
-            </select>\
-          </div>\
-          <div class="booking-field">\
-            <label class="booking-label" for="booking-guests">G\'e6ster</label>\
-            <select class="booking-select" id="booking-guests" name="guests">\
-              <option value="2">2 g\'e6ster</option><option value="1">1 g\'e6st</option>\
-              <option value="3">3 g\'e6ster</option><option value="4">4 g\'e6ster</option>\
-            </select>\
-          </div>\
-        </div>\
-\
-        <button class="rate-toggle js-toggle-rates" type="button">Se priser &amp; min. n\'e6tter</button>\
-\
-        <div class="booking-rate-panel" hidden>\
-          <h4>Priser &amp; min. antal n\'e6tter (vejledende)</h4>\
-          <div class="rate-grid">\
-            <div class="rate-box">\
-              <div class="rate-box-title">Lavs\'e6son</div>\
-              <div class="rate-box-small">Okt\'96apr (ekskl. helligdage)</div>\
-              <div>Fra 1.200 DKK / nat</div>\
-              <div class="rate-box-small">Min. 1 nat</div>\
-            </div>\
-            <div class="rate-box">\
-              <div class="rate-box-title">Skulders\'e6son</div>\
-              <div class="rate-box-small">Maj\'96jun &amp; sep</div>\
-              <div>Fra 1.400 DKK / nat</div>\
-              <div class="rate-box-small">Min. 2 n\'e6tter (weekender)</div>\
-            </div>\
-            <div class="rate-box">\
-              <div class="rate-box-title">H\'f8js\'e6son</div>\
-              <div class="rate-box-small">Sommer &amp; helligdage</div>\
-              <div>Fra 1.700 DKK / nat</div>\
-              <div class="rate-box-small">Min. 3 n\'e6tter (udvalgte perioder)</div>\
-            </div>\
-          </div>\
-          <div class="rate-example-week">\
-            Eksempel (fra-priser pr. nat):\
-            <div class="rate-example-week-row">\
-              <div class="rate-example-day">Man</div>\
-              <div class="rate-example-day">Tirs</div>\
-              <div class="rate-example-day">Ons</div>\
-              <div class="rate-example-day">Tors</div>\
-              <div class="rate-example-day is-weekend">Fre</div>\
-              <div class="rate-example-day is-weekend">L\'f8r</div>\
-              <div class="rate-example-day">S\'f8n</div>\
-            </div>\
-          </div>\
-          <div class="rate-dynamic">\
-            <div id="rate-season-line" class="rate-dynamic-line">\
-              V\'e6lg en ankomstdato for at se s\'e6son og prisestimat.\
-            </div>\
-            <div id="rate-min-nights-line" class="rate-dynamic-line"></div>\
-          </div>\
-        </div>\
-\
-        <div class="booking-footer">\
-          <textarea class="booking-textarea" name="message" placeholder="Evt. besked/\'f8nsker (valgfrit)"></textarea>\
-          <button class="booking-submit" type="submit">Send foresp\'f8rgsel</button>\
-          <div class="booking-note">Vi svarer normalt inden for 24 timer.</div>\
-        </div>\
-      </form>\
-    </div>\
-  </div>\
-\
-  <script>\
-    // Modal open/close\
-    const openBtns = document.querySelectorAll('.js-open-booking');\
-    const modal = document.querySelector('.booking-modal-backdrop');\
-    const closeBtn = document.querySelector('.js-close-booking');\
-\
-    openBtns.forEach(btn => btn.addEventListener('click', () => \{\
-      modal.classList.add('is-visible');\
-      modal.setAttribute('aria-hidden','false');\
-      document.getElementById('booking-date')?.focus();\
-    \}));\
-    closeBtn?.addEventListener('click', () => \{\
-      modal.classList.remove('is-visible');\
-      modal.setAttribute('aria-hidden','true');\
-    \});\
-    modal?.addEventListener('click', (e) => \{\
-      if (e.target === modal) \{\
-        modal.classList.remove('is-visible');\
-        modal.setAttribute('aria-hidden','true');\
-      \}\
-    \});\
-\
-    // Toggle rates panel\
-    const toggleRates = document.querySelector('.js-toggle-rates');\
-    const ratePanel = document.querySelector('.booking-rate-panel');\
-    toggleRates?.addEventListener('click', () => \{\
-      const hidden = ratePanel.hasAttribute('hidden');\
-      if (hidden) ratePanel.removeAttribute('hidden'); else ratePanel.setAttribute('hidden','');\
-    \});\
-\
-    // Simple season logic for dynamic hint\
-    const dateInput = document.getElementById('booking-date');\
-    const nightsSelect = document.getElementById('booking-nights');\
-    const seasonLine = document.getElementById('rate-season-line');\
-    const minNightsLine = document.getElementById('rate-min-nights-line');\
-\
-    function updateRateHint()\{\
-      const val = dateInput.value;\
-      if(!val)\{ seasonLine.textContent = "V\'e6lg en ankomstdato for at se s\'e6son og prisestimat."; minNightsLine.textContent = ""; return; \}\
-      const d = new Date(val);\
-      const m = d.getMonth() + 1; // 1-12\
-      let season = "Lavs\'e6son";\
-      let price = 1200;\
-      let minNights = 1;\
-\
-      if ((m>=10 && m<=12) || (m>=1 && m<=4)) \{ season = "Lavs\'e6son"; price = 1200; minNights = 1; \}\
-      if ((m===5) || (m===6) || (m===9)) \{ season = "Skulders\'e6son"; price = 1400; minNights = 2; \}\
-      if (m===7 || m===8) \{ season = "H\'f8js\'e6son"; price = 1700; minNights = 3; \}\
-\
-      seasonLine.innerHTML = `Estimat: <strong>$\{season\}</strong> \'b7 fra ca. <strong>$\{price\} DKK</strong> pr. nat.`;\
-      const chosen = parseInt(nightsSelect.value || "1", 10);\
-      minNightsLine.textContent = chosen < minNights\
-        ? `Bem\'e6rk: Min. $\{minNights\} n\'e6tter i $\{season.toLowerCase()\}.`\
-        : `Valg: $\{chosen\} nat/ n\'e6tter opfylder min. krav i $\{season.toLowerCase()\}.`;\
-    \}\
-    dateInput?.addEventListener('change', updateRateHint);\
-    nightsSelect?.addEventListener('change', updateRateHint);\
-\
-    // Fake submit \uc0\u8594  console + close\
-    document.getElementById('booking-modal-form')?.addEventListener('submit', (e)=>\{\
-      e.preventDefault();\
-      const data = new FormData(e.target);\
-      console.log("Booking request:", Object.fromEntries(data.entries()));\
-      alert("Tak for din foresp\'f8rgsel! Vi vender tilbage snarest.");\
-      modal.classList.remove('is-visible');\
-      modal.setAttribute('aria-hidden','true');\
-      e.target.reset();\
-    \});\
-  </script>\
-</body>\
-</html>\
-}
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(5,5,6,.92), rgba(5,5,6,.75));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      animation: slideDown 0.5s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      gap: 16px;
+    }
+    
+    .logo {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 26px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--cream);
+      white-space: nowrap;
+      transition: var(--transition-smooth);
+    }
+    
+    .logo:hover {
+      color: var(--beige);
+      transform: scale(1.02);
+    }
+    
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 13px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(245,240,233,.8);
+    }
+    
+    nav a {
+      position: relative;
+      padding-bottom: 4px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      tabindex: 0;
+    }
+    
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      width: 0;
+      background: var(--beige);
+      transition: width .2s ease-out;
+      opacity: .85;
+    }
+    
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+    }
+    
+    nav a:focus {
+      outline: 2px solid var(--beige);
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+    
+    .btn-book-nav {
+      border-radius: 999px;
+      padding: 8px 16px;
+      background: var(--olive);
+      color: var(--beige);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 26px rgba(0,0,0,.6);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+    }
+    
+    .btn-book-nav:hover,
+    .btn-book-nav:focus {
+      background: var(--olive-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(0,0,0,.7);
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.1fr);
+      gap: 26px;
+      margin-top: 28px;
+      padding: 26px;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, #222a29, #121416);
+      box-shadow: var(--shadow-soft);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .hero-left h1 {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(30px, 4vw, 40px);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      animation: fadeInUp 0.8s ease-out 0.2s backwards;
+    }
+    
+    .hero-sub {
+      margin-top: 12px;
+      font-size: 13px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: fadeInUp 0.8s ease-out 0.3s backwards;
+    }
+    
+    .hero-text {
+      margin-top: 18px;
+      font-size: 15px;
+      max-width: 470px;
+      color: rgba(245,240,233,.87);
+      animation: fadeInUp 0.8s ease-out 0.4s backwards;
+    }
+    
+    .hero-badges {
+      margin-top: 18px;
+      margin-bottom: 6px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 10px;
+      animation: fadeInUp 0.8s ease-out 0.5s backwards;
+    }
+    
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 4px 10px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(245,240,233,.6);
+      font-size: 10px;
+      cursor: default;
+      opacity: .9;
+      transition: var(--transition-smooth);
+    }
+    
+    .pill:hover {
+      background: rgba(255,255,255,.03);
+      border-color: rgba(255,255,255,.15);
+      transform: translateY(-2px);
+    }
+    
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 26px;
+      animation: fadeInUp 0.8s ease-out 0.6s backwards;
+    }
+    
+    .btn-primary, .btn-ghost {
+      border-radius: 999px;
+      padding: 11px 22px;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition-smooth);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-primary::before,
+    .btn-ghost::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-primary:hover::before,
+    .btn-ghost:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .btn-primary {
+      background: var(--olive);
+      color: var(--beige);
+      box-shadow: 0 14px 30px rgba(0,0,0,.75);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .btn-primary:hover,
+    .btn-primary:focus {
+      background: var(--olive-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(0,0,0,.85);
+    }
+    
+    .btn-ghost {
+      background: transparent;
+      color: rgba(245,240,233,.85);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 11px 20px;
+    }
+    
+    .btn-ghost:hover,
+    .btn-ghost:focus {
+      background: rgba(255,255,255,.03);
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.2);
+    }
+    
+    .hero-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(245,240,233,.7);
+      animation: fadeInUp 0.8s ease-out 0.7s backwards;
+    }
+    
+    .hero-right {
+      display: grid;
+      grid-template-rows: 1.3fr 1fr;
+      gap: 10px;
+    }
+    
+    .hero-main-img {
+      border-radius: 20px;
+      background-image: url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1400&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      animation: fadeIn 1s ease-out 0.5s backwards;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .hero-main-img::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.3));
+      opacity: 0;
+      transition: var(--transition-smooth);
+    }
+    
+    .hero-main-img:hover::before {
+      opacity: 1;
+    }
+    
+    .hero-main-img:hover {
+      transform: scale(1.02);
+    }
+    
+    .hero-main-img::after {
+      content: "Farm hospitality · 300 m fra kysten";
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(245,240,233,.8);
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(5,5,5,.55);
+      backdrop-filter: blur(4px);
+    }
+    
+    .hero-small-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+    }
+    
+    .hero-img {
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+      animation: fadeIn 1s ease-out 0.7s backwards;
+    }
+    
+    .hero-img:hover {
+      transform: scale(1.05);
+    }
+    
+    .hero-img.room {
+      background-image: url("https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1200&auto=format&fit=crop");
+    }
+    
+    .hero-img.beer {
+      background-image: url("https://images.unsplash.com/photo-1518176258769-f227c798150e?q=80&w=1200&auto=format&fit=crop");
+    }
+
+    section {
+      margin-top: 64px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .section-heading {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 20px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    
+    .section-subtitle {
+      font-size: 14px;
+      color: rgba(245,240,233,.8);
+      max-width: 540px;
+    }
+
+    /* ABOUT (BRYGGERI) */
+    .section-about {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 26px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #26201b, #16120f);
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-smooth);
+    }
+    
+    .section-about:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 55px rgba(0,0,0,.65);
+    }
+    
+    .about-text {
+      font-size: 15px;
+      color: rgba(245,240,233,.87);
+    }
+    
+    .about-text p + p {
+      margin-top: 10px;
+    }
+    
+    .about-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 11px;
+    }
+    
+    .about-image {
+      border-radius: 18px;
+      background-image: url("https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&w=1400&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+    
+    .about-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .about-image::after {
+      content: "ØLIV Brew";
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(10,10,10,.65);
+      color: rgba(245,240,233,.9);
+    }
+
+    /* STAY / ROOMS */
+    .section-stay {
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, #15181a, #101111);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .room-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+    
+    .room-card {
+      border-radius: 18px;
+      background: var(--charcoal-soft);
+      border: 1px solid rgba(255,255,255,.04);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    
+    .room-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.7);
+      border-color: rgba(255,255,255,.12);
+    }
+    
+    .room-image {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      transition: var(--transition-smooth);
+    }
+    
+    .room-card:hover .room-image {
+      transform: scale(1.1);
+    }
+    
+    .room-image.coast {
+      background-image: url("https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&w=1400&auto=format&fit=crop");
+    }
+    
+    .room-image.suite {
+      background-image: url("https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1400&auto=format&fit=crop");
+    }
+    
+    .room-image.suite-large {
+      background-image: url("https://images.unsplash.com/photo-1521782462922-9318be1b9949?q=80&w=1400&auto=format&fit=crop");
+    }
+    
+    .room-image.apartment {
+      background-image: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1400&auto=format&fit=crop");
+    }
+    
+    .room-image.private {
+      background-image: url("https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1400&auto=format&fit=crop");
+    }
+    
+    .room-content {
+      padding: 14px 16px 16px;
+      font-size: 14px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .room-content h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    
+    .room-tag {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(245,240,233,.6);
+    }
+    
+    .room-content ul {
+      list-style: none;
+      margin: 8px 0;
+      padding-left: 0;
+      font-size: 13px;
+      color: rgba(245,240,233,.75);
+      flex: 1;
+    }
+    
+    .room-content ul li {
+      padding: 2px 0;
+      transition: var(--transition-smooth);
+    }
+    
+    .room-content ul li:hover {
+      color: var(--beige);
+      transform: translateX(4px);
+    }
+    
+    .room-content ul li::before {
+      content: "• ";
+      color: var(--beige);
+    }
+    
+    .room-price {
+      font-size: 13px;
+      color: var(--beige);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    
+    .room-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .room-actions button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: var(--olive);
+      color: var(--beige);
+      transition: var(--transition-smooth);
+    }
+    
+    .room-actions button:hover,
+    .room-actions button:focus {
+      background: var(--olive-soft);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,.5);
+    }
+
+    /* PACKAGES */
+    .section-packages {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #23201d, #14110f);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .pack-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      font-size: 13px;
+    }
+    
+    .pack-card {
+      border-radius: 18px;
+      padding: 14px 16px 16px;
+      background: var(--charcoal-soft);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    
+    .pack-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0,0,0,.6);
+      border-color: rgba(255,255,255,.15);
+      background: linear-gradient(135deg, rgba(25,28,30,.9), rgba(35,32,29,.9));
+    }
+    
+    .pack-card h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    
+    .pack-duration {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(245,240,233,.6);
+      margin-bottom: 6px;
+    }
+    
+    .pack-card ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 6px 0 8px;
+    }
+    
+    .pack-card li {
+      padding: 2px 0;
+      transition: var(--transition-smooth);
+    }
+    
+    .pack-card li:hover {
+      color: var(--beige);
+      transform: translateX(4px);
+    }
+    
+    .pack-card li::before {
+      content: "– ";
+      color: var(--beige);
+    }
+    
+    .pack-price {
+      font-size: 13px;
+      color: var(--beige);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    /* SPA */
+    .section-spa {
+      margin-top: 56px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #191c1f, #101112);
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-smooth);
+    }
+    
+    .section-spa:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 55px rgba(0,0,0,.65);
+    }
+    
+    .spa-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      font-size: 14px;
+      color: rgba(245,240,233,.88);
+    }
+    
+    .spa-text p + p {
+      margin-top: 10px;
+    }
+    
+    .spa-list {
+      margin-top: 10px;
+      list-style: none;
+      padding-left: 0;
+      font-size: 13px;
+      color: rgba(245,240,233,.8);
+    }
+    
+    .spa-list li {
+      padding: 2px 0;
+      transition: var(--transition-smooth);
+    }
+    
+    .spa-list li:hover {
+      color: var(--beige);
+      transform: translateX(4px);
+    }
+    
+    .spa-list li::before {
+      content: "• ";
+      color: var(--beige);
+    }
+    
+    .spa-image {
+      border-radius: 18px;
+      background-image: url("https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1400&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+    
+    .spa-image:hover {
+      transform: scale(1.02);
+    }
+    
+    .spa-image::after {
+      content: "Sauna, koldtvand & ro";
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(5,5,5,.6);
+      color: rgba(245,240,233,.9);
+      backdrop-filter: blur(4px);
+    }
+
+    /* KYST */
+    .section-bornholm {
+      margin-top: 56px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      position: relative;
+      background-image: url("https://images.unsplash.com/photo-1508261303786-0e3b964c7e00?q=80&w=1600&auto=format&fit=crop");
+      background-size: cover;
+      background-position: center;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-smooth);
+      min-height: 280px;
+    }
+    
+    .section-bornholm:hover {
+      transform: scale(1.01);
+      box-shadow: 0 24px 60px rgba(0,0,0,.7);
+    }
+    
+    .bornholm-overlay {
+      padding: 34px 26px;
+      background: linear-gradient(to right, rgba(5,6,7,.85), rgba(5,6,7,.35), rgba(5,6,7,.2));
+      max-width: 560px;
+    }
+    
+    .bornholm-overlay h2 {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 20px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    
+    .bornholm-overlay p {
+      font-size: 14px;
+      color: rgba(245,240,233,.9);
+      margin: 6px 0;
+    }
+    
+    .bornholm-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding-bottom: 2px;
+      border-bottom: 1px solid rgba(245,240,233,.6);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    
+    .bornholm-link:hover {
+      color: var(--beige);
+      border-color: var(--beige);
+      transform: translateX(4px);
+    }
+
+    /* PHILOSOPHY */
+    .section-philosophy {
+      margin-top: 56px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, #181a1d, #141617);
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .philo-grid {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      font-size: 14px;
+      color: rgba(245,240,233,.85);
+    }
+    
+    .philo-card {
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.04);
+      transition: var(--transition-smooth);
+    }
+    
+    .philo-card:hover {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.1);
+      transform: translateY(-4px);
+    }
+    
+    .philo-card h3 {
+      font-size: 14px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: var(--beige);
+    }
+
+    /* FINAL CTA */
+    .section-final-cta {
+      margin-top: 56px;
+      padding: 20px 24px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top left, #27302b, #101112);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-size: 14px;
+      box-shadow: var(--shadow-soft);
+      transition: var(--transition-smooth);
+    }
+    
+    .section-final-cta:hover {
+      transform: scale(1.01);
+      box-shadow: 0 22px 50px rgba(0,0,0,.65);
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 42px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 18px;
+      font-size: 13px;
+      color: rgba(245,240,233,.75);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+    }
+    
+    .footer-links a {
+      transition: var(--transition-smooth);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    
+    .footer-links a:hover {
+      color: var(--beige);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* BOOKING MODAL */
+    .booking-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,6,7,.78);
+      backdrop-filter: blur(14px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 80;
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .booking-modal-backdrop.is-visible {
+      display: flex;
+    }
+    
+    .booking-modal {
+      width: 100%;
+      max-width: 460px;
+      background: #111316;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 26px 70px rgba(0,0,0,.85);
+      padding: 20px 20px 18px;
+      position: relative;
+      animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .booking-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    
+    .booking-modal-title {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 16px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    
+    .booking-modal-subtitle {
+      font-size: 13px;
+      color: rgba(245,240,233,.8);
+      margin-top: 4px;
+    }
+    
+    .booking-modal-close {
+      border-radius: 999px;
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(148,163,184,.4);
+      background: rgba(15,23,42,.9);
+      color: rgba(248,250,252,.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    
+    .booking-modal-close:hover,
+    .booking-modal-close:focus {
+      background: rgba(220,38,38,.8);
+      transform: rotate(90deg);
+    }
+    
+    .booking-modal-body {
+      margin-top: 8px;
+      display: grid;
+      gap: 10px;
+      font-size: 13px;
+    }
+    
+    .booking-field-group {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    
+    .booking-field {
+      display: grid;
+      gap: 3px;
+    }
+    
+    .booking-label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(209,213,219,.85);
+    }
+    
+    .booking-input, .booking-select, .booking-textarea {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.7);
+      background: rgba(15,23,42,.9);
+      color: #f9fafb;
+      font-size: 13px;
+      font-family: inherit;
+      transition: var(--transition-smooth);
+    }
+    
+    .booking-textarea {
+      border-radius: 14px;
+      min-height: 70px;
+      resize: vertical;
+    }
+    
+    .booking-input:focus,
+    .booking-select:focus,
+    .booking-textarea:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56,189,248,.2);
+      transform: scale(1.01);
+    }
+    
+    .booking-footer {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(209,213,219,.85);
+    }
+    
+    .booking-submit {
+      margin-top: 2px;
+      width: 100%;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(to right, var(--olive), var(--bluegreen));
+      color: var(--beige);
+      font-size: 12px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(0,0,0,.8);
+      transition: var(--transition-smooth);
+    }
+    
+    .booking-submit:hover,
+    .booking-submit:focus {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 22px 50px rgba(0,0,0,.9);
+    }
+    
+    .booking-note {
+      font-size: 11px;
+      color: rgba(148,163,184,.95);
+    }
+    
+    .rate-toggle {
+      margin-top: 10px;
+      width: 100%;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.8);
+      background: rgba(15,23,42,.9);
+      color: rgba(248,250,252,.9);
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+    
+    .rate-toggle:hover,
+    .rate-toggle:focus {
+      background: rgba(30,64,175,.8);
+      transform: scale(1.02);
+    }
+    
+    .booking-rate-panel {
+      margin-top: 8px;
+      padding: 10px 12px 12px;
+      border-radius: 16px;
+      background: radial-gradient(circle at top left, rgba(15,23,42,.98), rgba(12,17,23,.96));
+      border: 1px solid rgba(148,163,184,.7);
+      font-size: 12px;
+      color: rgba(226,232,240,.95);
+      animation: slideDown 0.3s ease-out;
+    }
+    
+    .booking-rate-panel h4 {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: rgba(248,250,252,.9);
+    }
+    
+    .rate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+    
+    .rate-box {
+      padding: 8px 9px;
+      border-radius: 14px;
+      background: rgba(15,23,42,.9);
+      border: 1px solid rgba(51,65,85,.95);
+      font-size: 11px;
+      transition: var(--transition-smooth);
+    }
+    
+    .rate-box:hover {
+      background: rgba(30,41,59,.9);
+      border-color: rgba(100,116,139,.95);
+    }
+    
+    .rate-box-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .rate-box-small {
+      font-size: 10px;
+      color: rgba(148,163,184,.95);
+    }
+    
+    .rate-example-week {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(75,85,99,.9);
+      font-size: 10px;
+      color: rgba(156,163,175,.95);
+    }
+    
+    .rate-example-week-row {
+      margin-top: 4px;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+    }
+    
+    .rate-example-day {
+      padding: 4px 2px;
+      border-radius: 8px;
+      background: rgba(15,23,42,.9);
+      text-align: center;
+      font-size: 9px;
+      transition: var(--transition-smooth);
+    }
+    
+    .rate-example-day:hover {
+      background: rgba(59,130,246,.5);
+      transform: scale(1.1);
+    }
+    
+    .rate-example-day.is-weekend {
+      border: 1px solid rgba(209,213,219,.9);
+    }
+    
+    .rate-dynamic {
+      margin-top: 8px;
+      display: grid;
+      gap: 2px;
+      font-size: 11px;
+      color: rgba(156,163,175,.95);
+    }
+    
+    .rate-dynamic-line strong {
+      color: rgba(248,250,252,.98);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .page {
+        padding: 14px 16px 40px;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .hero, .section-about {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero {
+        padding: 20px;
+      }
+      
+      .hero-right {
+        order: -1;
+      }
+      
+      .section-bornholm {
+        margin-top: 42px;
+      }
+      
+      .spa-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .room-grid, .pack-grid, .philo-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-final-cta {
+        border-radius: 20px;
+        align-items: flex-start;
+      }
+      
+      .booking-field-group {
+        grid-template-columns: 1fr;
+      }
+      
+      .rate-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero {
+        padding: 18px 16px;
+      }
+      
+      .section-stay, .section-about, .section-packages, .section-philosophy {
+        padding: 18px 16px;
+      }
+      
+      .logo {
+        font-size: 20px;
+      }
+    }
+    
+    /* Accessibility improvements */
+    :focus-visible {
+      outline: 2px solid var(--beige);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      .btn-primary,
+      .btn-ghost,
+      .room-card,
+      .pack-card {
+        border: 2px solid currentColor;
+      }
+    }
+    
+    /* Print styles */
+    @media print {
+      header {
+        position: relative;
+      }
+      
+      .booking-modal-backdrop {
+        display: none !important;
+      }
+      
+      .btn-primary,
+      .btn-ghost,
+      .btn-book-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="ØLIV hjem">ØLIV</a>
+      <nav aria-label="Hovednavigation">
+        <a href="#overnatning" tabindex="0" aria-label="Spring til overnatning">Overnatning</a>
+        <a href="#spa" tabindex="0" aria-label="Spring til spa og oplevelser">Spa &amp; oplevelser</a>
+        <a href="#bryggeri" tabindex="0" aria-label="Spring til ØLIV Brew">ØLIV Brew</a>
+        <button class="btn-book-nav js-open-booking" type="button" aria-label="Åbn bookingformular">Book ophold</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-left">
+        <h1 id="hero-heading">Farm hospitality på Bornholm</h1>
+        <div class="hero-sub">More than a place – it's a rhythm of island life.</div>
+        <p class="hero-text">
+          ØLIV Bornholm er en lille gård med farm hospitality – et skridt væk fra badehotellerne.
+          Få, lyse værelser med gode senge og naturmaterialer. ØLIV Brew er en naturlig del af gårdlivet.
+          Dage i et roligt tempo: morgener på gårdspladsen, ture ud på øen og aftener med mad, samtaler og øl brygget på stedet.
+        </p>
+        <div class="hero-badges" role="list" aria-label="Nøgleegenskaber">
+          <div class="pill" role="listitem">Bornholm · Danmark</div>
+          <div class="pill" role="listitem">Gårdophold</div>
+          <div class="pill" role="listitem">300 m til kysten</div>
+          <div class="pill" role="listitem">ØLIV Brew</div>
+          <div class="pill" role="listitem">Solceller &amp; grøn drift</div>
+        </div>
+        <div class="hero-cta" id="booking">
+          <button class="btn-primary js-open-booking" type="button" aria-label="Book dit ophold">Book dit ophold</button>
+          <button class="btn-ghost" type="button" onclick="document.getElementById('overnatning').scrollIntoView({behavior:'smooth'})" aria-label="Se værelserne">Se værelserne</button>
+        </div>
+        <div class="hero-note">Vi har få værelser – særligt weekender og ferier bliver hurtigt booket.</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-main-img" role="img" aria-label="Farm hospitality ved kysten"></div>
+        <div class="hero-small-grid">
+          <div class="hero-img room" role="img" aria-label="Værelse med naturmaterialer"></div>
+          <div class="hero-img beer" role="img" aria-label="ØLIV Brew øl"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OVERNATNING -->
+    <section class="section-stay" id="overnatning" aria-labelledby="stay-heading">
+      <h2 id="stay-heading" class="section-heading">Bo på gården</h2>
+      <p class="section-subtitle">
+        Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren.
+      </p>
+
+      <div class="room-grid" role="list" aria-label="Tilgængelige værelser">
+        <article class="room-card" role="listitem" tabindex="0">
+          <div class="room-image coast" role="img" aria-label="Kystværelse med havudsigt"></div>
+          <div class="room-content">
+            <h3>Kystværelse · havudsigt</h3>
+            <span class="room-tag">5 værelser · Til 2 personer</span>
+            <ul>
+              <li>Direkte havblik fra værelset</li>
+              <li>Rolig indretning i naturmaterialer</li>
+              <li>Morgenmad med udsigt</li>
+            </ul>
+            <div class="room-price">Fra 1.400 DKK / nat</div>
+            <div class="room-actions">
+              <button class="js-open-booking" type="button" aria-label="Se ledige datoer for kystværelse">Se datoer</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card" role="listitem" tabindex="0">
+          <div class="room-image suite" role="img" aria-label="Havsuite"></div>
+          <div class="room-content">
+            <h3>Havsuite</h3>
+            <span class="room-tag">Til 2 personer</span>
+            <ul>
+              <li>Mere plads og komfort</li>
+              <li>Havudsigt</li>
+              <li>Velkomstøl fra bryggeriet</li>
+            </ul>
+            <div class="room-price">Fra 1.900 DKK / nat</div>
+            <div class="room-actions">
+              <button class="js-open-booking" type="button" aria-label="Se ledige datoer for havsuite">Se datoer</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card" role="listitem" tabindex="0">
+          <div class="room-image suite-large" role="img" aria-label="Stor havsuite med lounge"></div>
+          <div class="room-content">
+            <h3>Stor havsuite med lounge</h3>
+            <span class="room-tag">Til 2–3 gæster</span>
+            <ul>
+              <li>Separat lounge til læsning &amp; samtaler</li>
+              <li>Mest udsigt og blødeste senge</li>
+              <li>Ideel til længere ophold</li>
+            </ul>
+            <div class="room-price">Fra 2.300 DKK / nat</div>
+            <div class="room-actions">
+              <button class="js-open-booking" type="button" aria-label="Se ledige datoer for stor havsuite">Se datoer</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card" role="listitem" tabindex="0">
+          <div class="room-image apartment" role="img" aria-label="2-værelses ferielejlighed"></div>
+          <div class="room-content">
+            <h3>2-værelses ferielejlighed</h3>
+            <span class="room-tag">Til 2–4 gæster · Køkken</span>
+            <ul>
+              <li>Separat soveværelse og opholdsrum</li>
+              <li>Lille køkken</li>
+              <li>God for familie/venner</li>
+            </ul>
+            <div class="room-price">Fra 2.600 DKK / nat</div>
+            <div class="room-actions">
+              <button class="js-open-booking" type="button" aria-label="Se ledige datoer for ferielejlighed">Se datoer</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="room-card" role="listitem" tabindex="0">
+          <div class="room-image private" role="img" aria-label="Gårdværelser med eget bad"></div>
+          <div class="room-content">
+            <h3>Gårdværelser · eget bad</h3>
+            <span class="room-tag">2 større + 1 enkelt</span>
+            <ul>
+              <li>Kig/adgang til gården</li>
+              <li>Eget badeværelse</li>
+              <li>Tæt på sauna &amp; terrasse</li>
+            </ul>
+            <div class="room-price">Fra 1.200 DKK / nat</div>
+            <div class="room-actions">
+              <button class="js-open-booking" type="button" aria-label="Se ledige datoer for gårdværelser">Se datoer</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SPA -->
+    <section class="section-spa" id="spa" aria-labelledby="spa-heading">
+      <h2 id="spa-heading" class="section-heading">Spa &amp; oplevelser på gården</h2>
+      <p class="section-subtitle">
+        En lille gårdsauna, koldtvand og stille omgivelser – et simpelt ritual uden spa-musik og store armbevægelser.
+      </p>
+      <div class="spa-grid">
+        <div class="spa-text">
+          <p>Land efter en dag ved havet, varm igennem og mærk roen.</p>
+          <p>Vi tænder op på udvalgte tidspunkter – kombiner med koldtvand, et glas øl eller bare helt ro.</p>
+          <ul class="spa-list">
+            <li>Gårdsauna (få gæster ad gangen)</li>
+            <li>Koldtvand &amp; frisk luft</li>
+            <li>Tilkøb til udvalgte ophold</li>
+          </ul>
+        </div>
+        <div class="spa-image" role="img" aria-label="Sauna oplevelse"></div>
+      </div>
+    </section>
+
+    <!-- PACKAGES -->
+    <section class="section-packages" id="ophold" aria-labelledby="packages-heading">
+      <h2 id="packages-heading" class="section-heading">Smag &amp; ophold</h2>
+      <p class="section-subtitle">Overnatning, bryggeri og små gård- og ø-oplevelser tænkt sammen.</p>
+      <div class="pack-grid" role="list" aria-label="Oplevelsespakker">
+        <div class="pack-card" role="listitem" tabindex="0">
+          <h3>Gårdliv &amp; Kande</h3>
+          <div class="pack-duration">1 overnatning</div>
+          <ul>
+            <li>Overnatning i Kystværelse</li>
+            <li>Lille bryggerirundvisning &amp; smagning</li>
+            <li>Morgenmad med udsigt</li>
+          </ul>
+          <div class="pack-price">Fra 2.100 DKK for 2 gæster</div>
+        </div>
+        <div class="pack-card" role="listitem" tabindex="0">
+          <h3>Bryggerens Weekend</h3>
+          <div class="pack-duration">2 overnatninger</div>
+          <ul>
+            <li>Bryggeri-loft eller Havsuite</li>
+            <li>Udvidet smagning m. snacks</li>
+            <li>Morgenmad begge dage</li>
+            <li>Sen udcheck søndag</li>
+          </ul>
+          <div class="pack-price">Fra 4.800 DKK for 2 gæster</div>
+        </div>
+        <div class="pack-card" role="listitem" tabindex="0">
+          <h3>Ro på gården</h3>
+          <div class="pack-duration">2 overnatninger</div>
+          <ul>
+            <li>Valgfrit værelse</li>
+            <li>Rolig smagning i bryggeriet</li>
+            <li>Forslag til kystture</li>
+            <li>Fokus på tid og natur</li>
+          </ul>
+          <div class="pack-price">Fra 3.900 DKK for 2 gæster</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRYGGERIET -->
+    <section class="section-about" id="bryggeri" aria-labelledby="brewery-heading">
+      <div>
+        <h2 id="brewery-heading" class="section-heading">ØLIV Brew – brygget ved kysten</h2>
+        <p class="section-subtitle">Lyse, rene øl inspireret af havet, lyset og rytmen på øen.</p>
+        <div class="about-text">
+          <p>ØLIV Brew er en naturlig del af opholdet – smag til maden, i bryggeriet eller på terrassen.</p>
+          <p>Små smagninger med ro, tid og fortællinger om råvarer og proces. Godt håndværk uden shows.</p>
+        </div>
+        <div class="about-tags" role="list" aria-label="Bryggeriets egenskaber">
+          <span class="pill" role="listitem">Små smagninger</span>
+          <span class="pill" role="listitem">Nordiske råvarer</span>
+          <span class="pill" role="listitem">Øl til maden</span>
+        </div>
+      </div>
+      <div class="about-image" role="img" aria-label="ØLIV Brew bryggeri"></div>
+    </section>
+
+    <!-- KYST -->
+    <section class="section-bornholm" id="kyst" aria-labelledby="coast-heading">
+      <div class="bornholm-overlay">
+        <h2 id="coast-heading">Rundt om ØLIV</h2>
+        <p>ØLIV ligger for sig selv – kun 300 meter fra kysten, tæt på stierne og små havne.</p>
+        <p>Morgendyp, lange gåture, cykelruter og stille aftener med udsigt – alt inden for rækkevidde.</p>
+        <a href="#" class="bornholm-link" tabindex="0" aria-label="Find vej til ØLIV">Sådan finder du herhen →</a>
+      </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="section-philosophy" aria-labelledby="philosophy-heading">
+      <h2 id="philosophy-heading" class="section-heading">Vores tilgang</h2>
+      <p class="section-subtitle">Simpelt, ærligt og med omtanke for natur og mennesker.</p>
+      <div class="philo-grid" role="list" aria-label="Vores værdier">
+        <div class="philo-card" role="listitem">
+          <h3>Bæredygtighed</h3>
+          <p>Solceller, lokal indkøb og minimal spild. Vi prøver at gøre det rigtigt – ikke perfekt, men bevidst.</p>
+        </div>
+        <div class="philo-card" role="listitem">
+          <h3>Autenticitet</h3>
+          <p>Ingen trends eller facade. Bare en rigtig gård med rigtige mennesker og håndværk vi tror på.</p>
+        </div>
+        <div class="philo-card" role="listitem">
+          <h3>Ro &amp; tid</h3>
+          <p>Plads til stilhed, lange samtaler og dage der ikke følger en fast plan. Det enkle er nok.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section-final-cta" aria-labelledby="final-cta-heading">
+      <p id="final-cta-heading">Klar på et par stille dage på gården – med et bryggeri i baghaven?</p>
+      <button class="btn-primary js-open-booking" type="button" aria-label="Kontakt os om ledige datoer">Skriv til os om datoer</button>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+      <div>
+        <div class="logo" style="font-size:18px;">ØLIV</div>
+        <p>Farm hospitality &amp; ØLIV Brew · Bornholm, Danmark</p>
+        <p>mail@oliv-retreat.dk · +45 XX XX XX XX</p>
+      </div>
+      <nav class="footer-links" aria-label="Sociale links og juridisk">
+        <a href="#" tabindex="0" aria-label="Følg os på Instagram">Instagram</a>
+        <a href="#" tabindex="0" aria-label="Tilmeld dig nyhedsbrev">Nyhedsbrev</a>
+        <a href="#" tabindex="0" aria-label="Læs persondata og vilkår">Persondata &amp; vilkår</a>
+      </nav>
+    </footer>
+  </div>
+
+  <!-- BOOKING MODAL -->
+  <div class="booking-modal-backdrop" aria-hidden="true" role="dialog">
+    <div class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
+      <div class="booking-modal-header">
+        <div>
+          <div id="booking-modal-title" class="booking-modal-title">Forespørgsel på ophold</div>
+          <div class="booking-modal-subtitle">Fortæl os hvornår I ønsker at komme – vi svarer med ledighed og pris.</div>
+        </div>
+        <button class="booking-modal-close js-close-booking" type="button" aria-label="Luk bookingformular">×</button>
+      </div>
+      <form class="booking-modal-body" id="booking-modal-form">
+        <div class="booking-field-group">
+          <div class="booking-field">
+            <label class="booking-label" for="booking-date">Ankomst</label>
+            <input class="booking-input" type="date" id="booking-date" name="date" required aria-required="true" />
+          </div>
+          <div class="booking-field">
+            <label class="booking-label" for="booking-nights">Nætter</label>
+            <select class="booking-select" id="booking-nights" name="nights" required aria-required="true">
+              <option value="1">1 nat</option>
+              <option value="2">2 nætter</option>
+              <option value="3">3 nætter</option>
+              <option value="4">4+ nætter</option>
+            </select>
+          </div>
+          <div class="booking-field">
+            <label class="booking-label" for="booking-guests">Gæster</label>
+            <select class="booking-select" id="booking-guests" name="guests" required aria-required="true">
+              <option value="2">2 gæster</option>
+              <option value="1">1 gæst</option>
+              <option value="3">3 gæster</option>
+              <option value="4">4 gæster</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="rate-toggle js-toggle-rates" type="button" aria-expanded="false" aria-controls="rate-panel">Se priser &amp; min. nætter</button>
+
+        <div class="booking-rate-panel" id="rate-panel" hidden>
+          <h4>Priser &amp; min. antal nætter (vejledende)</h4>
+          <div class="rate-grid">
+            <div class="rate-box">
+              <div class="rate-box-title">Lavsæson</div>
+              <div class="rate-box-small">Okt–apr (ekskl. helligdage)</div>
+              <div>Fra 1.200 DKK / nat</div>
+              <div class="rate-box-small">Min. 1 nat</div>
+            </div>
+            <div class="rate-box">
+              <div class="rate-box-title">Skuldersæson</div>
+              <div class="rate-box-small">Maj–jun &amp; sep</div>
+              <div>Fra 1.400 DKK / nat</div>
+              <div class="rate-box-small">Min. 2 nætter (weekender)</div>
+            </div>
+            <div class="rate-box">
+              <div class="rate-box-title">Højsæson</div>
+              <div class="rate-box-small">Sommer &amp; helligdage</div>
+              <div>Fra 1.700 DKK / nat</div>
+              <div class="rate-box-small">Min. 3 nætter (udvalgte perioder)</div>
+            </div>
+          </div>
+          <div class="rate-example-week">
+            Eksempel (fra-priser pr. nat):
+            <div class="rate-example-week-row">
+              <div class="rate-example-day">Man</div>
+              <div class="rate-example-day">Tirs</div>
+              <div class="rate-example-day">Ons</div>
+              <div class="rate-example-day">Tors</div>
+              <div class="rate-example-day is-weekend">Fre</div>
+              <div class="rate-example-day is-weekend">Lør</div>
+              <div class="rate-example-day">Søn</div>
+            </div>
+          </div>
+          <div class="rate-dynamic">
+            <div id="rate-season-line" class="rate-dynamic-line">
+              Vælg en ankomstdato for at se sæson og prisestimat.
+            </div>
+            <div id="rate-min-nights-line" class="rate-dynamic-line"></div>
+          </div>
+        </div>
+
+        <div class="booking-footer">
+          <label for="booking-message" class="booking-label">Besked (valgfrit)</label>
+          <textarea class="booking-textarea" id="booking-message" name="message" placeholder="Evt. besked/ønsker" aria-label="Eventuelt besked eller ønsker"></textarea>
+          <button class="booking-submit" type="submit" aria-label="Send forespørgsel">Send forespørgsel</button>
+          <div class="booking-note">Vi svarer normalt inden for 24 timer.</div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal open/close with improved accessibility
+    const openBtns = document.querySelectorAll('.js-open-booking');
+    const modal = document.querySelector('.booking-modal-backdrop');
+    const closeBtn = document.querySelector('.js-close-booking');
+    const modalDialog = document.querySelector('.booking-modal');
+
+    const handleOpenModal = () => {
+      modal.classList.add('is-visible');
+      modal.setAttribute('aria-hidden', 'false');
+      document.getElementById('booking-date')?.focus();
+      document.body.style.overflow = 'hidden';
+    };
+
+    const handleCloseModal = () => {
+      modal.classList.remove('is-visible');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+
+    openBtns.forEach(btn => {
+      btn.addEventListener('click', handleOpenModal);
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleOpenModal();
+        }
+      });
+    });
+
+    closeBtn?.addEventListener('click', handleCloseModal);
+    closeBtn?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCloseModal();
+      }
+    });
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        handleCloseModal();
+      }
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-visible')) {
+        handleCloseModal();
+      }
+    });
+
+    // Toggle rates panel with accessibility
+    const toggleRates = document.querySelector('.js-toggle-rates');
+    const ratePanel = document.querySelector('.booking-rate-panel');
+
+    const handleToggleRates = () => {
+      const isHidden = ratePanel.hasAttribute('hidden');
+      if (isHidden) {
+        ratePanel.removeAttribute('hidden');
+        toggleRates.setAttribute('aria-expanded', 'true');
+      } else {
+        ratePanel.setAttribute('hidden', '');
+        toggleRates.setAttribute('aria-expanded', 'false');
+      }
+    };
+
+    toggleRates?.addEventListener('click', handleToggleRates);
+    toggleRates?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleToggleRates();
+      }
+    });
+
+    // Simple season logic for dynamic hint
+    const dateInput = document.getElementById('booking-date');
+    const nightsSelect = document.getElementById('booking-nights');
+    const seasonLine = document.getElementById('rate-season-line');
+    const minNightsLine = document.getElementById('rate-min-nights-line');
+
+    const updateRateHint = () => {
+      const val = dateInput.value;
+      if (!val) {
+        seasonLine.textContent = "Vælg en ankomstdato for at se sæson og prisestimat.";
+        minNightsLine.textContent = "";
+        return;
+      }
+      
+      const d = new Date(val);
+      const m = d.getMonth() + 1; // 1-12
+      let season = "Lavsæson";
+      let price = 1200;
+      let minNights = 1;
+
+      if ((m >= 10 && m <= 12) || (m >= 1 && m <= 4)) {
+        season = "Lavsæson";
+        price = 1200;
+        minNights = 1;
+      }
+      if ((m === 5) || (m === 6) || (m === 9)) {
+        season = "Skuldersæson";
+        price = 1400;
+        minNights = 2;
+      }
+      if (m === 7 || m === 8) {
+        season = "Højsæson";
+        price = 1700;
+        minNights = 3;
+      }
+
+      seasonLine.innerHTML = `Estimat: <strong>${season}</strong> · fra ca. <strong>${price} DKK</strong> pr. nat.`;
+      const chosen = parseInt(nightsSelect.value || "1", 10);
+      minNightsLine.textContent = chosen < minNights
+        ? `Bemærk: Min. ${minNights} nætter i ${season.toLowerCase()}.`
+        : `Valg: ${chosen} nat/nætter opfylder min. krav i ${season.toLowerCase()}.`;
+    };
+
+    dateInput?.addEventListener('change', updateRateHint);
+    nightsSelect?.addEventListener('change', updateRateHint);
+
+    // Form submission handler
+    const handleFormSubmit = (e) => {
+      e.preventDefault();
+      const data = new FormData(e.target);
+      console.log("Booking request:", Object.fromEntries(data.entries()));
+      
+      // Show success message
+      alert("Tak for din forespørgsel! Vi vender tilbage snarest.");
+      
+      handleCloseModal();
+      e.target.reset();
+    };
+
+    document.getElementById('booking-modal-form')?.addEventListener('submit', handleFormSubmit);
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && href !== '') {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+
+    // Add intersection observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all major sections
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+</body>
+</html>
