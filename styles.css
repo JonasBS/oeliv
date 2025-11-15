@@ -1878,14 +1878,72 @@ h1, h2, h3, h4 {
 }
 
 /* ========================================
+   Preview Sections (Homepage)
+   ======================================== */
+
+.section-preview {
+  padding: var(--spacing-2xl) 0;
+}
+
+.section-preview-alt {
+  background: rgba(70, 85, 42, 0.03);
+}
+
+.preview-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+.preview-layout-reverse {
+  direction: rtl;
+}
+
+.preview-layout-reverse > * {
+  direction: ltr;
+}
+
+.preview-image {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.preview-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.preview-content {
+  max-width: 600px;
+}
+
+.preview-text {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.125rem;
+}
+
+.preview-content .btn-primary {
+  margin-top: var(--spacing-md);
+}
+
+/* ========================================
    Responsive: Separate Pages
    ======================================== */
 
 @media (max-width: 768px) {
   .spa-layout,
   .bryggeri-layout,
-  .about-layout {
+  .about-layout,
+  .preview-layout {
     grid-template-columns: 1fr;
+  }
+
+  .preview-layout-reverse {
+    direction: ltr;
   }
 
   .contact-grid {
