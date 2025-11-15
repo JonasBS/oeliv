@@ -1075,6 +1075,21 @@ h1, h2, h3, h4 {
   font-weight: 500;
 }
 
+.required {
+  color: #d32f2f;
+  margin-left: 2px;
+}
+
+.form-help {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
 .form-input,
 .form-select,
 .form-textarea {
