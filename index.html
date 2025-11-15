@@ -29,9 +29,12 @@
         <a href="spa.html" class="nav-link">Spa & Oplevelser</a>
         <a href="bryggeri.html" class="nav-link">ØLIV Brew</a>
         <div class="language-switcher">
-          <a href="index.html" class="lang-link active" aria-label="Dansk">DA</a>
-          <a href="en/index.html" class="lang-link" aria-label="English">EN</a>
-          <a href="de/index.html" class="lang-link" aria-label="Deutsch">DE</a>
+          <button class="lang-dropdown-btn" type="button" aria-label="Select language" aria-haspopup="true" aria-expanded="false">DA</button>
+          <div class="lang-dropdown-menu" role="menu">
+            <a href="index.html" class="lang-link active" aria-label="Dansk" role="menuitem">DA</a>
+            <a href="en/index.html" class="lang-link" aria-label="English" role="menuitem">EN</a>
+            <a href="de/index.html" class="lang-link" aria-label="Deutsch" role="menuitem">DE</a>
+          </div>
         </div>
         <button class="btn-primary nav-cta js-open-booking" type="button" aria-label="Book ophold">
           Book ophold

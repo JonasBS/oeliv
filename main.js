@@ -363,6 +363,47 @@
   });
 
   // ========================================
+  // Language Dropdown
+  // ========================================
+  
+  const languageSwitcher = document.querySelector('.language-switcher');
+  const langDropdownBtn = document.querySelector('.lang-dropdown-btn');
+  
+  if (languageSwitcher && langDropdownBtn) {
+    // Get current language from active link
+    const activeLangLink = languageSwitcher.querySelector('.lang-link.active');
+    if (activeLangLink) {
+      const currentLang = activeLangLink.textContent.trim();
+      langDropdownBtn.textContent = currentLang;
+    }
+    
+    // Toggle dropdown
+    langDropdownBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = languageSwitcher.classList.contains('open');
+      languageSwitcher.classList.toggle('open');
+      langDropdownBtn.setAttribute('aria-expanded', !isOpen);
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!languageSwitcher.contains(e.target)) {
+        languageSwitcher.classList.remove('open');
+        langDropdownBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close dropdown when selecting a language
+    const langLinks = languageSwitcher.querySelectorAll('.lang-link');
+    langLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        languageSwitcher.classList.remove('open');
+        langDropdownBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // ========================================
   // Initialize
   // ========================================
   

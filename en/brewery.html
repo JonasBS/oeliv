@@ -22,9 +22,12 @@
         <a href="spa.html" class="nav-link">Spa & Experiences</a>
         <a href="brewery.html" class="nav-link active">ØLIV Brew</a>
         <div class="language-switcher">
-          <a href="../index.html" class="lang-link" aria-label="Dansk">DA</a>
-          <a href="index.html" class="lang-link active" aria-label="English">EN</a>
-          <a href="../de/index.html" class="lang-link" aria-label="Deutsch">DE</a>
+          <button class="lang-dropdown-btn" type="button" aria-label="Select language" aria-haspopup="true" aria-expanded="false">EN</button>
+          <div class="lang-dropdown-menu" role="menu">
+            <a href="../index.html" class="lang-link" aria-label="Dansk" role="menuitem">DA</a>
+            <a href="index.html" class="lang-link active" aria-label="English" role="menuitem">EN</a>
+            <a href="../de/index.html" class="lang-link" aria-label="Deutsch" role="menuitem">DE</a>
+          </div>
         </div>
         <button class="btn-primary nav-cta js-open-booking" type="button" aria-label="Book stay">
           Book stay

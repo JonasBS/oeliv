@@ -1247,40 +1247,103 @@ h1, h2, h3, h4 {
    ======================================== */
 
 .language-switcher {
-  display: flex;
-  gap: 2px;
-  align-items: center;
+  position: relative;
   margin: 0 var(--spacing-md);
 }
 
-.lang-link {
-  padding: 4px 8px;
+.lang-dropdown-btn {
+  padding: 6px 10px;
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--muted);
-  text-decoration: none;
-  border-radius: 3px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-base);
   opacity: 0.7;
+  font-family: inherit;
 }
 
-.lang-link:hover {
+.lang-dropdown-btn:hover {
   color: var(--charcoal);
   opacity: 1;
   background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.lang-dropdown-btn::after {
+  content: '▼';
+  font-size: 0.6rem;
+  opacity: 0.6;
+  transition: transform var(--transition-base);
+}
+
+.language-switcher.open .lang-dropdown-btn::after {
+  transform: rotate(180deg);
+}
+
+.lang-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 100px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all var(--transition-base);
+  z-index: 1000;
+  padding: 4px 0;
+}
+
+.language-switcher.open .lang-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.lang-link {
+  display: block;
+  padding: 8px 16px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lang-link:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--charcoal);
 }
 
 .lang-link.active {
-  color: var(--charcoal);
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.05);
+  color: var(--olive);
   font-weight: 500;
+  background: rgba(70, 85, 42, 0.08);
 }
 
 @media (max-width: 768px) {
   .language-switcher {
     margin: var(--spacing-sm) 0;
     order: -1;
+  }
+  
+  .lang-dropdown-menu {
+    right: auto;
+    left: 0;
   }
 }
 
