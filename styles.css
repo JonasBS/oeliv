@@ -1241,3 +1241,664 @@ h1, h2, h3, h4 {
 .nav-link.active::after {
   width: 100%;
 }
+
+/* ========================================
+   Page Header (for separate pages)
+   ======================================== */
+
+.page-header {
+  padding: var(--spacing-2xl) var(--spacing-md) var(--spacing-xl);
+  background: var(--cream);
+  text-align: center;
+}
+
+.page-header-dark {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 500;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 0.05em;
+}
+
+.page-intro {
+  font-size: clamp(1.125rem, 2vw, 1.25rem);
+  color: var(--muted);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.page-header-dark .page-intro {
+  color: rgba(245, 240, 233, 0.8);
+}
+
+/* ========================================
+   Detailed Room Cards
+   ======================================== */
+
+.room-card-detailed {
+  margin-bottom: var(--spacing-xl);
+}
+
+.room-card-detailed .room-content {
+  padding: var(--spacing-lg);
+}
+
+.room-card-detailed .room-title {
+  font-size: 1.75rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.room-card-detailed .room-description {
+  font-size: 1rem;
+  margin-bottom: var(--spacing-md);
+  line-height: 1.7;
+}
+
+.room-features {
+  margin: var(--spacing-md) 0;
+  padding-left: var(--spacing-md);
+}
+
+.room-features li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.room-features li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--olive);
+}
+
+.room-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.room-price {
+  font-weight: 500;
+  color: var(--charcoal);
+  font-size: 1.125rem;
+}
+
+/* ========================================
+   Included Section
+   ======================================== */
+
+.section-included {
+  background: rgba(70, 85, 42, 0.03);
+}
+
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.included-item {
+  padding: var(--spacing-md);
+}
+
+.included-item h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.included-item p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Spa Page Layout
+   ======================================== */
+
+.spa-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  margin-top: var(--spacing-lg);
+}
+
+.spa-content {
+  max-width: 600px;
+}
+
+.spa-intro {
+  font-size: 1.25rem;
+  color: var(--charcoal);
+  margin-bottom: var(--spacing-md);
+  font-style: italic;
+}
+
+.spa-text {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.spa-features {
+  margin: var(--spacing-lg) 0;
+  padding-left: var(--spacing-md);
+}
+
+.spa-features li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  color: var(--muted);
+}
+
+.spa-features li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--olive);
+}
+
+.spa-image {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.spa-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   Ritual Steps
+   ======================================== */
+
+.ritual-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.ritual-step {
+  text-align: center;
+  padding: var(--spacing-md);
+}
+
+.ritual-number {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--olive);
+  color: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 auto var(--spacing-md);
+  font-family: var(--font-display);
+}
+
+.ritual-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.ritual-step p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Info Grid
+   ======================================== */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.info-card {
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.info-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.info-card p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Experiences Grid
+   ======================================== */
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.experience-card {
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.experience-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.experience-card p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Bryggeri Page Layout
+   ======================================== */
+
+.bryggeri-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  margin-top: var(--spacing-lg);
+}
+
+.bryggeri-content {
+  max-width: 600px;
+}
+
+.bryggeri-subtitle {
+  font-size: 1.25rem;
+  color: var(--charcoal);
+  margin-bottom: var(--spacing-md);
+  font-style: italic;
+}
+
+.bryggeri-text {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.bryggeri-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.tag {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(70, 85, 42, 0.1);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: var(--olive);
+}
+
+.bryggeri-image {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.bryggeri-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   Beers Grid
+   ======================================== */
+
+.beers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.beer-card {
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.beer-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--charcoal);
+}
+
+.beer-type {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: var(--spacing-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.beer-description {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Process Steps
+   ======================================== */
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.process-step {
+  padding: var(--spacing-md);
+}
+
+.process-step h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.process-step p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Tastings Grid
+   ======================================== */
+
+.tastings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.tasting-card {
+  padding: var(--spacing-lg);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.tasting-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--charcoal);
+}
+
+.tasting-price {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--olive);
+  margin-bottom: var(--spacing-sm);
+}
+
+.tasting-card p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+}
+
+.tasting-card ul {
+  margin-top: var(--spacing-md);
+  padding-left: var(--spacing-md);
+}
+
+.tasting-card li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.tasting-card li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--olive);
+}
+
+/* ========================================
+   Philosophy Section
+   ======================================== */
+
+.philosophy-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.philosophy-text {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.section-philosophy-brew {
+  background: rgba(70, 85, 42, 0.03);
+}
+
+/* ========================================
+   About Us Page
+   ======================================== */
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+  margin-top: var(--spacing-lg);
+}
+
+.about-content {
+  max-width: 600px;
+}
+
+.about-content p {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.about-image {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.about-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========================================
+   Values Grid
+   ======================================== */
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+.value-card {
+  padding: var(--spacing-md);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+}
+
+.value-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.value-card p {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+/* ========================================
+   Contact Section
+   ======================================== */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
+}
+
+.contact-info {
+  padding: var(--spacing-md);
+}
+
+.contact-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--charcoal);
+}
+
+.contact-info p {
+  margin-bottom: var(--spacing-sm);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.contact-form-wrapper {
+  padding: var(--spacing-md);
+}
+
+.contact-form-wrapper h3 {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+  color: var(--charcoal);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* ========================================
+   Map Placeholder
+   ======================================== */
+
+.map-placeholder {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-xl);
+  background: rgba(70, 85, 42, 0.03);
+  border-radius: var(--border-radius-sm);
+  text-align: center;
+}
+
+.map-placeholder p {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ========================================
+   Sustainability List
+   ======================================== */
+
+.sustainability-list {
+  margin-top: var(--spacing-md);
+  padding-left: var(--spacing-md);
+  max-width: 700px;
+}
+
+.sustainability-list li {
+  position: relative;
+  padding-left: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.sustainability-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--olive);
+}
+
+.sustainability-text {
+  margin-bottom: var(--spacing-md);
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 1.125rem;
+}
+
+/* ========================================
+   Responsive: Separate Pages
+   ======================================== */
+
+@media (max-width: 768px) {
+  .spa-layout,
+  .bryggeri-layout,
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-lg);
+  }
+
+  .room-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+  }
+}

@@ -281,39 +281,55 @@
   });
 
   // ========================================
-  // Active Navigation on Scroll
+  // Active Navigation
   // ========================================
   
   const updateActiveNav = () => {
-    const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
-    const scrollPos = window.scrollY + 100; // Offset for navbar
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-
-      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    
+    // Set active state based on current page
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      const href = link.getAttribute('href');
+      
+      // Check if link matches current page
+      if (href === currentPage || (currentPage === '' && href === 'index.html')) {
+        link.classList.add('active');
+      }
+      
+      // For index.html, also check scroll position for anchor links
+      if (currentPage === 'index.html' || currentPage === '') {
+        const sections = document.querySelectorAll('section[id]');
+        const scrollPos = window.scrollY + 100;
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute('id');
+          
+          if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+            if (link.getAttribute('href') === `#${sectionId}`) {
+              link.classList.add('active');
+            }
           }
         });
       }
     });
   };
 
-  // Throttle scroll events for performance
+  // Throttle scroll events for performance (only on index.html)
   let ticking = false;
   const handleScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        updateActiveNav();
-        ticking = false;
-      });
-      ticking = true;
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    if (currentPage === 'index.html' || currentPage === '') {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveNav();
+          ticking = false;
+        });
+        ticking = true;
+      }
     }
   };
 
