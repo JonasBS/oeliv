@@ -650,7 +650,8 @@
           button: 'Forespørg pakke',
           includesLabel: 'Inkluderet:',
           toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun nuværende sæson'
+          toggleCurrent: 'Vis kun anbefalede pakker',
+          recommendedLabel: 'Anbefalet nu'
         },
         fall: {
           name: 'Efterårsophold',
@@ -670,7 +671,8 @@
           button: 'Forespørg pakke',
           includesLabel: 'Inkluderet:',
           toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun nuværende sæson'
+          toggleCurrent: 'Vis kun anbefalede pakker',
+          recommendedLabel: 'Anbefalet nu'
         },
         winter: {
           name: 'Vinterophold',
@@ -690,7 +692,8 @@
           button: 'Forespørg pakke',
           includesLabel: 'Inkluderet:',
           toggleAll: 'Se alle sæsonpakker',
-          toggleCurrent: 'Vis kun nuværende sæson'
+          toggleCurrent: 'Vis kun anbefalede pakker',
+          recommendedLabel: 'Anbefalet nu'
         }
       },
       en: {
@@ -731,7 +734,8 @@
           button: 'Inquire about package',
           includesLabel: 'Included:',
           toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only current season'
+          toggleCurrent: 'Show only recommended packages',
+          recommendedLabel: 'Recommended now'
         },
         fall: {
           name: 'Fall Stay',
@@ -751,7 +755,8 @@
           button: 'Inquire about package',
           includesLabel: 'Included:',
           toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only current season'
+          toggleCurrent: 'Show only recommended packages',
+          recommendedLabel: 'Recommended now'
         },
         winter: {
           name: 'Winter Stay',
@@ -771,7 +776,8 @@
           button: 'Inquire about package',
           includesLabel: 'Included:',
           toggleAll: 'See all seasonal packages',
-          toggleCurrent: 'Show only current season'
+          toggleCurrent: 'Show only recommended packages',
+          recommendedLabel: 'Recommended now'
         }
       },
       de: {
@@ -792,7 +798,8 @@
           button: 'Paket anfragen',
           includesLabel: 'Inklusive:',
           toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          recommendedLabel: 'Jetzt empfohlen'
         },
         summer: {
           name: 'Sommeraufenthalt',
@@ -812,7 +819,8 @@
           button: 'Paket anfragen',
           includesLabel: 'Inklusive:',
           toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          recommendedLabel: 'Jetzt empfohlen'
         },
         fall: {
           name: 'Herbstaufenthalt',
@@ -832,7 +840,8 @@
           button: 'Paket anfragen',
           includesLabel: 'Inklusive:',
           toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          recommendedLabel: 'Jetzt empfohlen'
         },
         winter: {
           name: 'Winteraufenthalt',
@@ -852,7 +861,8 @@
           button: 'Paket anfragen',
           includesLabel: 'Inklusive:',
           toggleAll: 'Alle Saisonpakete anzeigen',
-          toggleCurrent: 'Nur aktuelle Saison anzeigen'
+          toggleCurrent: 'Nur empfohlene Pakete anzeigen',
+          recommendedLabel: 'Jetzt empfohlen'
         }
       }
     };
@@ -897,27 +907,6 @@
       } else {
         packagesGrid.innerHTML = renderPackage(primaryPackage, true);
       }
-      const renderPackage = (pkg) => `
-        <div class="package-card">
-          <span class="package-badge">${pkg.badge}</span>
-          <h3>${pkg.name}</h3>
-          <p class="package-season">${pkg.season}</p>
-          <p class="package-description">${pkg.description}</p>
-          <div class="package-includes">
-            <h4>${pkg.includesLabel}</h4>
-            <ul>
-              ${pkg.includes.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-          <p class="package-price">${pkg.price}</p>
-          <p class="package-note">${pkg.planning}</p>
-          <button class="btn-primary js-open-booking" type="button" data-package="${pkg.name}">
-            ${pkg.button}
-          </button>
-        </div>
-      `;
-      
-      packagesGrid.innerHTML = renderPackage(packageData);
 
       // Show all packages
       const showAllPackages = () => {
