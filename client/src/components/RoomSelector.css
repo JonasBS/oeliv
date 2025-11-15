@@ -1,0 +1,119 @@
+.rooms-selection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.rooms-empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: var(--sand);
+  border-radius: var(--radius-md);
+  color: var(--muted);
+}
+
+.rooms-empty p {
+  margin: var(--spacing-sm) 0;
+}
+
+.room-card {
+  width: 100%;
+  text-align: left;
+  padding: var(--spacing-lg);
+  border: 2px solid var(--sand-dark);
+  border-radius: var(--radius-md);
+  background-color: var(--white);
+  transition: var(--transition);
+  position: relative;
+}
+
+.room-card:not(:disabled) {
+  cursor: pointer;
+}
+
+.room-card:hover:not(:disabled) {
+  border-color: var(--olive-light);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.room-card.selected {
+  border-color: var(--olive);
+  background-color: rgba(74, 93, 62, 0.05);
+  box-shadow: var(--shadow-md);
+}
+
+.room-card.unavailable {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.room-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+}
+
+.room-card-info {
+  flex: 1;
+}
+
+.room-card-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-bottom: var(--spacing-xs);
+}
+
+.room-card-capacity {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.room-card-price {
+  text-align: right;
+}
+
+.room-price-total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-bottom: var(--spacing-xs);
+}
+
+.room-price-per-night {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.room-card-unavailable {
+  color: var(--error);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.room-card-selected-indicator {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--sand-dark);
+  color: var(--olive);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 768px) {
+  .room-card-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .room-card-price {
+    text-align: left;
+    width: 100%;
+  }
+}
+

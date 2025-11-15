@@ -1,0 +1,250 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-md);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--sand);
+  color: var(--charcoal);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background-color: var(--sand-dark);
+  transform: rotate(90deg);
+}
+
+.modal-header {
+  padding: var(--spacing-xl);
+  border-bottom: 1px solid var(--sand-dark);
+}
+
+.modal-header h2 {
+  margin-bottom: var(--spacing-lg);
+  color: var(--olive);
+}
+
+.progress-bar {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.progress-step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--sand);
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: var(--transition);
+  position: relative;
+}
+
+.progress-step.active {
+  background-color: var(--olive);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.progress-step.completed {
+  background-color: var(--success);
+  color: var(--white);
+}
+
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--spacing-md);
+  height: 2px;
+  background-color: var(--sand-dark);
+}
+
+.progress-step.completed:not(:last-child)::after {
+  background-color: var(--success);
+}
+
+.booking-form {
+  padding: var(--spacing-xl);
+}
+
+.form-step {
+  display: none;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.step-header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.step-header h3 {
+  margin-bottom: var(--spacing-sm);
+  color: var(--olive);
+}
+
+.step-header p {
+  color: var(--muted);
+}
+
+.guest-selector {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.guest-btn {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: 2px solid var(--sand-dark);
+  border-radius: var(--radius-md);
+  background-color: var(--white);
+  color: var(--charcoal);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.guest-btn:hover {
+  border-color: var(--olive-light);
+  background-color: var(--sand);
+}
+
+.guest-btn.active {
+  border-color: var(--olive);
+  background-color: var(--olive);
+  color: var(--white);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: space-between;
+  margin-top: var(--spacing-xl);
+}
+
+.booking-summary {
+  background-color: var(--sand);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.booking-summary h4 {
+  margin-bottom: var(--spacing-md);
+  color: var(--olive);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  border-bottom: 1px solid var(--sand-dark);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.summary-total {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 2px solid var(--olive);
+  border-bottom: none;
+}
+
+.summary-total .summary-label,
+.summary-total .summary-value {
+  font-size: 1.25rem;
+  color: var(--olive);
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-height: 95vh;
+  }
+  
+  .modal-header,
+  .booking-form {
+    padding: var(--spacing-lg);
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions button {
+    width: 100%;
+  }
+}
+

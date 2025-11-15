@@ -1,23 +1,24 @@
 {
-  "name": "oeliv-booking",
-  "version": "1.0.0",
-  "description": "Booking engine with channel manager for ØLIV",
-  "main": "server.js",
+  "name": "oeliv-booking-system",
+  "version": "2.0.0",
+  "description": "ØLIV booking system with React frontend and Node.js backend",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "sqlite3": "^5.1.6",
-    "stripe": "^14.7.0",
-    "nodemailer": "^6.9.7",
-    "axios": "^1.6.2",
-    "date-fns": "^2.30.0"
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
