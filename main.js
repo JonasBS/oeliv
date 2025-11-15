@@ -350,17 +350,54 @@
       if (entry.isIntersecting) {
         entry.target.style.opacity = '1';
         entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('visible');
       }
     });
   }, observerOptions);
 
   // Observe sections for fade-in
-  document.querySelectorAll('.section').forEach(section => {
+  document.querySelectorAll('.section').forEach((section, index) => {
     section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    section.style.transform = 'translateY(30px)';
+    section.style.transition = `opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.1}s`;
     observer.observe(section);
   });
+
+  // Parallax effect for hero images (subtle, only on homepage)
+  const heroImages = document.querySelectorAll('.hero-image-main img, .hero-image-small img');
+  if (heroImages.length > 0 && window.location.pathname === '/' || window.location.pathname.endsWith('index.html')) {
+    let ticking = false;
+    const parallaxSpeed = 0.15; // Subtle parallax
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+          
+          heroImages.forEach((img) => {
+            const container = img.closest('.hero-image-main, .hero-image-small');
+            if (!container) return;
+            
+            const rect = container.getBoundingClientRect();
+            const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+            
+            if (isInView && !container.matches(':hover')) {
+              const offset = (rect.top - window.innerHeight / 2) * parallaxSpeed;
+              img.style.setProperty('--parallax-offset', `${offset}px`);
+            } else {
+              img.style.setProperty('--parallax-offset', '0px');
+            }
+          });
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial call
+  }
 
   // ========================================
   // Language Dropdown
