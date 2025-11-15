@@ -1260,11 +1260,17 @@ h1, h2, h3, h4 {
 }
 
 .testimonial-card {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xl);
   background: white;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-soft);
   border-left: 3px solid var(--olive);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .testimonial-stars {
