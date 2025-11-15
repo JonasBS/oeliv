@@ -1037,6 +1037,16 @@ h1, h2, h3, h4 {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--charcoal);
+  margin-bottom: var(--spacing-sm);
+}
+
+.modal-subtitle {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  line-height: 1.6;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
 }
 
 .modal-close {
@@ -1088,6 +1098,15 @@ h1, h2, h3, h4 {
   font-weight: 400;
   text-transform: none;
   letter-spacing: normal;
+}
+
+.form-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-align: center;
+  margin-top: var(--spacing-md);
+  font-weight: 300;
+  font-style: italic;
 }
 
 .form-input,
