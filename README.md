@@ -77,28 +77,40 @@ Edit the CSS custom properties in the `:root` selector:
 
 ```css
 :root {
-  --charcoal: #121415;
-  --olive: #46552a;
-  --beige: #d1bca0;
-  --cream: #f5f0e9;
+  --charcoal: #0a0c0d;
+  --olive: #3d4a26;
+  --beige: #c9b89a;
+  --cream: #f8f4ed;
+  --accent-warm: #d4a574;
+  --accent-cool: #7ba8b0;
   /* ... more colors */
 }
 ```
 
 ### Images
-Replace the Unsplash URLs in the CSS with your own images:
+**Current Images** - Curated for authentic Nordic farm hospitality aesthetic:
 
-```css
-.hero-main-img {
-  background-image: url("your-image-url.jpg");
-}
-```
+All images are carefully selected from Unsplash to match the rustic luxury style of properties like:
+- **Babylonstoren** (South Africa) - Farm-to-table luxury
+- **São Lourenço do Barrocal** (Portugal) - Minimalist farm estate
+- **Reschio** (Italy) - Historic estate restoration
+- **Oakwell Beer Spa** (Sweden) - Wellness & brewery integration
+
+**Image Categories:**
+1. **Hero Image** - Nordic farmhouse with landscape views
+2. **Room Images** - Natural materials, muted tones, rustic elegance
+3. **Brewery** - Craft beer production, wooden barrels, authentic
+4. **Spa** - Nordic sauna, natural wellness
+5. **Coastal** - Scandinavian coastline, rugged beauty
+
+**To Replace Images:**
+Simply update the `src` attributes in the HTML `<img>` tags with your own URLs.
 
 ### Content
 All content is in Danish. Simply edit the HTML text to update:
-- Room descriptions
-- Prices
+- Room descriptions & prices
 - Package details
+- Brewery information
 - Contact information
 
 ## 📱 Responsive Breakpoints
