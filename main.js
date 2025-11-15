@@ -205,10 +205,13 @@
     
     // Get form data
     const data = {
-      date: date,
-      nights: nights,
-      guests: guests,
+      date: formData.get('date'),
+      nights: formData.get('nights'),
+      guests: formData.get('guests'),
       room: formData.get('room'),
+      name: name,
+      email: email,
+      phone: formData.get('phone'),
       note: formData.get('note')
     };
     
