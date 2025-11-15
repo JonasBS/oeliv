@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – ØLIV Booking</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--spacing-xl);
+    }
+    .admin-header {
+      margin-bottom: var(--spacing-xl);
+    }
+    .admin-tabs {
+      display: flex;
+      gap: var(--spacing-md);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      margin-bottom: var(--spacing-lg);
+    }
+    .admin-tab {
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-size: 0.9375rem;
+      color: var(--muted);
+      transition: all var(--transition-fast);
+    }
+    .admin-tab.active {
+      color: var(--charcoal);
+      border-bottom-color: var(--olive);
+    }
+    .admin-tab:hover {
+      color: var(--charcoal);
+    }
+    .admin-content {
+      display: none;
+    }
+    .admin-content.active {
+      display: block;
+    }
+    .bookings-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .bookings-table th,
+    .bookings-table td {
+      padding: var(--spacing-md);
+      text-align: left;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .bookings-table th {
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    .status-badge.pending {
+      background: rgba(255, 193, 7, 0.2);
+      color: #f57c00;
+    }
+    .status-badge.confirmed {
+      background: rgba(70, 85, 42, 0.2);
+      color: var(--olive);
+    }
+    .status-badge.cancelled {
+      background: rgba(211, 47, 47, 0.2);
+      color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>ØLIV Booking Admin</h1>
+      <p>Administrer bookings, tilgængelighed og channel manager</p>
+    </div>
+    
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="bookings">Bookings</button>
+      <button class="admin-tab" data-tab="availability">Tilgængelighed</button>
+      <button class="admin-tab" data-tab="channels">Channel Manager</button>
+      <button class="admin-tab" data-tab="rooms">Værelser</button>
+    </div>
+    
+    <div id="bookings-tab" class="admin-content active">
+      <h2>Alle Bookings</h2>
+      <div id="bookings-list"></div>
+    </div>
+    
+    <div id="availability-tab" class="admin-content">
+      <h2>Tilgængelighed</h2>
+      <p>Her kan du administrere tilgængelighed og priser</p>
+    </div>
+    
+    <div id="channels-tab" class="admin-content">
+      <h2>Channel Manager</h2>
+      <p>Synkroniser med booking.com, Airbnb, etc.</p>
+    </div>
+    
+    <div id="rooms-tab" class="admin-content">
+      <h2>Værelser</h2>
+      <div id="rooms-list"></div>
+    </div>
+  </div>
+  
+  <script>
+    // Admin panel functionality
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+        
+        if (tab.dataset.tab === 'bookings') {
+          loadBookings();
+        } else if (tab.dataset.tab === 'rooms') {
+          loadRooms();
+        }
+      });
+    });
+    
+    async function loadBookings() {
+      try {
+        const response = await fetch('/api/admin/bookings');
+        const bookings = await response.json();
+        
+        const list = document.getElementById('bookings-list');
+        if (bookings.length === 0) {
+          list.innerHTML = '<p>Ingen bookings endnu</p>';
+          return;
+        }
+        
+        list.innerHTML = `
+          <table class="bookings-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Værelse</th>
+                <th>Gæst</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Gæster</th>
+                <th>Pris</th>
+                <th>Status</th>
+                <th>Betaling</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${bookings.map(b => `
+                <tr>
+                  <td>#${b.id}</td>
+                  <td>${b.room_name}</td>
+                  <td>${b.guest_name}<br><small>${b.guest_email}</small></td>
+                  <td>${b.check_in}</td>
+                  <td>${b.check_out}</td>
+                  <td>${b.guests}</td>
+                  <td>${b.total_price} DKK</td>
+                  <td><span class="status-badge ${b.status}">${b.status}</span></td>
+                  <td><span class="status-badge ${b.payment_status}">${b.payment_status}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+      }
+    }
+    
+    async function loadRooms() {
+      try {
+        const response = await fetch('/api/rooms');
+        const rooms = await response.json();
+        
+        const list = document.getElementById('rooms-list');
+        list.innerHTML = `
+          <div style="display: grid; gap: var(--spacing-md);">
+            ${rooms.map(r => `
+              <div style="padding: var(--spacing-md); border: 1px solid rgba(0,0,0,0.1); border-radius: var(--border-radius-sm);">
+                <h3>${r.name}</h3>
+                <p>Type: ${r.type} | Max gæster: ${r.max_guests} | Base pris: ${r.base_price} DKK</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading rooms:', error);
+      }
+    }
+    
+    // Load initial data
+    loadBookings();
+  </script>
+</body>
+</html>

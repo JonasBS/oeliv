@@ -356,19 +356,22 @@
         </button>
       </div>
       <form class="modal-body" id="booking-form">
+        <div id="booking-calendar"></div>
         <div class="form-group">
           <label for="booking-date" class="form-label">Ønsket ankomst</label>
           <input type="date" id="booking-date" name="date" class="form-input" aria-describedby="date-help" />
-          <small id="date-help" class="form-help">Hvis du er fleksibel, kan du lade dette være tomt</small>
+          <small id="date-help" class="form-help">Vælg dato i kalenderen eller indtast manuelt</small>
         </div>
         <div class="form-group">
           <label for="booking-nights" class="form-label">Antal nætter</label>
           <select id="booking-nights" name="nights" class="form-select" aria-describedby="nights-help">
-            <option value="">Vælg antal nætter</option>
             <option value="1">1 nat</option>
-            <option value="2">2 nætter</option>
+            <option value="2" selected>2 nætter</option>
             <option value="3">3 nætter</option>
-            <option value="4">4+ nætter</option>
+            <option value="4">4 nætter</option>
+            <option value="5">5 nætter</option>
+            <option value="6">6 nætter</option>
+            <option value="7">7 nætter</option>
           </select>
           <small id="nights-help" class="form-help">Minimum antal nætter kan variere efter sæson</small>
         </div>
@@ -386,14 +389,10 @@
         <div class="form-group">
           <label for="booking-room" class="form-label">Foretrukket værelse</label>
           <select id="booking-room" name="room" class="form-select" aria-describedby="room-help">
-            <option value="">Ingen præference</option>
-            <option value="Kystværelse">Kystværelse</option>
-            <option value="Havsuite">Havsuite</option>
-            <option value="Stor havsuite">Stor havsuite</option>
-            <option value="Ferielejlighed">Ferielejlighed</option>
-            <option value="Gårdsværelser">Gårdsværelser</option>
+            <option value="">Vælg værelse...</option>
+            <!-- Options will be loaded dynamically from API -->
           </select>
-          <small id="room-help" class="form-help">Vi finder det bedste match baseret på tilgængelighed</small>
+          <small id="room-help" class="form-help">Værelser vises baseret på tilgængelighed for valgte datoer</small>
         </div>
         <div class="form-group">
           <label for="booking-name" class="form-label">Navn</label>
@@ -455,5 +454,6 @@
   </div>
 
   <script src="main.js"></script>
+  <script src="booking.js"></script>
 </body>
 </html>
