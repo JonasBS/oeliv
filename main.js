@@ -875,7 +875,7 @@
             </ul>
           </div>
           <p class="package-note">${pkg.planning}</p>
-          <a href="overnatning.html" class="btn-secondary">Læs mere</a>
+          <a href="${lang === 'en' ? 'accommodation.html' : lang === 'de' ? 'unterkunft.html' : 'overnatning.html'}" class="btn-secondary">${lang === 'en' ? 'Read more' : lang === 'de' ? 'Mehr erfahren' : 'Læs mere'}</a>
         </div>
       `;
       
