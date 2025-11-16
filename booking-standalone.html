@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ØLIV React Booking - Standalone</title>
+  
+  <!-- React Booking CSS -->
+  <link rel="stylesheet" href="/client/dist/assets/index-D-r-dCpa.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #f5f0e9;
+      font-family: system-ui;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .info {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>ØLIV Booking System</h1>
+    <p>React Version - Standalone Test</p>
+  </div>
+
+  <div class="info">
+    <h2>Status</h2>
+    <p id="status">Loading React...</p>
+  </div>
+
+  <!-- React Root -->
+  <div id="root"></div>
+
+  <!-- React App Script -->
+  <script type="module" src="/client/dist/assets/index-DLsenxxv.js"></script>
+  
+  <script>
+    // Auto-open booking after React loads
+    setTimeout(() => {
+      const btn = document.querySelector('.btn-primary');
+      if (btn) {
+        document.getElementById('status').innerHTML = '✅ React loaded! Opening booking modal...';
+        btn.click();
+      } else {
+        document.getElementById('status').innerHTML = '❌ React did not load correctly. Check console for errors.';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
+

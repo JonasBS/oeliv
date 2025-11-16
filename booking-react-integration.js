@@ -41,7 +41,7 @@
     // Load JS
     const script = document.createElement('script');
     script.type = 'module';
-    script.src = '/client/dist/assets/index-BEjfvFja.js';
+    script.src = '/client/dist/assets/index-DLsenxxv.js';
     script.onload = () => {
       reactLoaded = true;
       showReactBooking();

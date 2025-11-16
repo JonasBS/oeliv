@@ -485,10 +485,36 @@
     <p class="toast-message">Tak for din forespørgsel! Vi vender tilbage snarest.</p>
   </div>
 
-  <!-- API Configuration - Update this with your deployed API URL -->
+  <!-- React Booking Root -->
+  <div id="root"></div>
+
+  <!-- React Booking CSS -->
+  <link rel="stylesheet" href="/client/dist/assets/index-D-r-dCpa.css">
+
+  <!-- API Configuration -->
   <script>window.API_BASE_URL = 'http://localhost:3000';</script>
   <script src="main.js"></script>
-  <!-- React Booking Integration (replaces booking.js) -->
-  <script src="booking-react-integration.js"></script>
+  
+  <!-- React Booking App -->
+  <script type="module" src="/client/dist/assets/index-DLsenxxv.js"></script>
+  
+  <!-- Auto-open booking when clicking button -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bookingButtons = document.querySelectorAll('.js-open-booking');
+      bookingButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Wait for React to mount
+          setTimeout(() => {
+            const reactBtn = document.querySelector('#root .btn-primary');
+            if (reactBtn) {
+              reactBtn.click();
+            }
+          }, 100);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

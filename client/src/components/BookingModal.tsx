@@ -110,12 +110,24 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
   };
 
   const handleNextStep = async () => {
-    if (!validateStep(currentStep)) return;
+    console.log('🔍 handleNextStep - currentStep:', currentStep);
+    console.log('🔍 selectedDates:', selectedDates);
+    console.log('🔍 formData:', formData);
     
-    if (currentStep === 1) {
-      await checkAvailability();
+    if (!validateStep(currentStep)) {
+      console.log('❌ Validation failed');
+      return;
     }
     
+    console.log('✅ Validation passed');
+    
+    if (currentStep === 1) {
+      console.log('📡 Checking availability...');
+      await checkAvailability();
+      console.log('✅ Availability checked');
+    }
+    
+    console.log('➡️ Moving to next step');
     setCurrentStep(prev => prev + 1);
   };
 

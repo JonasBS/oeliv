@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Simple React Test</title>
+</head>
+<body>
+  <h1>React Loading Test</h1>
+  <div id="root"></div>
+  <div id="debug">
+    <p>Checking React...</p>
+    <pre id="log"></pre>
+  </div>
+
+  <script>
+    const log = document.getElementById('log');
+    
+    function addLog(msg) {
+      log.textContent += msg + '\n';
+      console.log(msg);
+    }
+
+    addLog('1. Starting...');
+    addLog('2. Root element: ' + (document.getElementById('root') ? 'Found ✅' : 'Missing ❌'));
+    
+    // Try to load React
+    addLog('3. Loading React JS...');
+    
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '/client/dist/assets/index-DLsenxxv.js';
+    
+    script.onload = () => {
+      addLog('4. Script loaded ✅');
+      setTimeout(() => {
+        const rootContent = document.getElementById('root').innerHTML;
+        addLog('5. Root content length: ' + rootContent.length);
+        addLog('6. Root content preview: ' + rootContent.substring(0, 100));
+      }, 500);
+    };
+    
+    script.onerror = (err) => {
+      addLog('4. Script ERROR ❌: ' + err);
+    };
+    
+    document.body.appendChild(script);
+    addLog('3b. Script tag added to body');
+  </script>
+</body>
+</html>
+
