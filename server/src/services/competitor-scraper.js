@@ -7,10 +7,22 @@ class CompetitorScraper {
   }
 
   async initialize() {
+    console.log('🚀 Initializing Puppeteer with stealth mode...');
     this.browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-blink-features=AutomationControlled',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--window-size=1920,1080',
+        '--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'
+      ],
+      ignoreHTTPSErrors: true
     });
+    console.log('✅ Puppeteer initialized');
   }
 
   async close() {
@@ -19,177 +31,253 @@ class CompetitorScraper {
     }
   }
 
-  // Scrape Booking.com
+  // Scrape Booking.com with advanced anti-detection
   async scrapeBookingCom(config) {
     const page = await this.browser.newPage();
     
     try {
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-      
-      // Set viewport
-      await page.setViewport({ width: 1920, height: 1080 });
-      
-      console.log(`🔍 Scraping: ${config.url}`);
-      
-      await page.goto(config.url, { 
-        waitUntil: 'networkidle0', 
-        timeout: 60000 
+      // Set realistic browser fingerprint
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+      await page.setViewport({ 
+        width: 1920, 
+        height: 1080,
+        deviceScaleFactor: 1,
+        hasTouch: false,
+        isLandscape: true,
+        isMobile: false
       });
 
-      // Wait a bit for JavaScript to render
-      await page.waitForTimeout(3000);
+      // Remove automation indicators
+      await page.evaluateOnNewDocument(() => {
+        // Overwrite the `navigator.webdriver` property
+        Object.defineProperty(navigator, 'webdriver', {
+          get: () => false,
+        });
 
-      // Take screenshot for debugging (optional)
-      // await page.screenshot({ path: `/tmp/booking-${Date.now()}.png` });
+        // Overwrite the `plugins` property to use a custom getter
+        Object.defineProperty(navigator, 'plugins', {
+          get: () => [1, 2, 3, 4, 5],
+        });
 
-      // Try multiple selectors for Booking.com - they change frequently
+        // Overwrite the `languages` property to use a custom getter
+        Object.defineProperty(navigator, 'languages', {
+          get: () => ['en-US', 'en', 'da'],
+        });
+
+        // Pass the Chrome Test
+        window.chrome = {
+          runtime: {},
+        };
+
+        // Pass the Permissions Test
+        const originalQuery = window.navigator.permissions.query;
+        window.navigator.permissions.query = (parameters) => (
+          parameters.name === 'notifications' ?
+            Promise.resolve({ state: Notification.permission }) :
+            originalQuery(parameters)
+        );
+      });
+
+      // Set additional headers
+      await page.setExtraHTTPHeaders({
+        'Accept-Language': 'da-DK,da;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'Sec-Fetch-Dest': 'document',
+        'Sec-Fetch-Mode': 'navigate',
+        'Sec-Fetch-Site': 'none',
+        'Sec-Fetch-User': '?1',
+        'Cache-Control': 'max-age=0'
+      });
+      
+      console.log(`🔍 Scraping Booking.com: ${config.source || 'Unknown'}`);
+      console.log(`📍 URL: ${config.url}`);
+      
+      // Navigate with retry logic
+      let retries = 3;
+      let loaded = false;
+      
+      while (retries > 0 && !loaded) {
+        try {
+          await page.goto(config.url, { 
+            waitUntil: 'domcontentloaded',
+            timeout: 45000 
+          });
+          loaded = true;
+          console.log('✅ Page loaded successfully');
+        } catch (error) {
+          retries--;
+          console.log(`⚠️  Load attempt failed. Retries left: ${retries}`);
+          if (retries === 0) throw error;
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+
+      // Wait for content to render
+      console.log('⏳ Waiting for prices to load...');
+      await page.waitForTimeout(5000);
+
+      // Scroll to trigger lazy loading
+      await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight / 2);
+      });
+      await page.waitForTimeout(1000);
+
+      // Extract data with comprehensive selectors
       const data = await page.evaluate(() => {
-        // Helper function to extract number from text
+        // Helper: Extract number from text
         const extractNumber = (text) => {
           if (!text) return null;
-          // Remove all non-numeric except . and ,
-          const cleaned = text.replace(/[^\d.,]/g, '');
-          // Replace comma with dot for decimal
-          const normalized = cleaned.replace(',', '.');
-          // Parse and return
-          const num = parseFloat(normalized);
+          // Remove spaces and handle Danish thousand separator
+          let cleaned = text.replace(/\s/g, '');
+          // Remove currency symbols
+          cleaned = cleaned.replace(/kr\.?|DKK|€|EUR|\$/gi, '');
+          // Replace comma with dot
+          cleaned = cleaned.replace(',', '.');
+          // Extract first number sequence
+          const match = cleaned.match(/(\d+(?:\.\d+)?)/);
+          if (!match) return null;
+          const num = parseFloat(match[1]);
           return isNaN(num) ? null : num;
         };
 
-        // Try different price selectors
+        let results = {
+          price: null,
+          priceText: '',
+          availability: 'available',
+          roomType: 'Standard',
+          pageTitle: document.title,
+          foundSelectors: []
+        };
+
+        // Comprehensive price selectors for Booking.com (2024/2025)
         const priceSelectors = [
-          // Modern Booking.com selectors
+          // Primary price selectors
           '[data-testid="price-and-discounted-price"]',
           '[data-testid="price-for-x-nights"]',
-          '[aria-label*="pris"]',
-          '[aria-label*="price"]',
-          // Class-based selectors
+          'span[aria-label*="pris"]',
+          'span[aria-label*="price"]',
+          
+          // Price display classes
           '.prco-valign-middle-helper',
           '.bui-price-display__value',
           '.prco-text-nowrap-helper',
           '.prco-inline-block-maker-helper',
-          // Generic price selectors
-          '[class*="price"]',
-          '[class*="Price"]',
-          // Span with currency
-          'span:has-text("kr.")',
-          'span:has-text("DKK")',
+          '[data-et-click*="price"]',
+          
+          // Property card prices
+          '.bui_price_currency',
+          '.bui_price_display__value',
+          '.e2e-property-card-price',
+          
+          // Search result prices
+          '.txp-price',
+          '.sr-price',
+          '.bui-u-sr-only',
+          
+          // Generic approaches
+          'strong[aria-hidden="true"]',
+          'span[data-price]',
+          '.e2e-price-item'
         ];
-        
-        let price = null;
-        let priceText = '';
-        
+
         // Try each selector
         for (const selector of priceSelectors) {
           try {
             const elements = document.querySelectorAll(selector);
             for (const elem of elements) {
-              const text = elem.textContent || elem.innerText;
-              if (!text) continue;
+              const text = (elem.textContent || elem.innerText || '').trim();
+              if (!text || text.length === 0) continue;
               
-              // Check if it contains numbers
-              if (/\d/.test(text)) {
+              // Check if contains a number and currency
+              if (/\d/.test(text) && (text.includes('kr') || text.includes('DKK') || /\d{3,}/.test(text))) {
                 const num = extractNumber(text);
-                // Booking.com prices are typically 500-10000 DKK per night
-                if (num && num >= 100 && num <= 50000) {
-                  price = num;
-                  priceText = text;
-                  console.log(`Found price with selector ${selector}: ${text} = ${num}`);
+                
+                // Validate price range (typical hotel prices per night in DKK)
+                if (num && num >= 200 && num <= 25000) {
+                  results.price = num;
+                  results.priceText = text;
+                  results.foundSelectors.push(selector);
+                  console.log(`✓ Found price: ${text} (${num} kr) via ${selector}`);
                   break;
                 }
               }
             }
-            if (price) break;
+            if (results.price) break;
           } catch (e) {
-            // Selector might not work, continue
+            // Selector failed, continue
           }
         }
 
-        // If still no price, try finding any element with "kr" or price-like text
-        if (!price) {
-          const allText = document.body.innerText;
-          const matches = allText.match(/(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})?)\s*(?:kr|DKK)/gi);
-          if (matches && matches.length > 0) {
-            // Take the first reasonable match
+        // Fallback: Search entire page text for price patterns
+        if (!results.price) {
+          console.log('⚠️  No price found via selectors, searching page text...');
+          const bodyText = document.body.innerText;
+          
+          // Pattern: "1.234 kr." or "1234 kr" or "DKK 1234"
+          const patterns = [
+            /(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\s*(?:kr\.?|DKK)/gi,
+            /(?:kr\.?|DKK)\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)/gi
+          ];
+          
+          for (const pattern of patterns) {
+            const matches = [...bodyText.matchAll(pattern)];
             for (const match of matches) {
-              const num = extractNumber(match);
-              if (num && num >= 100 && num <= 50000) {
-                price = num;
-                priceText = match;
-                console.log(`Found price in body text: ${match} = ${num}`);
+              const num = extractNumber(match[0]);
+              if (num && num >= 200 && num <= 25000) {
+                results.price = num;
+                results.priceText = match[0];
+                results.foundSelectors.push('text-search');
+                console.log(`✓ Found price in text: ${match[0]} (${num} kr)`);
                 break;
               }
             }
+            if (results.price) break;
           }
         }
 
-        // Get availability
-        const availSelectors = [
-          '[data-testid="availability-message"]',
-          '.bui-alert__description',
-          '.fe_banner__message',
-          '[class*="availability"]',
-          '[class*="Availability"]'
+        // Get availability status
+        const availText = document.body.innerText.toLowerCase();
+        if (availText.includes('udsolgt') || availText.includes('sold out') || availText.includes('ikke ledige')) {
+          results.availability = 'sold_out';
+        } else if (availText.includes('kun') || availText.includes('only') || availText.includes('sidste')) {
+          results.availability = 'limited';
+        }
+
+        // Get property/room name
+        const titleSelectors = [
+          'h1', 'h2[id*="hp"]', '.hp__hotel-name',
+          '[data-testid="title"]', '.property-title'
         ];
-        
-        let availability = 'available';
-        for (const selector of availSelectors) {
-          try {
-            const elem = document.querySelector(selector);
-            if (elem && elem.textContent) {
-              const text = elem.textContent.toLowerCase();
-              if (text.includes('kun') || text.includes('only') || text.includes('sidste')) {
-                availability = 'limited';
-              } else if (text.includes('udsolgt') || text.includes('sold out') || text.includes('ikke ledige')) {
-                availability = 'sold_out';
-              }
-              break;
-            }
-          } catch (e) {
-            // Continue
+        for (const sel of titleSelectors) {
+          const elem = document.querySelector(sel);
+          if (elem && elem.textContent && elem.textContent.trim().length > 0) {
+            results.roomType = elem.textContent.trim().substring(0, 100);
+            break;
           }
         }
 
-        // Get room type from page title or headers
-        const titleSelectors = ['h2', 'h1', '[data-testid="title"]', '.hp__hotel-name'];
-        let roomType = 'Standard';
-        for (const selector of titleSelectors) {
-          try {
-            const elem = document.querySelector(selector);
-            if (elem && elem.textContent) {
-              roomType = elem.textContent.trim();
-              break;
-            }
-          } catch (e) {
-            // Continue
-          }
-        }
-
-        return {
-          price,
-          priceText,
-          availability,
-          roomType,
-          pageTitle: document.title,
-          url: window.location.href
-        };
+        return results;
       });
 
       await page.close();
 
-      console.log(`📊 Scraped data from ${config.source}:`, {
-        price: data.price,
-        priceText: data.priceText,
-        availability: data.availability,
-        pageTitle: data.pageTitle
-      });
+      // Log results
+      console.log(`📊 Scraping results for ${config.source}:`);
+      console.log(`   Price: ${data.price} kr (from: "${data.priceText}")`);
+      console.log(`   Availability: ${data.availability}`);
+      console.log(`   Selectors used: ${data.foundSelectors.join(', ')}`);
+      console.log(`   Page: ${data.pageTitle}`);
 
       if (!data.price) {
-        console.warn(`⚠️  No price found for ${config.source}. This might be due to:
-- Booking.com detected automation
-- Page requires login
-- Changed HTML structure
-- Geographic restrictions`);
+        console.warn(`⚠️  No price found for ${config.source}.`);
+        console.warn(`   Possible reasons:`);
+        console.warn(`   - Page structure changed`);
+        console.warn(`   - Requires specific check-in dates`);
+        console.warn(`   - Geographic restrictions`);
+        console.warn(`   - Property not available`);
         return null;
       }
 
@@ -201,9 +289,14 @@ class CompetitorScraper {
         room_type: config.room_mapping || data.roomType,
         scraped_at: new Date()
       };
+      
     } catch (error) {
       console.error(`❌ Error scraping ${config.source || 'Booking.com'}:`, error.message);
-      await page.close();
+      try {
+        await page.close();
+      } catch (e) {
+        // Page already closed
+      }
       return null;
     }
   }

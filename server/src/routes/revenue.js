@@ -37,16 +37,34 @@ export default (db) => {
         return res.status(400).json({ error: 'No competitors provided' });
       }
 
-      console.log(`🚀 Starting scraping for ${competitors.length} competitors...`);
+      console.log(`🚀 Starting REAL scraping for ${competitors.length} competitors...`);
+      console.log(`   This may take 20-40 seconds per competitor...`);
 
       // Try real Puppeteer scraping first
       let results = [];
+      let scrapingMode = 'production';
+      
       try {
-        results = await scraper.scrapeAll(competitors);
-        console.log(`✅ Real scraping complete. Results: ${results.length}`);
+        // Set a reasonable timeout for the entire scraping operation
+        const scrapingPromise = scraper.scrapeAll(competitors);
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Scraping timeout after 120 seconds')), 120000)
+        );
+        
+        results = await Promise.race([scrapingPromise, timeoutPromise]);
+        
+        if (results.length > 0) {
+          console.log(`✅ Real scraping succeeded! Got ${results.length} results`);
+          scrapingMode = 'production';
+        } else {
+          console.log(`⚠️  Real scraping returned 0 results. Using fallback...`);
+          throw new Error('No results from scraping');
+        }
       } catch (error) {
         console.warn(`⚠️  Real scraping failed:`, error.message);
         console.log(`📝 Falling back to realistic mock data...`);
+        scrapingMode = 'demo';
+        results = [];
       }
 
       // If no results from real scraping, use mock data as fallback
@@ -59,15 +77,15 @@ export default (db) => {
           if (competitor.room_mapping === 'deluxe') basePrice = 1500;
           if (competitor.room_mapping === 'suite') basePrice = 2000;
           
-          // Add some variation
-          const variation = (Math.random() - 0.5) * 200;
+          // Add some variation (+/- 15%)
+          const variation = (Math.random() - 0.5) * basePrice * 0.3;
           const price = Math.round(basePrice + variation);
           
           const mockData = {
             source: competitor.source || competitor.name || 'Unknown',
             url: competitor.url,
             price: price,
-            availability: Math.random() > 0.2 ? 'available' : 'limited',
+            availability: Math.random() > 0.3 ? 'available' : 'limited',
             room_type: competitor.room_mapping || 'standard',
             scraped_at: new Date().toISOString()
           };
@@ -100,15 +118,16 @@ export default (db) => {
         }
       }
 
-      const mode = results.length > 0 && results[0].scraped_at ? 'production' : 'demo';
-      console.log(`✅ Scraping complete. Total results: ${results.length} (mode: ${mode})`);
+      console.log(`✅ Scraping complete. Total results: ${results.length} (mode: ${scrapingMode})`);
 
       res.json({ 
         success: true, 
         scraped: results.length,
         results,
-        mode,
-        note: mode === 'demo' ? 'Real scraping failed (timeout/blocked). Using realistic mock data.' : 'Real data scraped successfully'
+        mode: scrapingMode,
+        note: scrapingMode === 'demo' 
+          ? '⚠️  Real scraping timeout or blocked. Using realistic mock data for demo purposes.' 
+          : '✅ Real data successfully scraped from competitor websites!'
       });
     } catch (error) {
       console.error('Scraping error:', error);
