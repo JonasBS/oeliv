@@ -25,31 +25,71 @@ class CompetitorScraper {
     
     try {
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
+      console.log(`Scraping: ${config.url}`);
+      
       await page.goto(config.url, { waitUntil: 'networkidle2', timeout: 30000 });
 
-      // Wait for prices to load
-      await page.waitForSelector('[data-testid="price-and-discounted-price"]', { timeout: 10000 });
-
+      // Try multiple selectors for Booking.com
       const data = await page.evaluate(() => {
-        const priceElement = document.querySelector('[data-testid="price-and-discounted-price"]');
-        const availabilityElement = document.querySelector('[data-testid="availability-message"]');
-        const roomTypeElement = document.querySelector('[data-testid="title"]');
+        // Try different price selectors
+        const priceSelectors = [
+          '[data-testid="price-and-discounted-price"]',
+          '.prco-valign-middle-helper',
+          '.bui-price-display__value',
+          '[data-testid="price-for-x-nights"]',
+          '.prco-text-nowrap-helper'
+        ];
+        
+        let price = null;
+        for (const selector of priceSelectors) {
+          const elem = document.querySelector(selector);
+          if (elem) {
+            const text = elem.textContent;
+            const match = text.match(/[\d.]+/);
+            if (match) {
+              price = parseFloat(match[0].replace(/\./g, ''));
+              break;
+            }
+          }
+        }
+
+        // Get availability
+        const availSelectors = [
+          '[data-testid="availability-message"]',
+          '.bui-alert__description',
+          '.fe_banner__message'
+        ];
+        
+        let availability = 'available';
+        for (const selector of availSelectors) {
+          const elem = document.querySelector(selector);
+          if (elem && elem.textContent) {
+            availability = elem.textContent;
+            break;
+          }
+        }
+
+        // Get room type from URL or page title
+        const titleElem = document.querySelector('h2') || document.querySelector('h1');
+        const roomType = titleElem?.textContent || 'Standard';
 
         return {
-          price: priceElement?.textContent?.replace(/[^\d]/g, '') || null,
-          availability: availabilityElement?.textContent || 'available',
-          roomType: roomTypeElement?.textContent || 'Unknown'
+          price,
+          availability,
+          roomType
         };
       });
 
       await page.close();
 
+      console.log(`Scraped data:`, data);
+
       return {
-        source: 'Booking.com',
+        source: config.source || 'Booking.com',
         url: config.url,
-        price: parseInt(data.price) || null,
+        price: data.price || null,
         availability: this.parseAvailability(data.availability),
-        room_type: data.roomType,
+        room_type: config.room_mapping || data.roomType,
         scraped_at: new Date()
       };
     } catch (error) {
@@ -156,22 +196,29 @@ class CompetitorScraper {
       try {
         let result = null;
 
-        switch (competitor.source.toLowerCase()) {
-          case 'booking.com':
-            result = await this.scrapeBookingCom(competitor);
-            break;
-          case 'airbnb':
-            result = await this.scrapeAirbnb(competitor);
-            break;
-          case 'hotels.com':
-            result = await this.scrapeHotelsCom(competitor);
-            break;
+        // Detect platform from URL instead of source name
+        const url = competitor.url.toLowerCase();
+        
+        if (url.includes('booking.com')) {
+          console.log(`Scraping Booking.com: ${competitor.source || 'Unknown'}`);
+          result = await this.scrapeBookingCom(competitor);
+        } else if (url.includes('airbnb')) {
+          console.log(`Scraping Airbnb: ${competitor.source || 'Unknown'}`);
+          result = await this.scrapeAirbnb(competitor);
+        } else if (url.includes('hotels.com')) {
+          console.log(`Scraping Hotels.com: ${competitor.source || 'Unknown'}`);
+          result = await this.scrapeHotelsCom(competitor);
+        } else {
+          console.log(`Unknown platform for ${competitor.url}`);
         }
 
         if (result) {
           // Save to database
           await this.saveToDatabase(result);
           results.push(result);
+          console.log(`✅ Saved data for ${result.source}: ${result.price} DKK`);
+        } else {
+          console.log(`❌ No result for ${competitor.source}`);
         }
       } catch (error) {
         console.error(`Error scraping ${competitor.source}:`, error);
@@ -182,6 +229,7 @@ class CompetitorScraper {
     }
 
     await this.close();
+    console.log(`✅ Scraping complete. Total results: ${results.length}`);
     return results;
   }
 
