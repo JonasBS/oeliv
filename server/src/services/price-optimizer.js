@@ -1,5 +1,3 @@
-const tf = require('@tensorflow/tfjs-node');
-
 class PriceOptimizer {
   constructor(db) {
     this.db = db;
@@ -324,5 +322,5 @@ class PriceOptimizer {
   }
 }
 
-module.exports = PriceOptimizer;
+export default PriceOptimizer;
 

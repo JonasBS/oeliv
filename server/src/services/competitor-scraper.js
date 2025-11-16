@@ -1,6 +1,4 @@
-const puppeteer = require('puppeteer');
-const cheerio = require('cheerio');
-const axios = require('axios');
+import puppeteer from 'puppeteer';
 
 class CompetitorScraper {
   constructor(db) {
@@ -240,5 +238,5 @@ class CompetitorScraper {
   }
 }
 
-module.exports = CompetitorScraper;
+export default CompetitorScraper;
 

@@ -1,8 +1,8 @@
-const express = require('express');
-const CompetitorScraper = require('../services/competitor-scraper');
-const PriceOptimizer = require('../services/price-optimizer');
+import express from 'express';
+import CompetitorScraper from '../services/competitor-scraper.js';
+import PriceOptimizer from '../services/price-optimizer.js';
 
-module.exports = (db) => {
+export default (db) => {
   const router = express.Router();
   const scraper = new CompetitorScraper(db);
   const optimizer = new PriceOptimizer(db);
