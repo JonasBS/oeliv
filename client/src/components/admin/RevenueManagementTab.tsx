@@ -29,18 +29,35 @@ interface PriceRecommendation {
   potential_revenue_increase: number;
 }
 
+interface CompetitorConfig {
+  id?: number;
+  name: string;
+  url: string;
+  room_type: string;
+  active: boolean;
+}
+
 const RevenueManagementTab = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [competitorPrices, setCompetitorPrices] = useState<CompetitorPrice[]>([]);
   const [marketInsights, setMarketInsights] = useState<MarketInsight[]>([]);
   const [priceRecommendations, setPriceRecommendations] = useState<PriceRecommendation[]>([]);
+  const [competitorConfigs, setCompetitorConfigs] = useState<CompetitorConfig[]>([]);
   const [scraping, setScraping] = useState(false);
+  const [showAddCompetitor, setShowAddCompetitor] = useState(false);
+  const [newCompetitor, setNewCompetitor] = useState<CompetitorConfig>({
+    name: '',
+    url: '',
+    room_type: 'standard',
+    active: true,
+  });
 
   useEffect(() => {
     loadRooms();
     loadCompetitorPrices();
     loadMarketInsights();
     generatePriceRecommendations();
+    loadCompetitorConfigs();
   }, []);
 
   const loadRooms = async () => {
@@ -97,6 +114,68 @@ const RevenueManagementTab = () => {
         },
       ];
       setMarketInsights(mockInsights);
+    }
+  };
+
+  const loadCompetitorConfigs = async () => {
+    try {
+      const data = await revenueApi.getCompetitorConfig();
+      setCompetitorConfigs(data);
+    } catch (error) {
+      console.error('Error loading competitor configs:', error);
+    }
+  };
+
+  const handleAddCompetitor = async () => {
+    if (!newCompetitor.name || !newCompetitor.url) {
+      alert('Udfyld venligst navn og URL');
+      return;
+    }
+
+    try {
+      await revenueApi.addCompetitorConfig(newCompetitor);
+      await loadCompetitorConfigs();
+      setShowAddCompetitor(false);
+      setNewCompetitor({
+        name: '',
+        url: '',
+        room_type: 'standard',
+        active: true,
+      });
+      alert('✅ Konkurrent tilføjet!');
+    } catch (error) {
+      console.error('Error adding competitor:', error);
+      alert('❌ Fejl ved tilføjelse af konkurrent');
+    }
+  };
+
+  const handleDeleteCompetitor = async (id: number) => {
+    if (!confirm('Er du sikker på du vil slette denne konkurrent?')) {
+      return;
+    }
+
+    try {
+      await revenueApi.deleteCompetitorConfig(id);
+      await loadCompetitorConfigs();
+      alert('✅ Konkurrent slettet!');
+    } catch (error) {
+      console.error('Error deleting competitor:', error);
+      alert('❌ Fejl ved sletning');
+    }
+  };
+
+  const handleToggleCompetitor = async (config: CompetitorConfig) => {
+    if (!config.id) return;
+
+    try {
+      await revenueApi.updateCompetitorConfig(config.id, {
+        ...config,
+        active: !config.active,
+      });
+      await loadCompetitorConfigs();
+    } catch (error) {
+      console.error('Error toggling competitor:', error);
+      alert('❌ Fejl ved opdatering');
     }
   };
 
@@ -414,22 +493,122 @@ const RevenueManagementTab = () => {
         </div>
       </div>
 
+      {/* Competitor Configuration */}
+      <div className="section-card">
+        <div className="section-header">
+          <h3>🏨 Konkurrent-konfiguration</h3>
+          <button 
+            onClick={() => setShowAddCompetitor(!showAddCompetitor)}
+            className="add-competitor-btn"
+          >
+            {showAddCompetitor ? '✕ Annuller' : '+ Tilføj konkurrent'}
+          </button>
+        </div>
+
+        {showAddCompetitor && (
+          <div className="add-competitor-form">
+            <div className="form-row">
+              <div className="form-field">
+                <label>Navn</label>
+                <input
+                  type="text"
+                  placeholder="Hotel Søndergaard"
+                  value={newCompetitor.name}
+                  onChange={(e) => setNewCompetitor({ ...newCompetitor, name: e.target.value })}
+                />
+              </div>
+              <div className="form-field">
+                <label>URL</label>
+                <input
+                  type="url"
+                  placeholder="https://www.booking.com/hotel/dk/..."
+                  value={newCompetitor.url}
+                  onChange={(e) => setNewCompetitor({ ...newCompetitor, url: e.target.value })}
+                />
+              </div>
+              <div className="form-field">
+                <label>Værelse-type</label>
+                <select
+                  value={newCompetitor.room_type}
+                  onChange={(e) => setNewCompetitor({ ...newCompetitor, room_type: e.target.value })}
+                >
+                  <option value="standard">Standard</option>
+                  <option value="deluxe">Deluxe</option>
+                  <option value="suite">Suite</option>
+                </select>
+              </div>
+              <button onClick={handleAddCompetitor} className="save-competitor-btn">
+                💾 Gem konkurrent
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className="competitor-list">
+          {competitorConfigs.length === 0 ? (
+            <div className="empty-state">
+              <p>🏨 Ingen konkurrenter konfigureret endnu.</p>
+              <p>Tilføj konkurrent-URLs fra Booking.com, Airbnb, etc. for at starte prissammenligning.</p>
+            </div>
+          ) : (
+            competitorConfigs.map((config) => (
+              <div key={config.id} className="competitor-config-card">
+                <div className="competitor-info">
+                  <div className="competitor-header">
+                    <h4>{config.name}</h4>
+                    <span className={`status-badge ${config.active ? 'active' : 'inactive'}`}>
+                      {config.active ? '✓ Aktiv' : '✕ Inaktiv'}
+                    </span>
+                  </div>
+                  <div className="competitor-url">{config.url}</div>
+                  <div className="competitor-meta">
+                    <span className="room-type-tag">{config.room_type}</span>
+                  </div>
+                </div>
+                <div className="competitor-actions">
+                  <button
+                    onClick={() => handleToggleCompetitor(config)}
+                    className="toggle-btn"
+                    title={config.active ? 'Deaktiver' : 'Aktiver'}
+                  >
+                    {config.active ? '⏸' : '▶️'}
+                  </button>
+                  <button
+                    onClick={() => config.id && handleDeleteCompetitor(config.id)}
+                    className="delete-btn"
+                    title="Slet"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
       {/* Setup Instructions */}
       <div className="setup-card">
-        <h3>⚙️ Konfigurer automatisk prisoptimering</h3>
+        <h3>⚙️ Sådan bruges systemet</h3>
         <p>
-          For at aktivere real-time konkurrentovervågning skal du konfigurere følgende:
+          Revenue Management systemet hjælper dig med at optimere dine priser baseret på markedsforhold:
         </p>
         <ul className="setup-list">
-          <li>✓ Tilføj konkurrent-URLs (Booking.com, Airbnb, Hotels.com)</li>
-          <li>✓ Indstil scraping-interval (dagligt, hver 6. time, etc.)</li>
-          <li>✓ Definer minimum og maximum priser for hvert værelse</li>
-          <li>✓ Vælg automatiske prisregler (f.eks. "Match konkurrenter +5%")</li>
-          <li>✓ Aktiver email-notifikationer ved store prisændringer</li>
+          <li><strong>1. Tilføj konkurrenter:</strong> Indtast URLs fra Booking.com, Airbnb, etc. ovenfor</li>
+          <li><strong>2. Klik "Opdater markedsdata":</strong> Scraper aktuelle priser fra konkurrenter</li>
+          <li><strong>3. Gennemgå anbefalinger:</strong> AI analyserer data og foreslår optimale priser</li>
+          <li><strong>4. Anvend priser:</strong> Klik "Anvend" på relevante anbefalinger</li>
+          <li><strong>5. Gentag dagligt:</strong> Hold dig opdateret med markedet</li>
         </ul>
-        <button className="setup-btn">
-          🚀 Start opsætning
-        </button>
+        <div className="setup-tips">
+          <h4>💡 Tips til bedre resultater:</h4>
+          <ul>
+            <li>Tilføj 3-5 sammenlignelige konkurrenter i dit område</li>
+            <li>Kør scraping dagligt eller hver 6. time i højsæson</li>
+            <li>Kombiner med sæsonpriser for maksimal optimering</li>
+            <li>Monitor anbefalingerne men brug din erfaring til den endelige beslutning</li>
+          </ul>
+        </div>
       </div>
     </div>
   );

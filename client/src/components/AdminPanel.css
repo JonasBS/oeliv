@@ -1511,6 +1511,12 @@
   font-size: 1.375rem;
 }
 
+.setup-card h4 {
+  margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
+  color: var(--olive);
+  font-size: 1.125rem;
+}
+
 .setup-card p {
   color: var(--muted);
   margin-bottom: var(--spacing-lg);
@@ -1528,6 +1534,225 @@
   color: var(--charcoal);
   font-size: 0.9375rem;
   line-height: 1.6;
+}
+
+.setup-tips {
+  background: rgba(101, 108, 72, 0.05);
+  padding: var(--spacing-lg);
+  border-radius: 16px;
+  margin-top: var(--spacing-lg);
+}
+
+.setup-tips ul {
+  list-style: disc;
+  padding-left: var(--spacing-xl);
+  margin: var(--spacing-sm) 0 0 0;
+}
+
+.setup-tips li {
+  padding: var(--spacing-xs) 0;
+  color: var(--charcoal);
+}
+
+/* Competitor Configuration Styles */
+.add-competitor-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--olive);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-competitor-btn:hover {
+  background: var(--olive-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(101, 108, 72, 0.3);
+}
+
+.add-competitor-form {
+  background: rgba(101, 108, 72, 0.05);
+  padding: var(--spacing-lg);
+  border-radius: 16px;
+  margin: var(--spacing-lg) 0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto;
+  gap: var(--spacing-md);
+  align-items: end;
+}
+
+@media (max-width: 1024px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--olive);
+}
+
+.form-field input,
+.form-field select {
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(101, 108, 72, 0.1);
+}
+
+.save-competitor-btn {
+  padding: 0.75rem 1.5rem;
+  background: var(--olive);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.save-competitor-btn:hover {
+  background: var(--olive-soft);
+  transform: scale(1.05);
+}
+
+.competitor-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+}
+
+.empty-state p {
+  margin: 0.5rem 0;
+}
+
+.competitor-config-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: var(--spacing-lg);
+  border-radius: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.competitor-config-card:hover {
+  border-color: var(--olive);
+  box-shadow: 0 4px 16px rgba(101, 108, 72, 0.1);
+}
+
+.competitor-info {
+  flex: 1;
+}
+
+.competitor-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: 0.5rem;
+}
+
+.competitor-header h4 {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.125rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.status-badge.inactive {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--muted);
+}
+
+.competitor-url {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  word-break: break-all;
+}
+
+.competitor-meta {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.room-type-tag {
+  padding: 0.25rem 0.75rem;
+  background: rgba(101, 108, 72, 0.1);
+  color: var(--olive);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.competitor-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.toggle-btn,
+.delete-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.toggle-btn:hover {
+  background: rgba(33, 150, 243, 0.1);
+  transform: scale(1.1);
+}
+
+.delete-btn:hover {
+  background: rgba(244, 67, 54, 0.1);
+  transform: scale(1.1);
 }
 
 .setup-btn {
