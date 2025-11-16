@@ -120,7 +120,15 @@ const RevenueManagementTab = () => {
   const loadCompetitorConfigs = async () => {
     try {
       const data = await revenueApi.getCompetitorConfig();
-      setCompetitorConfigs(data);
+      // Map database fields to frontend format
+      const mapped = data.map((config: any) => ({
+        id: config.id,
+        name: config.source,
+        url: config.url,
+        room_type: config.room_mapping || 'standard',
+        active: config.active === 1,
+      }));
+      setCompetitorConfigs(mapped);
     } catch (error) {
       console.error('Error loading competitor configs:', error);
     }

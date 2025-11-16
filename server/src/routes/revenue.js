@@ -50,7 +50,7 @@ export default (db) => {
 
   // Get competitor configurations
   router.get('/competitors/config', (req, res) => {
-    db.all('SELECT * FROM competitor_config WHERE active = 1', (err, rows) => {
+    db.all('SELECT * FROM competitor_config', (err, rows) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -60,12 +60,16 @@ export default (db) => {
 
   // Add competitor configuration
   router.post('/competitors/config', (req, res) => {
-    const { source, url, room_mapping, scraping_interval } = req.body;
+    const { name, url, room_type, active } = req.body;
+
+    if (!name || !url) {
+      return res.status(400).json({ error: 'Name and URL are required' });
+    }
 
     db.run(`
-      INSERT INTO competitor_config (source, url, room_mapping, scraping_interval, active)
-      VALUES (?, ?, ?, ?, 1)
-    `, [source, url, room_mapping, scraping_interval], function(err) {
+      INSERT INTO competitor_config (source, url, room_mapping, active)
+      VALUES (?, ?, ?, ?)
+    `, [name, url, room_type || 'standard', active ? 1 : 0], function(err) {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -76,16 +80,19 @@ export default (db) => {
   // Update competitor configuration
   router.patch('/competitors/config/:id', (req, res) => {
     const { id } = req.params;
-    const { source, url, room_mapping, scraping_interval, active } = req.body;
+    const { name, url, room_type, active } = req.body;
 
     const updates = [];
     const values = [];
 
-    if (source) { updates.push('source = ?'); values.push(source); }
+    if (name) { updates.push('source = ?'); values.push(name); }
     if (url) { updates.push('url = ?'); values.push(url); }
-    if (room_mapping) { updates.push('room_mapping = ?'); values.push(room_mapping); }
-    if (scraping_interval) { updates.push('scraping_interval = ?'); values.push(scraping_interval); }
+    if (room_type) { updates.push('room_mapping = ?'); values.push(room_type); }
     if (active !== undefined) { updates.push('active = ?'); values.push(active ? 1 : 0); }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
 
     values.push(id);
 
