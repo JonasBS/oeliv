@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS competitor_prices (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_competitor_prices_scraped ON competitor_prices(scraped_at);
-CREATE INDEX idx_competitor_prices_source ON competitor_prices(source);
+CREATE INDEX IF NOT EXISTS idx_competitor_prices_scraped ON competitor_prices(scraped_at);
+CREATE INDEX IF NOT EXISTS idx_competitor_prices_source ON competitor_prices(source);
 
 -- Competitor configuration table
 CREATE TABLE IF NOT EXISTS competitor_config (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS dynamic_pricing (
   FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
-CREATE INDEX idx_dynamic_pricing_room_date ON dynamic_pricing(room_id, date);
+CREATE INDEX IF NOT EXISTS idx_dynamic_pricing_room_date ON dynamic_pricing(room_id, date);
 
 -- Price changes log
 CREATE TABLE IF NOT EXISTS price_changes (
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS price_changes (
   FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
-CREATE INDEX idx_price_changes_room ON price_changes(room_id);
-CREATE INDEX idx_price_changes_date ON price_changes(target_date);
+CREATE INDEX IF NOT EXISTS idx_price_changes_room ON price_changes(room_id);
+CREATE INDEX IF NOT EXISTS idx_price_changes_date ON price_changes(target_date);
 
 -- Pricing settings table
 CREATE TABLE IF NOT EXISTS pricing_settings (
@@ -88,6 +88,6 @@ CREATE TABLE IF NOT EXISTS price_recommendations (
   FOREIGN KEY (room_id) REFERENCES rooms(id)
 );
 
-CREATE INDEX idx_price_recommendations_room_date ON price_recommendations(room_id, target_date);
-CREATE INDEX idx_price_recommendations_applied ON price_recommendations(applied);
+CREATE INDEX IF NOT EXISTS idx_price_recommendations_room_date ON price_recommendations(room_id, target_date);
+CREATE INDEX IF NOT EXISTS idx_price_recommendations_applied ON price_recommendations(applied);
 
