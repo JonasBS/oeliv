@@ -91,13 +91,46 @@ router.post('/', async (req, res, next) => {
       return res.status(400).json({ error: 'Room already booked for selected dates' });
     }
     
-    // Calculate price
-    const priceResult = await dbGet(`
-      SELECT SUM(price) as total FROM availability 
-      WHERE room_id = ? AND date >= ? AND date < ?
-    `, [room_id, check_in, check_out]);
+    // Calculate price using date-specific pricing if available
+    const checkInDate = new Date(check_in);
+    const checkOutDate = new Date(check_out);
+    const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
     
-    const total_price = priceResult?.total || 0;
+    let total_price = 0;
+    
+    // Check each night for date-specific pricing
+    for (let i = 0; i < nights; i++) {
+      const currentDate = new Date(checkInDate);
+      currentDate.setDate(checkInDate.getDate() + i);
+      const dateStr = currentDate.toISOString().split('T')[0];
+      
+      // First, try to get date-specific price
+      const dateSpecificPrice = await dbGet(`
+        SELECT price FROM room_prices 
+        WHERE room_id = ? AND price_date = ?
+      `, [room_id, dateStr]);
+      
+      if (dateSpecificPrice) {
+        total_price += dateSpecificPrice.price;
+      } else {
+        // Fall back to availability table price or base price
+        const availabilityPrice = await dbGet(`
+          SELECT price FROM availability 
+          WHERE room_id = ? AND date = ?
+        `, [room_id, dateStr]);
+        
+        if (availabilityPrice && availabilityPrice.price) {
+          total_price += availabilityPrice.price;
+        } else {
+          // Last resort: use base price from room
+          const basePrice = await dbGet(`
+            SELECT base_price FROM rooms WHERE id = ?
+          `, [room_id]);
+          
+          total_price += basePrice?.base_price || 0;
+        }
+      }
+    }
     
     // Create booking
     const result = await dbRun(`

@@ -81,7 +81,7 @@ export const initializeDatabase = async () => {
     )`);
 
     // Run revenue management migrations
-    const migrations = ['003_revenue_management.sql', '004_add_search_dates.sql'];
+    const migrations = ['003_revenue_management.sql', '004_add_search_dates.sql', '005_room_prices.sql'];
     for (const migrationFile of migrations) {
       const migrationPath = path.join(__dirname, 'migrations', migrationFile);
       if (fs.existsSync(migrationPath)) {

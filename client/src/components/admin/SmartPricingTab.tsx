@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { format, addDays } from 'date-fns';
 import { da } from 'date-fns/locale';
-import { roomsApi, revenueApi } from '../../services/api';
+import { roomsApi, revenueApi, roomPricesApi } from '../../services/api';
 import type { Room } from '../../types';
 
 interface CompetitorPrice {
@@ -262,8 +262,22 @@ const SmartPricingTab = () => {
   };
 
   const handleApplySuggestion = async (suggestion: PricingSuggestion) => {
-    // TODO: Implement API call to update room price
-    alert(`Opdater ${suggestion.room.name} til ${suggestion.suggestedPrice} kr?`);
+    if (!confirm(`Vil du anvende anbefalet pris på ${suggestion.suggestedPrice} kr for ${suggestion.room.name} den ${format(new Date(selectedDate), 'd. MMMM yyyy', { locale: da })}?`)) {
+      return;
+    }
+
+    try {
+      // Set date-specific price
+      await roomPricesApi.setPrice(suggestion.room.id, selectedDate, suggestion.suggestedPrice);
+      
+      alert(`✅ Pris opdateret!\n\n${suggestion.room.name}: ${suggestion.suggestedPrice} kr/nat den ${format(new Date(selectedDate), 'd. MMM yyyy', { locale: da })}`);
+      
+      // Reload suggestions to show updated data
+      await loadPricingSuggestions();
+    } catch (error) {
+      console.error('Error applying price suggestion:', error);
+      alert('❌ Fejl ved opdatering af pris. Se konsollen for detaljer.');
+    }
   };
 
   if (loading) {

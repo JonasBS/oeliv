@@ -99,6 +99,65 @@ export const availabilityApi = {
 };
 
 // Revenue Management API
+// Room Prices API
+const getRoomPricesBaseUrl = () => {
+  if (typeof window !== 'undefined' && (window as any).API_BASE_URL) {
+    return (window as any).API_BASE_URL;
+  }
+  return '';
+};
+
+export const roomPricesApi = {
+  // Get price for specific date
+  getPrice: async (roomId: number, date: string) => {
+    const response = await fetch(`${getRoomPricesBaseUrl()}/api/room-prices/${roomId}/${date}`);
+    if (!response.ok) throw new Error('Failed to get room price');
+    return response.json();
+  },
+
+  // Get all prices for a room
+  getRoomPrices: async (roomId: number, startDate?: string, endDate?: string) => {
+    let url = `${getRoomPricesBaseUrl()}/api/room-prices/${roomId}`;
+    if (startDate && endDate) {
+      url += `?startDate=${startDate}&endDate=${endDate}`;
+    }
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Failed to get room prices');
+    return response.json();
+  },
+
+  // Set price for specific date
+  setPrice: async (roomId: number, date: string, price: number) => {
+    const response = await fetch(`${getRoomPricesBaseUrl()}/api/room-prices/${roomId}/${date}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ price }),
+    });
+    if (!response.ok) throw new Error('Failed to set room price');
+    return response.json();
+  },
+
+  // Bulk set prices
+  bulkSetPrices: async (prices: Array<{ roomId: number; date: string; price: number }>) => {
+    const response = await fetch(`${getRoomPricesBaseUrl()}/api/room-prices/bulk`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prices }),
+    });
+    if (!response.ok) throw new Error('Failed to bulk set prices');
+    return response.json();
+  },
+
+  // Delete price for specific date (revert to base price)
+  deletePrice: async (roomId: number, date: string) => {
+    const response = await fetch(`${getRoomPricesBaseUrl()}/api/room-prices/${roomId}/${date}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Failed to delete room price');
+    return response.json();
+  },
+};
+
 export const revenueApi = {
   // Competitor prices
   getCompetitorPrices: async (): Promise<any[]> => {

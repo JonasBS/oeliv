@@ -9,6 +9,7 @@ import availabilityRouter from './routes/availability.js';
 import bookingsRouter from './routes/bookings.js';
 import channelRouter from './routes/channel.js';
 import revenueRouter from './routes/revenue.js';
+import createRoomPricesRouter from './routes/room-prices.js';
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/api', availabilityRouter);
 app.use('/api/bookings', bookingsRouter);
 app.use('/api/channel', channelRouter);
 app.use('/api/revenue', revenueRouter(db));
+app.use('/api/room-prices', createRoomPricesRouter(db));
 
 // Health check
 app.get('/health', (req, res) => {
