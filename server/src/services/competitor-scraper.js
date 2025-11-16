@@ -36,7 +36,30 @@ class CompetitorScraper {
     const page = await this.browser.newPage();
     
     try {
-      // Set realistic browser fingerprint
+      // Add current dates to URL if not present
+      let url = config.url;
+      
+      // Calculate check-in (tomorrow) and check-out (3 days later)
+      const checkIn = new Date();
+      checkIn.setDate(checkIn.getDate() + 1); // Tomorrow
+      const checkOut = new Date();
+      checkOut.setDate(checkOut.getDate() + 4); // 3 nights stay
+      
+      const checkInStr = checkIn.toISOString().split('T')[0];
+      const checkOutStr = checkOut.toISOString().split('T')[0];
+      
+      // Add dates to URL if not already present
+      if (!url.includes('checkin=') && !url.includes('?')) {
+        url = `${url}?checkin=${checkInStr}&checkout=${checkOutStr}&group_adults=2&group_children=0&no_rooms=1`;
+        console.log(`📅 Added dates to URL: checkin=${checkInStr}, checkout=${checkOutStr}`);
+      } else if (!url.includes('checkin=') && url.includes('?')) {
+        url = `${url}&checkin=${checkInStr}&checkout=${checkOutStr}&group_adults=2&group_children=0&no_rooms=1`;
+        console.log(`📅 Added dates to URL: checkin=${checkInStr}, checkout=${checkOutStr}`);
+      } else {
+        console.log(`📅 URL already has dates`);
+      }
+
+      // Anti-detection setup
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
       await page.setViewport({ 
         width: 1920, 
@@ -49,27 +72,18 @@ class CompetitorScraper {
 
       // Remove automation indicators
       await page.evaluateOnNewDocument(() => {
-        // Overwrite the `navigator.webdriver` property
         Object.defineProperty(navigator, 'webdriver', {
           get: () => false,
         });
-
-        // Overwrite the `plugins` property to use a custom getter
         Object.defineProperty(navigator, 'plugins', {
           get: () => [1, 2, 3, 4, 5],
         });
-
-        // Overwrite the `languages` property to use a custom getter
         Object.defineProperty(navigator, 'languages', {
           get: () => ['en-US', 'en', 'da'],
         });
-
-        // Pass the Chrome Test
         window.chrome = {
           runtime: {},
         };
-
-        // Pass the Permissions Test
         const originalQuery = window.navigator.permissions.query;
         window.navigator.permissions.query = (parameters) => (
           parameters.name === 'notifications' ?
@@ -78,7 +92,6 @@ class CompetitorScraper {
         );
       });
 
-      // Set additional headers
       await page.setExtraHTTPHeaders({
         'Accept-Language': 'da-DK,da;q=0.9,en-US;q=0.8,en;q=0.7',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -93,7 +106,7 @@ class CompetitorScraper {
       });
       
       console.log(`🔍 Scraping Booking.com: ${config.source || 'Unknown'}`);
-      console.log(`📍 URL: ${config.url}`);
+      console.log(`📍 URL: ${url}`);
       
       // Navigate with retry logic
       let retries = 3;
@@ -101,7 +114,7 @@ class CompetitorScraper {
       
       while (retries > 0 && !loaded) {
         try {
-          await page.goto(config.url, { 
+          await page.goto(url, { 
             waitUntil: 'domcontentloaded',
             timeout: 45000 
           });
