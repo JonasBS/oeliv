@@ -71,28 +71,21 @@ const RevenueManagementTab = () => {
 
   const loadCompetitorPrices = async () => {
     try {
+      console.log('📊 Loading competitor prices from API...');
       const data = await revenueApi.getCompetitorPrices();
-      setCompetitorPrices(data);
+      console.log(`✅ Loaded ${data.length} competitor prices:`, data);
+      
+      if (data && data.length > 0) {
+        setCompetitorPrices(data);
+        return;
+      }
+      
+      // If no data, show message
+      console.warn('⚠️  No competitor prices found in database');
+      setCompetitorPrices([]);
     } catch (error) {
       console.error('Error loading competitor prices:', error);
-      // Fallback to mock data if API fails
-      const mockPrices: CompetitorPrice[] = [
-        {
-          source: 'Booking.com',
-          room_type: 'Double Room',
-          price: 1450,
-          date_checked: new Date().toISOString(),
-          availability: 'available',
-        },
-        {
-          source: 'Airbnb',
-          room_type: 'Double Room',
-          price: 1380,
-          date_checked: new Date().toISOString(),
-          availability: 'limited',
-        },
-      ];
-      setCompetitorPrices(mockPrices);
+      setCompetitorPrices([]);
     }
   };
 
