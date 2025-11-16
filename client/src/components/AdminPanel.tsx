@@ -5,10 +5,9 @@ import AvailabilityTab from './admin/AvailabilityTab';
 import PricingTab from './admin/PricingTab';
 import RevenueManagementTab from './admin/RevenueManagementTab';
 import ChannelManagerTab from './admin/ChannelManagerTab';
-import SmartPricingTab from './admin/SmartPricingTab';
 import './AdminPanel.css';
 
-type TabType = 'bookings' | 'rooms' | 'availability' | 'pricing' | 'revenue' | 'channels' | 'smart-pricing';
+type TabType = 'bookings' | 'rooms' | 'availability' | 'pricing' | 'revenue' | 'channels';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState<TabType>('bookings');
@@ -58,12 +57,6 @@ const AdminPanel = () => {
           >
             📱 Channel Manager
           </button>
-          <button
-            className={`admin-tab ${activeTab === 'smart-pricing' ? 'active' : ''}`}
-            onClick={() => setActiveTab('smart-pricing')}
-          >
-            💡 Smart Prissætning
-          </button>
         </nav>
 
         <main className="admin-content">
@@ -73,7 +66,6 @@ const AdminPanel = () => {
           {activeTab === 'revenue' && <RevenueManagementTab />}
           {activeTab === 'availability' && <AvailabilityTab />}
           {activeTab === 'channels' && <ChannelManagerTab />}
-          {activeTab === 'smart-pricing' && <SmartPricingTab />}
         </main>
       </div>
     </div>

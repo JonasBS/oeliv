@@ -3,6 +3,7 @@ import { format, addDays } from 'date-fns';
 import { da } from 'date-fns/locale';
 import { roomsApi } from '../../services/api';
 import type { Room } from '../../types';
+import SmartPricingTab from './SmartPricingTab';
 
 interface PricingRule {
   id: string;
@@ -170,19 +171,31 @@ const PricingTab = () => {
 
   return (
     <div className="pricing-tab">
-      <div className="tab-header">
-        <h2>Priser & Sæsoner</h2>
-        <button 
-          onClick={() => {
-            setShowAddForm(!showAddForm);
-            setEditingRule(null);
-            resetForm();
-          }}
-          className="btn-primary"
-        >
-          {showAddForm ? '✕ Annuller' : '+ Tilføj prisregel'}
-        </button>
+      {/* Smart Pricing Section */}
+      <div className="smart-pricing-section">
+        <SmartPricingTab />
       </div>
+
+      {/* Divider */}
+      <div className="section-divider">
+        <span>eller definer manuelle regler</span>
+      </div>
+
+      {/* Manual Pricing Rules Section */}
+      <div className="manual-pricing-section">
+        <div className="tab-header">
+          <h2>Manuelle Prisregler & Sæsoner</h2>
+          <button 
+            onClick={() => {
+              setShowAddForm(!showAddForm);
+              setEditingRule(null);
+              resetForm();
+            }}
+            className="btn-primary"
+          >
+            {showAddForm ? '✕ Annuller' : '+ Tilføj prisregel'}
+          </button>
+        </div>
 
       <div className="pricing-info-card">
         <h3>💰 Dynamisk prissætning</h3>
@@ -392,6 +405,7 @@ const PricingTab = () => {
             ))}
           </div>
         )}
+      </div>
       </div>
     </div>
   );

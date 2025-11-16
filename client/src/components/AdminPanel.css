@@ -2625,4 +2625,36 @@
   color: var(--muted);
 }
 
+/* Pricing Tab Sections */
+.smart-pricing-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: var(--spacing-xl) 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 2px solid var(--sand);
+}
+
+.section-divider span {
+  padding: 0 var(--spacing-lg);
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.manual-pricing-section {
+  margin-top: var(--spacing-xl);
+}
+
 
