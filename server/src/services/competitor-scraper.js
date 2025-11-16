@@ -300,8 +300,8 @@ class CompetitorScraper {
         console.log('⚠️  Could not save screenshot');
       }
 
-      // Extract data with CORRECT selectors (based on DOM inspection 2026-07-01)
-      const data = await page.evaluate((configData) => {
+      // Extract data with CORRECT selectors - FIND ALL ROOM TYPES
+      const allRooms = await page.evaluate((configData) => {
         // Helper: Extract number from text (handles Danish format: 6.000,50)
         const extractNumber = (text) => {
           if (!text) return null;
@@ -332,6 +332,123 @@ class CompetitorScraper {
           return isNaN(num) ? null : num;
         };
 
+        const roomsFound = [];
+        
+        // 🎯 NEW APPROACH: Find ALL room rows (Booking.com uses table structure)
+        const roomRows = document.querySelectorAll('[data-block-id], .hprt-table tbody tr, .roomstable tbody tr');
+        
+        console.log(`🔍 Found ${roomRows.length} potential room rows`);
+        
+        for (const row of roomRows) {
+          try {
+            // Find room type name
+            let roomName = null;
+            const nameSelectors = [
+              '.hprt-roomtype-link',
+              '.hprt-roomtype-icon-link',
+              '[data-room-name-link]',
+              '.roomName',
+              'a[data-room-name-link]',
+              '.hprt-roomtype-block h3',
+              '.hp-roomtype__name'
+            ];
+            
+            for (const selector of nameSelectors) {
+              const nameElem = row.querySelector(selector);
+              if (nameElem && nameElem.textContent.trim()) {
+                roomName = nameElem.textContent.trim();
+                break;
+              }
+            }
+            
+            if (!roomName) continue;
+            
+            // Find price in this row
+            const priceSelectors = [
+              'strong.green_condition',
+              '.prco-valign-middle-helper',
+              '.hprt-price-value',
+              '.bui-price-display__value',
+              'td.hprt-table-cell-price strong',
+              '.bui-price-display'
+            ];
+            
+            let priceText = null;
+            let priceElement = null;
+            
+            for (const selector of priceSelectors) {
+              priceElement = row.querySelector(selector);
+              if (priceElement) {
+                priceText = priceElement.textContent.trim();
+                if (priceText && priceText.match(/\d{3,}/)) {
+                  break;
+                }
+              }
+            }
+            
+            if (!priceText) continue;
+            
+            // Skip "fra" prices
+            const lowerText = priceText.toLowerCase();
+            if (lowerText.includes('fra ') || lowerText.includes('from ')) {
+              console.log(`⏭️  Skipping "fra" price for ${roomName}`);
+              continue;
+            }
+            
+            // Skip strikethrough
+            if (priceElement) {
+              const style = window.getComputedStyle(priceElement);
+              if (style.textDecorationLine && style.textDecorationLine.includes('line-through')) {
+                console.log(`⏭️  Skipping strikethrough price for ${roomName}`);
+                continue;
+              }
+            }
+            
+            // Extract number and calculate per-night
+            const nightsMatch = priceText.match(/for\s+(\d+)\s+n[æae]tt/i);
+            const priceNum = extractNumber(priceText);
+            
+            if (!priceNum || priceNum < 1000 || priceNum > 30000) continue;
+            
+            let pricePerNight = priceNum;
+            let nights = 1;
+            
+            if (nightsMatch) {
+              nights = parseInt(nightsMatch[1]);
+              pricePerNight = Math.round(priceNum / nights);
+            } else if (priceNum > 5000) {
+              // Probably total for 3 nights
+              nights = 3;
+              pricePerNight = Math.round(priceNum / nights);
+            }
+            
+            // Check availability for this room
+            let availability = 'available';
+            const rowText = row.textContent.toLowerCase();
+            if (rowText.includes('udsolgt') || rowText.includes('sold out')) {
+              availability = 'sold_out';
+            } else if (rowText.includes('få tilbage') || rowText.includes('only') || rowText.includes('sidste')) {
+              availability = 'limited';
+            }
+            
+            roomsFound.push({
+              roomType: roomName.substring(0, 100),
+              price: pricePerNight,
+              priceText: priceText.substring(0, 80),
+              totalPrice: priceNum,
+              nights: nights,
+              availability: availability,
+              foundSelector: 'room-row-scan'
+            });
+            
+            console.log(`✅ ${roomName}: ${pricePerNight} kr/night`);
+            
+          } catch (error) {
+            console.log(`⚠️  Error processing room row: ${error.message}`);
+          }
+        }
+        
+        // Fallback to old method if no rooms found
         let results = {
           price: null,
           priceText: '',
@@ -527,40 +644,58 @@ class CompetitorScraper {
           }
         }
 
-        return results;
+        // Return rooms found OR fallback result
+        if (roomsFound.length > 0) {
+          return { rooms: roomsFound, multiRoom: true };
+        } else {
+          return { rooms: [results], multiRoom: false };
+        }
       }, config);
 
       await page.close();
 
-      // Log results
-      console.log(`📊 Scraping results for ${config.source}:`);
-      console.log(`   Price: ${data.price} kr (from: "${data.priceText}")`);
-      console.log(`   Availability: ${data.availability}`);
-      console.log(`   Selectors used: ${data.foundSelectors.join(', ')}`);
-      console.log(`   Page: ${data.pageTitle}`);
+      // Handle multi-room vs single room response
+      if (allRooms.multiRoom && allRooms.rooms.length > 0) {
+        console.log(`📊 Found ${allRooms.rooms.length} room types for ${config.source}`);
+        
+        // Return array of rooms (will be saved separately)
+        const scrapedAt = new Date();
+        return allRooms.rooms.map(room => ({
+          source: config.source || 'Booking.com',
+          url: config.url,
+          price: Math.round(room.price),
+          availability: this.parseAvailability(room.availability),
+          room_type: room.roomType,
+          scraped_at: scrapedAt,
+          search_checkin: checkInStr,
+          search_checkout: checkOutStr
+        }));
+      } else {
+        // Single room fallback (old behavior)
+        const data = allRooms.rooms[0];
+        
+        console.log(`📊 Scraping results for ${config.source}:`);
+        console.log(`   Price: ${data.price} kr (from: "${data.priceText}")`);
+        console.log(`   Availability: ${data.availability}`);
 
-      if (!data.price) {
-        console.warn(`⚠️  No price found for ${config.source}.`);
-        console.warn(`   Possible reasons:`);
-        console.warn(`   - Page structure changed`);
-        console.warn(`   - Requires specific check-in dates`);
-        console.warn(`   - Geographic restrictions`);
-        console.warn(`   - Property not available`);
-        return null;
+        if (!data.price) {
+          console.warn(`⚠️  No price found for ${config.source}.`);
+          return null;
+        }
+
+        console.log(`💾 Saving with dates: ${checkInStr} to ${checkOutStr}`);
+        
+        return [{
+          source: config.source || 'Booking.com',
+          url: config.url,
+          price: Math.round(data.price),
+          availability: this.parseAvailability(data.availability),
+          room_type: config.room_mapping || data.roomType,
+          scraped_at: new Date(),
+          search_checkin: checkInStr || null,
+          search_checkout: checkOutStr || null
+        }];
       }
-
-      console.log(`💾 Saving with dates: ${checkInStr} to ${checkOutStr}`);
-      
-      return {
-        source: config.source || 'Booking.com',
-        url: config.url,
-        price: Math.round(data.price),
-        availability: this.parseAvailability(data.availability),
-        room_type: config.room_mapping || data.roomType,
-        scraped_at: new Date(),
-        search_checkin: checkInStr || null,
-        search_checkout: checkOutStr || null
-      };
       
     } catch (error) {
       console.error(`❌ Error scraping ${config.source || 'Booking.com'}:`, error.message);
@@ -933,12 +1068,18 @@ class CompetitorScraper {
         }
 
         if (result) {
-          // Save to database
-          await this.saveToDatabase(result);
-          results.push(result);
+          // Handle array of rooms (multi-room) or single room
+          const roomsArray = Array.isArray(result) ? result : [result];
           
           const method = usedFallback ? '🔄 SerpApi' : '🤖 Puppeteer';
-          console.log(`✅ [${method}] Saved: ${result.source} - ${result.price} DKK/night`);
+          
+          for (const room of roomsArray) {
+            // Save to database
+            await this.saveToDatabase(room);
+            results.push(room);
+            
+            console.log(`✅ [${method}] Saved: ${room.source} - ${room.room_type} - ${room.price} DKK/night`);
+          }
         } else {
           console.log(`❌ No result for ${competitor.source}`);
         }

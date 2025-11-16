@@ -131,12 +131,18 @@ try {
       }
       
       if (result) {
-        await scraper.saveToDatabase(result);
-        results.push(result);
+        // Handle array of rooms (multi-room) or single room
+        const roomsArray = Array.isArray(result) ? result : [result];
         
         const method = usedFallback ? '🔄 SerpApi' : '🤖 Puppeteer';
-        console.log(`   ✅ [${method}] Saved: ${result.price} DKK/night`);
-        console.log(`      Dates: ${result.search_checkin} to ${result.search_checkout}`);
+        
+        for (const room of roomsArray) {
+          await scraper.saveToDatabase(room);
+          results.push(room);
+          
+          console.log(`   ✅ [${method}] Saved: ${room.room_type} - ${room.price} DKK/night`);
+          console.log(`      Dates: ${room.search_checkin} to ${room.search_checkout}`);
+        }
       } else {
         console.log(`   ❌ Failed to get price`);
       }
