@@ -130,13 +130,49 @@ class CompetitorScraper {
 
       // Wait for content to render
       console.log('⏳ Waiting for prices to load...');
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(3000);
 
-      // Scroll to trigger lazy loading
+      // Scroll to trigger lazy loading and price calculation
+      console.log('📜 Scrolling to trigger price loading...');
       await page.evaluate(() => {
         window.scrollBy(0, window.innerHeight / 2);
       });
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(2000);
+      
+      // Scroll more to ensure all elements are loaded
+      await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight);
+      });
+      await page.waitForTimeout(2000);
+
+      // Try to click/trigger price calculation if search button exists
+      console.log('🔍 Looking for search/price buttons...');
+      try {
+        const buttonClicked = await page.evaluate(() => {
+          // Look for search buttons that might trigger price refresh
+          const searchButtons = document.querySelectorAll('button[type="submit"], button.fc63351294, button[data-testid="searchbox-dates-btn"]');
+          for (const btn of searchButtons) {
+            const text = btn.textContent.toLowerCase();
+            if (text.includes('søg') || text.includes('search') || text.includes('opdater')) {
+              btn.click();
+              return true;
+            }
+          }
+          return false;
+        });
+        
+        if (buttonClicked) {
+          console.log('✅ Clicked search button, waiting for price update...');
+          await page.waitForTimeout(5000);
+        } else {
+          console.log('ℹ️  No search button found, using existing prices');
+        }
+      } catch (error) {
+        console.log('ℹ️  Could not click search button:', error.message);
+      }
+
+      // Final wait for dynamic pricing to settle
+      await page.waitForTimeout(2000);
 
       // Extract data with comprehensive selectors
       const data = await page.evaluate(() => {
