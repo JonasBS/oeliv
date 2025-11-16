@@ -380,65 +380,376 @@
   box-shadow: 0 0 0 4px rgba(101, 108, 72, 0.1);
 }
 
-/* Availability Grid */
-.availability-grid {
+/* Availability Calendar */
+.availability-calendar {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--spacing-sm);
 }
 
 .availability-day {
   background: white;
   padding: var(--spacing-md);
-  border-radius: 20px;
+  border-radius: 16px;
   text-align: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
 }
 
-.availability-day:hover {
+.availability-day:hover:not(.past) {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .availability-day.available {
-  border: 2px solid #4caf50;
+  border-color: #4caf50;
+  background: #f1f8f4;
 }
 
 .availability-day.unavailable {
-  border: 2px solid #f44336;
+  border-color: #f44336;
+  background: #fef1f0;
 }
 
-.day-date {
+.availability-day.past {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.day-number {
   font-weight: 700;
-  font-size: 1.125rem;
-  margin-bottom: var(--spacing-xs);
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
   color: var(--charcoal);
 }
 
-.day-status {
-  font-size: 0.875rem;
-  margin-bottom: var(--spacing-sm);
+.day-name {
+  font-size: 0.75rem;
   color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
 }
 
-.toggle-btn {
-  width: 100%;
-  padding: 0.625rem;
-  border: none;
-  border-radius: 12px;
+.day-status-icon {
+  font-size: 1.25rem;
+  margin-top: 0.25rem;
+}
+
+.availability-day.available .day-status-icon {
+  color: #4caf50;
+}
+
+.availability-day.unavailable .day-status-icon {
+  color: #f44336;
+}
+
+/* Room Selector Header */
+.room-selector-header {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.room-selector-btn {
+  padding: 0.625rem 1.25rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 999px;
+  background: white;
+  color: var(--charcoal);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.room-selector-btn:hover {
+  border-color: var(--olive);
+  background: var(--sand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.room-selector-btn.active {
   background: var(--olive);
   color: white;
-  font-size: 0.8125rem;
+  border-color: var(--olive);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.25);
+}
+
+/* Calendar Controls */
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-md);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-nav-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  background: white;
+  color: var(--charcoal);
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.toggle-btn:hover {
+.calendar-nav-btn:hover {
+  border-color: var(--olive);
+  background: var(--sand);
+  transform: translateX(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-month-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--olive);
+  margin: 0;
+  text-transform: capitalize;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.bulk-btn {
+  flex: 1;
+  padding: 0.875rem;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.bulk-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bulk-btn-available {
+  background: #4caf50;
+  color: white;
+}
+
+.bulk-btn-available:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.25);
+}
+
+.bulk-btn-unavailable {
+  background: #f44336;
+  color: white;
+}
+
+.bulk-btn-unavailable:hover:not(:disabled) {
+  background: #da190b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.25);
+}
+
+/* Availability Info Card */
+.availability-info-card {
+  background: linear-gradient(135deg, var(--olive) 0%, var(--olive-soft) 100%);
+  color: white;
+  padding: var(--spacing-lg);
+  border-radius: 24px;
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 4px 16px rgba(101, 108, 72, 0.2);
+}
+
+.availability-info-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.availability-info-card p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Channel Manager Styles */
+.channel-manager-tab {
+  animation: fadeIn 0.3s ease;
+}
+
+.channel-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.sync-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--olive);
+  border-radius: 999px;
+  background: var(--olive);
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(101, 108, 72, 0.15);
+}
+
+.sync-btn:hover:not(:disabled) {
   background: var(--olive-soft);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(101, 108, 72, 0.25);
+}
+
+.sync-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.channel-filter {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.channel-bookings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.channel-booking-card {
+  background: white;
+  border-radius: 24px;
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid var(--olive);
+}
+
+.channel-booking-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.channel-booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.channel-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.channel-icon {
+  font-size: 2rem;
+}
+
+.channel-info h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--olive);
+}
+
+.external-id {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.status-confirmed {
+  background: #4caf50;
+}
+
+.status-inactive {
+  background: #9e9e9e;
+}
+
+.channel-booking-body {
+  margin-bottom: var(--spacing-md);
+}
+
+.channel-booking-footer {
+  padding-top: var(--spacing-sm);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Channel Setup Info */
+.channel-setup-info {
+  background: white;
+  padding: var(--spacing-xl);
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  margin-top: var(--spacing-2xl);
+}
+
+.channel-setup-info h3 {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--olive);
+  font-size: 1.375rem;
+}
+
+.channel-setup-info p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+}
+
+.channel-status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.channel-status-card {
+  padding: var(--spacing-md);
+  background: var(--sand);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.channel-status-card h4 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 1.125rem;
+}
+
+.empty-state-sub {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  margin-top: var(--spacing-sm);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive */

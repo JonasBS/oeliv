@@ -2,9 +2,10 @@ import { useState } from 'react';
 import BookingsTab from './admin/BookingsTab';
 import RoomsTab from './admin/RoomsTab';
 import AvailabilityTab from './admin/AvailabilityTab';
+import ChannelManagerTab from './admin/ChannelManagerTab';
 import './AdminPanel.css';
 
-type TabType = 'bookings' | 'rooms' | 'availability';
+type TabType = 'bookings' | 'rooms' | 'availability' | 'channels';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState<TabType>('bookings');
@@ -14,7 +15,7 @@ const AdminPanel = () => {
       <div className="admin-container">
         <header className="admin-header">
           <h1>ØLIV Admin Panel</h1>
-          <p>Administrer bookings, værelser og tilgængelighed</p>
+          <p>Administrer bookings, værelser, tilgængelighed og channels</p>
         </header>
 
         <nav className="admin-tabs">
@@ -36,12 +37,19 @@ const AdminPanel = () => {
           >
             📊 Tilgængelighed
           </button>
+          <button
+            className={`admin-tab ${activeTab === 'channels' ? 'active' : ''}`}
+            onClick={() => setActiveTab('channels')}
+          >
+            📱 Channel Manager
+          </button>
         </nav>
 
         <main className="admin-content">
           {activeTab === 'bookings' && <BookingsTab />}
           {activeTab === 'rooms' && <RoomsTab />}
           {activeTab === 'availability' && <AvailabilityTab />}
+          {activeTab === 'channels' && <ChannelManagerTab />}
         </main>
       </div>
     </div>
