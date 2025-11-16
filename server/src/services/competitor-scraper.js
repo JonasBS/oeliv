@@ -301,78 +301,278 @@ class CompetitorScraper {
     }
   }
 
-  // Scrape Airbnb
+  // Scrape Airbnb with anti-detection
   async scrapeAirbnb(config) {
     const page = await this.browser.newPage();
     
     try {
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      await page.goto(config.url, { waitUntil: 'networkidle2', timeout: 30000 });
+      // Anti-detection setup (same as Booking.com)
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+      await page.setViewport({ 
+        width: 1920, 
+        height: 1080,
+        deviceScaleFactor: 1
+      });
 
-      // Wait for Airbnb pricing
-      await page.waitForSelector('._tyxjp1', { timeout: 10000 });
+      await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', {
+          get: () => false,
+        });
+        Object.defineProperty(navigator, 'plugins', {
+          get: () => [1, 2, 3, 4, 5],
+        });
+        window.chrome = { runtime: {} };
+      });
 
+      await page.setExtraHTTPHeaders({
+        'Accept-Language': 'da-DK,da;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+      });
+
+      console.log(`🔍 Scraping Airbnb: ${config.source || 'Unknown'}`);
+      console.log(`📍 URL: ${config.url}`);
+
+      // Navigate with retry
+      let retries = 3;
+      let loaded = false;
+      
+      while (retries > 0 && !loaded) {
+        try {
+          await page.goto(config.url, { 
+            waitUntil: 'domcontentloaded',
+            timeout: 45000 
+          });
+          loaded = true;
+        } catch (error) {
+          retries--;
+          if (retries === 0) throw error;
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+
+      console.log('⏳ Waiting for Airbnb content...');
+      await page.waitForTimeout(5000);
+
+      // Scroll to trigger lazy loading
+      await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight / 2);
+      });
+      await page.waitForTimeout(1000);
+
+      // Extract price with comprehensive selectors
       const data = await page.evaluate(() => {
-        const priceElement = document.querySelector('._tyxjp1');
-        const titleElement = document.querySelector('h1');
-        
-        return {
-          price: priceElement?.textContent?.replace(/[^\d]/g, '') || null,
-          roomType: titleElement?.textContent || 'Unknown',
-          availability: 'available'
+        const extractNumber = (text) => {
+          if (!text) return null;
+          const cleaned = text.replace(/\s/g, '').replace(/kr\.?|DKK|€|EUR|\$|,/gi, '');
+          const match = cleaned.match(/(\d+(?:\.\d+)?)/);
+          return match ? parseFloat(match[1]) : null;
         };
+
+        let results = {
+          price: null,
+          priceText: '',
+          roomType: 'Airbnb Listing',
+          foundSelectors: []
+        };
+
+        // Airbnb price selectors (2024/2025)
+        const priceSelectors = [
+          '._tyxjp1', // Old selector
+          '._1y74zjx',
+          '[data-plugin-in-point-id*="PRICE"]',
+          '._1k4xcdh',
+          '._ymq6as',
+          'span._doc79r',
+          'span._tyxjp1',
+          '[class*="price"]',
+          'div[data-testid="price-availability-row"]'
+        ];
+
+        for (const selector of priceSelectors) {
+          try {
+            const elements = document.querySelectorAll(selector);
+            for (const elem of elements) {
+              const text = (elem.textContent || '').trim();
+              if (/\d/.test(text) && (text.includes('kr') || text.includes('DKK') || /\d{3,}/.test(text))) {
+                const num = extractNumber(text);
+                if (num && num >= 200 && num <= 25000) {
+                  results.price = num;
+                  results.priceText = text;
+                  results.foundSelectors.push(selector);
+                  break;
+                }
+              }
+            }
+            if (results.price) break;
+          } catch (e) {
+            // Continue
+          }
+        }
+
+        // Fallback: Search body text
+        if (!results.price) {
+          const bodyText = document.body.innerText;
+          const patterns = [
+            /(\d{1,3}(?:[.,\s]\d{3})*)\s*(?:kr\.?|DKK)/gi,
+            /(?:kr\.?|DKK)\s*(\d{1,3}(?:[.,\s]\d{3})*)/gi
+          ];
+          
+          for (const pattern of patterns) {
+            const matches = [...bodyText.matchAll(pattern)];
+            for (const match of matches) {
+              const num = extractNumber(match[0]);
+              if (num && num >= 200 && num <= 25000) {
+                results.price = num;
+                results.priceText = match[0];
+                results.foundSelectors.push('text-search');
+                break;
+              }
+            }
+            if (results.price) break;
+          }
+        }
+
+        // Get title
+        const titleSelectors = ['h1', '[data-testid="listing-title"]', '._14i3z6h'];
+        for (const sel of titleSelectors) {
+          const elem = document.querySelector(sel);
+          if (elem && elem.textContent) {
+            results.roomType = elem.textContent.trim().substring(0, 100);
+            break;
+          }
+        }
+
+        return results;
       });
 
       await page.close();
 
+      console.log(`📊 Airbnb results for ${config.source}:`);
+      console.log(`   Price: ${data.price} kr (from: "${data.priceText}")`);
+      console.log(`   Selectors: ${data.foundSelectors.join(', ')}`);
+
+      if (!data.price) {
+        console.warn(`⚠️  No price found for Airbnb: ${config.source}`);
+        return null;
+      }
+
       return {
-        source: 'Airbnb',
+        source: config.source || 'Airbnb',
         url: config.url,
-        price: parseInt(data.price) || null,
+        price: Math.round(data.price),
         availability: 'available',
-        room_type: data.roomType,
+        room_type: config.room_mapping || data.roomType,
         scraped_at: new Date()
       };
+      
     } catch (error) {
-      console.error('Error scraping Airbnb:', error.message);
-      await page.close();
+      console.error(`❌ Error scraping Airbnb ${config.source}:`, error.message);
+      try {
+        await page.close();
+      } catch (e) {
+        // Already closed
+      }
       return null;
     }
   }
 
-  // Scrape Hotels.com
+  // Scrape Hotels.com with anti-detection
   async scrapeHotelsCom(config) {
     const page = await this.browser.newPage();
     
     try {
-      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36');
-      await page.goto(config.url, { waitUntil: 'networkidle2', timeout: 30000 });
+      // Anti-detection setup
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+      await page.setViewport({ width: 1920, height: 1080 });
 
-      await page.waitForSelector('[data-stid="price-display"]', { timeout: 10000 });
+      await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(navigator, 'webdriver', { get: () => false });
+        window.chrome = { runtime: {} };
+      });
+
+      console.log(`🔍 Scraping Hotels.com: ${config.source || 'Unknown'}`);
+      
+      await page.goto(config.url, { 
+        waitUntil: 'domcontentloaded',
+        timeout: 45000 
+      });
+
+      await page.waitForTimeout(5000);
+      await page.evaluate(() => window.scrollBy(0, window.innerHeight / 2));
+      await page.waitForTimeout(1000);
 
       const data = await page.evaluate(() => {
-        const priceElement = document.querySelector('[data-stid="price-display"]');
-        const roomElement = document.querySelector('h2[data-stid="section-room-list-title"]');
-        
-        return {
-          price: priceElement?.textContent?.replace(/[^\d]/g, '') || null,
-          roomType: roomElement?.textContent || 'Unknown'
+        const extractNumber = (text) => {
+          if (!text) return null;
+          const cleaned = text.replace(/\s/g, '').replace(/kr\.?|DKK|€|EUR|\$|,/gi, '');
+          const match = cleaned.match(/(\d+(?:\.\d+)?)/);
+          return match ? parseFloat(match[1]) : null;
         };
+
+        let results = { price: null, priceText: '', roomType: 'Standard' };
+
+        const priceSelectors = [
+          '[data-stid="price-display"]',
+          '[data-stid="price"]',
+          '.uitk-text-price-lockup',
+          '[class*="price"]'
+        ];
+
+        for (const selector of priceSelectors) {
+          const elements = document.querySelectorAll(selector);
+          for (const elem of elements) {
+            const text = (elem.textContent || '').trim();
+            if (/\d/.test(text)) {
+              const num = extractNumber(text);
+              if (num && num >= 200 && num <= 25000) {
+                results.price = num;
+                results.priceText = text;
+                break;
+              }
+            }
+          }
+          if (results.price) break;
+        }
+
+        // Fallback
+        if (!results.price) {
+          const bodyText = document.body.innerText;
+          const match = bodyText.match(/(\d{1,3}(?:[.,\s]\d{3})*)\s*(?:kr|DKK)/i);
+          if (match) {
+            results.price = extractNumber(match[0]);
+            results.priceText = match[0];
+          }
+        }
+
+        const titleElem = document.querySelector('h1, h2');
+        if (titleElem) results.roomType = titleElem.textContent.trim().substring(0, 100);
+
+        return results;
       });
 
       await page.close();
 
+      console.log(`📊 Hotels.com results: ${data.price} kr`);
+
+      if (!data.price) {
+        console.warn(`⚠️  No price found for Hotels.com: ${config.source}`);
+        return null;
+      }
+
       return {
-        source: 'Hotels.com',
+        source: config.source || 'Hotels.com',
         url: config.url,
-        price: parseInt(data.price) || null,
+        price: Math.round(data.price),
         availability: 'available',
-        room_type: data.roomType,
+        room_type: config.room_mapping || data.roomType,
         scraped_at: new Date()
       };
+      
     } catch (error) {
-      console.error('Error scraping Hotels.com:', error.message);
-      await page.close();
+      console.error(`❌ Error scraping Hotels.com ${config.source}:`, error.message);
+      try {
+        await page.close();
+      } catch (e) {}
       return null;
     }
   }
