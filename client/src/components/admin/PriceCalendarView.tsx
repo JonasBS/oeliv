@@ -38,7 +38,7 @@ const PriceCalendarView = () => {
 
   useEffect(() => {
     loadData();
-  }, [currentMonth]);
+  }, [currentMonth, filterGuests, filterRoomType]);
 
   const loadData = async () => {
     try {
@@ -52,10 +52,28 @@ const PriceCalendarView = () => {
       
       setRooms(roomsData);
       
+      // Filter prices based on room type
+      let filteredPrices = pricesData;
+      
+      if (filterRoomType !== 'all') {
+        filteredPrices = pricesData.filter((price: CompetitorPrice) => {
+          const roomTypeLower = price.room_type.toLowerCase();
+          
+          if (filterRoomType === 'double') {
+            return roomTypeLower.includes('dobbelt') || roomTypeLower.includes('double');
+          } else if (filterRoomType === 'single') {
+            return roomTypeLower.includes('enkelt') || roomTypeLower.includes('single');
+          } else if (filterRoomType === 'suite') {
+            return roomTypeLower.includes('suite');
+          }
+          return true;
+        });
+      }
+      
       // Group prices by date
       const pricesByDate = new Map<string, CompetitorPrice[]>();
       
-      pricesData.forEach((price: CompetitorPrice) => {
+      filteredPrices.forEach((price: CompetitorPrice) => {
         if (price.search_checkin) {
           if (!pricesByDate.has(price.search_checkin)) {
             pricesByDate.set(price.search_checkin, []);
@@ -171,8 +189,11 @@ const PriceCalendarView = () => {
             <option value={1}>1 person</option>
             <option value={2}>2 personer</option>
             <option value={3}>3 personer</option>
-            <option value={4}>4 personer</option>
+            <option value={4}>4+ personer</option>
           </select>
+          <span className="filter-hint">
+            {filterGuests === 2 ? '✅ Standard (2 personer)' : `🔍 Filtrerer for ${filterGuests} ${filterGuests === 1 ? 'person' : 'personer'}`}
+          </span>
         </div>
 
         <div className="filter-group">
@@ -183,7 +204,22 @@ const PriceCalendarView = () => {
             <option value="single">Enkeltværelse</option>
             <option value="suite">Suite</option>
           </select>
+          <span className="filter-hint">
+            {filterRoomType === 'all' ? '✅ Viser alle typer' : `🔍 Kun ${filterRoomType === 'double' ? 'dobbeltværelser' : filterRoomType === 'single' ? 'enkeltværelser' : 'suiter'}`}
+          </span>
         </div>
+
+        {(filterRoomType !== 'all' || filterGuests !== 2) && (
+          <button 
+            className="reset-filters-btn"
+            onClick={() => {
+              setFilterGuests(2);
+              setFilterRoomType('all');
+            }}
+          >
+            ✕ Nulstil filtre
+          </button>
+        )}
       </div>
 
       {/* Calendar Grid */}

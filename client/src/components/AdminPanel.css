@@ -1972,12 +1972,16 @@
   padding: var(--spacing-lg);
   background: var(--sand);
   border-radius: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .filter-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
 }
 
 .filter-group label {
@@ -1998,6 +2002,48 @@
 
 .filter-group select:hover {
   border-color: var(--olive);
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(133, 146, 87, 0.1);
+}
+
+.filter-hint {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  background: white;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+.reset-filters-btn {
+  padding: 0.625rem 1.25rem;
+  border: 2px solid var(--olive);
+  border-radius: 12px;
+  background: white;
+  color: var(--olive);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  align-self: flex-end;
+  height: fit-content;
+}
+
+.reset-filters-btn:hover {
+  background: var(--olive);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.2);
+}
+
+.reset-filters-btn:active {
+  transform: translateY(0);
 }
 
 .calendar-grid {
