@@ -1,5 +1,11 @@
 import sqlite3 from 'sqlite3';
 import { promisify } from 'util';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const db = new sqlite3.Database('./bookings.db', (err) => {
   if (err) {
@@ -13,6 +19,9 @@ const db = new sqlite3.Database('./bookings.db', (err) => {
 export const dbRun = promisify(db.run.bind(db));
 export const dbGet = promisify(db.get.bind(db));
 export const dbAll = promisify(db.all.bind(db));
+
+// Export database instance for services
+export const getDatabase = () => db;
 
 export const initializeDatabase = async () => {
   try {
@@ -70,6 +79,20 @@ export const initializeDatabase = async () => {
       status TEXT DEFAULT 'pending',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+
+    // Run revenue management migrations
+    const migrationPath = path.join(__dirname, 'migrations', '003_revenue_management.sql');
+    if (fs.existsSync(migrationPath)) {
+      const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
+      const statements = migrationSQL.split(';').filter(stmt => stmt.trim());
+      
+      for (const statement of statements) {
+        if (statement.trim()) {
+          await dbRun(statement);
+        }
+      }
+      console.log('✅ Revenue management tables created');
+    }
 
     // Insert default rooms if they don't exist
     const { count } = await dbGet('SELECT COUNT(*) as count FROM rooms');

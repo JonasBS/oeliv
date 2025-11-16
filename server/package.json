@@ -1,7 +1,7 @@
 {
   "name": "oeliv-booking-server",
   "version": "1.0.0",
-  "description": "Booking engine backend with channel manager for ØLIV",
+  "description": "Booking engine backend with channel manager and revenue management for ØLIV",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -13,7 +13,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "sqlite3": "^5.1.6",
-    "date-fns": "^2.30.0"
+    "date-fns": "^2.30.0",
+    "puppeteer": "^21.6.1",
+    "cheerio": "^1.0.0-rc.12",
+    "axios": "^1.6.2",
+    "@tensorflow/tfjs-node": "^4.15.0",
+    "node-cron": "^3.0.3"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

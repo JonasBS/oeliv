@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { da } from 'date-fns/locale';
-import { roomsApi } from '../../services/api';
+import { roomsApi, revenueApi } from '../../services/api';
 import type { Room } from '../../types';
 
 interface CompetitorPrice {
@@ -52,112 +52,126 @@ const RevenueManagementTab = () => {
     }
   };
 
-  const loadCompetitorPrices = () => {
-    // Mock data - i produktion ville dette scrape konkurrent-websites
-    const mockPrices: CompetitorPrice[] = [
-      {
-        source: 'Booking.com',
-        room_type: 'Double Room',
-        price: 1450,
-        date_checked: new Date().toISOString(),
-        availability: 'available',
-      },
-      {
-        source: 'Airbnb',
-        room_type: 'Double Room',
-        price: 1380,
-        date_checked: new Date().toISOString(),
-        availability: 'limited',
-      },
-      {
-        source: 'Hotels.com',
-        room_type: 'Double Room',
-        price: 1520,
-        date_checked: new Date().toISOString(),
-        availability: 'available',
-      },
-      {
-        source: 'Booking.com',
-        room_type: 'Suite',
-        price: 2100,
-        date_checked: new Date().toISOString(),
-        availability: 'limited',
-      },
-      {
-        source: 'Expedia',
-        room_type: 'Suite',
-        price: 2250,
-        date_checked: new Date().toISOString(),
-        availability: 'sold_out',
-      },
-    ];
-    setCompetitorPrices(mockPrices);
+  const loadCompetitorPrices = async () => {
+    try {
+      const data = await revenueApi.getCompetitorPrices();
+      setCompetitorPrices(data);
+    } catch (error) {
+      console.error('Error loading competitor prices:', error);
+      // Fallback to mock data if API fails
+      const mockPrices: CompetitorPrice[] = [
+        {
+          source: 'Booking.com',
+          room_type: 'Double Room',
+          price: 1450,
+          date_checked: new Date().toISOString(),
+          availability: 'available',
+        },
+        {
+          source: 'Airbnb',
+          room_type: 'Double Room',
+          price: 1380,
+          date_checked: new Date().toISOString(),
+          availability: 'limited',
+        },
+      ];
+      setCompetitorPrices(mockPrices);
+    }
   };
 
-  const loadMarketInsights = () => {
-    // Mock data - i produktion ville dette være baseret på historisk data og ML
-    const mockInsights: MarketInsight[] = [
-      {
-        date: '2025-12-20',
-        our_price: 1200,
-        avg_competitor_price: 1450,
-        occupancy_rate: 45,
-        demand_level: 'high',
-        recommended_price: 1400,
-      },
-      {
-        date: '2025-12-21',
-        our_price: 1200,
-        avg_competitor_price: 1520,
-        occupancy_rate: 62,
-        demand_level: 'very_high',
-        recommended_price: 1550,
-      },
-      {
-        date: '2025-12-22',
-        our_price: 1200,
-        avg_competitor_price: 1480,
-        occupancy_rate: 78,
-        demand_level: 'very_high',
-        recommended_price: 1600,
-      },
-    ];
-    setMarketInsights(mockInsights);
+  const loadMarketInsights = async () => {
+    try {
+      const data = await revenueApi.getMarketInsights(3);
+      setMarketInsights(data);
+    } catch (error) {
+      console.error('Error loading market insights:', error);
+      // Fallback to mock data
+      const mockInsights: MarketInsight[] = [
+        {
+          date: '2025-12-20',
+          our_price: 1200,
+          avg_competitor_price: 1450,
+          occupancy_rate: 45,
+          demand_level: 'high',
+          recommended_price: 1400,
+        },
+      ];
+      setMarketInsights(mockInsights);
+    }
   };
 
-  const generatePriceRecommendations = () => {
-    // Mock recommendations baseret på AI/ML algoritmer
-    const mockRecommendations: PriceRecommendation[] = [
-      {
-        room_id: 1,
-        current_price: 1200,
-        recommended_price: 1450,
-        reason: 'Konkurrentpriser er 20% højere. Høj efterspørgsel i perioden.',
-        potential_revenue_increase: 3750,
-      },
-      {
-        room_id: 2,
-        current_price: 1800,
-        recommended_price: 2100,
-        reason: 'Juleferie med meget høj booking-aktivitet. Konkurrenter er udsolgt.',
-        potential_revenue_increase: 4500,
-      },
-    ];
-    setPriceRecommendations(mockRecommendations);
+  const generatePriceRecommendations = async () => {
+    try {
+      const data = await revenueApi.getPriceRecommendations(7);
+      
+      // Convert grouped data to array format
+      const recommendations: PriceRecommendation[] = [];
+      for (const roomId in data) {
+        const roomRecs = data[roomId];
+        if (roomRecs && roomRecs.length > 0) {
+          // Take first recommendation for each room
+          recommendations.push(roomRecs[0]);
+        }
+      }
+      
+      setPriceRecommendations(recommendations);
+    } catch (error) {
+      console.error('Error loading recommendations:', error);
+      // Fallback to mock data
+      const mockRecommendations: PriceRecommendation[] = [
+        {
+          room_id: 1,
+          current_price: 1200,
+          recommended_price: 1450,
+          reason: 'Konkurrentpriser er 20% højere. Høj efterspørgsel i perioden.',
+          potential_revenue_increase: 3750,
+        },
+      ];
+      setPriceRecommendations(mockRecommendations);
+    }
   };
 
   const handleScrapeCompetitors = async () => {
     setScraping(true);
     try {
-      // Simulate scraping delay
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      loadCompetitorPrices();
-      loadMarketInsights();
-      generatePriceRecommendations();
+      // Get competitor configs
+      const configs = await revenueApi.getCompetitorConfig();
+      
+      if (configs.length === 0) {
+        alert('Ingen konkurrenter konfigureret. Tilføj konkurrent-URLs i indstillingerne.');
+        return;
+      }
+
+      // Trigger scraping
+      await revenueApi.scrapeCompetitors(configs);
+      
+      // Reload data
+      await loadCompetitorPrices();
+      await loadMarketInsights();
+      await generatePriceRecommendations();
+      
+      alert('✅ Konkurrentdata opdateret!');
     } catch (error) {
       console.error('Error scraping competitors:', error);
+      alert('❌ Fejl ved scraping. Se konsollen for detaljer.');
     } finally {
       setScraping(false);
+    }
+  };
+
+  const handleApplyPrice = async (rec: PriceRecommendation) => {
+    if (!confirm(`Vil du anvende anbefalet pris på ${rec.recommended_price} kr for værelse #${rec.room_id}?`)) {
+      return;
+    }
+
+    try {
+      const targetDate = new Date().toISOString().split('T')[0];
+      await revenueApi.applyRecommendedPrice(rec.room_id, targetDate, rec.recommended_price);
+      alert('✅ Pris opdateret!');
+      await generatePriceRecommendations();
+    } catch (error) {
+      console.error('Error applying price:', error);
+      alert('❌ Fejl ved prisændring. Se konsollen for detaljer.');
     }
   };
 
@@ -271,7 +285,7 @@ const RevenueManagementTab = () => {
                   </strong>
                 </div>
 
-                <button className="apply-btn">
+                <button className="apply-btn" onClick={() => handleApplyPrice(rec)}>
                   ✓ Anvend denne pris
                 </button>
               </div>

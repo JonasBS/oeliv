@@ -98,5 +98,81 @@ export const availabilityApi = {
   },
 };
 
+// Revenue Management API
+export const revenueApi = {
+  // Competitor prices
+  getCompetitorPrices: async (): Promise<any[]> => {
+    const response = await apiClient.get('/revenue/competitors/prices');
+    return response.data;
+  },
+
+  getCompetitorHistory: async (days: number = 30): Promise<any[]> => {
+    const response = await apiClient.get(`/revenue/competitors/history?days=${days}`);
+    return response.data;
+  },
+
+  scrapeCompetitors: async (competitors: any[]): Promise<any> => {
+    const response = await apiClient.post('/revenue/competitors/scrape', { competitors });
+    return response.data;
+  },
+
+  getCompetitorConfig: async (): Promise<any[]> => {
+    const response = await apiClient.get('/revenue/competitors/config');
+    return response.data;
+  },
+
+  addCompetitorConfig: async (config: any): Promise<any> => {
+    const response = await apiClient.post('/revenue/competitors/config', config);
+    return response.data;
+  },
+
+  updateCompetitorConfig: async (id: number, config: any): Promise<any> => {
+    const response = await apiClient.patch(`/revenue/competitors/config/${id}`, config);
+    return response.data;
+  },
+
+  deleteCompetitorConfig: async (id: number): Promise<any> => {
+    const response = await apiClient.delete(`/revenue/competitors/config/${id}`);
+    return response.data;
+  },
+
+  // Price recommendations
+  getPriceRecommendations: async (days: number = 7): Promise<any> => {
+    const response = await apiClient.get(`/revenue/pricing/recommendations?days=${days}`);
+    return response.data;
+  },
+
+  getRoomRecommendation: async (roomId: number, date: string): Promise<any> => {
+    const response = await apiClient.get(`/revenue/pricing/recommendations/${roomId}?date=${date}`);
+    return response.data;
+  },
+
+  applyRecommendedPrice: async (roomId: number, targetDate: string, newPrice: number): Promise<any> => {
+    const response = await apiClient.post('/revenue/pricing/apply', {
+      room_id: roomId,
+      target_date: targetDate,
+      new_price: newPrice,
+    });
+    return response.data;
+  },
+
+  // Market insights
+  getMarketInsights: async (days: number = 7): Promise<any[]> => {
+    const response = await apiClient.get(`/revenue/market/insights?days=${days}`);
+    return response.data;
+  },
+
+  // Pricing settings
+  getPricingSettings: async (): Promise<any> => {
+    const response = await apiClient.get('/revenue/pricing/settings');
+    return response.data;
+  },
+
+  updatePricingSettings: async (settings: any): Promise<any> => {
+    const response = await apiClient.patch('/revenue/pricing/settings', settings);
+    return response.data;
+  },
+};
+
 export default apiClient;
 
