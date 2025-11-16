@@ -298,17 +298,31 @@ class CompetitorScraper {
         console.log('⚠️  Could not save screenshot');
       }
 
-      // Extract data with comprehensive selectors
-      const data = await page.evaluate(() => {
-        // Helper: Extract number from text
+      // Extract data with CORRECT selectors (based on DOM inspection 2026-07-01)
+      const data = await page.evaluate((configData) => {
+        // Helper: Extract number from text (handles Danish format: 6.000,50)
         const extractNumber = (text) => {
           if (!text) return null;
-          // Remove spaces and handle Danish thousand separator
-          let cleaned = text.replace(/\s/g, '');
+          
           // Remove currency symbols
-          cleaned = cleaned.replace(/kr\.?|DKK|€|EUR|\$/gi, '');
-          // Replace comma with dot
-          cleaned = cleaned.replace(',', '.');
+          let cleaned = text.replace(/kr\.?|DKK|€|EUR|\$/gi, '');
+          // Remove spaces
+          cleaned = cleaned.replace(/\s/g, '');
+          
+          // Danish/European format: 6.000,50 or 6.000
+          // - Dot (.) is thousand separator
+          // - Comma (,) is decimal separator
+          
+          // Check if we have comma (decimal separator)
+          if (cleaned.includes(',')) {
+            // Format: "6.000,50" → remove dots (thousands), replace comma with dot (decimal)
+            cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+          } else if (cleaned.match(/\d+\.\d{3}/)) {
+            // Format: "6.000" (thousands separator, no decimals)
+            cleaned = cleaned.replace(/\./g, '');
+          }
+          // else: Format like "6000" or "6.5" (already OK)
+          
           // Extract first number sequence
           const match = cleaned.match(/(\d+(?:\.\d+)?)/);
           if (!match) return null;
@@ -322,83 +336,124 @@ class CompetitorScraper {
           availability: 'available',
           roomType: 'Standard',
           pageTitle: document.title,
-          foundSelectors: []
+          foundSelectors: [],
+          pricePerNight: null,
+          totalPrice: null,
+          nights: null
         };
 
-        // Comprehensive price selectors for Booking.com (2024/2025)
+        // 🎯 CORRECT SELECTORS - based on actual DOM inspection
+        // Grønbechs July 2026: found "DKK 6.000 for 3 nætter" and "DKK 6.000"
         const priceSelectors = [
-          // Primary price selectors (most reliable)
-          '[data-testid="price-and-discounted-price"]',
-          '[data-testid="price-for-x-nights"]',
-          'span[aria-label*="pris"]',
-          'span[aria-label*="price"]',
+          // 1. Total price with "for X nætter" - MOST RELIABLE
+          { selector: 'strong.green_condition', type: 'total' },
           
-          // Room/property card prices (when searching with dates)
-          '.hprt-price-value',
-          '.hprt_cheapest_price',
-          '.bui-price-display__value',
-          '.prco-valign-middle-helper',
-          '.txp-bui-price-display',
-          'strong[class*="price"]',
+          // 2. Individual price displays
+          { selector: '.prco-valign-middle-helper', type: 'single' },
           
-          // Price display classes
-          '.prco-text-nowrap-helper',
-          '.prco-inline-block-maker-helper',
-          '[data-et-click*="price"]',
+          // 3. Screen reader price (accessibility)
+          { selector: '.bui-u-sr-only', type: 'aria' },
           
-          // Property card prices
-          '.bui_price_currency',
-          '.e2e-property-card-price',
-          
-          // Search result prices
-          '.txp-price',
-          '.sr-price',
-          '.bui-u-sr-only',
-          
-          // Room table prices (specific for room selection pages)
-          'td.hprt-table-cell-price',
-          '.hprt-table-cell-price strong',
-          '.roomPrice',
-          
-          // Generic approaches (fallback)
-          'strong[aria-hidden="true"]',
-          'span[data-price]',
-          '.e2e-price-item'
+          // 4. Fallback to older/alternative selectors
+          { selector: '.hprt-price-value', type: 'single' },
+          { selector: '.bui-price-display__value', type: 'single' },
+          { selector: '[data-testid="price-and-discounted-price"]', type: 'single' }
         ];
 
         // Try each selector
-        for (const selector of priceSelectors) {
+        for (const { selector, type } of priceSelectors) {
           try {
             const elements = document.querySelectorAll(selector);
+            
             for (const elem of elements) {
               const text = (elem.textContent || elem.innerText || '').trim();
               if (!text || text.length === 0) continue;
               
-              // Skip "fra" (from) prices - these are minimum/teaser prices, not actual room prices
+              // CRITICAL: Skip "fra" (from) prices - marketing/teaser prices
               const lowerText = text.toLowerCase();
               if (lowerText.includes('fra ') || lowerText.includes('from ') || 
                   lowerText.includes('starting') || lowerText.includes('ab ')) {
+                console.log(`⏭️  Skipping "fra" price: ${text.slice(0, 50)}`);
                 continue;
               }
               
-              // Check if contains a number and currency
-              if (/\d/.test(text) && (text.includes('kr') || text.includes('DKK') || /\d{3,}/.test(text))) {
-                const num = extractNumber(text);
+              // CRITICAL: Skip strikethrough (old/crossed-out prices)
+              const style = window.getComputedStyle(elem);
+              if (style.textDecorationLine && style.textDecorationLine.includes('line-through')) {
+                console.log(`⏭️  Skipping strikethrough price: ${text.slice(0, 50)}`);
+                continue;
+              }
+              
+              // Check if contains price
+              if (!text.match(/\d{3,}/)) continue;
+              if (!text.match(/kr|DKK/i)) continue;
+              
+              // Extract price and check for "for X nætter"
+              const nightsMatch = text.match(/for\s+(\d+)\s+n[æae]tt/i);
+              const priceNum = extractNumber(text);
+              
+              if (!priceNum || priceNum < 1000 || priceNum > 30000) {
+                console.log(`⏭️  Price out of range: ${priceNum} kr`);
+                continue;
+              }
+              
+              if (nightsMatch) {
+                // Total price for multiple nights - DIVIDE to get per-night price
+                const nights = parseInt(nightsMatch[1]);
+                const pricePerNight = Math.round(priceNum / nights);
                 
-                // Validate price range (realistic hotel prices per night in DKK)
-                // Minimum 400 kr to avoid catching "fra" prices but still get real low-season prices
-                if (num && num >= 400 && num <= 25000) {
-                  results.price = num;
-                  results.priceText = text;
-                  results.foundSelectors.push(selector);
-                  console.log(`✓ Found price: ${text} (${num} kr) via ${selector}`);
-                  break;
+                console.log(`✅ Found TOTAL price: "${text.slice(0, 60)}"`);
+                console.log(`   ${priceNum} kr ÷ ${nights} nights = ${pricePerNight} kr/night`);
+                
+                results.price = pricePerNight;  // Store per-night price
+                results.totalPrice = priceNum;
+                results.nights = nights;
+                results.priceText = text;
+                results.foundSelectors.push(`${selector} (total÷${nights})`);
+                break;
+                
+              } else if (type === 'total') {
+                // Might be total without explicit "for X nætter" text
+                // Assume it's for 3 nights (our standard search)
+                const estimatedNights = 3;
+                const pricePerNight = Math.round(priceNum / estimatedNights);
+                
+                console.log(`✅ Found price (assuming ${estimatedNights} nights): "${text.slice(0, 60)}"`);
+                console.log(`   ${priceNum} kr ÷ ${estimatedNights} nights = ${pricePerNight} kr/night`);
+                
+                results.price = pricePerNight;
+                results.totalPrice = priceNum;
+                results.nights = estimatedNights;
+                results.priceText = text;
+                results.foundSelectors.push(`${selector} (÷${estimatedNights})`);
+                break;
+                
+              } else {
+                // Single price display - might already be per night OR might be total
+                console.log(`✅ Found single price: "${text.slice(0, 60)}" (${priceNum} kr)`);
+                
+                // If price is suspiciously high (> 9k for 3 nights), it's probably total
+                if (priceNum > 9000) {
+                  const estimatedNights = 3;
+                  const pricePerNight = Math.round(priceNum / estimatedNights);
+                  console.log(`   High price detected (>${9000}), dividing by ${estimatedNights}: ${pricePerNight} kr/night`);
+                  results.price = pricePerNight;
+                  results.totalPrice = priceNum;
+                  results.nights = estimatedNights;
+                  results.foundSelectors.push(`${selector} (high÷${estimatedNights})`);
+                } else {
+                  results.price = priceNum;
+                  results.foundSelectors.push(`${selector} (direct)`);
                 }
+                
+                results.priceText = text;
+                break;
               }
             }
+            
             if (results.price) break;
           } catch (e) {
-            // Selector failed, continue
+            console.log(`❌ Selector failed: ${selector} - ${e.message}`);
           }
         }
 
@@ -452,21 +507,26 @@ class CompetitorScraper {
           results.availability = 'limited';
         }
 
-        // Get property/room name
-        const titleSelectors = [
-          'h1', 'h2[id*="hp"]', '.hp__hotel-name',
-          '[data-testid="title"]', '.property-title'
-        ];
-        for (const sel of titleSelectors) {
-          const elem = document.querySelector(sel);
-          if (elem && elem.textContent && elem.textContent.trim().length > 0) {
-            results.roomType = elem.textContent.trim().substring(0, 100);
-            break;
+        // Get room type
+        if (configData.room_mapping) {
+          results.roomType = configData.room_mapping;
+        } else {
+          // Try to get property/room name from page
+          const titleSelectors = [
+            'h1', 'h2[id*="hp"]', '.hp__hotel-name',
+            '[data-testid="title"]', '.property-title'
+          ];
+          for (const sel of titleSelectors) {
+            const elem = document.querySelector(sel);
+            if (elem && elem.textContent && elem.textContent.trim().length > 0) {
+              results.roomType = elem.textContent.trim().substring(0, 100);
+              break;
+            }
           }
         }
 
         return results;
-      });
+      }, config);
 
       await page.close();
 
