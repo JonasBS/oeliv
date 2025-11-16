@@ -7,6 +7,7 @@ import type { Room } from '../../types';
 interface CompetitorPrice {
   id: number;
   source: string;
+  url?: string;
   room_type: string;
   price: number;
   scraped_at: string;
@@ -458,6 +459,18 @@ const RevenueManagementTab = () => {
                       <div className="comp-scraped">
                         Scraped: {format(new Date(comp.scraped_at), 'HH:mm', { locale: da })}
                       </div>
+
+                      {comp.url && (
+                        <a 
+                          href={comp.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="comp-verify-link"
+                          title="Verificer pris på Booking.com"
+                        >
+                          🔗 Verificer pris
+                        </a>
+                      )}
                     </div>
                   ))}
                 </div>
