@@ -1,8 +1,10 @@
 .booking-calendar {
   background-color: var(--white);
-  border-radius: var(--radius-md);
+  border-radius: 20px;
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .calendar-loading {
@@ -30,31 +32,38 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: var(--sand);
+  background-color: white;
   color: var(--charcoal);
   font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 .calendar-nav:hover {
   background-color: var(--olive);
   color: var(--white);
-  transform: scale(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.25);
+  border-color: var(--olive);
 }
 
 .selection-info {
   background-color: var(--sand);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   padding: var(--spacing-md);
   margin-bottom: var(--spacing-lg);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .selection-info.selection-complete {
-  background-color: rgba(74, 93, 62, 0.1);
-  border: 1px solid var(--olive-light);
+  background-color: rgba(74, 93, 62, 0.08);
+  border: 2px solid rgba(101, 108, 72, 0.2);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.1);
 }
 
 .selection-row {
@@ -124,12 +133,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   font-weight: 600;
-  transition: var(--transition);
+  transition: all 0.2s ease;
   position: relative;
   background-color: var(--white);
   border: 2px solid transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .calendar-day:not(:disabled) {
@@ -157,7 +167,8 @@
 
 .calendar-day.available:hover:not(:disabled) {
   background-color: rgba(76, 175, 80, 0.2);
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
 .calendar-day.booked {
@@ -170,13 +181,15 @@
   background-color: var(--olive);
   color: var(--white);
   border-color: var(--olive-dark);
-  transform: scale(1.1);
+  transform: scale(1.05);
   z-index: 2;
+  box-shadow: 0 4px 16px rgba(101, 108, 72, 0.3);
 }
 
 .calendar-day.in-range {
-  background-color: rgba(74, 93, 62, 0.2);
-  border-color: var(--olive-light);
+  background-color: rgba(74, 93, 62, 0.15);
+  border-color: rgba(101, 108, 72, 0.3);
+  box-shadow: 0 2px 6px rgba(101, 108, 72, 0.1);
 }
 
 .calendar-legend {
