@@ -1,0 +1,16 @@
+# Server Configuration
+PORT=3000
+
+# Database
+DATABASE_PATH=./booking.db
+
+# SerpApi Configuration (for Google Hotels API fallback)
+# Get your free API key at: https://serpapi.com/
+# Free tier: 100 searches/month
+# Paid plans start at $50/month for 5,000 searches
+SERPAPI_KEY=your_serpapi_key_here
+
+# IMPORTANT: Copy this to .env and add your actual API key
+# The scraper will work without SerpApi (using Puppeteer only)
+# But adding SerpApi provides a reliable fallback when Booking.com blocks Puppeteer
+

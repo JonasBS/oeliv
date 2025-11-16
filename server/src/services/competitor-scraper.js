@@ -1,9 +1,11 @@
 import puppeteer from 'puppeteer';
+import SerpApiScraper from './serpapi-scraper.js';
 
 class CompetitorScraper {
   constructor(db) {
     this.db = db;
     this.browser = null;
+    this.serpApi = new SerpApiScraper();
   }
 
   async initialize() {
@@ -879,28 +881,64 @@ class CompetitorScraper {
     for (const competitor of competitors) {
       try {
         let result = null;
+        let usedFallback = false;
 
         // Detect platform from URL instead of source name
         const url = competitor.url.toLowerCase();
         
+        // 🎯 HYBRID APPROACH: Try Puppeteer first, fall back to SerpApi
+        
         if (url.includes('booking.com')) {
-          console.log(`Scraping Booking.com: ${competitor.source || 'Unknown'}`);
+          console.log(`🔍 Scraping Booking.com: ${competitor.source || 'Unknown'}`);
           result = await this.scrapeBookingCom(competitor);
+          
+          // Fall back to SerpApi if Puppeteer failed
+          if (!result && this.serpApi.isAvailable()) {
+            console.log(`   ⚠️  Puppeteer failed, trying SerpApi fallback...`);
+            result = await this.serpApi.scrapeHotelPrice(competitor);
+            usedFallback = true;
+          }
+          
         } else if (url.includes('airbnb')) {
-          console.log(`Scraping Airbnb: ${competitor.source || 'Unknown'}`);
+          console.log(`🔍 Scraping Airbnb: ${competitor.source || 'Unknown'}`);
           result = await this.scrapeAirbnb(competitor);
+          
+          // Fall back to SerpApi
+          if (!result && this.serpApi.isAvailable()) {
+            console.log(`   ⚠️  Puppeteer failed, trying SerpApi fallback...`);
+            result = await this.serpApi.scrapeHotelPrice(competitor);
+            usedFallback = true;
+          }
+          
         } else if (url.includes('hotels.com')) {
-          console.log(`Scraping Hotels.com: ${competitor.source || 'Unknown'}`);
+          console.log(`🔍 Scraping Hotels.com: ${competitor.source || 'Unknown'}`);
           result = await this.scrapeHotelsCom(competitor);
+          
+          // Fall back to SerpApi
+          if (!result && this.serpApi.isAvailable()) {
+            console.log(`   ⚠️  Puppeteer failed, trying SerpApi fallback...`);
+            result = await this.serpApi.scrapeHotelPrice(competitor);
+            usedFallback = true;
+          }
+          
         } else {
-          console.log(`Unknown platform for ${competitor.url}`);
+          console.log(`❓ Unknown platform for ${competitor.url}`);
+          
+          // Try SerpApi as last resort
+          if (this.serpApi.isAvailable()) {
+            console.log(`   Trying SerpApi...`);
+            result = await this.serpApi.scrapeHotelPrice(competitor);
+            usedFallback = true;
+          }
         }
 
         if (result) {
           // Save to database
           await this.saveToDatabase(result);
           results.push(result);
-          console.log(`✅ Saved data for ${result.source}: ${result.price} DKK`);
+          
+          const method = usedFallback ? '🔄 SerpApi' : '🤖 Puppeteer';
+          console.log(`✅ [${method}] Saved: ${result.source} - ${result.price} DKK/night`);
         } else {
           console.log(`❌ No result for ${competitor.source}`);
         }
