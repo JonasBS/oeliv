@@ -272,10 +272,102 @@ export default (db) => {
   router.get('/market/insights', async (req, res) => {
     try {
       const days = parseInt(req.query.days) || 7;
+      const insights = [];
       
-      // Return empty array for now - frontend has fallback mock data
-      // This endpoint will work once competitor data is scraped
-      res.json([]);
+      // Get our rooms
+      const rooms = await new Promise((resolve, reject) => {
+        db.all('SELECT * FROM rooms WHERE active = 1', (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        });
+      });
+
+      // Get recent competitor prices (last 24 hours)
+      const competitorPrices = await new Promise((resolve, reject) => {
+        db.all(`
+          SELECT * FROM competitor_prices 
+          WHERE DATE(scraped_at) >= DATE('now', '-1 day')
+          ORDER BY scraped_at DESC
+        `, (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        });
+      });
+
+      console.log(`📊 Generating market insights for ${days} days...`);
+      console.log(`   Found ${rooms.length} rooms and ${competitorPrices.length} competitor prices`);
+
+      // Generate insights for next N days
+      for (let i = 0; i < days; i++) {
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + i);
+        const dateStr = targetDate.toISOString().split('T')[0];
+
+        // Calculate average competitor price
+        let avgCompetitorPrice = 0;
+        if (competitorPrices.length > 0) {
+          const total = competitorPrices.reduce((sum, comp) => sum + (comp.price || 0), 0);
+          avgCompetitorPrice = Math.round(total / competitorPrices.length);
+        }
+
+        // Use first room or average room price
+        const ourPrice = rooms.length > 0 ? rooms[0].base_price : 1200;
+
+        // Calculate occupancy rate (mock for now, could be based on bookings)
+        // Higher occupancy on weekends and in summer
+        const isWeekend = targetDate.getDay() === 0 || targetDate.getDay() === 6;
+        const month = targetDate.getMonth();
+        const isSummer = month >= 5 && month <= 8; // June-September
+        
+        let occupancy_rate = 50; // Base
+        if (isWeekend) occupancy_rate += 15;
+        if (isSummer) occupancy_rate += 20;
+        occupancy_rate = Math.min(95, occupancy_rate); // Cap at 95%
+
+        // Determine demand level based on occupancy and day of week
+        let demand_level = 'medium';
+        if (occupancy_rate >= 80) demand_level = 'very_high';
+        else if (occupancy_rate >= 65) demand_level = 'high';
+        else if (occupancy_rate < 40) demand_level = 'low';
+
+        // Calculate recommended price based on competitor prices and demand
+        let recommended_price = ourPrice;
+        if (competitorPrices.length > 0) {
+          // Base recommendation on competitor average
+          recommended_price = avgCompetitorPrice;
+          
+          // Adjust based on demand
+          if (demand_level === 'very_high') {
+            recommended_price = Math.round(avgCompetitorPrice * 1.1); // +10%
+          } else if (demand_level === 'high') {
+            recommended_price = Math.round(avgCompetitorPrice * 1.05); // +5%
+          } else if (demand_level === 'low') {
+            recommended_price = Math.round(avgCompetitorPrice * 0.95); // -5%
+          }
+
+          // Don't go too far from our current price
+          const maxIncrease = ourPrice * 1.3; // Max 30% increase
+          const maxDecrease = ourPrice * 0.8; // Max 20% decrease
+          recommended_price = Math.max(maxDecrease, Math.min(maxIncrease, recommended_price));
+        } else {
+          // No competitor data, slight adjustment based on demand
+          if (demand_level === 'very_high') recommended_price = Math.round(ourPrice * 1.15);
+          else if (demand_level === 'high') recommended_price = Math.round(ourPrice * 1.1);
+          else if (demand_level === 'low') recommended_price = Math.round(ourPrice * 0.95);
+        }
+
+        insights.push({
+          date: dateStr,
+          our_price: ourPrice,
+          avg_competitor_price: avgCompetitorPrice || ourPrice * 1.2,
+          occupancy_rate,
+          demand_level,
+          recommended_price
+        });
+      }
+
+      console.log(`✅ Generated ${insights.length} market insights`);
+      res.json(insights);
     } catch (error) {
       console.error('Market insights error:', error);
       res.status(500).json({ error: error.message });

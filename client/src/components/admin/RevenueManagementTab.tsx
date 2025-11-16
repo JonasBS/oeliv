@@ -91,22 +91,13 @@ const RevenueManagementTab = () => {
 
   const loadMarketInsights = async () => {
     try {
-      const data = await revenueApi.getMarketInsights(3);
+      console.log('📊 Loading market insights from API...');
+      const data = await revenueApi.getMarketInsights(7);
+      console.log(`✅ Loaded ${data.length} market insights:`, data);
       setMarketInsights(data);
     } catch (error) {
       console.error('Error loading market insights:', error);
-      // Fallback to mock data
-      const mockInsights: MarketInsight[] = [
-        {
-          date: '2025-12-20',
-          our_price: 1200,
-          avg_competitor_price: 1450,
-          occupancy_rate: 45,
-          demand_level: 'high',
-          recommended_price: 1400,
-        },
-      ];
-      setMarketInsights(mockInsights);
+      setMarketInsights([]);
     }
   };
 
