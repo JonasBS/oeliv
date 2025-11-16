@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { initializeDatabase, getDatabase } from './database/db.js';
 import roomsRouter from './routes/rooms.js';
 import availabilityRouter from './routes/availability.js';
@@ -9,6 +11,9 @@ import channelRouter from './routes/channel.js';
 import revenueRouter from './routes/revenue.js';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +24,11 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// Serve static files from root directory (HTML files, client build, etc.)
+const rootDir = path.join(__dirname, '..', '..');
+app.use(express.static(rootDir));
+app.use('/client', express.static(path.join(rootDir, 'client')));
 
 // Serve static files from public directory if needed
 if (process.env.NODE_ENV === 'production') {
