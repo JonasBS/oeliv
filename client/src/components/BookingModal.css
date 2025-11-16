@@ -217,6 +217,10 @@
   margin: 0;
 }
 
+/* ========================================
+   Guest Selector - Improved UI/UX
+   ======================================== */
+
 .guest-selector {
   display: flex;
   gap: var(--spacing-sm);
@@ -226,7 +230,7 @@
 .guest-btn {
   flex: 1;
   padding: var(--spacing-md);
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(0, 0, 0, 0.15);
   border-radius: var(--border-radius-sm);
   background: white;
   color: var(--charcoal);
@@ -234,17 +238,162 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .guest-btn:hover {
-  border-color: var(--olive-light);
+  border-color: var(--olive);
   background-color: var(--sand);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.guest-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .guest-btn.active {
   border-color: var(--olive);
   background-color: var(--olive);
   color: var(--white);
+  box-shadow: 0 2px 6px rgba(101, 108, 72, 0.3);
+  transform: scale(1.02);
+}
+
+.guest-btn.active:hover {
+  background-color: var(--olive-soft);
+  transform: scale(1.02) translateY(-1px);
+}
+
+.guest-btn:focus-visible {
+  outline: 3px solid var(--olive);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Buttons - Improved UI/UX
+   ======================================== */
+
+.btn-primary,
+.btn-secondary,
+.btn-next-step,
+.btn-prev-step,
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 0.875rem 1.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.btn-primary,
+.btn-next-step,
+.btn-submit {
+  background: var(--olive);
+  color: var(--cream);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover,
+.btn-next-step:hover,
+.btn-submit:hover {
+  background: var(--olive-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.3);
+}
+
+.btn-primary:active,
+.btn-next-step:active,
+.btn-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:disabled,
+.btn-next-step:disabled,
+.btn-submit:disabled {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.4);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary,
+.btn-prev-step {
+  background: transparent;
+  color: var(--charcoal);
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  box-shadow: none;
+}
+
+.btn-secondary:hover,
+.btn-prev-step:hover {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: var(--olive);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-secondary:active,
+.btn-prev-step:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Focus states for accessibility */
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-next-step:focus-visible,
+.btn-prev-step:focus-visible,
+.btn-submit:focus-visible {
+  outline: 3px solid var(--olive);
+  outline-offset: 3px;
+}
+
+/* Loading state */
+.btn-submit:disabled {
+  position: relative;
+  color: transparent;
+}
+
+.btn-submit:disabled::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--cream);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Full width button for mobile step 1 */
+.form-step .btn-next-step {
+  width: 100%;
+  margin-top: var(--spacing-md);
 }
 
 .form-actions {
@@ -252,6 +401,19 @@
   gap: var(--spacing-md);
   justify-content: space-between;
   margin-top: var(--spacing-xl);
+}
+
+.form-actions .btn-prev-step,
+.form-actions .btn-secondary {
+  flex: 0 0 auto;
+  min-width: 120px;
+}
+
+.form-actions .btn-next-step,
+.form-actions .btn-submit,
+.form-actions .btn-primary {
+  flex: 1;
+  min-width: 180px;
 }
 
 .form-group {
@@ -357,22 +519,77 @@
   color: var(--olive);
 }
 
+/* ========================================
+   Responsive Design
+   ======================================== */
+
 @media (max-width: 768px) {
   .modal-content {
     max-height: 95vh;
+    margin: var(--spacing-sm);
   }
   
-  .modal-header,
+  .modal-header {
+    padding: var(--spacing-md);
+  }
+
+  .modal-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-header p {
+    font-size: 0.875rem;
+  }
+
   .booking-form {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
+  }
+
+  .booking-progress {
+    padding: 0;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .progress-step > div {
+    width: 32px;
+    height: 32px;
+    font-size: 0.875rem;
+  }
+
+  .progress-step span {
+    font-size: 0.625rem;
   }
   
   .form-actions {
     flex-direction: column;
+    gap: var(--spacing-sm);
   }
   
-  .form-actions button {
+  .form-actions button,
+  .form-actions .btn-prev-step,
+  .form-actions .btn-next-step,
+  .form-actions .btn-submit {
     width: 100%;
+    min-width: 0;
+    flex: none;
+  }
+
+  .guest-selector {
+    gap: var(--spacing-xs);
+  }
+
+  .guest-btn {
+    padding: var(--spacing-sm);
+    font-size: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-next-step,
+  .btn-prev-step,
+  .btn-submit {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.8125rem;
   }
 }
 
