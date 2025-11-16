@@ -17,6 +17,39 @@ export const roomsApi = {
   },
 };
 
+export const bookingsApi = {
+  getAll: async (): Promise<any[]> => {
+    const response = await apiClient.get('/bookings');
+    return response.data;
+  },
+
+  create: async (booking: Booking): Promise<{ booking_id: number; total_price: number; status: string }> => {
+    const response = await apiClient.post<{ booking_id: number; total_price: number; status: string }>(
+      '/bookings',
+      booking
+    );
+    return response.data;
+  },
+
+  getById: async (id: number): Promise<Booking> => {
+    const response = await apiClient.get<Booking>(`/bookings/${id}`);
+    return response.data;
+  },
+
+  update: async (
+    id: number,
+    updates: { status?: string; payment_status?: string; payment_intent_id?: string }
+  ): Promise<{ success: boolean; changes: number }> => {
+    const response = await apiClient.patch<{ success: boolean; changes: number }>(`/bookings/${id}`, updates);
+    return response.data;
+  },
+
+  updateStatus: async (id: number, status: string): Promise<{ success: boolean; changes: number }> => {
+    const response = await apiClient.patch<{ success: boolean; changes: number }>(`/bookings/${id}`, { status });
+    return response.data;
+  },
+};
+
 export const availabilityApi = {
   getRange: async (startDate: string, endDate: string, roomId?: number): Promise<AvailabilityItem[]> => {
     const params: Record<string, string> = {
@@ -44,28 +77,24 @@ export const availabilityApi = {
     });
     return response.data;
   },
-};
 
-export const bookingsApi = {
-  create: async (booking: Booking): Promise<{ booking_id: number; total_price: number; status: string }> => {
-    const response = await apiClient.post<{ booking_id: number; total_price: number; status: string }>(
-      '/bookings',
-      booking
-    );
+  checkRange: async (roomId: number, startDate: string, endDate: string): Promise<any[]> => {
+    const response = await apiClient.get('/availability', {
+      params: {
+        room_id: roomId,
+        start_date: startDate,
+        end_date: endDate,
+      },
+    });
     return response.data;
   },
 
-  getById: async (id: number): Promise<Booking> => {
-    const response = await apiClient.get<Booking>(`/bookings/${id}`);
-    return response.data;
-  },
-
-  update: async (
-    id: number,
-    updates: { status?: string; payment_status?: string; payment_intent_id?: string }
-  ): Promise<{ success: boolean; changes: number }> => {
-    const response = await apiClient.patch<{ success: boolean; changes: number }>(`/bookings/${id}`, updates);
-    return response.data;
+  setAvailability: async (roomId: number, date: string, available: boolean): Promise<void> => {
+    await apiClient.post('/availability', {
+      room_id: roomId,
+      date,
+      available,
+    });
   },
 };
 
