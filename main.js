@@ -56,9 +56,10 @@
   });
 
   // ========================================
-  // Modal Functions
+  // Modal Functions - DISABLED (Using React Booking)
   // ========================================
   
+  /* DEACTIVATED - React Booking System is now used
   const openModal = (roomType = null, isSpa = false, packageName = null) => {
     state.modalOpen = true;
     modal.setAttribute('aria-hidden', 'false');
@@ -111,11 +112,13 @@
       state.ratesVisible = false;
     }
   };
+  */
 
   // ========================================
-  // Event Listeners - Modal
+  // Event Listeners - Modal - DISABLED (Using React Booking)
   // ========================================
   
+  /* DEACTIVATED - React Booking System is now used
   // Open modal
   openBookingButtons.forEach(button => {
     button.addEventListener('click', (e) => {
@@ -146,6 +149,7 @@
       closeModal();
     }
   });
+  */
 
   // ========================================
   // Toggle Rates Panel
@@ -170,9 +174,10 @@
   }
 
   // ========================================
-  // Form Submission
+  // Form Submission - DISABLED (Using React Booking)
   // ========================================
   
+  /* DEACTIVATED - React Booking System is now used
   const handleFormSubmit = (e) => {
     e.preventDefault();
     
@@ -235,6 +240,7 @@
   if (modalForm) {
     modalForm.addEventListener('submit', handleFormSubmit);
   }
+  */
 
   // ========================================
   // Toast Notification
