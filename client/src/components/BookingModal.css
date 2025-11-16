@@ -12,6 +12,7 @@
   visibility: visible;
   transition: all 0.3s ease;
   animation: fadeInBackdrop 0.2s ease;
+  overflow-y: auto;
 }
 
 @keyframes fadeInBackdrop {
@@ -29,11 +30,12 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 600px;
   width: 100%;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
   position: relative;
   animation: slideUpModal 0.3s ease;
   transform: scale(1);
+  margin: auto;
 }
 
 @keyframes slideUpModal {
@@ -72,7 +74,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   gap: var(--spacing-md);
 }
@@ -83,16 +85,16 @@
 
 .modal-header h2 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--charcoal);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
   margin-top: 0;
 }
 
 .modal-header p {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--muted);
   line-height: 1.6;
   font-weight: 300;
@@ -100,14 +102,14 @@
 }
 
 .booking-form {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 .booking-progress {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
   padding: 0 var(--spacing-md);
   position: relative;
 }
@@ -200,13 +202,13 @@
 }
 
 .step-header {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
   text-align: center;
 }
 
 .step-header h3 {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-bottom: var(--spacing-xs);
   color: var(--charcoal);
   margin-top: 0;
@@ -214,7 +216,7 @@
 
 .step-header p {
   color: var(--muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   margin: 0;
 }
 
@@ -401,7 +403,7 @@
   display: flex;
   gap: var(--spacing-md);
   justify-content: space-between;
-  margin-top: var(--spacing-xl);
+  margin-top: var(--spacing-lg);
 }
 
 .form-actions .btn-prev-step,
@@ -418,7 +420,7 @@
 }
 
 .form-group {
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .form-group label {
@@ -479,8 +481,8 @@
 .booking-summary {
   background-color: var(--sand);
   border-radius: 20px;
-  padding: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
   border: 2px solid rgba(101, 108, 72, 0.1);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
@@ -531,29 +533,29 @@
 
 @media (max-width: 768px) {
   .modal-content {
-    max-height: 95vh;
-    margin: var(--spacing-sm);
+    max-height: 90vh;
+    margin: var(--spacing-xs);
   }
   
   .modal-header {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .modal-header h2 {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 
   .modal-header p {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 
   .booking-form {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .booking-progress {
     padding: 0;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
   }
 
   .progress-step > div {
@@ -569,6 +571,7 @@
   .form-actions {
     flex-direction: column;
     gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
   }
   
   .form-actions button,
