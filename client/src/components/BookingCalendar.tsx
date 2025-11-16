@@ -169,19 +169,19 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
       return (
         <div className="selection-info selection-complete">
           <div className="selection-row">
-            <span className="selection-label">Check-in:</span>
+            <span className="selection-label">Ankomst:</span>
             <span className="selection-date">
               {format(selectedDates.start, 'EEEE, d. MMMM yyyy', { locale: da })}
             </span>
           </div>
           <div className="selection-row">
-            <span className="selection-label">Check-out:</span>
+            <span className="selection-label">Afrejse:</span>
             <span className="selection-date">
               {format(selectedDates.end, 'EEEE, d. MMMM yyyy', { locale: da })}
             </span>
           </div>
           <div className="selection-row selection-total">
-            <span className="selection-nights">{nights} {nights === 1 ? 'nat' : 'nætter'}</span>
+            <span className="selection-nights">📅 {nights} {nights === 1 ? 'nat' : 'nætter'}</span>
           </div>
         </div>
       );
@@ -190,13 +190,13 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
     return (
       <div className="selection-info">
         <div className="selection-row">
-          <span className="selection-label">Check-in:</span>
+          <span className="selection-label">Ankomst:</span>
           <span className="selection-date selected">
             {format(selectedDates.start, 'EEEE, d. MMMM yyyy', { locale: da })}
           </span>
         </div>
         <div className="selection-row selection-prompt">
-          <span className="selection-prompt-text">👆 Klik på afrejsedato</span>
+          <span className="selection-prompt-text">👆 Klik nu på din afrejsedato</span>
         </div>
       </div>
     );

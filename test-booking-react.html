@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ØLIV Booking Test</title>
+  <style>
+    body {
+      font-family: system-ui;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f0e9;
+    }
+    .test-btn {
+      background: #4a5d3e;
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .test-btn:hover {
+      background: #3a4d2e;
+    }
+    .info {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>ØLIV Booking System Test</h1>
+  
+  <div class="info">
+    <h2>API Test</h2>
+    <button class="test-btn" onclick="testAPI()">Test API</button>
+    <pre id="api-result"></pre>
+  </div>
+
+  <div class="info">
+    <h2>React Booking</h2>
+    <button class="test-btn" onclick="openBooking()">Åbn React Booking</button>
+  </div>
+
+  <div id="booking-root"></div>
+
+  <script>
+    async function testAPI() {
+      const result = document.getElementById('api-result');
+      try {
+        // Test rooms
+        const rooms = await fetch('http://localhost:3000/api/rooms').then(r => r.json());
+        result.textContent = `✅ ${rooms.length} værelser fundet:\n${JSON.stringify(rooms, null, 2)}`;
+        
+        // Test availability
+        const avail = await fetch('http://localhost:3000/api/availability?start_date=2024-11-16&end_date=2024-11-20').then(r => r.json());
+        result.textContent += `\n\n✅ ${avail.length} availability records fundet`;
+      } catch (error) {
+        result.textContent = `❌ Fejl: ${error.message}`;
+      }
+    }
+
+    function openBooking() {
+      // Load React booking dynamically
+      if (!document.getElementById('react-css')) {
+        const css = document.createElement('link');
+        css.id = 'react-css';
+        css.rel = 'stylesheet';
+        css.href = '/client/dist/assets/index-D-r-dCpa.css';
+        document.head.appendChild(css);
+      }
+
+      if (!document.getElementById('react-js')) {
+        const script = document.createElement('script');
+        script.id = 'react-js';
+        script.type = 'module';
+        script.src = '/client/dist/assets/index-BEjfvFja.js';
+        script.onload = () => {
+          console.log('✅ React loaded');
+          setTimeout(() => {
+            const btn = document.querySelector('#booking-root .btn-primary');
+            if (btn) btn.click();
+          }, 500);
+        };
+        script.onerror = (err) => {
+          alert('❌ Fejl ved loading af React: ' + err);
+        };
+        document.body.appendChild(script);
+      } else {
+        setTimeout(() => {
+          const btn = document.querySelector('#booking-root .btn-primary');
+          if (btn) btn.click();
+        }, 100);
+      }
+    }
+  </script>
+</body>
+</html>
+

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Room, AvailabilityItem, AvailableRoom, Booking } from '../types';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api';
+const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL || '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE,

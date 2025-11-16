@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ØLIV - Book Dit Ophold</title>
+  
+  <!-- Your original styles -->
+  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- React booking styles -->
+  <link rel="stylesheet" href="client/dist/assets/index-D-r-dCpa.css" />
+</head>
+<body>
+  <!-- React booking modal will be injected here -->
+  <div id="booking-root"></div>
+  
+  <!-- React booking script -->
+  <script type="module" src="client/dist/assets/index-DlaOjlQt.js"></script>
+  
+  <script>
+    // Auto-open booking modal when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      // Wait for React to mount
+      setTimeout(() => {
+        const bookButton = document.querySelector('.btn-primary');
+        if (bookButton) {
+          bookButton.click();
+        }
+      }, 500);
+    });
+  </script>
+</body>
+</html>
+

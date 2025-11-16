@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { format, addDays } from 'date-fns';
+import { format } from 'date-fns';
 import BookingCalendar from './BookingCalendar';
 import RoomSelector from './RoomSelector';
 import { roomsApi, availabilityApi, bookingsApi } from '../services/api';
@@ -193,8 +193,8 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
           {currentStep === 1 && (
             <div className="form-step active">
               <div className="step-header">
-                <h3>Vælg datoer</h3>
-                <p>Klik på ankomst- og afrejsedato i kalenderen</p>
+                <h3>Hvornår vil du bo hos os?</h3>
+                <p>Vælg ankomst- og afrejsedato ved at klikke i kalenderen</p>
               </div>
 
               <BookingCalendar 
