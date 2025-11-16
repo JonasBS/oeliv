@@ -1406,6 +1406,129 @@
   color: #4caf50;
 }
 
+/* Calendar View for Competitor Prices */
+.competitor-calendar-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.date-range-group {
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  padding: var(--spacing-lg);
+  transition: all 0.2s ease;
+}
+
+.date-range-group:hover {
+  border-color: var(--olive);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.date-range-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--sand);
+  margin-bottom: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.date-icon {
+  font-size: 1.5rem;
+}
+
+.date-range {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+
+.nights-count {
+  font-size: 0.875rem;
+  color: var(--muted);
+  background: var(--sand);
+  padding: 0.375rem 0.875rem;
+  border-radius: 999px;
+}
+
+.price-avg {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-left: auto;
+  background: rgba(133, 146, 87, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+}
+
+.date-unknown {
+  font-size: 0.875rem;
+  color: #f44336;
+  font-weight: 600;
+}
+
+.competitor-grid-mini {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--spacing-sm);
+}
+
+.competitor-card-mini {
+  background: var(--sand);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: var(--spacing-sm);
+  transition: all 0.2s ease;
+}
+
+.competitor-card-mini:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: white;
+}
+
+.competitor-card-mini .comp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.competitor-card-mini .comp-source {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--charcoal);
+}
+
+.competitor-card-mini .comp-availability {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.competitor-card-mini .comp-room {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.competitor-card-mini .comp-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--olive);
+  margin-bottom: 0.375rem;
+}
+
+.competitor-card-mini .comp-scraped {
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
 /* Market Insights Table */
 .insights-table {
   display: flex;

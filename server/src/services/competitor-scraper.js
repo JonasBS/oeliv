@@ -447,7 +447,9 @@ class CompetitorScraper {
         price: Math.round(data.price),
         availability: this.parseAvailability(data.availability),
         room_type: config.room_mapping || data.roomType,
-        scraped_at: new Date()
+        scraped_at: new Date(),
+        search_checkin: checkInStr,
+        search_checkout: checkOutStr
       };
       
     } catch (error) {
@@ -616,13 +618,19 @@ class CompetitorScraper {
         return null;
       }
 
+      // Extract dates from URL if available
+      const checkInMatch = config.url.match(/check_in=(\d{4}-\d{2}-\d{2})/);
+      const checkOutMatch = config.url.match(/check_out=(\d{4}-\d{2}-\d{2})/);
+
       return {
         source: config.source || 'Airbnb',
         url: config.url,
         price: Math.round(data.price),
         availability: 'available',
         room_type: config.room_mapping || data.roomType,
-        scraped_at: new Date()
+        scraped_at: new Date(),
+        search_checkin: checkInMatch ? checkInMatch[1] : null,
+        search_checkout: checkOutMatch ? checkOutMatch[1] : null
       };
       
     } catch (error) {
@@ -719,13 +727,19 @@ class CompetitorScraper {
         return null;
       }
 
+      // Extract dates from URL if available (Hotels.com uses checkIn/checkOut params)
+      const checkInMatch = config.url.match(/checkIn=(\d{4}-\d{2}-\d{2})/);
+      const checkOutMatch = config.url.match(/checkOut=(\d{4}-\d{2}-\d{2})/);
+
       return {
         source: config.source || 'Hotels.com',
         url: config.url,
         price: Math.round(data.price),
         availability: 'available',
         room_type: config.room_mapping || data.roomType,
-        scraped_at: new Date()
+        scraped_at: new Date(),
+        search_checkin: checkInMatch ? checkInMatch[1] : null,
+        search_checkout: checkOutMatch ? checkOutMatch[1] : null
       };
       
     } catch (error) {
@@ -799,15 +813,17 @@ class CompetitorScraper {
     try {
       await this.db.run(`
         INSERT INTO competitor_prices (
-          source, url, price, availability, room_type, scraped_at
-        ) VALUES (?, ?, ?, ?, ?, ?)
+          source, url, price, availability, room_type, scraped_at, search_checkin, search_checkout
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         data.source,
         data.url,
         data.price,
         data.availability,
         data.room_type,
-        data.scraped_at.toISOString()
+        data.scraped_at.toISOString(),
+        data.search_checkin || null,
+        data.search_checkout || null
       ]);
     } catch (error) {
       console.error('Error saving to database:', error);

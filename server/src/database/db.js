@@ -81,17 +81,27 @@ export const initializeDatabase = async () => {
     )`);
 
     // Run revenue management migrations
-    const migrationPath = path.join(__dirname, 'migrations', '003_revenue_management.sql');
-    if (fs.existsSync(migrationPath)) {
-      const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
-      const statements = migrationSQL.split(';').filter(stmt => stmt.trim());
-      
-      for (const statement of statements) {
-        if (statement.trim()) {
-          await dbRun(statement);
+    const migrations = ['003_revenue_management.sql', '004_add_search_dates.sql'];
+    for (const migrationFile of migrations) {
+      const migrationPath = path.join(__dirname, 'migrations', migrationFile);
+      if (fs.existsSync(migrationPath)) {
+        const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
+        const statements = migrationSQL.split(';').filter(stmt => stmt.trim());
+        
+        for (const statement of statements) {
+          if (statement.trim()) {
+            try {
+              await dbRun(statement);
+            } catch (err) {
+              // Ignore "duplicate column" errors for idempotency
+              if (!err.message.includes('duplicate column')) {
+                throw err;
+              }
+            }
+          }
         }
+        console.log(`✅ Migration ${migrationFile} complete`);
       }
-      console.log('✅ Revenue management tables created');
     }
 
     // Insert default rooms if they don't exist

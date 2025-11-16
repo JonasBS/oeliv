@@ -105,6 +105,12 @@ export const revenueApi = {
     const response = await apiClient.get('/revenue/competitors/prices');
     return response.data;
   },
+  
+  // Competitor prices with search dates (for calendar view)
+  getCompetitorPricesWithDates: async (): Promise<any[]> => {
+    const response = await apiClient.get('/revenue/competitors/prices-with-dates');
+    return response.data;
+  },
 
   getCompetitorHistory: async (days: number = 30): Promise<any[]> => {
     const response = await apiClient.get(`/revenue/competitors/history?days=${days}`);

@@ -135,6 +135,30 @@ export default (db) => {
     }
   });
 
+  // Get competitor prices with date ranges (for calendar view)
+  router.get('/competitors/prices-with-dates', (req, res) => {
+    db.all(`
+      SELECT 
+        cp.id,
+        cp.source,
+        cp.url,
+        cp.price,
+        cp.availability,
+        cp.room_type,
+        cp.scraped_at,
+        cp.search_checkin,
+        cp.search_checkout
+      FROM competitor_prices cp
+      ORDER BY cp.scraped_at DESC, cp.search_checkin ASC
+      LIMIT 200
+    `, (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json(rows || []);
+    });
+  });
+
   // Get competitor configurations
   router.get('/competitors/config', (req, res) => {
     db.all('SELECT * FROM competitor_config', (err, rows) => {

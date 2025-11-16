@@ -5,11 +5,14 @@ import { roomsApi, revenueApi } from '../../services/api';
 import type { Room } from '../../types';
 
 interface CompetitorPrice {
+  id: number;
   source: string;
   room_type: string;
   price: number;
-  date_checked: string;
+  scraped_at: string;
   availability: 'available' | 'limited' | 'sold_out';
+  search_checkin?: string | null;
+  search_checkout?: string | null;
 }
 
 interface MarketInsight {
@@ -71,8 +74,8 @@ const RevenueManagementTab = () => {
 
   const loadCompetitorPrices = async () => {
     try {
-      console.log('📊 Loading competitor prices from API...');
-      const data = await revenueApi.getCompetitorPrices();
+      console.log('📊 Loading competitor prices with dates from API...');
+      const data = await revenueApi.getCompetitorPricesWithDates();
       console.log(`✅ Loaded ${data.length} competitor prices:`, data);
       
       if (data && data.length > 0) {
@@ -265,11 +268,6 @@ const RevenueManagementTab = () => {
     }
   };
 
-  const calculatePriceDifference = (ourPrice: number, competitorPrice: number) => {
-    const diff = ((competitorPrice - ourPrice) / ourPrice) * 100;
-    return diff;
-  };
-
   return (
     <div className="revenue-tab">
       <div className="tab-header">
@@ -365,55 +363,114 @@ const RevenueManagementTab = () => {
         </div>
       </div>
 
-      {/* Competitor Prices */}
+      {/* Competitor Prices with Calendar View */}
       <div className="section-card">
         <div className="section-header">
-          <h3>🔍 Konkurrentpriser</h3>
+          <h3>📅 Konkurrentpriser efter dato</h3>
           <span className="last-updated">
             Sidst opdateret: {format(new Date(), 'dd. MMM yyyy HH:mm', { locale: da })}
           </span>
         </div>
 
-        <div className="competitor-grid">
-          {competitorPrices.map((comp, index) => (
-            <div key={index} className="competitor-card">
-              <div className="comp-header">
-                <span className="comp-source">{comp.source}</span>
-                <span 
-                  className="comp-availability"
-                  style={{ backgroundColor: getAvailabilityColor(comp.availability) }}
-                >
-                  {comp.availability === 'available' ? 'Ledig' : 
-                   comp.availability === 'limited' ? 'Få tilbage' : 'Udsolgt'}
-                </span>
-              </div>
+        <div className="competitor-calendar-view">
+          {(() => {
+            // Group prices by date range
+            const pricesByDateRange = competitorPrices.reduce((acc, comp) => {
+              if (comp.search_checkin && comp.search_checkout) {
+                const key = `${comp.search_checkin}_${comp.search_checkout}`;
+                if (!acc[key]) {
+                  acc[key] = {
+                    checkin: comp.search_checkin,
+                    checkout: comp.search_checkout,
+                    prices: []
+                  };
+                }
+                acc[key].prices.push(comp);
+              } else {
+                // No date - put in "Other" category
+                if (!acc['no_date']) {
+                  acc['no_date'] = {
+                    checkin: null,
+                    checkout: null,
+                    prices: []
+                  };
+                }
+                acc['no_date'].prices.push(comp);
+              }
+              return acc;
+            }, {} as Record<string, { checkin: string | null, checkout: string | null, prices: CompetitorPrice[] }>);
 
-              <div className="comp-room">{comp.room_type}</div>
+            const sortedDateRanges = Object.entries(pricesByDateRange).sort((a, b) => {
+              if (a[0] === 'no_date') return 1;
+              if (b[0] === 'no_date') return -1;
+              return (a[1].checkin || '').localeCompare(b[1].checkin || '');
+            });
 
-              <div className="comp-price">
-                {new Intl.NumberFormat('da-DK', { 
-                  style: 'currency', 
-                  currency: 'DKK',
-                  minimumFractionDigits: 0 
-                }).format(comp.price)}
-              </div>
-
-              <div className="comp-diff">
-                {(() => {
-                  const ourRoom = rooms.find(r => r.name.includes('Double') || r.name.includes('Suite'));
-                  if (ourRoom) {
-                    const diff = calculatePriceDifference(ourRoom.base_price, comp.price);
-                    return (
-                      <span className={diff > 0 ? 'diff-higher' : 'diff-lower'}>
-                        {diff > 0 ? '+' : ''}{diff.toFixed(0)}% vs. vores pris
+            return sortedDateRanges.map(([key, dateGroup]) => (
+              <div key={key} className="date-range-group">
+                <div className="date-range-header">
+                  {dateGroup.checkin && dateGroup.checkout ? (
+                    <>
+                      <span className="date-icon">📅</span>
+                      <span className="date-range">
+                        {format(new Date(dateGroup.checkin), 'd. MMM', { locale: da })} - {format(new Date(dateGroup.checkout), 'd. MMM yyyy', { locale: da })}
                       </span>
-                    );
-                  }
-                  return null;
-                })()}
+                      <span className="nights-count">
+                        ({Math.ceil((new Date(dateGroup.checkout).getTime() - new Date(dateGroup.checkin).getTime()) / (1000 * 60 * 60 * 24))} nætter)
+                      </span>
+                      <span className="price-avg">
+                        Gennemsnit: {new Intl.NumberFormat('da-DK', { 
+                          style: 'currency', 
+                          currency: 'DKK',
+                          minimumFractionDigits: 0 
+                        }).format(dateGroup.prices.reduce((sum, p) => sum + p.price, 0) / dateGroup.prices.length)}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="date-unknown">⚠️ Ingen dato-information</span>
+                  )}
+                </div>
+
+                <div className="competitor-grid-mini">
+                  {dateGroup.prices.map((comp, index) => (
+                    <div key={`${key}-${index}`} className="competitor-card-mini">
+                      <div className="comp-header">
+                        <span className="comp-source">{comp.source}</span>
+                        <span 
+                          className="comp-availability"
+                          style={{ backgroundColor: getAvailabilityColor(comp.availability) }}
+                        >
+                          {comp.availability === 'available' ? 'Ledig' : 
+                           comp.availability === 'limited' ? 'Få tilbage' : 'Udsolgt'}
+                        </span>
+                      </div>
+
+                      <div className="comp-room">{comp.room_type}</div>
+
+                      <div className="comp-price">
+                        {new Intl.NumberFormat('da-DK', { 
+                          style: 'currency', 
+                          currency: 'DKK',
+                          minimumFractionDigits: 0 
+                        }).format(comp.price)}
+                      </div>
+
+                      <div className="comp-scraped">
+                        Scraped: {format(new Date(comp.scraped_at), 'HH:mm', { locale: da })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
+            ));
+          })()}
+
+          {competitorPrices.length === 0 && (
+            <div className="empty-state">
+              <p>📊 Ingen konkurrentpriser endnu.</p>
+              <p>Klik "🔍 Opdater markedsdata" for at starte scraping.</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
 
