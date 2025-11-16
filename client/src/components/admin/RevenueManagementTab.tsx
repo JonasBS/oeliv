@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { da } from 'date-fns/locale';
 import { roomsApi, revenueApi } from '../../services/api';
 import type { Room } from '../../types';
+import PriceCalendarView from './PriceCalendarView';
 
 interface CompetitorPrice {
   id: number;
@@ -288,6 +289,17 @@ const RevenueManagementTab = () => {
           Baseret på konkurrentpriser, efterspørgsel, sæson og historisk data genererer systemet 
           automatiske prisanbefalinger for at maksimere din omsætning.
         </p>
+      </div>
+
+      {/* Price Calendar View */}
+      <div className="section-card">
+        <div className="section-header">
+          <h3>📅 Priskalender & Konkurrentanalyse</h3>
+          <span className="badge-info">
+            Klik på en dato for detaljer og sammenligning
+          </span>
+        </div>
+        <PriceCalendarView />
       </div>
 
       {/* Price Recommendations */}

@@ -1923,4 +1923,343 @@
   box-shadow: 0 6px 16px rgba(101, 108, 72, 0.3);
 }
 
+/* Price Calendar View */
+.price-calendar-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-lg);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-header h2 {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.75rem;
+  text-transform: capitalize;
+}
+
+.month-nav-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid var(--olive);
+  border-radius: 999px;
+  background: white;
+  color: var(--olive);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.month-nav-btn:hover {
+  background: var(--olive);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.2);
+}
+
+.calendar-filters {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--sand);
+  border-radius: 16px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.filter-group select {
+  padding: 0.625rem 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background: white;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-group select:hover {
+  border-color: var(--olive);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  padding: var(--spacing-lg);
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-weekday {
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--sand);
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.calendar-day.no-data {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.calendar-day.has-data:hover {
+  border-color: var(--olive);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day.selected {
+  border-color: var(--olive);
+  background: rgba(133, 146, 87, 0.1);
+  box-shadow: 0 4px 12px rgba(101, 108, 72, 0.2);
+}
+
+.day-number {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+
+.day-price {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--olive);
+}
+
+.day-availability {
+  font-size: 0.6875rem;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.date-details-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  padding: var(--spacing-xl);
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 2px solid var(--sand);
+}
+
+.details-header h3 {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.5rem;
+}
+
+.close-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--sand);
+  color: var(--charcoal);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-btn:hover {
+  background: var(--olive);
+  color: white;
+  transform: rotate(90deg);
+}
+
+.details-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  background: var(--sand);
+  border-radius: 16px;
+}
+
+.summary-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--charcoal);
+}
+
+.price-comparison-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.price-comparison-section h4 {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--charcoal);
+  font-size: 1.375rem;
+}
+
+.comparison-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.comparison-group h5 {
+  margin: 0;
+  color: var(--charcoal);
+  font-size: 1.125rem;
+}
+
+.room-price-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.room-price-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.room-price-item.your-room {
+  background: rgba(133, 146, 87, 0.1);
+  border: 2px solid var(--olive);
+}
+
+.room-price-item.competitor-room {
+  background: var(--sand);
+  border: 2px solid transparent;
+}
+
+.room-price-item.competitor-room:hover {
+  border-color: var(--olive);
+  transform: translateX(4px);
+}
+
+.room-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.room-source {
+  font-weight: 700;
+  color: var(--charcoal);
+  font-size: 0.9375rem;
+}
+
+.room-type {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.room-name {
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.room-price-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.room-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--olive);
+}
+
+.room-availability {
+  font-size: 0.75rem;
+  color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.verify-link-small {
+  font-size: 0.75rem;
+  color: var(--olive);
+  text-decoration: none;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--olive);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.verify-link-small:hover {
+  background: var(--olive);
+  color: white;
+}
+
 
