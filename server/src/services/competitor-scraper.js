@@ -40,29 +40,41 @@ class CompetitorScraper {
       // 🎯 SMART DATE FINDER - Find available dates automatically
       // ==================================================================
       
-      console.log('🔍 Finding available dates...');
-      
-      // Extract hotel name from URL for search
-      const hotelMatch = config.url.match(/\/hotel\/[^\/]+\/([^\/\.?]+)/);
-      const hotelSlug = hotelMatch ? hotelMatch[1] : '';
-      const hotelName = hotelSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      
-      console.log(`🏨 Hotel: "${hotelName}"`);
-      
-      // Try multiple date ranges to find availability
-      // Scan from near-term to 6 months ahead (covers summer season)
-      const dateRanges = [
-        { days: 7, desc: '1 week ahead' },
-        { days: 14, desc: '2 weeks ahead' },
-        { days: 30, desc: '1 month ahead' },
-        { days: 60, desc: '2 months ahead' },
-        { days: 90, desc: '3 months ahead' },
-        { days: 120, desc: '4 months ahead' },
-        { days: 150, desc: '5 months ahead' },
-        { days: 180, desc: '6 months ahead (summer)' }
-      ];
+      // Check if URL already has dates - if so, use those instead of auto-finding
+      const urlCheckInMatch = config.url.match(/checkin=(\d{4}-\d{2}-\d{2})/);
+      const urlCheckOutMatch = config.url.match(/checkout=(\d{4}-\d{2}-\d{2})/);
       
       let checkInStr, checkOutStr, availableDatesFound = false;
+      
+      if (urlCheckInMatch && urlCheckOutMatch) {
+        // URL has dates - use them directly!
+        checkInStr = urlCheckInMatch[1];
+        checkOutStr = urlCheckOutMatch[1];
+        availableDatesFound = true;
+        console.log(`📅 Using dates from URL: ${checkInStr} to ${checkOutStr}`);
+      } else {
+        // No dates in URL - find available dates automatically
+        console.log('🔍 Finding available dates...');
+        
+        // Extract hotel name from URL for search
+        const hotelMatch = config.url.match(/\/hotel\/[^\/]+\/([^\/\.?]+)/);
+        const hotelSlug = hotelMatch ? hotelMatch[1] : '';
+        const hotelName = hotelSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        
+        console.log(`🏨 Hotel: "${hotelName}"`);
+        
+        // Try multiple date ranges to find availability
+        // Scan from near-term to 6 months ahead (covers summer season)
+        const dateRanges = [
+          { days: 7, desc: '1 week ahead' },
+          { days: 14, desc: '2 weeks ahead' },
+          { days: 30, desc: '1 month ahead' },
+          { days: 60, desc: '2 months ahead' },
+          { days: 90, desc: '3 months ahead' },
+          { days: 120, desc: '4 months ahead' },
+          { days: 150, desc: '5 months ahead' },
+          { days: 180, desc: '6 months ahead (summer)' }
+        ];
       
       for (const range of dateRanges) {
         const checkIn = new Date();
@@ -158,6 +170,7 @@ class CompetitorScraper {
       
       if (!availableDatesFound) {
         console.log('⚠️  No available dates found in next 6 months, using last tested dates');
+      }
       }
       
       console.log(`🎯 Final dates: ${checkInStr} to ${checkOutStr}`);
@@ -314,22 +327,27 @@ class CompetitorScraper {
 
         // Comprehensive price selectors for Booking.com (2024/2025)
         const priceSelectors = [
-          // Primary price selectors
+          // Primary price selectors (most reliable)
           '[data-testid="price-and-discounted-price"]',
           '[data-testid="price-for-x-nights"]',
           'span[aria-label*="pris"]',
           'span[aria-label*="price"]',
           
-          // Price display classes
-          '.prco-valign-middle-helper',
+          // Room/property card prices (when searching with dates)
+          '.hprt-price-value',
+          '.hprt_cheapest_price',
           '.bui-price-display__value',
+          '.prco-valign-middle-helper',
+          '.txp-bui-price-display',
+          'strong[class*="price"]',
+          
+          // Price display classes
           '.prco-text-nowrap-helper',
           '.prco-inline-block-maker-helper',
           '[data-et-click*="price"]',
           
           // Property card prices
           '.bui_price_currency',
-          '.bui_price_display__value',
           '.e2e-property-card-price',
           
           // Search result prices
@@ -337,7 +355,12 @@ class CompetitorScraper {
           '.sr-price',
           '.bui-u-sr-only',
           
-          // Generic approaches
+          // Room table prices (specific for room selection pages)
+          'td.hprt-table-cell-price',
+          '.hprt-table-cell-price strong',
+          '.roomPrice',
+          
+          // Generic approaches (fallback)
           'strong[aria-hidden="true"]',
           'span[data-price]',
           '.e2e-price-item'
@@ -351,12 +374,20 @@ class CompetitorScraper {
               const text = (elem.textContent || elem.innerText || '').trim();
               if (!text || text.length === 0) continue;
               
+              // Skip "fra" (from) prices - these are minimum/teaser prices, not actual room prices
+              const lowerText = text.toLowerCase();
+              if (lowerText.includes('fra ') || lowerText.includes('from ') || 
+                  lowerText.includes('starting') || lowerText.includes('ab ')) {
+                continue;
+              }
+              
               // Check if contains a number and currency
               if (/\d/.test(text) && (text.includes('kr') || text.includes('DKK') || /\d{3,}/.test(text))) {
                 const num = extractNumber(text);
                 
-                // Validate price range (typical hotel prices per night in DKK)
-                if (num && num >= 200 && num <= 25000) {
+                // Validate price range (realistic hotel prices per night in DKK)
+                // Minimum 400 kr to avoid catching "fra" prices but still get real low-season prices
+                if (num && num >= 400 && num <= 25000) {
                   results.price = num;
                   results.priceText = text;
                   results.foundSelectors.push(selector);
@@ -376,23 +407,38 @@ class CompetitorScraper {
           console.log('⚠️  No price found via selectors, searching page text...');
           const bodyText = document.body.innerText;
           
+          // Split into lines to check context
+          const lines = bodyText.split('\n');
+          
           // Pattern: "1.234 kr." or "1234 kr" or "DKK 1234"
           const patterns = [
             /(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\s*(?:kr\.?|DKK)/gi,
             /(?:kr\.?|DKK)\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)/gi
           ];
           
-          for (const pattern of patterns) {
-            const matches = [...bodyText.matchAll(pattern)];
-            for (const match of matches) {
-              const num = extractNumber(match[0]);
-              if (num && num >= 200 && num <= 25000) {
-                results.price = num;
-                results.priceText = match[0];
-                results.foundSelectors.push('text-search');
-                console.log(`✓ Found price in text: ${match[0]} (${num} kr)`);
-                break;
+          for (const line of lines) {
+            const lowerLine = line.toLowerCase();
+            
+            // Skip lines with "fra" (from) prices
+            if (lowerLine.includes('fra ') || lowerLine.includes('from ') || 
+                lowerLine.includes('starting') || lowerLine.includes('ab ')) {
+              continue;
+            }
+            
+            for (const pattern of patterns) {
+              const matches = [...line.matchAll(pattern)];
+              for (const match of matches) {
+                const num = extractNumber(match[0]);
+                // Minimum 400 kr to catch real prices while avoiding most teaser prices
+                if (num && num >= 400 && num <= 25000) {
+                  results.price = num;
+                  results.priceText = match[0];
+                  results.foundSelectors.push('text-search');
+                  console.log(`✓ Found price in text: ${match[0]} (${num} kr)`);
+                  break;
+                }
               }
+              if (results.price) break;
             }
             if (results.price) break;
           }
@@ -441,6 +487,8 @@ class CompetitorScraper {
         return null;
       }
 
+      console.log(`💾 Saving with dates: ${checkInStr} to ${checkOutStr}`);
+      
       return {
         source: config.source || 'Booking.com',
         url: config.url,
@@ -448,8 +496,8 @@ class CompetitorScraper {
         availability: this.parseAvailability(data.availability),
         room_type: config.room_mapping || data.roomType,
         scraped_at: new Date(),
-        search_checkin: checkInStr,
-        search_checkout: checkOutStr
+        search_checkin: checkInStr || null,
+        search_checkout: checkOutStr || null
       };
       
     } catch (error) {
