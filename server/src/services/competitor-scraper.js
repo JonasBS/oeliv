@@ -31,33 +31,136 @@ class CompetitorScraper {
     }
   }
 
-  // Scrape Booking.com with advanced anti-detection
+  // Scrape Booking.com with advanced anti-detection and AUTOMATED SEARCH
   async scrapeBookingCom(config) {
     const page = await this.browser.newPage();
     
     try {
-      // Add current dates to URL if not present
-      let url = config.url;
+      // ==================================================================
+      // 🎯 SMART DATE FINDER - Find available dates automatically
+      // ==================================================================
       
-      // Calculate check-in (tomorrow) and check-out (3 days later)
-      const checkIn = new Date();
-      checkIn.setDate(checkIn.getDate() + 1); // Tomorrow
-      const checkOut = new Date();
-      checkOut.setDate(checkOut.getDate() + 4); // 3 nights stay
+      console.log('🔍 Finding available dates...');
       
-      const checkInStr = checkIn.toISOString().split('T')[0];
-      const checkOutStr = checkOut.toISOString().split('T')[0];
+      // Extract hotel name from URL for search
+      const hotelMatch = config.url.match(/\/hotel\/[^\/]+\/([^\/\.?]+)/);
+      const hotelSlug = hotelMatch ? hotelMatch[1] : '';
+      const hotelName = hotelSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
       
-      // Add dates to URL if not already present
-      if (!url.includes('checkin=') && !url.includes('?')) {
-        url = `${url}?checkin=${checkInStr}&checkout=${checkOutStr}&group_adults=2&group_children=0&no_rooms=1`;
-        console.log(`📅 Added dates to URL: checkin=${checkInStr}, checkout=${checkOutStr}`);
-      } else if (!url.includes('checkin=') && url.includes('?')) {
-        url = `${url}&checkin=${checkInStr}&checkout=${checkOutStr}&group_adults=2&group_children=0&no_rooms=1`;
-        console.log(`📅 Added dates to URL: checkin=${checkInStr}, checkout=${checkOutStr}`);
-      } else {
-        console.log(`📅 URL already has dates`);
+      console.log(`🏨 Hotel: "${hotelName}"`);
+      
+      // Try multiple date ranges to find availability
+      // Scan from near-term to 6 months ahead (covers summer season)
+      const dateRanges = [
+        { days: 7, desc: '1 week ahead' },
+        { days: 14, desc: '2 weeks ahead' },
+        { days: 30, desc: '1 month ahead' },
+        { days: 60, desc: '2 months ahead' },
+        { days: 90, desc: '3 months ahead' },
+        { days: 120, desc: '4 months ahead' },
+        { days: 150, desc: '5 months ahead' },
+        { days: 180, desc: '6 months ahead (summer)' }
+      ];
+      
+      let checkInStr, checkOutStr, availableDatesFound = false;
+      
+      for (const range of dateRanges) {
+        const checkIn = new Date();
+        checkIn.setDate(checkIn.getDate() + range.days);
+        const checkOut = new Date(checkIn);
+        checkOut.setDate(checkOut.getDate() + 3); // 3 nights
+        
+        checkInStr = checkIn.toISOString().split('T')[0];
+        checkOutStr = checkOut.toISOString().split('T')[0];
+        
+        console.log(`📅 Testing ${range.desc}: ${checkInStr} to ${checkOutStr}`);
+        
+        // Build test URL
+        const baseUrl = config.url.split('?')[0];
+        const testUrl = `${baseUrl}?checkin=${checkInStr}&checkout=${checkOutStr}&group_adults=2&no_rooms=1`;
+        
+        try {
+          await page.goto(testUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+          await page.waitForTimeout(3000);
+          
+          // Check if dates are available
+          const availabilityCheck = await page.evaluate(() => {
+            const bodyText = document.body.textContent.toLowerCase();
+            
+            // Look for VERY SPECIFIC unavailability messages (exact phrases only)
+            const hasExactUnavailableMessage = 
+              bodyText.includes('ikke tilgængeligt på vores website på dine valgte datoer') ||
+              bodyText.includes('ikke tilgængelige på denne ejendom på dine valgte datoer');
+            
+            // Look for room types/listings - stronger indicator of availability
+            const roomSelectors = [
+              '[data-testid="property-card"]',
+              '.hprt-table-cell-roomtype',
+              '.roomName',
+              '.room-info',
+              '.hprt-table',
+              '.roomPrice',
+              'td.hprt-table-cell',
+              '[id*="room"]'
+            ];
+            
+            let hasRoomListings = false;
+            for (const selector of roomSelectors) {
+              if (document.querySelectorAll(selector).length > 0) {
+                hasRoomListings = true;
+                break;
+              }
+            }
+            
+            // Look for price displays
+            const priceSelectors = [
+              '[data-testid="price-and-discounted-price"]',
+              '.bui-price-display',
+              '.prco-valign-middle-helper',
+              '.bui-price-display__value',
+              '.prco-inline-box-icon-last-child'
+            ];
+            
+            let hasPriceElements = false;
+            for (const selector of priceSelectors) {
+              if (document.querySelectorAll(selector).length > 0) {
+                hasPriceElements = true;
+                break;
+              }
+            }
+            
+            // Strong availability indicators
+            // If we have price elements, consider it available even if there's a general unavailable message
+            // (Booking.com shows "some rooms not available" even when others ARE available)
+            const isAvailable = hasPriceElements || (hasRoomListings && !hasExactUnavailableMessage);
+            
+            return { 
+              available: isAvailable,
+              hasExactUnavailableMessage,
+              hasRoomListings,
+              hasPriceElements
+            };
+          });
+          
+          console.log(`   Unavailable msg: ${availabilityCheck.hasExactUnavailableMessage}, Rooms: ${availabilityCheck.hasRoomListings}, Price elements: ${availabilityCheck.hasPriceElements}`);
+          
+          if (availabilityCheck.available) {
+            console.log(`✅ Found available dates: ${checkInStr} to ${checkOutStr}`);
+            availableDatesFound = true;
+            break;
+          } else {
+            console.log(`❌ Not available: ${range.desc}`);
+          }
+        } catch (error) {
+          console.log(`⚠️  Error checking ${range.desc}: ${error.message}`);
+        }
       }
+      
+      if (!availableDatesFound) {
+        console.log('⚠️  No available dates found in next 6 months, using last tested dates');
+      }
+      
+      console.log(`🎯 Final dates: ${checkInStr} to ${checkOutStr}`);
 
       // Anti-detection setup
       await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
@@ -105,74 +208,82 @@ class CompetitorScraper {
         'Cache-Control': 'max-age=0'
       });
       
-      console.log(`🔍 Scraping Booking.com: ${config.source || 'Unknown'}`);
-      console.log(`📍 URL: ${url}`);
+      // ==================================================================
+      // 🎯 SMART AUTOMATED SEARCH - Build search URL like a real user
+      // ==================================================================
       
-      // Navigate with retry logic
-      let retries = 3;
-      let loaded = false;
+      console.log('🔍 Building search URL with dates...');
       
-      while (retries > 0 && !loaded) {
+      // Strategy: Go directly to hotel page WITH search parameters
+      // This simulates clicking "Search" with dates already selected
+      let searchUrl = config.url;
+      
+      // Clean URL - remove old parameters if present
+      const baseUrl = config.url.split('?')[0];
+      
+      // Build comprehensive search parameters
+      const searchParams = new URLSearchParams({
+        checkin: checkInStr,
+        checkout: checkOutStr,
+        group_adults: '2',
+        group_children: '0',
+        no_rooms: '1',
+        selected_currency: 'DKK'
+      });
+      
+      searchUrl = `${baseUrl}?${searchParams.toString()}`;
+      
+      console.log('🌐 Navigating to hotel with search parameters...');
+      console.log(`📍 ${searchUrl}`);
+      
+      let retries = 2;
+      let pageLoaded = false;
+      
+      while (retries > 0 && !pageLoaded) {
         try {
-          await page.goto(url, { 
+          await page.goto(searchUrl, { 
             waitUntil: 'domcontentloaded',
             timeout: 45000 
           });
-          loaded = true;
-          console.log('✅ Page loaded successfully');
+          pageLoaded = true;
+          console.log('✅ Page loaded with search parameters');
         } catch (error) {
           retries--;
-          console.log(`⚠️  Load attempt failed. Retries left: ${retries}`);
-          if (retries === 0) throw error;
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          console.log(`⚠️  Load failed, retries left: ${retries}`);
+          if (retries === 0) {
+            throw new Error(`Failed to load page: ${error.message}`);
+          }
+          await page.waitForTimeout(3000);
         }
       }
-
-      // Wait for content to render
-      console.log('⏳ Waiting for prices to load...');
-      await page.waitForTimeout(3000);
-
-      // Scroll to trigger lazy loading and price calculation
+      
+      // ==================================================================
+      // 📊 Wait for prices to load and extract data
+      // ==================================================================
+      
+      console.log('⏳ Waiting for dynamic prices to calculate...');
+      await page.waitForTimeout(4000);
+      
       console.log('📜 Scrolling to trigger price loading...');
+      await page.evaluate(() => {
+        window.scrollBy(0, window.innerHeight / 2);
+      });
+      await page.waitForTimeout(1500);
       await page.evaluate(() => {
         window.scrollBy(0, window.innerHeight / 2);
       });
       await page.waitForTimeout(2000);
       
-      // Scroll more to ensure all elements are loaded
-      await page.evaluate(() => {
-        window.scrollBy(0, window.innerHeight);
-      });
-      await page.waitForTimeout(2000);
-
-      // Try to click/trigger price calculation if search button exists
-      console.log('🔍 Looking for search/price buttons...');
+      console.log('💰 Extracting price data...');
+      
+      // Take screenshot for debugging (optional - comment out in production)
       try {
-        const buttonClicked = await page.evaluate(() => {
-          // Look for search buttons that might trigger price refresh
-          const searchButtons = document.querySelectorAll('button[type="submit"], button.fc63351294, button[data-testid="searchbox-dates-btn"]');
-          for (const btn of searchButtons) {
-            const text = btn.textContent.toLowerCase();
-            if (text.includes('søg') || text.includes('search') || text.includes('opdater')) {
-              btn.click();
-              return true;
-            }
-          }
-          return false;
-        });
-        
-        if (buttonClicked) {
-          console.log('✅ Clicked search button, waiting for price update...');
-          await page.waitForTimeout(5000);
-        } else {
-          console.log('ℹ️  No search button found, using existing prices');
-        }
-      } catch (error) {
-        console.log('ℹ️  Could not click search button:', error.message);
+        const screenshotPath = `/tmp/booking-${config.source || 'hotel'}-${Date.now()}.png`;
+        await page.screenshot({ path: screenshotPath, fullPage: false });
+        console.log(`📸 Screenshot saved: ${screenshotPath}`);
+      } catch (e) {
+        console.log('⚠️  Could not save screenshot');
       }
-
-      // Final wait for dynamic pricing to settle
-      await page.waitForTimeout(2000);
 
       // Extract data with comprehensive selectors
       const data = await page.evaluate(() => {
