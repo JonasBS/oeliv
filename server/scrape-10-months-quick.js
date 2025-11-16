@@ -3,43 +3,41 @@ import CompetitorScraper from './src/services/competitor-scraper.js';
 import 'dotenv/config';
 
 /**
- * Scrape competitor prices for MULTIPLE dates to fill the calendar
+ * QUICK VERSION: Scrape 10 months ahead (bi-weekly for speed)
  */
-async function scrapeMultipleDates() {
-  console.log('📅 Scraping competitor prices for MULTIPLE dates...\n');
+async function scrapeQuick10Months() {
+  console.log('🚀 QUICK 10-MONTH SCRAPING (bi-weekly intervals)...\n');
   console.log('═'.repeat(80));
 
   const db = await getDatabase();
 
-  // Define date ranges to scrape (next 10 months, weekly intervals)
+  // Bi-weekly intervals for 10 months = 20 scrapes instead of 40
   const today = new Date();
   const dateRanges = [];
   
-  // Generate date ranges: every week for the next 40 weeks (10 months)
-  // This gives us ~4 dates per month for 10 months = comprehensive coverage
-  for (let week = 0; week < 40; week++) {
+  for (let week = 0; week < 40; week += 2) { // Every 2 weeks
     const checkin = new Date(today);
     checkin.setDate(today.getDate() + (week * 7));
     
     const checkout = new Date(checkin);
-    checkout.setDate(checkin.getDate() + 3); // 3-night stay
+    checkout.setDate(checkin.getDate() + 3);
     
-    // Format as YYYY-MM-DD
     const checkinStr = checkin.toISOString().split('T')[0];
     const checkoutStr = checkout.toISOString().split('T')[0];
     
     dateRanges.push({ checkin: checkinStr, checkout: checkoutStr });
   }
 
-  console.log(`📊 Will scrape ${dateRanges.length} different date ranges:\n`);
-  dateRanges.forEach((range, i) => {
+  console.log(`📊 Will scrape ${dateRanges.length} date ranges (bi-weekly):\n`);
+  dateRanges.slice(0, 5).forEach((range, i) => {
     console.log(`   ${i + 1}. ${range.checkin} → ${range.checkout}`);
   });
+  console.log(`   ... (${dateRanges.length - 5} more)`);
 
   console.log('\n═'.repeat(80));
-  console.log('🔍 Starting scraping process...\n');
+  console.log('🔍 Starting quick scraping...\n');
 
-  // Get competitor configurations
+  // Get competitors
   let competitors = [];
   try {
     competitors = await new Promise((resolve, reject) => {
@@ -49,11 +47,8 @@ async function scrapeMultipleDates() {
         WHERE enabled = 1
       `, (err, rows) => {
         if (err) {
-          if (err.message.includes('no such table')) {
-            resolve(null);
-          } else {
-            reject(err);
-          }
+          if (err.message.includes('no such table')) resolve(null);
+          else reject(err);
         } else {
           resolve(rows || []);
         }
@@ -63,7 +58,6 @@ async function scrapeMultipleDates() {
     console.log('   ⚠️  competitor_configs table not found');
   }
 
-  // Fallback to hardcoded competitor
   if (!competitors || competitors.length === 0) {
     console.log('   ℹ️  Using default competitor (Grønbechs)');
     competitors = [
@@ -75,7 +69,7 @@ async function scrapeMultipleDates() {
     ];
   }
 
-  console.log(`✅ Found ${competitors.length} competitor(s)\n`);
+  console.log(`✅ Scraping ${competitors.length} competitor(s) × ${dateRanges.length} dates = ${competitors.length * dateRanges.length} total scrapes\n`);
 
   const scraper = new CompetitorScraper(db);
   await scraper.initialize();
@@ -83,8 +77,8 @@ async function scrapeMultipleDates() {
   let totalResults = 0;
   let successCount = 0;
   let failCount = 0;
+  const startTime = Date.now();
 
-  // Loop through each competitor and each date range
   for (let compIndex = 0; compIndex < competitors.length; compIndex++) {
     const competitor = competitors[compIndex];
     
@@ -94,63 +88,45 @@ async function scrapeMultipleDates() {
 
     for (let dateIndex = 0; dateIndex < dateRanges.length; dateIndex++) {
       const dateRange = dateRanges[dateIndex];
+      const progress = Math.round(((dateIndex + 1) / dateRanges.length) * 100);
       
-      console.log(`\n[${dateIndex + 1}/${dateRanges.length}] Scraping: ${dateRange.checkin} → ${dateRange.checkout}`);
+      console.log(`\n[${dateIndex + 1}/${dateRanges.length}] ${progress}% - ${dateRange.checkin} → ${dateRange.checkout}`);
       console.log('─'.repeat(80));
 
       try {
-        // Build URL with date parameters
-        const baseUrl = competitor.url.split('?')[0]; // Remove existing params
+        const baseUrl = competitor.url.split('?')[0];
         const urlWithDates = `${baseUrl}?checkin=${dateRange.checkin}&checkout=${dateRange.checkout}&group_adults=2&group_children=0&no_rooms=1&selected_currency=DKK`;
 
         let result = null;
-        let usedFallback = false;
         const url = urlWithDates.toLowerCase();
 
-        // Try Puppeteer first
         if (url.includes('booking.com')) {
           result = await scraper.scrapeBookingCom({
             source: competitor.name,
             url: urlWithDates,
             room_mapping: competitor.room_mapping
           });
-        } else if (url.includes('airbnb')) {
-          result = await scraper.scrapeAirbnb({
-            source: competitor.name,
-            url: urlWithDates,
-            room_mapping: competitor.room_mapping
-          });
-        } else if (url.includes('hotels.com')) {
-          result = await scraper.scrapeHotelsCom({
-            source: competitor.name,
-            url: urlWithDates,
-            room_mapping: competitor.room_mapping
-          });
         }
 
-        // Fall back to SerpApi if needed
+        // Fallback to SerpApi
         if (!result && scraper.serpApi.isAvailable()) {
-          console.log('   ⚠️  Puppeteer failed, trying SerpApi fallback...');
+          console.log('   ⚠️  Puppeteer failed, trying SerpApi...');
           result = await scraper.serpApi.scrapeHotelPrice({
             source: competitor.name,
             url: urlWithDates,
             room_mapping: competitor.room_mapping
           });
-          usedFallback = true;
         }
 
         if (result) {
-          // Handle array of rooms (multi-room) or single room
           const roomsArray = Array.isArray(result) ? result : [result];
-
-          const method = usedFallback ? '🔄 SerpApi' : '🤖 Puppeteer';
 
           for (const room of roomsArray) {
             await scraper.saveToDatabase(room);
             totalResults++;
-
-            console.log(`   ✅ [${method}] ${room.room_type}: ${room.price} DKK/night`);
           }
+          
+          console.log(`   ✅ Saved ${roomsArray.length} room(s)`);
           successCount++;
         } else {
           console.log(`   ❌ No results`);
@@ -162,16 +138,18 @@ async function scrapeMultipleDates() {
         failCount++;
       }
 
-      // Delay between date ranges to avoid rate limiting
+      // Faster delay for quick mode
       if (dateIndex < dateRanges.length - 1) {
-        const delayMs = 2000; // 2 seconds (faster for large scraping jobs)
-        console.log(`   ⏳ Waiting ${delayMs / 1000} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, delayMs));
+        await new Promise(resolve => setTimeout(resolve, 1500)); // 1.5 seconds
       }
     }
   }
 
   await scraper.close();
+
+  const elapsedSeconds = Math.round((Date.now() - startTime) / 1000);
+  const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+  const remainingSeconds = elapsedSeconds % 60;
 
   console.log('\n═'.repeat(80));
   console.log('                    FINAL SUMMARY');
@@ -181,10 +159,11 @@ async function scrapeMultipleDates() {
   console.log(`📊 Total room prices saved: ${totalResults}`);
   console.log(`📅 Date ranges covered: ${dateRanges.length}`);
   console.log(`🏨 Competitors: ${competitors.length}`);
-  console.log('\n🎉 Done! Refresh admin panel to see calendar filled with data.\n');
+  console.log(`⏱️  Time elapsed: ${elapsedMinutes}m ${remainingSeconds}s`);
+  console.log('\n🎉 Done! Refresh admin panel to see 10 months of data.\n');
 
   await db.close();
 }
 
-scrapeMultipleDates().catch(console.error);
+scrapeQuick10Months().catch(console.error);
 
