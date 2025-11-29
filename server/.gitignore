@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+
+# Database (will be created on server)
+*.db
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
