@@ -1,0 +1,16 @@
+# Ignore old project folders
+client/
+server/
+scripts/
+website/
+oeliv-website/
+
+# Ignore docs
+*.md
+!README.md
+
+# Ignore local files
+.env
+.env.local
+*.db
+
