@@ -1,0 +1,445 @@
+{
+  "metadata": {
+    "title": "ØLIV – Farm hospitality & ØLIV Brew på Bornholm",
+    "description": "ØLIV – Farm hospitality på Bornholm. Rolige gårdophold 300 m fra Østersøen med eget bryggeri, gårdsauna og naturlige omgivelser. Autentiske oplevelser uden shows."
+  },
+  "nav": {
+    "accommodation": "Overnatning",
+    "spa": "Spa & Oplevelser",
+    "brewery": "ØLIV Brew",
+    "about": "Om os",
+    "bookStay": "Forespørg ophold"
+  },
+  "hero": {
+    "logo": "ØLIV",
+    "tagline": "Farm hospitality på Bornholm",
+    "description": "En lille gård 300 meter fra Østersøen. Her finder du ro, natur og autentiske oplevelser – uden shows, uden overdrivelser. Bare godt håndværk, lokale råvarer og tid til at være til stede.",
+    "badges": {
+      "farmStay": "Gårdophold",
+      "coast": "300 m til kysten",
+      "solar": "Solceller & grøn drift",
+      "brewery": "ØLIV Brew"
+    },
+    "cta": {
+      "book": "Forespørg ophold",
+      "explore": "Udforsk værelserne"
+    },
+    "note": "Særligt sommeren og weekender bliver hurtigt booket. Vi anbefaler at planlægge 2-3 måneder i forvejen."
+  },
+  "trustBadges": {
+    "coast": {
+      "title": "Ved kysten",
+      "description": "300 meter fra Østersøen. Lyden af bølger hver morgen."
+    },
+    "farmToTable": {
+      "title": "Gård til bord",
+      "description": "Lokale råvarer, æg fra gården, øl fra vores bryggeri."
+    },
+    "sustainable": {
+      "title": "Bæredygtig drift",
+      "description": "Solceller, egen vandforsyning, minimalt affald."
+    },
+    "intimate": {
+      "title": "Få værelser",
+      "description": "Kun 5 værelser for en intim og personlig oplevelse."
+    }
+  },
+  "experience": {
+    "title": "Oplevelsen på ØLIV",
+    "subtitle": "Farm hospitality handler ikke om luksus i traditionel forstand. Det handler om autenticitet, om at være tæt på naturen, om at opleve stedet som det er – uden filter, uden show.",
+    "accommodation": {
+      "title": "Overnatning",
+      "description": "Enkle, nordiske værelser designet til ro. Gode senge, naturmaterialer og udsigt til gården eller havet. Ingen TV, ingen unødig støj – bare det essentielle.",
+      "features": [
+        "5 værelser med unik karakter",
+        "300 meter til stranden",
+        "Morgenmad med lokale råvarer",
+        "Adgang til hele gården"
+      ]
+    },
+    "sauna": {
+      "title": "Gårdsauna",
+      "description": "En simpel træsauna ved gården. Varm igennem, dyp i koldt vand, og mærk roen sænke sig. Ingen spa-musik, ingen store armbevægelser – bare varme, kulde og stilhed.",
+      "features": [
+        "Traditionel træsauna",
+        "Koldtvandsbad",
+        "Rolige omgivelser",
+        "Booking efter aftale"
+      ]
+    },
+    "brewery": {
+      "title": "ØLIV Brew",
+      "description": "Vores eget mikrobryggeri. Lyse, rene øl brygget med lokale råvarer og inspireret af stedet. Smagninger kan aftales – vi deler gerne historien om hvert øl.",
+      "features": [
+        "Mikrobryggeri på gården",
+        "Lokale råvarer & malte",
+        "Smagninger efter aftale",
+        "Flasker til salg"
+      ]
+    },
+    "surroundings": {
+      "title": "Gården & omgivelserne",
+      "description": "Udforsk gården, stræk benene langs kysten, eller bare sid i haven og lyt til lydene. Der er ingen fast program – blot muligheden for at være til stede.",
+      "features": [
+        "Gårdshave & terrasse",
+        "Stier til stranden",
+        "Observere dyrene",
+        "Cykler til lån"
+      ]
+    }
+  },
+  "seasons": {
+    "title": "Året rundt på Bornholm",
+    "spring": {
+      "title": "Forår",
+      "description": "Når naturen vågner og lyset kommer tilbage. Perfekt tid til gåture langs kysten og at opleve øens blomstring. Temperaturen er mild, og der er ro omkring gården.",
+      "note": "Planlæg 2-3 måneder i forvejen"
+    },
+    "summer": {
+      "title": "Sommer",
+      "description": "Bornholms højsæson med lang dagslys og varmt vejr. Havet er indbydende, og øen er på sit smukkeste. Book tidligt – sommeren bliver hurtigt booket.",
+      "note": "Planlæg 3-6 måneder i forvejen"
+    },
+    "autumn": {
+      "title": "Efterår",
+      "description": "Naturen skifter farver, og temperaturen falder. Perfekt til rolige dage ved saunaen og lange aftener med øl fra bryggeriet. Mindre turister, mere ro.",
+      "note": "Planlæg 1-2 måneder i forvejen"
+    },
+    "winter": {
+      "title": "Vinter",
+      "description": "Stille dage med fokus på ro og nærvær. Saunaen er varm, øllene er mørke, og naturen er i ro. Perfekt til at slappe af og oplade.",
+      "note": "Planlæg 2-4 uger i forvejen"
+    }
+  },
+  "testimonials": {
+    "title": "Hvad gæster siger",
+    "cta": "Forespørg ophold",
+    "ctaNote": "Vi vender tilbage inden 24 timer med ledighed og tilbud"
+  },
+  "place": {
+    "title": "300 meter fra Østersøen",
+    "text1": "Bornholm er anderledes. Øen har sit eget lys, sin egen rytme og sin egen atmosfære. Her er afstanden til Sverige kortere end til København, og naturen er altid tæt på.",
+    "text2": "ØLIV ligger midt i det Bornholmske landskab, hvor gårdslivet mødes med havet, og roen med naturens rytmer. Det er et sted hvor du kan mærke forskellen – hvor tempoet sænkes, og hvor du kan være til stede.",
+    "text3": "Kom og oplev autentisk farm hospitality på en lille gård ved havet. Uden shows, uden overdrivelser – bare godt håndværk og ægte oplevelser."
+  },
+  "press": {
+    "title": "I pressen",
+    "quotes": [
+      {
+        "text": "En skjult perle på Bornholm",
+        "source": "Weekendavisen"
+      },
+      {
+        "text": "Autentisk farm hospitality med fokus på ro og natur",
+        "source": "Politiken Rejser"
+      },
+      {
+        "text": "ØLIV Brew er et must-try for ølentusiaster",
+        "source": "Berlingske"
+      }
+    ],
+    "reviewsText": "Læs anmeldelser fra vores gæster:"
+  },
+  "newsletter": {
+    "title": "Hold dig opdateret",
+    "description": "Få vores guide til Bornholm og besked om ledige datoer. Vi sender kun vigtige opdateringer – ingen spam.",
+    "placeholder": "Din email",
+    "submit": "Tilmeld",
+    "privacy": "Vi respekterer dit privatliv. Læs vores privatlivspolitik."
+  },
+  "cta": {
+    "title": "Klar på roligt gårdophold?",
+    "button": "Skriv om datoer"
+  },
+  "footer": {
+    "tagline": "Farm hospitality & ØLIV Brew · Bornholm, Danmark",
+    "links": {
+      "home": "Forside",
+      "accommodation": "Overnatning",
+      "spa": "Spa",
+      "brewery": "Bryggeri",
+      "about": "Om os"
+    }
+  },
+  "brewery": {
+    "meta": {
+      "title": "ØLIV Brew – Bryggeri på Bornholm",
+      "description": "ØLIV Brew – Brygget ved kysten. Lyse, rene øl inspireret af havet, lyset og rytmen på øen."
+    },
+    "hero": {
+      "subtitle": "Brygget ved kysten. Lyse, rene øl inspireret af havet, lyset og rytmen på øen."
+    },
+    "main": {
+      "title": "Brygget på gården",
+      "subtitle": "ØLIV Brew er en naturlig del af opholdet",
+      "text1": "ØLIV Brew er en naturlig del af opholdet — smag til maden, i bryggeriet eller på terrassen.",
+      "text2": "Små smagninger med ro, tid og fortællinger om råvarer og proces. Godt håndværk uden shows.",
+      "text3": "Vi brygger små batches med fokus på kvalitet over kvantitet. Hver øl fortæller en historie om stedet og sæsonen.",
+      "tags": ["Små smagninger", "Nordiske råvarer", "Øl til maden", "Gårdsbrygget"]
+    },
+    "beersSection": {
+      "title": "Vores øl"
+    },
+    "beers": {
+      "kystlys": "Inspireret af Bornholms lys. Let og forfriskende med noter af citrus og havluft. Perfekt til en solnedgang på terrassen.",
+      "ipa": "Bold og aromatisk med lokale urter fra haven. En øl der smager af stedet og sæsonen.",
+      "havbris": "Let og skyende med en frisk afslutning. Som en bris fra havet — forfriskende og ren.",
+      "stout": "Vinterens favorit. Mørk og kompleks med noter af kaffe og chokolade. Perfekt til de kolde aftener."
+    },
+    "processSection": {
+      "title": "Bryggeprocessen"
+    },
+    "process": {
+      "ingredients": {
+        "title": "Råvarer",
+        "description": "Vi bruger lokale ingredienser hvor muligt — malt fra danske malthuse, humle fra nordeuropæiske gårde, og vand fra Bornholms kalkstensgrund."
+      },
+      "brewing": {
+        "title": "Brygning",
+        "description": "Små batches brygges i vores lille bryggeri på gården. Hver batch får tid til at udvikle sig — ingen hastværk."
+      },
+      "fermentation": {
+        "title": "Gæring",
+        "description": "Øllene gærer i rolige omgivelser. Vi lader naturen gøre sit arbejde, mens vi holder øje med processen."
+      },
+      "maturation": {
+        "title": "Modning",
+        "description": "Efter gæring får øllene tid til at modne. Nogle modner i uger, andre i måneder — alt efter typen."
+      }
+    },
+    "tastingsSection": {
+      "title": "Smagninger"
+    },
+    "tastings": {
+      "small": {
+        "title": "Lille smagning",
+        "price": "Inkluderet i ophold",
+        "description": "Smag 2-3 af vores øl med en kort fortælling om bryggeprocessen. Ca. 30 minutter.",
+        "features": ["2-3 små glas øl", "Fortælling om bryggeriet", "Rundvisning i bryggeriet"]
+      },
+      "extended": {
+        "title": "Udvidet smagning",
+        "price": "250 DKK per person",
+        "description": "Smag alle vores øl med snacks og en dybere fortælling om råvarer og proces. Ca. 1 time.",
+        "features": ["Alle vores øl", "Snacks til øllene", "Dybere fortælling", "Rundvisning i bryggeriet"]
+      },
+      "private": {
+        "title": "Privat smagning",
+        "price": "Pris efter aftale",
+        "description": "Privat smagning kun for jer. Vi tilpasser oplevelsen efter jeres interesser og ønsker.",
+        "features": ["Privat arrangement", "Tilpasset oplevelse", "Snacks eller mad", "Fleksibel varighed"]
+      }
+    },
+    "philosophy": {
+      "title": "Ingen shows — bare godt håndværk",
+      "text1": "Vi brygger ikke for at imponere eller for at lave store shows. Vi brygger fordi vi elsker processen, råvarerne, og det at skabe noget med hænderne.",
+      "text2": "ØLIV Brew er en del af gårdslivet — ikke en turistattraktion. Det er øl brygget med respekt for traditionen, men med øje for kvalitet og smag.",
+      "text3": "Når du smager vores øl, smager du stedet. Havet, lyset, rytmen på øen — det hele er der i glasset."
+    },
+    "cta": {
+      "title": "Klar til at smage vores øl?",
+      "button": "Book ophold med smagning"
+    }
+  },
+  "spa": {
+    "meta": {
+      "title": "Spa & Oplevelser – ØLIV Farm hospitality",
+      "description": "Spa & oplevelser på ØLIV – Gårdsauna, koldtvand og stille omgivelser. Et simpelt ritual uden spa-musik."
+    },
+    "hero": {
+      "title": "Spa & Oplevelser",
+      "subtitle": "En lille gårdsauna, koldtvand og stille omgivelser — et simpelt ritual uden spa-musik og store armbevægelser."
+    },
+    "main": {
+      "title": "Gårdsauna & koldtvand",
+      "intro": "Land efter en dag ved havet, varm igennem og mærk roen.",
+      "text1": "Vi tænder op på udvalgte tidspunkter — kombiner med koldtvand, et glas øl eller bare helt ro. Det er et sted hvor tempoet sænkes, og hvor du kan mærke forskellen fra bylivet.",
+      "text2": "Saunaen er lille og intim — få gæster ad gangen. Det handler om at være til stede, ikke om at nå alle behandlinger.",
+      "features": ["Gårdsauna (få gæster ad gangen)", "Koldtvand & frisk luft", "Tilkøb til udvalgte ophold", "Bademandskab og håndklæder", "Rolige omgivelser"],
+      "cta": "Føj spa til ophold"
+    },
+    "ritual": {
+      "title": "Ritualet",
+      "steps": [
+        { "title": "Varm op", "description": "Kom ind i saunaen og lad varmen trænge igennem. Vi tænder op på udvalgte tidspunkter — normalt om eftermiddagen og aftenen." },
+        { "title": "Køl ned", "description": "Efter saunaen, køl ned med koldtvand eller frisk luft. Spring i havet hvis du tør, eller brug vores koldtvandsbad." },
+        { "title": "Slap af", "description": "Tag en pause. Drik et glas vand, et glas øl fra bryggeriet, eller bare sid stille og mærk roen." },
+        { "title": "Gentag", "description": "Gentag cyklussen så mange gange du vil. Det handler om at finde din egen rytme." }
+      ]
+    },
+    "info": {
+      "questions": [
+        { "title": "Hvornår er saunaen åben?", "answer": "Vi tænder op på udvalgte tidspunkter, normalt om eftermiddagen (15-17) og aftenen (19-21). Kontakt os ved booking for at høre de præcise tidspunkter." },
+        { "title": "Hvad skal man medbringe?", "answer": "Vi stiller bademandskab og håndklæder til rådighed. Medbring kun dig selv og tid til at slappe af." },
+        { "title": "Er det inkluderet?", "answer": "Spa kan tilkøbes til udvalgte ophold. Kontakt os for at høre om spa-pakker og priser." },
+        { "title": "Kan børn deltage?", "answer": "Ja, børn er velkomne, men vi anbefaler at de er over 8 år og altid under opsyn af voksne." }
+      ]
+    },
+    "experiences": {
+      "title": "Andre oplevelser",
+      "items": [
+        { "title": "Gårdture", "description": "Få en rundvisning på gården. Se hønsene, haven, og lær om gårdslivet. Gratis for alle gæster." },
+        { "title": "Kystture", "description": "Vi kan anbefale de bedste stier og steder langs kysten. Få vores guide til området ved ankomst." },
+        { "title": "Bryggerismagning", "description": "Smag øl fra ØLIV Brew. Lær om bryggeprocessen og smag forskellige typer." },
+        { "title": "Morgenmad på terrassen", "description": "Nyd morgenmaden på terrassen med udsigt til havet. Serveres hver morgen fra 8-10." },
+        { "title": "SUP & Kajak", "description": "Udforsk kysten med SUP eller kajak. Kan tilkøbes ved booking eller ved ankomst." },
+        { "title": "Zipline", "description": "Prøv zipline i området. Kan tilkøbes på forespørgsel." }
+      ]
+    },
+    "cta": {
+      "title": "Klar til spa-oplevelsen?",
+      "button": "Book ophold med spa"
+    }
+  },
+  "accommodation": {
+    "meta": {
+      "title": "Overnatning – ØLIV Farm hospitality",
+      "description": "Overnatning på ØLIV – Enkle, nordiske værelser med gode senge og naturmaterialer. Fra kystværelser til ferielejligheder."
+    },
+    "hero": {
+      "title": "Overnatning på ØLIV",
+      "subtitle": "Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren. 300 meter fra Østersøen."
+    },
+    "badges": {
+      "location": { "title": "Kystplacering", "description": "300 meter fra Østersøen med stier til stranden" },
+      "breakfast": { "title": "Morgenmad", "description": "Serveret dagligt med lokale råvarer og æg fra gården" },
+      "spa": { "title": "Spa-adgang", "description": "Gårdsauna, koldtvandsbad og rolige omgivelser" },
+      "brewery": { "title": "ØLIV Brew", "description": "Smagninger fra vores eget bryggeri efter aftale" }
+    },
+    "included": {
+      "title": "Hvad er inkluderet?",
+      "items": [
+        { "title": "Morgenmad", "description": "Lokale og økologiske råvarer serveret hver morgen. Æg fra gården, grøntsager fra haven og brød fra nærmeste bager." },
+        { "title": "Adgang til gården", "description": "Brug haven, terrassen og gårdspladsen som dit udendørs opholdsrum. Observer gårdenes dyr og nyd naturen." },
+        { "title": "WiFi & opvarmning", "description": "Gratis WiFi på hele gården. Alle værelser har opvarmning og er isoleret til alle årstider." },
+        { "title": "Parkering", "description": "Gratis parkering på gården. Vi anbefaler at komme med bil for at udforske Bornholm." }
+      ]
+    },
+    "cta": {
+      "title": "Klar til at booke dit ophold?",
+      "button": "Se ledige datoer"
+    }
+  },
+  "booking": {
+    "title": "Forespørg ophold",
+    "subtitle": "Fortæl os om dine ønsker, så vender vi tilbage med tilgængelighed og priser.",
+    "steps": {
+      "dates": "Datoer",
+      "room": "Værelse",
+      "contact": "Kontakt"
+    },
+    "step1": {
+      "arrival": "Ønsket ankomst",
+      "nights": "Antal nætter",
+      "nightsHelp": "Minimum antal nætter kan variere efter sæson",
+      "guests": "Antal gæster",
+      "guestsHelp": "Vi har værelser til 1-4 personer",
+      "continue": "Fortsæt til værelse →"
+    },
+    "step2": {
+      "title": "Vælg værelse",
+      "description": "Værelser baseret på dine valg",
+      "loading": "Indlæser værelser...",
+      "selectRoom": "Vælg værelse...",
+      "back": "← Tilbage",
+      "continue": "Fortsæt til kontakt →"
+    },
+    "step3": {
+      "title": "Kontaktoplysninger",
+      "description": "Så kan vi kontakte dig",
+      "name": "Navn",
+      "nameHelp": "Dit fulde navn",
+      "email": "Email",
+      "emailHelp": "Vi bruger denne til at kontakte dig",
+      "phone": "Telefon",
+      "phoneHelp": "Valgfrit – hvis du foretrækker telefonisk kontakt",
+      "message": "Besked",
+      "messagePlaceholder": "Fortæl os om dine ønsker, spørgsmål eller særlige behov...",
+      "messageHelp": "Alt der kan hjælpe os med at skabe den rigtige oplevelse for dig",
+      "submit": "Send forespørgsel",
+      "sending": "Sender...",
+      "note": "Vi vender tilbage inden for 24 timer med tilgængelighed og priser."
+    },
+    "toast": {
+      "success": "Tak for din forespørgsel! Vi vender tilbage snarest.",
+      "error": "Der opstod en fejl. Prøv venligst igen."
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "Om os – ØLIV Farm hospitality",
+      "description": "Om ØLIV – Farm hospitality på Bornholm. Lær om gården, visionen og hvordan du finder herhen."
+    },
+    "hero": {
+      "title": "Om ØLIV",
+      "subtitle": "Farm hospitality på Bornholm – rolige gårdophold 300 m fra kysten."
+    },
+    "story": {
+      "title": "Historien om ØLIV",
+      "text1": "ØLIV er en lille gård på Bornholm, der er blevet til et sted for ro, natur og autentiske oplevelser. Vi startede med en vision om at skabe noget andet end de traditionelle badehoteller – noget mere jordnært, roligt og ærligt.",
+      "text2": "Gården har været i familien i generationer, og vi har gradvist omdannet den til et sted, hvor gæster kan opleve gårdslivet, naturen og den unikke atmosfære på Bornholm.",
+      "text3": "ØLIV Brew startede som en passion og er nu en naturlig del af opholdet. Vi brygger små batches med fokus på kvalitet og smag – ikke kvantitet eller shows."
+    },
+    "values": {
+      "title": "Vores værdier",
+      "items": [
+        { "title": "Nærvær", "description": "Vi tror på at være til stede – både for os selv og for vores gæster. Det handler om at sænke tempoet og mærke øjeblikket." },
+        { "title": "Natur", "description": "Naturen er en del af alt vi gør. Fra lokale råvarer til bæredygtig drift – vi respekterer og værner om naturen." },
+        { "title": "Håndværk", "description": "Godt håndværk tager tid. Vi vælger kvalitet over kvantitet, og vi er stolte af det vi laver med vores hænder." },
+        { "title": "Ro", "description": "Ro er ikke mangel på aktivitet – det er en bevidsthed om tid og rum. Vi skaber et sted hvor roen kan findes." },
+        { "title": "Bæredygtighed", "description": "Solceller på taget, lavt forbrug, lokale råvarer. Vi stræber efter at være en del af naturen, ikke imod den." },
+        { "title": "Ærlighed", "description": "Ingen shows, ingen overdrivelser. Vi er ærlige om hvad vi er og hvad vi tilbyder – og det er nok." }
+      ]
+    },
+    "directions": {
+      "title": "Sådan finder du herhen",
+      "items": [
+        { "title": "Fra København", "description": "Færge fra Køge til Rønne (ca. 5 timer), derefter 15 minutter med bil eller cykel til ØLIV." },
+        { "title": "Fra Ystad (Sverige)", "description": "Færge fra Ystad til Rønne (ca. 1 time), derefter 15 minutter med bil eller cykel." },
+        { "title": "Med bil", "description": "Parkering på gården. Vi anbefaler at komme med bil for at udforske øen." },
+        { "title": "Med cykel", "description": "Bornholm er perfekt til cykling. Vi har cykelparkering og kan anbefale de bedste ruter." }
+      ]
+    },
+    "sustainability": {
+      "title": "Bæredygtighed",
+      "text": "Solceller på taget, lavt forbrug, lokale råvarer. Vi stræber efter at være en del af naturen, ikke imod den.",
+      "items": [
+        "Solceller dækker størstedelen af vores energiforbrug",
+        "Lokale og økologiske råvarer i morgenmaden",
+        "Minimalt affald – vi komposterer og genbruger",
+        "Vandbesparende løsninger i alle værelser",
+        "Naturlige rengøringsmidler",
+        "Støtte til lokale producenter og håndværkere"
+      ]
+    },
+    "faq": {
+      "title": "Ofte stillede spørgsmål",
+      "items": [
+        { "question": "Hvad er inkluderet i prisen?", "answer": "Prisen inkluderer overnatning, morgenmad med lokale råvarer, og adgang til gården og terrassen. Spa og bryggerismagning kan tilkøbes." },
+        { "question": "Kan man komme med børn?", "answer": "Ja, vi er børnevenlige. Nogle værelser er bedre egnet til familier - kontakt os for at finde det rigtige værelse." },
+        { "question": "Hvad med allergier og diæt?", "answer": "Vi kan tilpasse morgenmaden til allergier og diæt. Fortæl os det i booking-forespørgslen, så sørger vi for det." },
+        { "question": "Hvornår er ankomst og afrejse?", "answer": "Ankomst er fra kl. 15:00, og afrejse er senest kl. 11:00. Vi kan være fleksible - kontakt os hvis I har behov for andet." },
+        { "question": "Er der WiFi?", "answer": "Ja, der er gratis WiFi på hele gården. Men vi opfordrer til at slå telefonen fra og nyde naturen." },
+        { "question": "Kan man købe øl med hjem?", "answer": "Ja, vi sælger vores øl til gæster. Kontakt os ved ankomst for at høre om tilgængelighed." }
+      ]
+    },
+    "contact": {
+      "title": "Kontakt os",
+      "info": {
+        "name": "ØLIV",
+        "subtitle": "Farm hospitality & ØLIV Brew",
+        "location": "Bornholm, Danmark",
+        "email": "mail@oliv-retreat.dk",
+        "phone": "+45 XX XX XX XX"
+      },
+      "form": {
+        "title": "Send os en besked",
+        "name": "Navn",
+        "email": "Email",
+        "message": "Besked",
+        "submit": "Send besked"
+      }
+    }
+  }
+}
+

@@ -1,0 +1,444 @@
+{
+  "metadata": {
+    "title": "ØLIV – Farm hospitality & ØLIV Brew on Bornholm",
+    "description": "ØLIV – Farm hospitality on Bornholm. Peaceful farm stays 300 m from the Baltic Sea with our own brewery, farm sauna and natural surroundings. Authentic experiences without shows."
+  },
+  "nav": {
+    "accommodation": "Accommodation",
+    "spa": "Spa & Experiences",
+    "brewery": "ØLIV Brew",
+    "about": "About us",
+    "bookStay": "Enquire stay"
+  },
+  "hero": {
+    "logo": "ØLIV",
+    "tagline": "Farm hospitality on Bornholm",
+    "description": "A small farm 300 meters from the Baltic Sea. Here you'll find peace, nature and authentic experiences – no shows, no exaggerations. Just good craftsmanship, local produce and time to be present.",
+    "badges": {
+      "farmStay": "Farm stay",
+      "coast": "300 m to the coast",
+      "solar": "Solar & green operation",
+      "brewery": "ØLIV Brew"
+    },
+    "cta": {
+      "book": "Enquire stay",
+      "explore": "Explore the rooms"
+    },
+    "note": "Especially summer and weekends book up quickly. We recommend planning 2-3 months in advance."
+  },
+  "trustBadges": {
+    "coast": {
+      "title": "By the coast",
+      "description": "300 meters from the Baltic Sea. The sound of waves every morning."
+    },
+    "farmToTable": {
+      "title": "Farm to table",
+      "description": "Local produce, eggs from the farm, beer from our brewery."
+    },
+    "sustainable": {
+      "title": "Sustainable operation",
+      "description": "Solar panels, own water supply, minimal waste."
+    },
+    "intimate": {
+      "title": "Few rooms",
+      "description": "Only 5 rooms for an intimate and personal experience."
+    }
+  },
+  "experience": {
+    "title": "The ØLIV experience",
+    "subtitle": "Farm hospitality isn't about luxury in the traditional sense. It's about authenticity, being close to nature, experiencing the place as it is – no filter, no show.",
+    "accommodation": {
+      "title": "Accommodation",
+      "description": "Simple, Nordic rooms designed for tranquility. Good beds, natural materials and views of the farm or sea. No TV, no unnecessary noise – just the essentials.",
+      "features": [
+        "5 rooms with unique character",
+        "300 meters to the beach",
+        "Breakfast with local produce",
+        "Access to the entire farm"
+      ]
+    },
+    "sauna": {
+      "title": "Farm sauna",
+      "description": "A simple wooden sauna by the farm. Warm up, dip in cold water, and feel the calm settle. No spa music, no grand gestures – just warmth, cold and silence.",
+      "features": [
+        "Traditional wooden sauna",
+        "Cold water bath",
+        "Peaceful surroundings",
+        "Booking by arrangement"
+      ]
+    },
+    "brewery": {
+      "title": "ØLIV Brew",
+      "description": "Our own microbrewery. Light, clean beers brewed with local ingredients and inspired by the place. Tastings can be arranged – we're happy to share the story behind each beer.",
+      "features": [
+        "Microbrewery on the farm",
+        "Local ingredients & malts",
+        "Tastings by arrangement",
+        "Bottles for sale"
+      ]
+    },
+    "surroundings": {
+      "title": "The farm & surroundings",
+      "description": "Explore the farm, stretch your legs along the coast, or just sit in the garden and listen. There's no fixed program – just the opportunity to be present.",
+      "features": [
+        "Farm garden & terrace",
+        "Paths to the beach",
+        "Observe the animals",
+        "Bikes for loan"
+      ]
+    }
+  },
+  "seasons": {
+    "title": "Year-round on Bornholm",
+    "spring": {
+      "title": "Spring",
+      "description": "When nature awakens and the light returns. Perfect time for walks along the coast and experiencing the island's blooming. The temperature is mild, and there's peace around the farm.",
+      "note": "Plan 2-3 months in advance"
+    },
+    "summer": {
+      "title": "Summer",
+      "description": "Bornholm's high season with long daylight and warm weather. The sea is inviting, and the island is at its most beautiful. Book early – summer fills up quickly.",
+      "note": "Plan 3-6 months in advance"
+    },
+    "autumn": {
+      "title": "Autumn",
+      "description": "Nature changes colors, and the temperature drops. Perfect for quiet days by the sauna and long evenings with beer from the brewery. Fewer tourists, more peace.",
+      "note": "Plan 1-2 months in advance"
+    },
+    "winter": {
+      "title": "Winter",
+      "description": "Quiet days focused on peace and presence. The sauna is warm, the beers are dark, and nature is at rest. Perfect for relaxing and recharging.",
+      "note": "Plan 2-4 weeks in advance"
+    }
+  },
+  "testimonials": {
+    "title": "What guests say",
+    "cta": "Enquire stay",
+    "ctaNote": "We'll get back to you within 24 hours with availability and offer"
+  },
+  "place": {
+    "title": "300 meters from the Baltic Sea",
+    "text1": "Bornholm is different. The island has its own light, its own rhythm and its own atmosphere. Here the distance to Sweden is shorter than to Copenhagen, and nature is always close.",
+    "text2": "ØLIV is located in the heart of the Bornholm landscape, where farm life meets the sea, and calm meets nature's rhythms. It's a place where you can feel the difference – where the pace slows, and where you can be present.",
+    "text3": "Come and experience authentic farm hospitality on a small farm by the sea. No shows, no exaggerations – just good craftsmanship and genuine experiences."
+  },
+  "press": {
+    "title": "In the press",
+    "quotes": [
+      {
+        "text": "A hidden gem on Bornholm",
+        "source": "Weekendavisen"
+      },
+      {
+        "text": "Authentic farm hospitality focused on peace and nature",
+        "source": "Politiken Rejser"
+      },
+      {
+        "text": "ØLIV Brew is a must-try for beer enthusiasts",
+        "source": "Berlingske"
+      }
+    ],
+    "reviewsText": "Read reviews from our guests:"
+  },
+  "newsletter": {
+    "title": "Stay updated",
+    "description": "Get our guide to Bornholm and notification about available dates. We only send important updates – no spam.",
+    "placeholder": "Your email",
+    "submit": "Subscribe",
+    "privacy": "We respect your privacy. Read our privacy policy."
+  },
+  "cta": {
+    "title": "Ready for a peaceful farm stay?",
+    "button": "Write about dates"
+  },
+  "footer": {
+    "tagline": "Farm hospitality & ØLIV Brew · Bornholm, Denmark",
+    "links": {
+      "home": "Home",
+      "accommodation": "Accommodation",
+      "spa": "Spa",
+      "brewery": "Brewery",
+      "about": "About us"
+    }
+  },
+  "booking": {
+    "title": "Enquire stay",
+    "subtitle": "Tell us about your wishes, and we'll get back to you with availability and prices.",
+    "steps": {
+      "dates": "Dates",
+      "room": "Room",
+      "contact": "Contact"
+    },
+    "step1": {
+      "arrival": "Desired arrival",
+      "nights": "Number of nights",
+      "nightsHelp": "Minimum nights may vary by season",
+      "guests": "Number of guests",
+      "guestsHelp": "We have rooms for 1-4 people",
+      "continue": "Continue to room →"
+    },
+    "step2": {
+      "title": "Choose room",
+      "description": "Rooms based on your selection",
+      "loading": "Loading rooms...",
+      "selectRoom": "Select room...",
+      "back": "← Back",
+      "continue": "Continue to contact →"
+    },
+    "step3": {
+      "title": "Contact information",
+      "description": "So we can contact you",
+      "name": "Name",
+      "nameHelp": "Your full name",
+      "email": "Email",
+      "emailHelp": "We'll use this to contact you",
+      "phone": "Phone",
+      "phoneHelp": "Optional – if you prefer phone contact",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your wishes, questions or special needs...",
+      "messageHelp": "Anything that can help us create the right experience for you",
+      "submit": "Send enquiry",
+      "sending": "Sending...",
+      "note": "We'll get back to you within 24 hours with availability and prices."
+    },
+    "toast": {
+      "success": "Thank you for your enquiry! We'll get back to you soon.",
+      "error": "An error occurred. Please try again."
+    }
+  },
+  "spa": {
+    "meta": {
+      "title": "Spa & Experiences – ØLIV Farm hospitality",
+      "description": "Spa & experiences at ØLIV – Farm sauna, cold water and quiet surroundings. A simple ritual without spa music."
+    },
+    "hero": {
+      "title": "Spa & Experiences",
+      "subtitle": "A small farm sauna, cold water and quiet surroundings – a simple ritual without spa music and grand gestures."
+    },
+    "main": {
+      "title": "Farm sauna & cold water",
+      "intro": "Land after a day by the sea, warm up and feel the calm.",
+      "text1": "We heat up at selected times – combine with cold water, a glass of beer or just complete peace. It's a place where the pace slows, and where you can feel the difference from city life.",
+      "text2": "The sauna is small and intimate – few guests at a time. It's about being present, not about getting through all the treatments.",
+      "features": ["Farm sauna (few guests at a time)", "Cold water & fresh air", "Add-on for selected stays", "Robes and towels", "Peaceful surroundings"],
+      "cta": "Add spa to stay"
+    },
+    "ritual": {
+      "title": "The ritual",
+      "steps": [
+        { "title": "Warm up", "description": "Enter the sauna and let the heat penetrate. We heat up at selected times – usually in the afternoon and evening." },
+        { "title": "Cool down", "description": "After the sauna, cool down with cold water or fresh air. Jump in the sea if you dare, or use our cold water bath." },
+        { "title": "Relax", "description": "Take a break. Drink a glass of water, a glass of beer from the brewery, or just sit quietly and feel the calm." },
+        { "title": "Repeat", "description": "Repeat the cycle as many times as you like. It's about finding your own rhythm." }
+      ]
+    },
+    "info": {
+      "questions": [
+        { "title": "When is the sauna open?", "answer": "We heat up at selected times, usually in the afternoon (15-17) and evening (19-21). Contact us when booking to hear the exact times." },
+        { "title": "What should I bring?", "answer": "We provide robes and towels. Just bring yourself and time to relax." },
+        { "title": "Is it included?", "answer": "Spa can be added to selected stays. Contact us to hear about spa packages and prices." },
+        { "title": "Can children participate?", "answer": "Yes, children are welcome, but we recommend they are over 8 years old and always supervised by adults." }
+      ]
+    },
+    "experiences": {
+      "title": "Other experiences",
+      "items": [
+        { "title": "Farm tours", "description": "Get a tour of the farm. See the chickens, the garden, and learn about farm life. Free for all guests." },
+        { "title": "Coast walks", "description": "We can recommend the best paths and places along the coast. Get our guide to the area on arrival." },
+        { "title": "Brewery tasting", "description": "Taste beer from ØLIV Brew. Learn about the brewing process and taste different types." },
+        { "title": "Breakfast on the terrace", "description": "Enjoy breakfast on the terrace with views of the sea. Served every morning from 8-10." },
+        { "title": "SUP & Kayak", "description": "Explore the coast with SUP or kayak. Can be added when booking or on arrival." },
+        { "title": "Zipline", "description": "Try zipline in the area. Can be added on request." }
+      ]
+    },
+    "cta": {
+      "title": "Ready for the spa experience?",
+      "button": "Book stay with spa"
+    }
+  },
+  "brewery": {
+    "meta": {
+      "title": "ØLIV Brew – Brewery on Bornholm",
+      "description": "ØLIV Brew – Brewed by the coast. Light, clean beers inspired by the sea, the light and the rhythm of the island."
+    },
+    "hero": {
+      "subtitle": "Brewed by the coast. Light, clean beers inspired by the sea, the light and the rhythm of the island."
+    },
+    "main": {
+      "title": "Brewed on the farm",
+      "subtitle": "ØLIV Brew is a natural part of the stay",
+      "text1": "ØLIV Brew is a natural part of the stay – taste with food, in the brewery or on the terrace.",
+      "text2": "Small tastings with calm, time and stories about ingredients and process. Good craftsmanship without shows.",
+      "text3": "We brew small batches focusing on quality over quantity. Each beer tells a story about the place and the season.",
+      "tags": ["Small tastings", "Nordic ingredients", "Beer with food", "Farm-brewed"]
+    },
+    "beersSection": {
+      "title": "Our beers"
+    },
+    "beers": {
+      "kystlys": "Inspired by Bornholm's light. Light and refreshing with notes of citrus and sea air. Perfect for a sunset on the terrace.",
+      "ipa": "Bold and aromatic with local herbs from the garden. A beer that tastes of the place and the season.",
+      "havbris": "Light and cloudy with a fresh finish. Like a breeze from the sea – refreshing and clean.",
+      "stout": "Winter's favorite. Dark and complex with notes of coffee and chocolate. Perfect for cold evenings."
+    },
+    "processSection": {
+      "title": "The brewing process"
+    },
+    "process": {
+      "ingredients": {
+        "title": "Ingredients",
+        "description": "We use local ingredients where possible – malt from Danish malthouses, hops from Northern European farms, and water from Bornholm's limestone ground."
+      },
+      "brewing": {
+        "title": "Brewing",
+        "description": "Small batches are brewed in our small brewery on the farm. Each batch gets time to develop – no rush."
+      },
+      "fermentation": {
+        "title": "Fermentation",
+        "description": "The beers ferment in calm surroundings. We let nature do its work while we keep an eye on the process."
+      },
+      "maturation": {
+        "title": "Maturation",
+        "description": "After fermentation, the beers get time to mature. Some mature for weeks, others for months – depending on the type."
+      }
+    },
+    "tastingsSection": {
+      "title": "Tastings"
+    },
+    "tastings": {
+      "small": {
+        "title": "Small tasting",
+        "price": "Included in stay",
+        "description": "Taste 2-3 of our beers with a short story about the brewing process. About 30 minutes.",
+        "features": ["2-3 small glasses of beer", "Story about the brewery", "Tour of the brewery"]
+      },
+      "extended": {
+        "title": "Extended tasting",
+        "price": "250 DKK per person",
+        "description": "Taste all our beers with snacks and a deeper story about ingredients and process. About 1 hour.",
+        "features": ["All our beers", "Snacks with the beers", "Deeper story", "Tour of the brewery"]
+      },
+      "private": {
+        "title": "Private tasting",
+        "price": "Price by arrangement",
+        "description": "Private tasting just for you. We tailor the experience to your interests and wishes.",
+        "features": ["Private event", "Tailored experience", "Snacks or food", "Flexible duration"]
+      }
+    },
+    "philosophy": {
+      "title": "No shows – just good craftsmanship",
+      "text1": "We don't brew to impress or to make big shows. We brew because we love the process, the ingredients, and creating something with our hands.",
+      "text2": "ØLIV Brew is part of farm life – not a tourist attraction. It's beer brewed with respect for tradition, but with an eye for quality and taste.",
+      "text3": "When you taste our beer, you taste the place. The sea, the light, the rhythm of the island – it's all there in the glass."
+    },
+    "cta": {
+      "title": "Ready to taste our beers?",
+      "button": "Book stay with tasting"
+    }
+  },
+  "accommodation": {
+    "meta": {
+      "title": "Accommodation – ØLIV Farm hospitality",
+      "description": "Accommodation at ØLIV – Simple, Nordic rooms with good beds and natural materials. From coastal rooms to holiday apartments."
+    },
+    "hero": {
+      "title": "Accommodation at ØLIV",
+      "subtitle": "Simple, Nordic rooms with good beds, textiles in natural materials and nature right outside the door. 300 meters from the Baltic Sea."
+    },
+    "badges": {
+      "location": { "title": "Coastal location", "description": "300 meters from the Baltic Sea with paths to the beach" },
+      "breakfast": { "title": "Breakfast", "description": "Served daily with local produce and eggs from the farm" },
+      "spa": { "title": "Spa access", "description": "Farm sauna, cold water bath and peaceful surroundings" },
+      "brewery": { "title": "ØLIV Brew", "description": "Tastings from our own brewery by arrangement" }
+    },
+    "included": {
+      "title": "What's included?",
+      "items": [
+        { "title": "Breakfast", "description": "Local and organic produce served every morning. Eggs from the farm, vegetables from the garden and bread from the nearest baker." },
+        { "title": "Access to the farm", "description": "Use the garden, terrace and farmyard as your outdoor living room. Observe the farm animals and enjoy nature." },
+        { "title": "WiFi & heating", "description": "Free WiFi throughout the farm. All rooms have heating and are insulated for all seasons." },
+        { "title": "Parking", "description": "Free parking on the farm. We recommend coming by car to explore Bornholm." }
+      ]
+    },
+    "cta": {
+      "title": "Ready to book your stay?",
+      "button": "See available dates"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "About us – ØLIV Farm hospitality",
+      "description": "About ØLIV – Farm hospitality on Bornholm. Learn about the farm, the vision and how to find us."
+    },
+    "hero": {
+      "title": "About ØLIV",
+      "subtitle": "Farm hospitality on Bornholm – peaceful farm stays 300 m from the coast."
+    },
+    "story": {
+      "title": "The story of ØLIV",
+      "text1": "ØLIV is a small farm on Bornholm that has become a place for peace, nature and authentic experiences. We started with a vision to create something different from traditional beach hotels – something more grounded, calm and honest.",
+      "text2": "The farm has been in the family for generations, and we have gradually transformed it into a place where guests can experience farm life, nature and the unique atmosphere of Bornholm.",
+      "text3": "ØLIV Brew started as a passion and is now a natural part of the stay. We brew small batches focusing on quality and taste – not quantity or shows."
+    },
+    "values": {
+      "title": "Our values",
+      "items": [
+        { "title": "Presence", "description": "We believe in being present – both for ourselves and for our guests. It's about slowing down and feeling the moment." },
+        { "title": "Nature", "description": "Nature is part of everything we do. From local produce to sustainable operation – we respect and protect nature." },
+        { "title": "Craftsmanship", "description": "Good craftsmanship takes time. We choose quality over quantity, and we're proud of what we make with our hands." },
+        { "title": "Calm", "description": "Calm is not lack of activity – it's an awareness of time and space. We create a place where calm can be found." },
+        { "title": "Sustainability", "description": "Solar panels on the roof, low consumption, local produce. We strive to be part of nature, not against it." },
+        { "title": "Honesty", "description": "No shows, no exaggerations. We're honest about what we are and what we offer – and that's enough." }
+      ]
+    },
+    "directions": {
+      "title": "How to find us",
+      "items": [
+        { "title": "From Copenhagen", "description": "Ferry from Køge to Rønne (about 5 hours), then 15 minutes by car or bike to ØLIV." },
+        { "title": "From Ystad (Sweden)", "description": "Ferry from Ystad to Rønne (about 1 hour), then 15 minutes by car or bike." },
+        { "title": "By car", "description": "Parking on the farm. We recommend coming by car to explore the island." },
+        { "title": "By bike", "description": "Bornholm is perfect for cycling. We have bike parking and can recommend the best routes." }
+      ]
+    },
+    "sustainability": {
+      "title": "Sustainability",
+      "text": "Solar panels on the roof, low consumption, local produce. We strive to be part of nature, not against it.",
+      "items": [
+        "Solar panels cover most of our energy consumption",
+        "Local and organic produce in breakfast",
+        "Minimal waste – we compost and recycle",
+        "Water-saving solutions in all rooms",
+        "Natural cleaning products",
+        "Support for local producers and craftspeople"
+      ]
+    },
+    "faq": {
+      "title": "Frequently asked questions",
+      "items": [
+        { "question": "What's included in the price?", "answer": "The price includes accommodation, breakfast with local produce, and access to the farm and terrace. Spa and brewery tasting can be added." },
+        { "question": "Can you come with children?", "answer": "Yes, we're child-friendly. Some rooms are better suited for families – contact us to find the right room." },
+        { "question": "What about allergies and diet?", "answer": "We can adapt breakfast to allergies and diet. Tell us in the booking enquiry, and we'll take care of it." },
+        { "question": "When is check-in and check-out?", "answer": "Check-in is from 15:00, and check-out is by 11:00. We can be flexible – contact us if you need something else." },
+        { "question": "Is there WiFi?", "answer": "Yes, there's free WiFi throughout the farm. But we encourage you to turn off your phone and enjoy nature." },
+        { "question": "Can you buy beer to take home?", "answer": "Yes, we sell our beer to guests. Contact us on arrival to hear about availability." }
+      ]
+    },
+    "contact": {
+      "title": "Contact us",
+      "info": {
+        "name": "ØLIV",
+        "subtitle": "Farm hospitality & ØLIV Brew",
+        "location": "Bornholm, Denmark",
+        "email": "mail@oliv-retreat.dk",
+        "phone": "+45 XX XX XX XX"
+      },
+      "form": {
+        "title": "Send us a message",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "submit": "Send message"
+      }
+    }
+  }
+}
