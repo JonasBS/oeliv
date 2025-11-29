@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import BookingCalendar from './BookingCalendar';
 import RoomSelector from './RoomSelector';
@@ -6,9 +7,18 @@ import { roomsApi, availabilityApi, bookingsApi } from '../services/api';
 import type { Room, AvailableRoom, DateSelection, BookingFormData } from '../types';
 import './BookingModal.css';
 
+interface Country {
+  code: string;
+  name: string;
+  dialCode: string;
+  flag: string;
+  language: string;
+}
+
 interface BookingModalProps {
   onClose: () => void;
   showToast: (message: string, type: 'success' | 'error') => void;
+  language?: string;
 }
 
 const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
@@ -17,6 +27,13 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [availableRooms, setAvailableRooms] = useState<AvailableRoom[]>([]);
   const [loading, setLoading] = useState(false);
+  const [successDetails, setSuccessDetails] = useState<{
+    bookingId: number;
+    roomName: string;
+    checkIn: string;
+    checkOut: string;
+    nights: number;
+  } | null>(null);
   
   const [formData, setFormData] = useState<BookingFormData>({
     date: '',
@@ -157,10 +174,13 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
 
       const result = await bookingsApi.create(booking);
       showToast(`Booking #${result.booking_id} oprettet! Vi kontakter dig snarest.`, 'success');
-      
-      setTimeout(() => {
-        onClose();
-      }, 2000);
+      setSuccessDetails({
+        bookingId: result.booking_id,
+        roomName: selectedRoom?.name || '',
+        checkIn: format(selectedDates.start, 'dd. MMM yyyy'),
+        checkOut: format(selectedDates.end, 'dd. MMM yyyy'),
+        nights: formData.nights,
+      });
     } catch (error) {
       console.error('Error creating booking:', error);
       showToast('Der opstod en fejl. Prøv igen senere.', 'error');
@@ -172,24 +192,108 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
   const selectedRoom = rooms.find(r => r.id === formData.room);
   const roomData = availableRooms.find(r => r.room_id === formData.room);
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+  // Create portal container element if it doesn't exist
+  useEffect(() => {
+    let portalRoot = document.getElementById('modal-portal');
+    if (!portalRoot) {
+      portalRoot = document.createElement('div');
+      portalRoot.id = 'modal-portal';
+      document.body.appendChild(portalRoot);
+    }
+  }, []);
+
+  const modalContent = (
+    <>
+      <button 
+        type="button"
+        className="modal-close" 
+        onClick={onClose}
+        aria-label="Luk booking"
+        style={{
+          position: 'fixed',
+          top: '1rem',
+          right: '1.5rem',
+          zIndex: 20001,
+          backgroundColor: 'white',
+          width: '48px',
+          height: '48px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '2px solid rgba(0,0,0,0.1)',
+          fontSize: '1.5rem',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        }}
+      >
+        ×
+      </button>
+
+      <div 
+        className="modal-overlay"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 20000,
+          overflow: 'auto',
+          backgroundColor: '#F5F0E9'
+        }}
+      >
+        <div 
+          className="modal-content"
+          style={{
+            minHeight: '100%',
+            width: '100%'
+          }}
+        >
         <div className="modal-header">
           <div>
             <h2>Forespørg ophold</h2>
             <p>Fortæl os om dine ønsker, så vender vi tilbage med tilgængelighed og priser.</p>
           </div>
-          <button 
-            type="button"
-            className="modal-close" 
-            onClick={onClose}
-            aria-label="Luk modal"
-          >
-            ×
-          </button>
         </div>
 
+        {successDetails ? (
+          <div className="booking-form booking-success">
+            <div className="success-card">
+              <div className="success-icon">✓</div>
+              <h3>Tak for din forespørgsel!</h3>
+              <p>
+                Vi har modtaget din forespørgsel og vender tilbage inden for 24 timer med
+                tilgængelighed og priser.
+              </p>
+              <div className="success-summary">
+                {successDetails.roomName && (
+                  <div className="summary-row">
+                    <span className="summary-label">Værelse:</span>
+                    <span className="summary-value">{successDetails.roomName}</span>
+                  </div>
+                )}
+                <div className="summary-row">
+                  <span className="summary-label">Datoer:</span>
+                  <span className="summary-value">
+                    {successDetails.checkIn} – {successDetails.checkOut}
+                  </span>
+                </div>
+                <div className="summary-row">
+                  <span className="summary-label">Antal nætter:</span>
+                  <span className="summary-value">{successDetails.nights}</span>
+                </div>
+                <div className="summary-row">
+                  <span className="summary-label">Forespørgsels-ID:</span>
+                  <span className="summary-value">#{successDetails.bookingId}</span>
+                </div>
+              </div>
+              <button type="button" className="btn-primary" onClick={onClose}>
+                Luk og tilbage til siden
+              </button>
+            </div>
+          </div>
+        ) : (
         <form onSubmit={handleSubmit} className="booking-form">
           <div className="booking-progress">
             {[
@@ -331,11 +435,24 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
                   type="tel"
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  onChange={(e) => {
+                    let value = e.target.value.trim();
+                    // Auto-add +45 if user enters Danish number without prefix
+                    if (value && !value.startsWith('+')) {
+                      // Remove any spaces or formatting
+                      value = value.replace(/\s+/g, '');
+                      // If it looks like a Danish number (8 digits starting with 2-9)
+                      if (/^[2-9]\d{7}$/.test(value)) {
+                        value = '+45' + value;
+                      }
+                    }
+                    setFormData(prev => ({ ...prev, phone: value }));
+                  }}
+                  placeholder="+45XXXXXXXX eller 12345678"
                   className="form-input"
                   aria-describedby="phone-help"
                 />
-                <small id="phone-help" className="form-help">Valgfrit – hvis du foretrækker telefonisk kontakt</small>
+                <small id="phone-help" className="form-help">Danske numre får automatisk +45 foran</small>
               </div>
 
               <div className="form-group">
@@ -418,9 +535,14 @@ const BookingModal = ({ onClose, showToast }: BookingModalProps) => {
             </div>
           )}
         </form>
+        )}
+        </div>
       </div>
-    </div>
+    </>
   );
+
+  const portalRoot = document.getElementById('modal-portal');
+  return portalRoot ? createPortal(modalContent, portalRoot) : null;
 };
 
 export default BookingModal;

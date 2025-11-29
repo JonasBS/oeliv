@@ -71,6 +71,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="conversion-enhancements.css" />
+  <link rel="stylesheet" href="farm-experience.css" />
 </head>
 <body>
   <!-- Navigation -->
@@ -89,7 +91,7 @@
             <a href="de/index.html" class="lang-link" aria-label="Deutsch" role="menuitem">DE</a>
           </div>
         </div>
-        <button class="btn-secondary nav-cta js-open-booking" type="button" aria-label="Forespørg ophold">
+        <button class="btn-primary nav-cta js-open-booking" type="button" aria-label="Forespørg ophold">
           Forespørg ophold
         </button>
       </div>
@@ -114,13 +116,39 @@
           <span class="badge">Solceller & grøn drift</span>
           <span class="badge">ØLIV Brew</span>
         </div>
+        <!-- What Makes ØLIV Special -->
+        <div class="trust-badges" style="margin: 2.5rem 0;">
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🌊</div>
+            <div class="trust-badge-title">Ved kysten</div>
+            <div class="trust-badge-desc">300 meter fra Østersøen. Lyden af bølger hver morgen.</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🥖</div>
+            <div class="trust-badge-title">Gård til bord</div>
+            <div class="trust-badge-desc">Lokale råvarer, æg fra gården, øl fra vores bryggeri.</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🌿</div>
+            <div class="trust-badge-title">Bæredygtig drift</div>
+            <div class="trust-badge-desc">Solceller, egen vandforsyning, minimalt affald.</div>
+          </div>
+          <div class="trust-badge">
+            <div class="trust-badge-icon">🛏️</div>
+            <div class="trust-badge-title">Få værelser</div>
+            <div class="trust-badge-desc">Kun 5 værelser for en intim og personlig oplevelse.</div>
+          </div>
+        </div>
+
         <div class="hero-cta">
-          <button class="btn-secondary btn-large js-open-booking" type="button">
+          <button class="btn-primary btn-large js-open-booking" type="button">
             Forespørg ophold
           </button>
-          <a href="overnatning.html" class="btn-secondary btn-large">Udforsk vores værelser</a>
+          <a href="overnatning.html" class="btn-secondary btn-large">Udforsk værelserne</a>
         </div>
-        <p class="hero-note">Vi har få værelser – særligt weekender og ferier bliver hurtigt booket.</p>
+        <p class="hero-note">
+          Særligt sommeren og weekender bliver hurtigt booket. Vi anbefaler at planlægge 2-3 måneder i forvejen.
+        </p>
       </div>
       <div class="hero-images">
         <div class="hero-image-main">
@@ -138,56 +166,96 @@
     </div>
   </section>
 
-  <!-- Overnatning Preview -->
-  <section class="section section-preview">
+  <!-- Farm Experience -->
+  <section class="farm-experience">
     <div class="container">
-      <div class="preview-layout">
-        <div class="preview-image">
-          <img src="https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&w=1200&auto=format&fit=crop" alt="Værelser på ØLIV" loading="lazy" />
+      <div class="rhythm-intro">
+        <h2 class="rhythm-title">Oplevelsen på ØLIV</h2>
+        <p class="rhythm-subtitle">
+          Farm hospitality handler ikke om luksus i traditionel forstand. Det handler om autenticitet, om at være tæt på naturen, om at opleve stedet som det er – uden filter, uden show.
+        </p>
+      </div>
+
+      <div class="experience-grid">
+        <div class="experience-card">
+          <div class="experience-image">
+            <img src="https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&w=1200&auto=format&fit=crop" alt="Værelser på ØLIV" loading="lazy" />
+          </div>
+          <div class="experience-content">
+            <div class="experience-number">01</div>
+            <h3 class="experience-title">Overnatning</h3>
+            <p class="experience-desc">
+              Enkle, nordiske værelser designet til ro. Gode senge, naturmaterialer og udsigt til gården eller havet. Ingen TV, ingen unødig støj – bare det essentielle.
+            </p>
+            <ul class="experience-features">
+              <li>5 værelser med unik karakter</li>
+              <li>300 meter til stranden</li>
+              <li>Morgenmad med lokale råvarer</li>
+              <li>Adgang til hele gården</li>
+            </ul>
+          </div>
         </div>
-        <div class="preview-content">
-          <h2 class="section-title">Overnatning</h2>
-          <p class="preview-text">Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren. Hver morgen vågner du til lyden af havet og lyset der skifter gennem døren.</p>
-          <p class="preview-text">Fra kystværelser med havudsigt til ferielejligheder med køkken – vi har værelser til alle behov. Alt er designet til ro og nærvær.</p>
-          <a href="overnatning.html" class="btn-primary">Se alle værelser</a>
+
+        <div class="experience-card">
+          <div class="experience-image">
+            <img src="https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1200&auto=format&fit=crop" alt="Gårdsauna" loading="lazy" />
+          </div>
+          <div class="experience-content">
+            <div class="experience-number">02</div>
+            <h3 class="experience-title">Gårdsauna</h3>
+            <p class="experience-desc">
+              En simpel træsauna ved gården. Varm igennem, dyp i koldt vand, og mærk roen sænke sig. Ingen spa-musik, ingen store armbevægelser – bare varme, kulde og stilhed.
+            </p>
+            <ul class="experience-features">
+              <li>Traditionel træsauna</li>
+              <li>Koldtvandsbad</li>
+              <li>Rolige omgivelser</li>
+              <li>Booking efter aftale</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="experience-card">
+          <div class="experience-image">
+            <img src="https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&w=1200&auto=format&fit=crop" alt="ØLIV Brew" loading="lazy" />
+          </div>
+          <div class="experience-content">
+            <div class="experience-number">03</div>
+            <h3 class="experience-title">ØLIV Brew</h3>
+            <p class="experience-desc">
+              Vores eget mikrobryggeri. Lyse, rene øl brygget med lokale råvarer og inspireret af stedet. Smagninger kan aftales – vi deler gerne historien om hvert øl.
+            </p>
+            <ul class="experience-features">
+              <li>Mikrobryggeri på gården</li>
+              <li>Lokale råvarer & malte</li>
+              <li>Smagninger efter aftale</li>
+              <li>Flasker til salg</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="experience-card">
+          <div class="experience-image">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" alt="Gården" loading="lazy" />
+          </div>
+          <div class="experience-content">
+            <div class="experience-number">04</div>
+            <h3 class="experience-title">Gården & omgivelserne</h3>
+            <p class="experience-desc">
+              Udforsk gården, stræk benene langs kysten, eller bare sid i haven og lyt til lydene. Der er ingen fast program – blot muligheden for at være til stede.
+            </p>
+            <ul class="experience-features">
+              <li>Gårdshave & terrasse</li>
+              <li>Stier til stranden</li>
+              <li>Observere dyrene</li>
+              <li>Cykler til lån</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Spa Preview -->
-  <section class="section section-preview section-preview-alt">
-    <div class="container">
-      <div class="preview-layout preview-layout-reverse">
-        <div class="preview-content">
-          <h2 class="section-title">Spa & Oplevelser</h2>
-          <p class="preview-text">En lille gårdsauna, koldtvand og stille omgivelser — et simpelt ritual uden spa-musik og store armbevægelser. Her handler det om at være til stede, ikke om at nå alle behandlinger.</p>
-          <p class="preview-text">Land efter en dag ved havet, varm igennem og mærk roen. Det er et sted hvor tempoet sænkes, og hvor du kan mærke forskellen fra bylivet.</p>
-          <a href="spa.html" class="btn-primary">Læs mere om spa</a>
-        </div>
-        <div class="preview-image">
-          <img src="https://images.unsplash.com/photo-1599054278630-3bbf6416a95a?q=80&w=1200&auto=format&fit=crop" alt="Gårdsauna" loading="lazy" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bryggeri Preview -->
-  <section class="section section-preview">
-    <div class="container">
-      <div class="preview-layout">
-        <div class="preview-image">
-          <img src="https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&w=1200&auto=format&fit=crop" alt="ØLIV Brew" loading="lazy" />
-        </div>
-        <div class="preview-content">
-          <h2 class="section-title">ØLIV Brew</h2>
-          <p class="preview-text">Brygget ved kysten. Lyse, rene øl inspireret af havet, lyset og rytmen på øen. Hver øl fortæller en historie om stedet og sæsonen.</p>
-          <p class="preview-text">Små smagninger med ro, tid og fortællinger om råvarer og proces. Godt håndværk uden shows. Når du smager vores øl, smager du stedet – havet, lyset, rytmen på øen.</p>
-          <a href="bryggeri.html" class="btn-primary">Læs mere om bryggeriet</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Seasonal Experiences -->
   <section class="section section-packages">
@@ -231,14 +299,85 @@
     </div>
   </section>
 
-  <!-- Sense of Place -->
-  <section class="section section-place">
+  <!-- Testimonials -->
+  <section class="section">
     <div class="container">
-      <div class="place-content">
-        <h2 class="section-title">På Bornholm</h2>
-        <p class="place-text">Bornholm er anderledes. Øen har sit eget lys, sin egen rytme og sin egen atmosfære. Her er afstanden til Sverige kortere end til København, og naturen er altid tæt på.</p>
-        <p class="place-text">ØLIV ligger 300 meter fra Østersøen, midt i det Bornholmske landskab. Her mødes gårdslivet med havet, og roen med naturens rytmer. Det er et sted hvor du kan mærke forskellen – hvor tempoet sænkes, og hvor du kan være til stede.</p>
-        <p class="place-text">Kom og oplev Bornholms unikke atmosfære. Udforsk kysten, nyd lyset, og mærk roen på en lille gård ved havet.</p>
+      <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">Hvad gæster siger</h2>
+      <div class="room-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "ØLIV er autentisk farm hospitality på sit bedste. Vi kunne virkelig mærke stedet – havet, gården, lyset. Det var præcis den ro vi søgte."
+          </p>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=1" alt="Maria" class="testimonial-avatar" />
+            <div class="testimonial-author-info">
+              <div class="testimonial-author-name">Maria & Thomas</div>
+              <div class="testimonial-author-meta">København • Maj 2024</div>
+              <div class="testimonial-rating"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "Vi elskede kombinationen af gårdlivet og havet. Værelserne er smukke, maden lokal, og øllene fra bryggeriet var fantastiske. Vi kommer tilbage!"
+          </p>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=5" alt="Lars" class="testimonial-avatar" />
+            <div class="testimonial-author-info">
+              <div class="testimonial-author-name">Lars & Sofie</div>
+              <div class="testimonial-author-meta">Aarhus • August 2024</div>
+              <div class="testimonial-rating"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <p class="testimonial-text">
+            "Perfect escape from city life. The farm, the sea, the sauna – everything was thoughtfully designed. We felt so welcome and relaxed."
+          </p>
+          <div class="testimonial-author">
+            <img src="https://i.pravatar.cc/150?img=9" alt="Emma" class="testimonial-avatar" />
+            <div class="testimonial-author-info">
+              <div class="testimonial-author-name">Emma & David</div>
+              <div class="testimonial-author-meta">Stockholm • Juni 2024</div>
+              <div class="testimonial-rating"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA after social proof -->
+      <div style="text-align: center; margin-top: 3rem;">
+        <button class="btn-primary btn-large js-open-booking" type="button">
+          Forespørg ophold
+        </button>
+        <p style="margin-top: 1rem; color: var(--muted); font-size: 0.875rem; font-style: italic;">
+          Vi vender tilbage inden 24 timer med ledighed og tilbud
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sense of Place -->
+  <section class="place-story">
+    <div class="container">
+      <div class="place-story-content">
+        <h2 class="place-story-title">300 meter fra Østersøen</h2>
+        <p class="place-story-text">
+          Bornholm er anderledes. Øen har <span class="place-story-highlight">sit eget lys</span>, 
+          sin egen rytme og sin egen atmosfære. Her er afstanden til Sverige kortere end til København, 
+          og naturen er altid tæt på.
+        </p>
+        <p class="place-story-text">
+          ØLIV ligger midt i det Bornholmske landskab, hvor <span class="place-story-highlight">gårdslivet mødes med havet</span>, 
+          og roen med naturens rytmer. Det er et sted hvor du kan mærke forskellen – 
+          hvor tempoet sænkes, og hvor du kan være til stede.
+        </p>
+        <p class="place-story-text">
+          Kom og oplev <span class="place-story-highlight">autentisk farm hospitality</span> 
+          på en lille gård ved havet. Uden shows, uden overdrivelser – bare godt håndværk og ægte oplevelser.
+        </p>
       </div>
     </div>
   </section>
@@ -489,14 +628,15 @@
   <div id="root"></div>
 
   <!-- React Booking CSS -->
-  <link rel="stylesheet" href="/client/dist/assets/index-Blk9mr91.css">
+   <link rel="stylesheet" href="/client/dist/assets/index-Ch049jX0.css">
 
   <!-- API Configuration -->
   <script>window.API_BASE_URL = 'http://localhost:3000';</script>
   <script src="main.js"></script>
+  <script src="conversion.js"></script>
   
   <!-- React Booking App -->
-  <script type="module" src="/client/dist/assets/index-BxQVvgZA.js"></script>
+  <script type="module" src="/client/dist/assets/index-D9AshjoU.js"></script>
   
   <!-- Auto-open booking when clicking button -->
   <script>
@@ -505,13 +645,23 @@
       bookingButtons.forEach(button => {
         button.addEventListener('click', (e) => {
           e.preventDefault();
-          // Wait for React to mount
-          setTimeout(() => {
-            const reactBtn = document.querySelector('#root .btn-primary');
-            if (reactBtn) {
-              reactBtn.click();
-            }
-          }, 100);
+          console.log('🎯 Booking button clicked!');
+          
+          // Call the React booking function
+          if (typeof window.openOelivBooking === 'function') {
+            console.log('✅ Opening booking modal via React');
+            window.openOelivBooking();
+          } else {
+            console.warn('⚠️ React booking system not loaded yet, retrying...');
+            // Retry after a short delay if React hasn't mounted yet
+            setTimeout(() => {
+              if (typeof window.openOelivBooking === 'function') {
+                window.openOelivBooking();
+              } else {
+                console.error('❌ React booking system failed to load');
+              }
+            }, 500);
+          }
         });
       });
     });

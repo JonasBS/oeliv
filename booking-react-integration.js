@@ -35,13 +35,13 @@
     // Load CSS
     const css = document.createElement('link');
     css.rel = 'stylesheet';
-    css.href = '/client/dist/assets/index-D-r-dCpa.css';
+    css.href = '/client/dist/assets/index-m2ggZstD.css';
     document.head.appendChild(css);
     
     // Load JS
     const script = document.createElement('script');
     script.type = 'module';
-    script.src = '/client/dist/assets/index-DLsenxxv.js';
+    script.src = '/client/dist/assets/index-CGGbJ0_Q.js';
     script.onload = () => {
       reactLoaded = true;
       showReactBooking();

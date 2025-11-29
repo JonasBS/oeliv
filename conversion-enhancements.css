@@ -1,0 +1,703 @@
+/**
+ * CONVERSION-FOCUSED ENHANCEMENTS
+ * Farm Hospitality & Place-based Design
+ */
+
+/* ==========================================
+   URGENCY & SCARCITY SIGNALS
+   ========================================== */
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(244, 241, 234, 0.4);
+  border: 1px solid rgba(130, 119, 23, 0.2);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--charcoal);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+}
+
+.limited-availability {
+  background: rgba(244, 241, 234, 0.6);
+  border-color: rgba(130, 119, 23, 0.3);
+  color: var(--olive);
+}
+
+.fully-booked {
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+  border-color: #e91e63;
+  color: #c2185b;
+}
+
+.fully-booked::before {
+  content: '✕';
+}
+
+/* ==========================================
+   SOCIAL PROOF
+   ========================================== */
+
+.social-proof-bar {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  padding: 1rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: slideUpFade 0.5s ease-out;
+  max-width: 90%;
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.social-proof-bar .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--olive);
+}
+
+.social-proof-text {
+  font-size: 0.875rem;
+  color: var(--charcoal);
+}
+
+.social-proof-text strong {
+  font-weight: 600;
+  color: var(--olive);
+}
+
+.social-proof-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.social-proof-close:hover {
+  color: var(--charcoal);
+}
+
+/* ==========================================
+   TRUST SIGNALS
+   ========================================== */
+
+.trust-badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: var(--spacing-xl) 0;
+  padding: 0;
+}
+
+.trust-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  text-align: left;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(130, 119, 23, 0.1);
+  transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+  border-color: rgba(130, 119, 23, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.trust-badge-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.trust-badge-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--charcoal);
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+.trust-badge-desc {
+  font-size: 0.875rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ==========================================
+   ENHANCED HERO - FARM HOSPITALITY FOCUS
+   ========================================== */
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(244, 241, 234, 0.95) 0%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(244, 241, 234, 0.95) 100%
+  );
+  z-index: 0;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-logo {
+  font-size: clamp(3.5rem, 10vw, 6rem);
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--olive) 0%, #7a5c3d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-payoff {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  margin-bottom: 1.5rem;
+  color: var(--charcoal);
+  font-weight: 500;
+  animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.8;
+  color: var(--muted);
+  max-width: 600px;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 2rem 0;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+.badge {
+  padding: 0.625rem 1.25rem;
+  background: white;
+  border: 2px solid var(--olive);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--olive);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.badge:hover {
+  background: var(--olive);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(130, 119, 23, 0.3);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.hero-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-weight: 400;
+  font-style: italic;
+  margin-top: 1.5rem;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+}
+
+/* ==========================================
+   ROOM CARDS - CONVERSION OPTIMIZED
+   ========================================== */
+
+.room-card {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.room-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius-sm);
+  background: linear-gradient(135deg, var(--olive) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.room-card:hover::before {
+  opacity: 0.05;
+}
+
+.room-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.room-features-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.room-features-list li {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--sand);
+  border-radius: 8px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.room-features-list li::before {
+  content: '✓';
+  color: var(--olive);
+  font-weight: bold;
+}
+
+.room-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--olive);
+  font-family: var(--font-display);
+}
+
+.room-price-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+/* ==========================================
+   BOOKING FLOW ENHANCEMENTS
+   ========================================== */
+
+.booking-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.booking-progress::before {
+  content: '';
+  position: absolute;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--sand);
+  z-index: 0;
+}
+
+.booking-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.booking-step-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.3s ease;
+}
+
+.booking-step.active .booking-step-circle {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: white;
+  transform: scale(1.1);
+}
+
+.booking-step.completed .booking-step-circle {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: white;
+}
+
+.booking-step.completed .booking-step-circle::before {
+  content: '✓';
+}
+
+.booking-step-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 500;
+  text-align: center;
+}
+
+.booking-step.active .booking-step-label {
+  color: var(--olive);
+  font-weight: 600;
+}
+
+/* ==========================================
+   CALL-TO-ACTION IMPROVEMENTS
+   ========================================== */
+
+.btn-primary,
+.btn-secondary {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::before,
+.btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover::before,
+.btn-secondary:hover::before {
+  transform: translateX(0);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(130, 119, 23, 0.3);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-pulse {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(130, 119, 23, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(130, 119, 23, 0.5);
+  }
+}
+
+/* ==========================================
+   TESTIMONIALS & REVIEWS
+   ========================================== */
+
+.testimonial-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  font-size: 4rem;
+  font-family: var(--font-display);
+  color: var(--sand);
+  line-height: 1;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.testimonial-text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--charcoal);
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-author-info {
+  flex: 1;
+}
+
+.testimonial-author-name {
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.testimonial-author-meta {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.testimonial-rating {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+}
+
+.testimonial-rating::before {
+  content: '⭐⭐⭐⭐⭐';
+  color: #ffd700;
+  font-size: 1rem;
+}
+
+/* ==========================================
+   STICKY BOOKING BAR (MOBILE ONLY)
+   ========================================== */
+
+.sticky-booking-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  padding: 1rem;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  z-index: 1000;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+  .sticky-booking-bar {
+    display: block; /* Only show on mobile */
+  }
+}
+
+.sticky-booking-bar.visible {
+  transform: translateY(0);
+}
+
+.sticky-booking-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.sticky-booking-info {
+  flex: 1;
+}
+
+.sticky-booking-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--olive);
+  font-family: var(--font-display);
+}
+
+.sticky-booking-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ==========================================
+   IMAGE GALLERY ENHANCEMENTS
+   ========================================== */
+
+.room-gallery {
+  position: relative;
+}
+
+.room-gallery img {
+  transition: all 0.4s ease;
+}
+
+.room-gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  z-index: 2;
+  position: relative;
+}
+
+.gallery-lightbox-trigger {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gallery-lightbox-trigger:hover {
+  background: rgba(0,0,0,0.9);
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   PLACE-BASED STORYTELLING
+   ========================================== */
+
+.place-story {
+  position: relative;
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #f4f1ea 0%, white 50%, #f4f1ea 100%);
+}
+
+.place-story-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.place-story-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 2rem;
+  color: var(--olive);
+}
+
+.place-story-text {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--charcoal);
+  margin-bottom: 1.5rem;
+}
+
+.place-story-highlight {
+  font-weight: 600;
+  color: var(--olive);
+  border-bottom: 2px solid var(--olive);
+  padding-bottom: 2px;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+  .social-proof-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .trust-badges {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .hero-cta .btn-large {
+    width: 100%;
+  }
+
+  .booking-progress {
+    font-size: 0.875rem;
+  }
+
+  .booking-step-circle {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+

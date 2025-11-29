@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Værelse – ØLIV Farm hospitality</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="conversion-enhancements.css" />
+  <style>
+    /* Room detail specific styles */
+    .room-detail-hero {
+      position: relative;
+      height: 50vh;
+      min-height: 400px;
+      max-height: 600px;
+      background-size: cover;
+      background-position: center;
+      margin-top: -80px; /* Overlap navbar height */
+      padding-top: 80px; /* Compensate for overlap */
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: var(--spacing-xl);
+    }
+
+    .room-detail-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top, 
+        rgba(0,0,0,0.7) 0%, 
+        rgba(0,0,0,0.3) 40%,
+        transparent 70%
+      );
+    }
+
+    .room-hero-content {
+      position: relative;
+      z-index: 1;
+      color: white;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 var(--spacing-lg);
+    }
+
+    .room-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 1rem;
+      font-weight: 600;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .room-hero-meta {
+      font-size: 1.125rem;
+      opacity: 0.95;
+      font-weight: 400;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .room-hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .room-detail-hero {
+        height: 45vh;
+        min-height: 350px;
+        margin-top: -70px;
+        padding-top: 70px;
+      }
+      
+      .room-hero-meta {
+        font-size: 0.9375rem;
+        gap: 1rem;
+      }
+    }
+
+    .room-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin: 2rem 0 3rem;
+    }
+
+    .room-gallery img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.9;
+    }
+
+    .room-gallery img:hover {
+      transform: translateY(-4px);
+      opacity: 1;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 1024px) {
+      .room-gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .room-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+      
+      .room-gallery img {
+        height: 150px;
+      }
+    }
+
+    .breadcrumb {
+      padding: 1.5rem 0 0.5rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+    }
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--olive);
+    }
+
+    .breadcrumb-separator {
+      margin: 0 0.5rem;
+      color: var(--sand);
+    }
+
+    /* Story Card - Hero content */
+    .room-story-card {
+      margin-bottom: 3rem;
+      padding: 0;
+    }
+
+    .room-story-label {
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--olive);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+
+    .room-story-text {
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--charcoal);
+      max-width: 700px;
+    }
+
+    .room-info-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 3rem;
+      margin: 0;
+    }
+
+    .room-details-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid rgba(130, 119, 23, 0.1);
+    }
+    
+    .booking-card {
+      position: sticky;
+      top: 2rem;
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      border: 1px solid rgba(130, 119, 23, 0.15);
+      background: linear-gradient(to bottom, white 0%, #faf8f3 100%);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      /* Smooth scrolling */
+      scrollbar-width: thin;
+      scrollbar-color: rgba(130, 119, 23, 0.3) transparent;
+    }
+    
+    .booking-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .booking-card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    .booking-card::-webkit-scrollbar-thumb {
+      background: rgba(130, 119, 23, 0.3);
+      border-radius: 3px;
+    }
+    
+    .booking-card::-webkit-scrollbar-thumb:hover {
+      background: rgba(130, 119, 23, 0.5);
+    }
+    
+    .booking-card:hover {
+      box-shadow: 0 12px 48px rgba(0,0,0,0.12);
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+
+    .detail-value {
+      color: var(--muted);
+    }
+
+    .amenities-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--spacing-sm);
+      list-style: none;
+      padding: 0;
+      margin: var(--spacing-md) 0;
+    }
+
+    .amenities-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--sand);
+      border-radius: 8px;
+      font-size: 0.875rem;
+    }
+
+    .amenities-list li::before {
+      content: '✓';
+      color: var(--olive);
+      font-weight: bold;
+    }
+
+    .booking-card {
+      position: sticky;
+      top: var(--spacing-lg);
+    }
+
+    @media (max-width: 768px) {
+      .room-info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .room-hero-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" role="navigation" aria-label="Hovednavigation">
+    <div class="navbar-container">
+      <a href="index.html" class="logo" aria-label="ØLIV hjem">ØLIV</a>
+      <div class="nav-links">
+        <a href="overnatning.html" class="nav-link active">Overnatning</a>
+        <a href="spa.html" class="nav-link">Spa & Oplevelser</a>
+        <a href="bryggeri.html" class="nav-link">ØLIV Brew</a>
+        <div class="language-switcher">
+          <button class="lang-dropdown-btn" type="button">DA</button>
+          <div class="lang-dropdown-menu" role="menu">
+            <a href="index.html" class="lang-link active">DA</a>
+            <a href="en/index.html" class="lang-link">EN</a>
+            <a href="de/index.html" class="lang-link">DE</a>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-menu-toggle" aria-label="Åbn menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Room Hero (will be populated by JS) -->
+  <div id="room-hero" class="room-detail-hero"></div>
+
+  <!-- Room Content -->
+  <section class="section">
+    <div class="container">
+      <div id="room-content">
+        <!-- Loading state -->
+        <div style="text-align: center; padding: 3rem;">
+          <p>Indlæser værelse...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo">ØLIV</div>
+          <p>Farm hospitality & ØLIV Brew · Bornholm, Danmark</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html" class="footer-link">Forside</a>
+          <a href="overnatning.html" class="footer-link">Overnatning</a>
+          <a href="spa.html" class="footer-link">Spa</a>
+          <a href="bryggeri.html" class="footer-link">Bryggeri</a>
+          <a href="om-os.html" class="footer-link">Om os</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- React Booking Root -->
+  <div id="root"></div>
+
+  <!-- React Booking CSS -->
+   <link rel="stylesheet" href="/client/dist/assets/index-m2ggZstD.css">
+
+  <!-- API Configuration -->
+  <script>window.API_BASE_URL = 'http://localhost:3000';</script>
+  <script src="load-room-detail.js"></script>
+  <script src="conversion.js"></script>
+  <script src="main.js"></script>
+  
+  <!-- React Booking App -->
+  <script type="module" src="/client/dist/assets/index-CGGbJ0_Q.js"></script>
+  
+  <!-- Auto-open booking when clicking button -->
+  <script>
+    // Wait for React to be ready
+    function waitForReactBooking(callback, maxAttempts = 50) {
+      let attempts = 0;
+      const checkInterval = setInterval(() => {
+        if (window.openOelivBooking) {
+          clearInterval(checkInterval);
+          console.log('✅ React booking app loaded');
+          callback();
+        } else {
+          attempts++;
+          if (attempts >= maxAttempts) {
+            clearInterval(checkInterval);
+            console.error('❌ React booking app failed to load after', maxAttempts, 'attempts');
+          }
+        }
+      }, 100);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      waitForReactBooking(() => {
+        const bookingButtons = document.querySelectorAll('.js-open-booking');
+        console.log('📍 Found', bookingButtons.length, 'booking buttons');
+        
+        bookingButtons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🔘 Booking button clicked');
+            
+            // Get room info from button
+            const roomId = button.getAttribute('data-room-id');
+            const roomName = button.getAttribute('data-room-name');
+            console.log('📦 Room info:', { roomId, roomName });
+            
+            // Store room selection for React app
+            if (roomId) {
+              window.preSelectedRoom = {
+                id: parseInt(roomId),
+                name: roomName
+              };
+            }
+            
+            // Call React's open function directly
+            if (window.openOelivBooking) {
+              console.log('🚀 Opening booking modal...');
+              window.openOelivBooking();
+              
+              // If we have a pre-selected room, select it after modal opens
+              if (window.preSelectedRoom) {
+                setTimeout(() => {
+                  const roomCards = document.querySelectorAll('[data-room-id]');
+                  console.log('🏠 Found', roomCards.length, 'room cards in modal');
+                  roomCards.forEach(card => {
+                    if (card.getAttribute('data-room-id') === roomId) {
+                      console.log('✅ Clicking room card:', roomId);
+                      card.click();
+                    }
+                  });
+                }, 300);
+              }
+            } else {
+              console.error('❌ React booking app not available');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+

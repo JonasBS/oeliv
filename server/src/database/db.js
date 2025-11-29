@@ -16,9 +16,26 @@ const db = new sqlite3.Database('./bookings.db', (err) => {
 });
 
 // Promisify database methods
-export const dbRun = promisify(db.run.bind(db));
+export const dbRun = (sql, params = []) =>
+  new Promise((resolve, reject) => {
+    const callback = function(err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve({ lastID: this.lastID, changes: this.changes });
+    };
+
+    if (Array.isArray(params) && params.length > 0) {
+      db.run(sql, params, callback);
+    } else {
+      db.run(sql, callback);
+    }
+  });
+
 export const dbGet = promisify(db.get.bind(db));
 export const dbAll = promisify(db.all.bind(db));
+export const dbExec = promisify(db.exec.bind(db));
 
 // Export database instance for services
 export const getDatabase = () => db;
@@ -81,23 +98,42 @@ export const initializeDatabase = async () => {
     )`);
 
     // Run revenue management migrations
-    const migrations = ['003_revenue_management.sql', '004_add_search_dates.sql', '005_room_prices.sql'];
+    const migrations = [
+      '003_revenue_management.sql',
+      '004_add_search_dates.sql',
+      '005_room_prices.sql',
+      '006_room_channel_fields.sql',
+      '007_room_images.sql',
+      '008_room_image_gallery.sql',
+      '009_room_details.sql',
+      '010_channel_configs.sql',
+      '011_channel_rules.sql',
+      '012_room_unit_inventory.sql',
+      '013_crm.sql',
+      '014_feedback.sql',
+      '015_ttlock_integration.sql',
+      '016_room_units.sql',
+      '017_ttlock_units.sql',
+      '018_admin_users.sql',
+      '019_cleaning_requests.sql',
+      '020_webhooks.sql',
+      '021_message_templates.sql',
+      '022_multilingual_templates.sql',
+      '023_preferences_template.sql',
+      '024_guest_preferences.sql',
+      '025_communication_log.sql',
+      '026_experience_bookings.sql'
+    ];
     for (const migrationFile of migrations) {
       const migrationPath = path.join(__dirname, 'migrations', migrationFile);
       if (fs.existsSync(migrationPath)) {
         const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
-        const statements = migrationSQL.split(';').filter(stmt => stmt.trim());
-        
-        for (const statement of statements) {
-          if (statement.trim()) {
-            try {
-              await dbRun(statement);
-            } catch (err) {
-              // Ignore "duplicate column" errors for idempotency
-              if (!err.message.includes('duplicate column')) {
-                throw err;
-              }
-            }
+        try {
+          await dbExec(migrationSQL);
+        } catch (err) {
+          if (!err.message.includes('duplicate column') &&
+              !err.message.includes('already exists')) {
+            throw err;
           }
         }
         console.log(`✅ Migration ${migrationFile} complete`);
@@ -109,17 +145,17 @@ export const initializeDatabase = async () => {
     
     if (count === 0) {
       const rooms = [
-        { name: 'Kystværelse', type: 'coast', max_guests: 2, base_price: 1200 },
-        { name: 'Havsuite', type: 'suite', max_guests: 2, base_price: 1500 },
-        { name: 'Stor havsuite', type: 'large_suite', max_guests: 4, base_price: 2000 },
-        { name: 'Ferielejlighed', type: 'apartment', max_guests: 4, base_price: 1800 },
-        { name: 'Gårdsværelser', type: 'garden', max_guests: 2, base_price: 1300 }
+        { name: 'Kystværelse', type: 'coast', max_guests: 2, base_price: 1200, unit_count: 1 },
+        { name: 'Havsuite', type: 'suite', max_guests: 2, base_price: 1500, unit_count: 1 },
+        { name: 'Stor havsuite', type: 'large_suite', max_guests: 4, base_price: 2000, unit_count: 1 },
+        { name: 'Ferielejlighed', type: 'apartment', max_guests: 4, base_price: 1800, unit_count: 1 },
+        { name: 'Gårdsværelser', type: 'garden', max_guests: 2, base_price: 1300, unit_count: 1 }
       ];
 
       for (const room of rooms) {
         await dbRun(
-          'INSERT INTO rooms (name, type, max_guests, base_price) VALUES (?, ?, ?, ?)',
-          [room.name, room.type, room.max_guests, room.base_price]
+          'INSERT INTO rooms (name, type, max_guests, base_price, unit_count) VALUES (?, ?, ?, ?, ?)',
+          [room.name, room.type, room.max_guests, room.base_price, room.unit_count || 1]
         );
       }
       console.log('✅ Default rooms inserted');

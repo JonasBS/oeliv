@@ -14,3 +14,25 @@ SERPAPI_KEY=your_serpapi_key_here
 # The scraper will work without SerpApi (using Puppeteer only)
 # But adding SerpApi provides a reliable fallback when Booking.com blocks Puppeteer
 
+# Email (SMTP) - used for booking confirmation emails
+SMTP_HOST=smtp.yourprovider.com
+SMTP_PORT=465
+SMTP_USER=your_smtp_username
+SMTP_PASS=your_smtp_password
+SMTP_FROM_EMAIL="ØLIV <booking@youremail.com>"
+
+# Twilio - used for booking confirmation SMS
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_FROM_NUMBER=+4552516818
+# Optional: use a messaging service instead of a raw from-number
+# TWILIO_MESSAGING_SERVICE_SID=MGxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Optional: Twilio Verify service if you need OTP flows
+# TWILIO_VERIFY_SERVICE_SID=VAxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# TTLock (optional smart lock integration)
+TTLOCK_CLIENT_ID=your_ttlock_client_id
+TTLOCK_CLIENT_SECRET=your_ttlock_client_secret
+TTLOCK_USERNAME=your_ttlock_account_email
+TTLOCK_PASSWORD=your_ttlock_account_password
+

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isBefore, startOfDay, isEqual } from 'date-fns';
 import { da } from 'date-fns/locale';
 import { availabilityApi } from '../services/api';
@@ -15,6 +15,9 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
   const [availability, setAvailability] = useState<Record<string, AvailabilityItem[]>>({});
   const [loading, setLoading] = useState(false);
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
+  const [selectionAnchor, setSelectionAnchor] = useState<Date | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragMovedRef = useRef(false);
 
   const loadAvailability = useCallback(async () => {
     setLoading(true);
@@ -46,6 +49,24 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
     loadAvailability();
   }, [loadAvailability]);
 
+  useEffect(() => {
+    const handleMouseUp = () => {
+      if (isDragging) {
+        setIsDragging(false);
+      }
+      dragMovedRef.current = false;
+      setHoverDate(null);
+    };
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => window.removeEventListener('mouseup', handleMouseUp);
+  }, [isDragging]);
+
+  useEffect(() => {
+    if (!selectedDates.start) {
+      setSelectionAnchor(null);
+    }
+  }, [selectedDates.start]);
+
   const handlePreviousMonth = () => {
     setCurrentMonth(prev => addMonths(prev, -1));
   };
@@ -59,17 +80,21 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
     if (isBefore(date, today)) return;
 
     if (!selectedDates.start || selectedDates.end) {
-      // Start new selection
       onSelect({ start: date, end: null });
+      setSelectionAnchor(date);
+      setHoverDate(null);
+      return;
+    }
+
+    if (isBefore(date, selectedDates.start)) {
+      onSelect({ start: date, end: selectedDates.start });
+      setSelectionAnchor(date);
+    } else if (isEqual(date, selectedDates.start)) {
+      onSelect({ start: date, end: null });
+      setSelectionAnchor(date);
     } else {
-      // Complete selection
-      if (isBefore(date, selectedDates.start)) {
-        onSelect({ start: date, end: selectedDates.start });
-      } else if (isEqual(date, selectedDates.start)) {
-        onSelect({ start: date, end: null });
-      } else {
-        onSelect({ start: selectedDates.start, end: date });
-      }
+      onSelect({ start: selectedDates.start, end: date });
+      setSelectionAnchor(selectedDates.start);
     }
   };
 
@@ -104,8 +129,39 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
   const isDateAvailable = (date: Date): boolean => {
     const dateStr = format(date, 'yyyy-MM-dd');
     const avail = availability[dateStr];
-    if (!avail || avail.length === 0) return false;
-    return avail.some(a => a.available === 1);
+    // Allow selection even if no availability data (will be checked later)
+    if (!avail || avail.length === 0) return true;
+    return avail.some(a => a.available === 1 || (a.remaining_units !== undefined && a.remaining_units > 0));
+  };
+
+  const handleDateMouseDown = (day: Date, isPast: boolean, isCurrentMonth: boolean, isBooked: boolean) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (event.button !== 0) return;
+    if (isPast || !isCurrentMonth || isBooked) return;
+    event.preventDefault();
+    const today = startOfDay(new Date());
+    if (isBefore(day, today)) return;
+    dragMovedRef.current = false;
+    setIsDragging(true);
+    setSelectionAnchor(day);
+    // Don't override onClick logic - only set start if we don't already have one, or if we have both
+    if (!selectedDates.start || selectedDates.end) {
+      onSelect({ start: day, end: null });
+    }
+  };
+
+  const handleDateMouseEnter = (day: Date, isPast: boolean, isCurrentMonth: boolean, isBooked: boolean) => {
+    if (!isDragging || !selectionAnchor) return;
+    if (isPast || !isCurrentMonth || isBooked) return;
+
+    dragMovedRef.current = true;
+    let startDate = selectionAnchor;
+    let endDate = day;
+    if (isBefore(day, selectionAnchor)) {
+      startDate = day;
+      endDate = selectionAnchor;
+    }
+    onSelect({ start: startDate, end: endDate });
+    setHoverDate(day);
   };
 
   const renderCalendar = () => {
@@ -137,9 +193,22 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
         isAvailable && 'available',
       ].filter(Boolean).join(' ');
 
-      const handleClick = !isPast && isCurrentMonth && !isBooked ? () => handleDateClick(day) : undefined;
-      const handleMouseEnter = !isPast && isCurrentMonth && !isBooked 
-        ? () => selectedDates.start && !selectedDates.end && setHoverDate(day)
+      const handleClick = !isPast && isCurrentMonth && !isBooked ? () => {
+        if (dragMovedRef.current) {
+          dragMovedRef.current = false;
+          return;
+        }
+        handleDateClick(day);
+      } : undefined;
+
+      const handleMouseEnter = !isPast && isCurrentMonth && !isBooked
+        ? () => {
+            if (isDragging) {
+              handleDateMouseEnter(day, isPast, isCurrentMonth, isBooked);
+            } else if (selectedDates.start && !selectedDates.end) {
+              setHoverDate(day);
+            }
+          }
         : undefined;
 
       return (
@@ -149,6 +218,7 @@ const BookingCalendar = ({ onSelect, selectedDates }: BookingCalendarProps) => {
           className={dayClasses}
           onClick={handleClick}
           onMouseEnter={handleMouseEnter}
+          onMouseDown={handleDateMouseDown(day, isPast, isCurrentMonth, isBooked)}
           disabled={isPast || !isCurrentMonth || isBooked}
           aria-label={format(day, 'EEEE, d. MMMM yyyy', { locale: da })}
           tabIndex={handleClick ? 0 : -1}

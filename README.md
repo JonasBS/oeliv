@@ -109,6 +109,16 @@ PORT=3000
 FRONTEND_URL=http://localhost:5173
 ```
 
+### TTLock (smart lock) prep
+
+The backend contains an optional TTLock integration scaffold. To enable it:
+
+1. Provide `TTLOCK_CLIENT_ID`, `TTLOCK_CLIENT_SECRET`, `TTLOCK_USERNAME` and `TTLOCK_PASSWORD` in `server/.env`.
+2. In the admin panel (`Værelser` → edit), enter the TTLock lock ID for each room under the new “TTLock integration” section.
+3. Once credentials are set, the service queues passcode creation/removal per booking using the `booking_lock_codes` table.
+
+Until credentials are provided, the integration stays inactive and bookings proceed as normal.
+
 ## 🧪 Testing the System
 
 1. **Start both servers** (see Quick Start)

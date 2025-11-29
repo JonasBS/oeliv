@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="conversion-enhancements.css" />
 </head>
 <body>
   <!-- Navigation -->
@@ -44,8 +45,32 @@
   <!-- Page Header -->
   <section class="page-header">
     <div class="container">
-      <h1 class="page-title">Overnatning</h1>
-      <p class="page-intro">Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren.</p>
+      <h1 class="page-title">Overnatning på ØLIV</h1>
+      <p class="page-intro">Enkle, nordiske værelser med gode senge, tekstiler i naturmaterialer og naturen lige udenfor døren. 300 meter fra Østersøen.</p>
+      
+      <!-- What's Included -->
+      <div class="trust-badges" style="margin: 2.5rem 0;">
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🌊</div>
+          <div class="trust-badge-title">Kystplacering</div>
+          <div class="trust-badge-desc">300 meter fra Østersøen med stier til stranden</div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🥖</div>
+          <div class="trust-badge-title">Morgenmad</div>
+          <div class="trust-badge-desc">Serveret dagligt med lokale råvarer og æg fra gården</div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🧖</div>
+          <div class="trust-badge-title">Spa-adgang</div>
+          <div class="trust-badge-desc">Gårdsauna, koldtvandsbad og rolige omgivelser</div>
+        </div>
+        <div class="trust-badge">
+          <div class="trust-badge-icon">🍺</div>
+          <div class="trust-badge-title">ØLIV Brew</div>
+          <div class="trust-badge-desc">Smagninger fra vores eget bryggeri efter aftale</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -53,135 +78,10 @@
   <section class="section section-overnatning">
     <div class="container">
       <div class="room-grid">
-        <!-- Kystværelse -->
-        <article class="room-card room-card-detailed">
-          <div class="room-image">
-            <img src="https://images.unsplash.com/photo-1559599189-c3f2b6f6e270?q=80&w=1200&auto=format&fit=crop" alt="Kystværelse med havudsigt" loading="lazy" />
-          </div>
-          <div class="room-content">
-            <h2 class="room-title">Kystværelse · havudsigt</h2>
-            <p class="room-meta">5 værelser · Til 2 personer · 25 m²</p>
-            <p class="room-description">Vågn op til havudsigt og morgenmad med lokale råvarer. Ideel til par der søger ro og intimitet. Værelserne ligger i gårdenes østfløj med direkte udsigt til Østersøen.</p>
-            <ul class="room-features">
-              <li>Direkte havblik fra værelset</li>
-              <li>Rolig indretning i naturmaterialer</li>
-              <li>Morgenmad med udsigt</li>
-              <li>Queen size seng</li>
-              <li>Eget badeværelse</li>
-              <li>WiFi og opvarmning</li>
-            </ul>
-            <div class="room-footer">
-              <span class="room-price">Fra 1.400 DKK / nat</span>
-              <button class="btn-secondary btn-small js-open-booking" type="button" data-room="Kystværelse">
-                Se ledige datoer
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Havsuite -->
-        <article class="room-card room-card-detailed">
-          <div class="room-image">
-            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1200&auto=format&fit=crop" alt="Havsuite" loading="lazy" />
-          </div>
-          <div class="room-content">
-            <h2 class="room-title">Havsuite</h2>
-            <p class="room-meta">Til 2 personer · 35 m²</p>
-            <p class="room-description">Mere plads til at slappe af. Perfekt til længere ophold eller dem der vil have ekstra komfort. Suiten har separat sove- og opholdsområde med udsigt til havet.</p>
-            <ul class="room-features">
-              <li>Mere plads og komfort</li>
-              <li>Havudsigt</li>
-              <li>Velkomstøl fra bryggeriet</li>
-              <li>Separat opholdsområde</li>
-              <li>King size seng</li>
-              <li>Stort badeværelse med badekar</li>
-            </ul>
-            <div class="room-footer">
-              <span class="room-price">Fra 1.900 DKK / nat</span>
-              <button class="btn-secondary btn-small js-open-booking" type="button" data-room="Havsuite">
-                Se ledige datoer
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Stor havsuite -->
-        <article class="room-card room-card-detailed">
-          <div class="room-image">
-            <img src="https://images.unsplash.com/photo-1521782462922-9318be1b9949?q=80&w=1200&auto=format&fit=crop" alt="Stor havsuite med lounge" loading="lazy" />
-          </div>
-          <div class="room-content">
-            <h2 class="room-title">Stor havsuite med lounge</h2>
-            <p class="room-meta">Til 2–3 gæster · 50 m²</p>
-            <p class="room-description">Vores største værelse med separat lounge til læsning og samtaler. Mest udsigt og blødeste senge. Ideel til længere ophold eller dem der vil have det hele.</p>
-            <ul class="room-features">
-              <li>Separat lounge til læsning & samtaler</li>
-              <li>Mest udsigt og blødeste senge</li>
-              <li>Ideel til længere ophold</li>
-              <li>King size seng + ekstra seng mulig</li>
-              <li>Stort badeværelse med sauna</li>
-              <li>Privat terrasse</li>
-            </ul>
-            <div class="room-footer">
-              <span class="room-price">Fra 2.300 DKK / nat</span>
-              <button class="btn-secondary btn-small js-open-booking" type="button" data-room="Stor havsuite">
-                Se ledige datoer
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Ferielejlighed -->
-        <article class="room-card room-card-detailed">
-          <div class="room-image">
-            <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1200&auto=format&fit=crop" alt="2-værelses ferielejlighed" loading="lazy" />
-          </div>
-          <div class="room-content">
-            <h2 class="room-title">2-værelses ferielejlighed</h2>
-            <p class="room-meta">Til 2–4 gæster · Køkken · 60 m²</p>
-            <p class="room-description">Separat soveværelse og opholdsrum med lille køkken. God for familie eller venner der vil have mere uafhængighed. Perfekt til længere ophold.</p>
-            <ul class="room-features">
-              <li>Separat soveværelse og opholdsrum</li>
-              <li>Lille køkken</li>
-              <li>God for familie/venner</li>
-              <li>2 soveværelser (kan sove 4)</li>
-              <li>Fuldt udstyret køkken</li>
-              <li>Stort badeværelse</li>
-            </ul>
-            <div class="room-footer">
-              <span class="room-price">Fra 2.600 DKK / nat</span>
-              <button class="btn-secondary btn-small js-open-booking" type="button" data-room="Ferielejlighed">
-                Se ledige datoer
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <!-- Gårdsværelser -->
-        <article class="room-card room-card-detailed">
-          <div class="room-image">
-            <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1200&auto=format&fit=crop" alt="Gårdsværelser" loading="lazy" />
-          </div>
-          <div class="room-content">
-            <h2 class="room-title">Gårdsværelser · eget bad</h2>
-            <p class="room-meta">2 større + 1 enkelt · 20–25 m²</p>
-            <p class="room-description">Kig/adgang til gården. Eget badeværelse. Tæt på sauna & terrasse. Disse værelser ligger tæt på gårdslivet og er perfekte til dem der vil være tæt på naturen.</p>
-            <ul class="room-features">
-              <li>Kig/adgang til gården</li>
-              <li>Eget badeværelse</li>
-              <li>Tæt på sauna & terrasse</li>
-              <li>Queen size seng</li>
-              <li>Gårdudsigt</li>
-              <li>Adgang til fælles køkken</li>
-            </ul>
-            <div class="room-footer">
-              <span class="room-price">Fra 1.200 DKK / nat</span>
-              <button class="btn-secondary btn-small js-open-booking" type="button" data-room="Gårdsværelser">
-                Se ledige datoer
-              </button>
-            </div>
-          </div>
-        </article>
+        <!-- Rooms will be loaded dynamically from API -->
+        <div class="rooms-loading" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--muted);">
+          Indlæser værelser...
+        </div>
       </div>
     </div>
   </section>
@@ -385,7 +285,9 @@
   </div>
 
   <!-- API Configuration -->
-  <script>window.API_BASE_URL = 'https://web-production-367a.up.railway.app';</script>
+  <script>window.API_BASE_URL = 'http://localhost:3000';</script>
+  <script src="load-rooms.js"></script>
+  <script src="conversion.js"></script>
   <script src="main.js"></script>
   <script src="booking.js"></script>
 </body>

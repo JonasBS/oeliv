@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+:root {
+  /* Historic Danish farmhouse palette - 1700-1800s inspired */
+  /* Kalk, bindingsværk, stråtag, pigsten, naturlige materialer */
+  
+  --ink: #1c1a17;           /* Aged timber, dark oak */
+  --timber: #2d2820;        /* Bindingsværk timber */
+  --earth: #3a352d;         /* Rich earth, plowed field */
+  --bark: #4a4238;          /* Tree bark, weathered wood */
+  
+  /* Olives & Nature */
+  --forest: #3d4a3a;        /* Deep forest green */
+  --olive: #4a5a42;         /* Classic olive */
+  --olive-soft: #5a6b50;    /* Soft olive */
+  --sage: #7a8a6e;          /* Sage green */
+  --moss: #8a9a7a;          /* Moss on stone */
+  
+  /* Warm naturals - kalk, ler, sand */
+  --clay: #8a7a6a;          /* Terracotta clay */
+  --stone: #9a9080;         /* Pigsten, cobblestone */
+  --wheat: #b8a890;         /* Wheat, straw */
+  --sand: #c8c0b0;          /* Sandy path */
+  --linen: #ddd8cc;         /* Natural linen */
+  --kalk: #e8e4da;          /* Kalket væg, lime wash */
+  --cream: #f4f2eb;         /* Aged cream */
+  --ivory: #faf9f5;         /* Soft ivory */
+  
+  /* Accent - copper & brass from old fixtures */
+  --copper: #a67c5b;
+  --brass: #9a8a5a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-feature-settings: "kern" 1, "liga" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--wheat);
+  color: var(--ink);
+}
+
+/* Scrollbar - aged wood feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kalk);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--stone);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bark);
+}
+
+/* Custom utilities */
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), 'Times New Roman', serif;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+  
+  .font-body {
+    font-family: var(--font-body), system-ui, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Text colors */
+  .text-ink { color: var(--ink); }
+  .text-timber { color: var(--timber); }
+  .text-earth { color: var(--earth); }
+  .text-bark { color: var(--bark); }
+  .text-forest { color: var(--forest); }
+  .text-olive { color: var(--olive); }
+  .text-sage { color: var(--sage); }
+  .text-stone { color: var(--stone); }
+  .text-wheat { color: var(--wheat); }
+  .text-clay { color: var(--clay); }
+  
+  /* Background colors */
+  .bg-cream { background-color: var(--cream); }
+  .bg-ivory { background-color: var(--ivory); }
+  .bg-kalk { background-color: var(--kalk); }
+  .bg-linen { background-color: var(--linen); }
+  .bg-ink { background-color: var(--ink); }
+  .bg-timber { background-color: var(--timber); }
+  .bg-earth { background-color: var(--earth); }
+  .bg-forest { background-color: var(--forest); }
+  .bg-olive { background-color: var(--olive); }
+  
+  /* Borders */
+  .border-sand { border-color: var(--sand); }
+  .border-linen { border-color: var(--linen); }
+  .border-kalk { border-color: var(--kalk); }
+  .border-olive { border-color: var(--olive); }
+  
+  /* Elegant letter spacing */
+  .tracking-elegant { letter-spacing: 0.2em; }
+  .tracking-wide-elegant { letter-spacing: 0.15em; }
+  
+  /* Luxe transitions */
+  .transition-luxe {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .transition-smooth {
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+/* Animations - subtle and refined */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-fadeInScale {
+  animation: fadeInScale 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-gentlePulse {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+/* Stagger delays - longer for elegance */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+/* Image hover effect - subtle zoom */
+.image-hover {
+  overflow: hidden;
+}
+
+.image-hover img {
+  transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-hover:hover img {
+  transform: scale(1.05);
+}
+
+/* Link underline animation */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Elegant button styles */
+.btn-elegant {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-elegant::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-elegant:hover::before {
+  left: 100%;
+}
+
+/* Historic texture overlays */
+
+/* Subtle paper/parchment texture */
+.texture-paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Grain texture for luxury feel */
+.grain-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.025;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
+
+/* Decorative elements - inspired by Danish farmhouse details */
+
+/* Horizontal rule - like timber beam */
+.divider-timber {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--bark), transparent);
+  border: none;
+  margin: 3rem 0;
+}
+
+/* Decorative corner flourish */
+.flourish-corner {
+  position: relative;
+}
+
+.flourish-corner::before,
+.flourish-corner::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-color: var(--wheat);
+  opacity: 0.5;
+}
+
+.flourish-corner::before {
+  top: 0;
+  left: 0;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.flourish-corner::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+/* Card with aged paper feel */
+.card-aged {
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--cream) 50%, var(--kalk) 100%);
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.05),
+    0 10px 40px rgba(0,0,0,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Section with kalk/lime wash background */
+.section-kalk {
+  background: var(--kalk);
+  position: relative;
+}
+
+.section-kalk::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(0,0,0,0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Dark section - like timber interior */
+.section-timber {
+  background: linear-gradient(180deg, var(--timber) 0%, var(--ink) 100%);
+}
+
+/* Quote styling - like old manuscript */
+.quote-historic {
+  font-style: italic;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.quote-historic::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  font-size: 4rem;
+  font-family: var(--font-display);
+  color: var(--wheat);
+  line-height: 1;
+  opacity: 0.5;
+}
+
+/* Input styling - aged paper feel */
+.input-historic {
+  background: var(--ivory);
+  border: 1px solid var(--linen);
+  transition: all 0.3s ease;
+}
+
+.input-historic:focus {
+  background: var(--cream);
+  border-color: var(--olive);
+  box-shadow: 0 0 0 3px rgba(74, 90, 66, 0.1);
+  outline: none;
+}
+
+/* Badge styling - like wax seal */
+.badge-seal {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--kalk);
+  border: 1px solid var(--linen);
+  border-radius: 2px;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bark);
+  position: relative;
+}
+
+.badge-seal::before {
+  content: '✦';
+  margin-right: 0.5rem;
+  color: var(--olive);
+  font-size: 0.6rem;
+}

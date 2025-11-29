@@ -19,6 +19,7 @@ client/dist/
 server/dist/
 build/
 dist/
+.next/
 
 # Logs
 logs
@@ -44,3 +45,14 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Uploads (user-generated content)
+uploads/
+!uploads/.gitkeep
+
+# Next.js
+next-env.d.ts
+
+# Old subfolders (keep for reference but not needed for deploy)
+oeliv-website/
+website/
