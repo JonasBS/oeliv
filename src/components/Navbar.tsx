@@ -3,18 +3,17 @@
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/routing';
-import { locales, localeNames, type Locale } from '@/i18n/config';
+import { locales, type Locale } from '@/i18n/config';
 import { useBooking } from './BookingProvider';
 
 type NavbarProps = {
-  locale: Locale;
+  locale?: Locale;
 };
 
-export const Navbar = ({ locale }: NavbarProps) => {
+export const Navbar = ({ locale = 'da' }: NavbarProps) => {
   const t = useTranslations('nav');
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { openBooking } = useBooking();
 
@@ -23,8 +22,13 @@ export const Navbar = ({ locale }: NavbarProps) => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   const navLinks = [
     { href: '/overnatning', label: t('accommodation') },
@@ -33,139 +37,149 @@ export const Navbar = ({ locale }: NavbarProps) => {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
-        isScrolled 
-          ? 'bg-[#f4f2eb]/95 backdrop-blur-md py-4 shadow-sm' 
-          : 'bg-transparent py-6'
-      }`}
-      role="navigation"
-    >
-      <div className="max-w-7xl mx-auto px-8 lg:px-12 flex items-center justify-between">
-        {/* Logo */}
-        <Link
-          href="/"
-          className={`font-display text-2xl tracking-[0.2em] uppercase transition-colors duration-500 ${
-            isScrolled ? 'text-[#2d2820]' : 'text-[#f4f2eb]'
-          }`}
-        >
-          ØLIV
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-12">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-[11px] tracking-[0.2em] uppercase link-underline transition-colors duration-500 ${
-                isScrolled ? 'text-[#6b5a4a] hover:text-[#2d2820]' : 'text-[#ddd8cc] hover:text-[#f4f2eb]'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-
-          {/* Language Switcher */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsLangOpen(!isLangOpen)}
-              className={`text-[11px] tracking-[0.15em] uppercase transition-colors duration-500 ${
-                isScrolled ? 'text-[#8a7a6a] hover:text-[#2d2820]' : 'text-[#b8a890] hover:text-[#f4f2eb]'
-              }`}
-            >
-              {locale.toUpperCase()}
-            </button>
-            {isLangOpen && (
-              <div className="absolute top-full right-0 mt-4 bg-[#f4f2eb] shadow-xl min-w-[120px] py-2 animate-fadeIn">
-                {locales.map((loc) => (
-                  <Link
-                    key={loc}
-                    href={pathname}
-                    locale={loc}
-                    className={`block px-6 py-2 text-[11px] tracking-[0.15em] uppercase transition-colors ${
-                      loc === locale
-                        ? 'text-[#2d2820] bg-[#e8e4da]'
-                        : 'text-[#6b5a4a] hover:text-[#2d2820] hover:bg-[#e8e4da]'
-                    }`}
-                    onClick={() => setIsLangOpen(false)}
-                  >
-                    {localeNames[loc]}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Book Button */}
-          <button
-            type="button"
-            onClick={openBooking}
-            className={`text-[11px] tracking-[0.2em] uppercase px-8 py-3 transition-all duration-500 ${
-              isScrolled 
-                ? 'bg-[#4a5a42] text-[#f4f2eb] hover:bg-[#5a6b50]' 
-                : 'bg-[#f4f2eb]/10 backdrop-blur-sm border border-[#b8a890]/40 text-[#f4f2eb] hover:bg-[#f4f2eb] hover:text-[#2d2820]'
-            }`}
-          >
-            {t('bookStay')}
-          </button>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label={isMenuOpen ? 'Luk menu' : 'Åbn menu'}
-        >
-          <span
-            className={`w-6 h-[1px] transition-all duration-300 ${
-              isScrolled ? 'bg-[#2d2820]' : 'bg-[#f4f2eb]'
-            } ${isMenuOpen ? 'rotate-45 translate-y-[7px]' : ''}`}
-          />
-          <span
-            className={`w-6 h-[1px] transition-all duration-300 ${
-              isScrolled ? 'bg-[#2d2820]' : 'bg-[#f4f2eb]'
-            } ${isMenuOpen ? 'opacity-0' : ''}`}
-          />
-          <span
-            className={`w-6 h-[1px] transition-all duration-300 ${
-              isScrolled ? 'bg-[#2d2820]' : 'bg-[#f4f2eb]'
-            } ${isMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`}
-          />
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-0 bg-[#f4f2eb] z-40 animate-fadeIn">
-          <div className="flex flex-col items-center justify-center h-full gap-8">
+    <>
+      <nav
+        className={`fixed top-0 w-full z-50 transition-all duration-700 ${
+          isScrolled 
+            ? 'bg-[#f4f2eb]/95 backdrop-blur-md shadow-sm py-4' 
+            : 'bg-transparent py-6'
+        }`}
+        role="navigation"
+      >
+        <div className="max-w-6xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            
+            {/* Logo */}
             <Link
               href="/"
-              className="font-display text-3xl tracking-[0.2em] uppercase text-[#2d2820] mb-8"
-              onClick={() => setIsMenuOpen(false)}
+              className={`font-display text-2xl tracking-[0.1em] transition-colors duration-500 ${
+                isScrolled ? 'text-[#2d2820]' : 'text-[#2d2820]'
+              }`}
             >
               ØLIV
             </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-12">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-[13px] tracking-[0.05em] transition-colors duration-300 ${
+                    pathname === link.href 
+                      ? 'text-[#2d2820]' 
+                      : 'text-[#6b5a4a] hover:text-[#2d2820]'
+                  }`}
+                >
+                  {link.label}
+                  {pathname === link.href && (
+                    <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-[#2d2820]" />
+                  )}
+                </Link>
+              ))}
+            </div>
+
+            {/* Right side */}
+            <div className="hidden lg:flex items-center gap-6">
+              {/* Language switcher - minimal */}
+              <div className="flex items-center">
+                {locales.map((loc, index) => (
+                  <span key={loc} className="flex items-center">
+                    <Link
+                      href={pathname || '/'}
+                      locale={loc}
+                      className={`text-[12px] tracking-[0.05em] uppercase transition-colors duration-300 ${
+                        loc === locale 
+                          ? 'text-[#2d2820]' 
+                          : 'text-[#a09080] hover:text-[#2d2820]'
+                      }`}
+                    >
+                      {loc.toUpperCase()}
+                    </Link>
+                    {index < locales.length - 1 && (
+                      <span className="mx-2 text-[#c8c0b0]">/</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+
+              {/* Book Button */}
+              <button
+                type="button"
+                onClick={openBooking}
+                className="text-[12px] tracking-[0.1em] uppercase px-5 py-2 bg-[#2d2820] text-[#f4f2eb] hover:bg-[#1c1a17] transition-colors duration-300"
+              >
+                {t('bookStay')}
+              </button>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="lg:hidden p-2 -mr-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              <div className="w-6 h-4 relative flex flex-col justify-between">
+                <span
+                  className={`w-full h-[1px] bg-[#2d2820] transition-all duration-300 origin-center ${
+                    isMenuOpen ? 'rotate-45 translate-y-1.5' : ''
+                  }`}
+                />
+                <span
+                  className={`w-full h-[1px] bg-[#2d2820] transition-all duration-300 ${
+                    isMenuOpen ? 'opacity-0' : ''
+                  }`}
+                />
+                <span
+                  className={`w-full h-[1px] bg-[#2d2820] transition-all duration-300 origin-center ${
+                    isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 z-40 bg-[#f4f2eb] transition-all duration-500 lg:hidden ${
+          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col h-full pt-24 px-8">
+          {/* Links */}
+          <div className="flex flex-col gap-8">
             {navLinks.map((link, index) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-lg tracking-[0.2em] uppercase text-[#6b5a4a] hover:text-[#2d2820] transition-colors animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`text-2xl font-display tracking-[0.05em] transition-all duration-500 ${
+                  pathname === link.href ? 'text-[#2d2820]' : 'text-[#8a7a6a]'
+                }`}
+                style={{ 
+                  opacity: isMenuOpen ? 1 : 0,
+                  transform: isMenuOpen ? 'translateY(0)' : 'translateY(20px)',
+                  transitionDelay: `${index * 100}ms`
+                }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="flex gap-6 mt-4">
+          </div>
+
+          {/* Bottom section */}
+          <div className="mt-auto pb-12">
+            {/* Language */}
+            <div className="flex items-center gap-4 mb-8">
               {locales.map((loc) => (
                 <Link
                   key={loc}
-                  href={pathname}
+                  href={pathname || '/'}
                   locale={loc}
-                  className={`text-sm tracking-[0.15em] uppercase ${
-                    loc === locale ? 'text-[#2d2820]' : 'text-[#8a7a6a]'
+                  className={`text-sm tracking-[0.1em] uppercase ${
+                    loc === locale ? 'text-[#2d2820]' : 'text-[#a09080]'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
@@ -173,19 +187,21 @@ export const Navbar = ({ locale }: NavbarProps) => {
                 </Link>
               ))}
             </div>
+
+            {/* Book Button */}
             <button
               type="button"
               onClick={() => {
                 setIsMenuOpen(false);
                 openBooking();
               }}
-              className="mt-8 text-[11px] tracking-[0.2em] uppercase px-12 py-4 bg-[#4a5a42] text-[#f4f2eb] hover:bg-[#5a6b50] transition-all"
+              className="w-full py-4 bg-[#2d2820] text-[#f4f2eb] text-[12px] tracking-[0.15em] uppercase"
             >
               {t('bookStay')}
             </button>
           </div>
         </div>
-      )}
-    </nav>
+      </div>
+    </>
   );
 };

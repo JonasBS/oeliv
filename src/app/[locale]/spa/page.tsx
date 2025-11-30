@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
+
+
 import { type Locale } from '@/i18n/config';
 import Image from 'next/image';
 
@@ -29,11 +29,9 @@ export default async function SpaPage({ params }: Props) {
   const experiences = t.raw('experiences.items') as Array<{ title: string; description: string }>;
 
   return (
-    <>
-      <Navbar locale={locale as Locale} />
-      <main>
-        {/* Page Header */}
-        <section className="py-16 lg:py-24 bg-charcoal text-cream text-center">
+    <main className="pt-20">
+      {/* Page Header */}
+      <section className="py-16 lg:py-24 bg-[#2d2820] text-[#f4f2eb] text-center">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium tracking-[0.05em] mb-6">
               {t('hero.title')}
@@ -157,7 +155,7 @@ export default async function SpaPage({ params }: Props) {
           </div>
         </section>
       </main>
-      <Footer />
+      
     </>
   );
 }

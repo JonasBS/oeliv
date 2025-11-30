@@ -10,102 +10,99 @@ export const Hero = () => {
   const { openBooking } = useBooking();
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#f4f2eb]">
-      {/* Split layout - Ett Hem inspired */}
-      <div className="min-h-screen grid lg:grid-cols-2">
+    <section className="relative min-h-screen bg-[#f4f2eb]">
+      {/* Main content grid */}
+      <div className="min-h-screen grid lg:grid-cols-12">
         
-        {/* Left side - Text content with lots of whitespace */}
-        <div className="flex flex-col justify-center px-8 md:px-16 lg:px-20 py-32 lg:py-20 order-2 lg:order-1">
-          <div className="max-w-md">
-            {/* Minimal logo */}
-            <h1 
-              className="font-display text-[#2d2820] text-5xl md:text-6xl lg:text-7xl tracking-[0.02em] mb-8 animate-fadeInUp opacity-0"
-              style={{ animationDelay: '0.3s', animationFillMode: 'forwards' }}
-            >
+        {/* Left content - 5 columns */}
+        <div className="lg:col-span-5 flex flex-col justify-center px-8 md:px-12 lg:px-16 py-32 lg:py-24 order-2 lg:order-1">
+          <div className="max-w-sm">
+            {/* Overline */}
+            <p className="text-[11px] tracking-[0.25em] uppercase text-[#8a7a6a] mb-6">
+              Bornholm
+            </p>
+
+            {/* Title */}
+            <h1 className="font-display text-[#2d2820] text-5xl lg:text-6xl tracking-[0.02em] leading-[1.1] mb-6">
               ØLIV
             </h1>
 
-            {/* Poetic tagline - loose, artsy */}
-            <p 
-              className="text-[#6b5a4a] text-lg md:text-xl font-display font-light leading-[1.8] mb-6 animate-fadeInUp opacity-0"
-              style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}
-            >
+            {/* Tagline */}
+            <p className="font-display text-[#4a4238] text-xl lg:text-2xl font-light leading-relaxed mb-6">
               {t('tagline')}
             </p>
 
-            {/* Short description */}
-            <p 
-              className="text-[#8a7a6a] text-base font-light leading-relaxed mb-12 animate-fadeInUp opacity-0"
-              style={{ animationDelay: '0.7s', animationFillMode: 'forwards' }}
-            >
+            {/* Description */}
+            <p className="text-[#6b5a4a] text-[15px] leading-[1.8] mb-10">
               {t('description')}
             </p>
 
-            {/* Minimal CTA - just text links */}
-            <div 
-              className="flex flex-col gap-4 animate-fadeInUp opacity-0"
-              style={{ animationDelay: '0.9s', animationFillMode: 'forwards' }}
-            >
+            {/* CTAs - stacked, minimal */}
+            <div className="space-y-4">
               <button
                 type="button"
                 onClick={openBooking}
-                className="group inline-flex items-center gap-3 text-[#2d2820] text-sm tracking-[0.05em]"
+                className="group flex items-center gap-3 text-[#2d2820]"
               >
-                <span className="border-b border-[#2d2820] pb-0.5 group-hover:border-[#4a5a42] group-hover:text-[#4a5a42] transition-colors">
+                <span className="text-[14px] tracking-[0.02em] border-b border-[#2d2820] pb-0.5 group-hover:border-[#4a5a42] group-hover:text-[#4a5a42] transition-colors">
                   {t('cta.book')}
                 </span>
-                <span className="text-[#8a7a6a] group-hover:translate-x-1 transition-transform">→</span>
+                <svg 
+                  className="w-4 h-4 group-hover:translate-x-1 transition-transform" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </button>
               
               <Link
                 href="/overnatning"
-                className="group inline-flex items-center gap-3 text-[#8a7a6a] text-sm tracking-[0.05em]"
+                className="group flex items-center gap-3 text-[#8a7a6a] hover:text-[#2d2820] transition-colors"
               >
-                <span className="border-b border-transparent pb-0.5 group-hover:border-[#8a7a6a] transition-colors">
+                <span className="text-[14px] tracking-[0.02em]">
                   {t('cta.explore')}
                 </span>
-                <span className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">→</span>
+                <svg 
+                  className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
               </Link>
             </div>
           </div>
 
-          {/* Bottom info - subtle */}
-          <div 
-            className="mt-auto pt-16 animate-fadeIn opacity-0"
-            style={{ animationDelay: '1.2s', animationFillMode: 'forwards' }}
-          >
+          {/* Bottom detail */}
+          <div className="mt-auto pt-12 lg:pt-20">
             <p className="text-[10px] tracking-[0.2em] uppercase text-[#b8a890]">
-              Bornholm · 300m fra havet
+              300m fra Østersøen · Anno 1780
             </p>
           </div>
         </div>
 
-        {/* Right side - Full bleed image */}
-        <div 
-          className="relative min-h-[60vh] lg:min-h-screen order-1 lg:order-2 animate-fadeIn opacity-0"
-          style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
-        >
+        {/* Right image - 7 columns */}
+        <div className="lg:col-span-7 relative min-h-[50vh] lg:min-h-screen order-1 lg:order-2">
           <Image
-            src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?q=80&w=2000&auto=format&fit=crop"
-            alt="ØLIV - Historisk gård på Bornholm"
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2000&auto=format&fit=crop"
+            alt="ØLIV - Bornholm kyst"
             fill
             className="object-cover"
             priority
             quality={90}
           />
-          {/* Subtle overlay for depth */}
-          <div className="absolute inset-0 bg-[#2d2820]/10" />
-          
-          {/* Floating text on image - artsy touch */}
-          <div 
-            className="absolute bottom-8 right-8 text-right animate-fadeInUp opacity-0"
-            style={{ animationDelay: '1s', animationFillMode: 'forwards' }}
-          >
-            <p className="text-[#f4f2eb]/80 text-[11px] tracking-[0.15em] uppercase">
-              Anno 1780
-            </p>
-          </div>
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#f4f2eb] via-transparent to-transparent opacity-30 lg:opacity-50" />
         </div>
+      </div>
+
+      {/* Scroll indicator - bottom center */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2">
+        <span className="text-[9px] tracking-[0.2em] uppercase text-[#8a7a6a]">Scroll</span>
+        <div className="w-[1px] h-8 bg-[#c8c0b0]" />
       </div>
     </section>
   );
