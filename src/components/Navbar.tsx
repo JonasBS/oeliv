@@ -99,7 +99,7 @@ export const Navbar = ({ locale = 'da' }: NavbarProps) => {
               {/* Book Button */}
               <button
                 type="button"
-                onClick={openBooking}
+                onClick={() => openBooking()}
                 className="text-[12px] tracking-[0.08em] uppercase px-5 py-2.5 bg-[#2d2820] text-[#f4f2eb] hover:bg-[#1c1a17] transition-colors duration-300"
               >
                 {t('bookStay')}

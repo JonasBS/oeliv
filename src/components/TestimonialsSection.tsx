@@ -77,7 +77,7 @@ export const TestimonialsSection = () => {
         <div className="text-center">
           <button
             type="button"
-            onClick={openBooking}
+            onClick={() => openBooking()}
             className="inline-block px-12 py-4 text-[11px] tracking-[0.2em] uppercase border border-[#b8a890]/40 text-[#ddd8cc] hover:bg-[#f4f2eb] hover:text-[#2d2820] transition-all duration-500"
           >
             {t('cta')}

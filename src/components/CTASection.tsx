@@ -15,7 +15,7 @@ export const CTASection = () => {
         </h2>
         <button
           type="button"
-          onClick={openBooking}
+          onClick={() => openBooking()}
           className="bg-olive text-cream px-10 py-4 rounded-full text-base tracking-[0.1em] uppercase font-medium hover:bg-olive-soft transition-all hover:-translate-y-0.5 hover:shadow-xl"
         >
           {t('button')}

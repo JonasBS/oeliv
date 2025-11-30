@@ -41,7 +41,7 @@ export const Hero = () => {
             <div className="space-y-4">
               <button
                 type="button"
-                onClick={openBooking}
+                onClick={() => openBooking()}
                 className="group flex items-center gap-3 text-[#2d2820]"
               >
                 <span className="text-[14px] tracking-[0.02em] border-b border-[#2d2820] pb-0.5 group-hover:border-[#4a5a42] group-hover:text-[#4a5a42] transition-colors">
