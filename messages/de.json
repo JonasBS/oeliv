@@ -204,6 +204,17 @@
     "toast": {
       "success": "Vielen Dank für Ihre Anfrage! Wir melden uns bald.",
       "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "success": {
+      "title": "Vielen Dank für Ihre Anfrage!",
+      "message": "Wir haben Ihre Anfrage erhalten und melden uns innerhalb von 24 Stunden mit Bestätigung und weiteren Informationen.",
+      "summary": "Ihre Anfrage",
+      "room": "Zimmer",
+      "arrival": "Ankunft",
+      "nights": "Nächte",
+      "guests": "Gäste",
+      "total": "Geschätzte Summe",
+      "close": "Schließen"
     }
   },
   "spa": {

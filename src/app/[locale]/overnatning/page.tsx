@@ -2,6 +2,7 @@ import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
+import { RoomBookingButton } from '@/components/RoomBookingButton';
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -33,6 +34,7 @@ export default async function AccommodationPage({ params }: Props) {
       size: '18 m2',
       image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop',
       features: ['Bjaelkeloft', 'Regnbruser', 'Gaardsplads-udsigt', 'Morgenlys'],
+      shortDesc: 'Dobbeltseng, eget bad, gaardsudsigt',
     },
     {
       id: 'havevaerelse',
@@ -44,6 +46,7 @@ export default async function AccommodationPage({ params }: Props) {
       size: '24 m2',
       image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=1200&auto=format&fit=crop',
       features: ['Privat terrasse', 'Fritstaaende kar', 'Have-adgang', 'Aftensol'],
+      shortDesc: 'Kingsize seng, privat terrasse, have-adgang',
     },
     {
       id: 'suite',
@@ -55,6 +58,7 @@ export default async function AccommodationPage({ params }: Props) {
       size: '42 m2',
       image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=1200&auto=format&fit=crop',
       features: ['Opholdsstue', 'Havudsigt', 'Privat terrasse', 'Pejs'],
+      shortDesc: 'Separat stue, havudsigt, privat terrasse',
     },
   ];
 
@@ -170,13 +174,15 @@ export default async function AccommodationPage({ params }: Props) {
                         <span className="font-display text-2xl text-[#2d2820]">{room.price} kr</span>
                         <span className="text-sm text-[#8a7a6a] ml-2">/ nat</span>
                       </div>
-                      <button 
-                        type="button"
-                        className="group flex items-center gap-2 text-[#2d2820] text-[11px] tracking-[0.15em] uppercase"
-                      >
-                        <span className="pb-0.5 border-b border-[#2d2820]">Book nu</span>
-                        <span className="group-hover:translate-x-1 transition-transform">-&gt;</span>
-                      </button>
+                      <RoomBookingButton 
+                        room={{
+                          id: room.id,
+                          name: room.name,
+                          price: room.price,
+                          description: room.shortDesc,
+                        }}
+                        label="Book nu"
+                      />
                     </div>
                   </div>
                 </div>
@@ -232,13 +238,16 @@ export default async function AccommodationPage({ params }: Props) {
           <p className="text-[#6b5a4a] mb-10 max-w-lg mx-auto">
             Book dit ophold direkte og faa den bedste pris. Vi bekraefter din reservation inden for 24 timer.
           </p>
-          <button
-            type="button"
-            className="inline-flex items-center gap-3 bg-[#2d2820] text-[#f4f2eb] px-10 py-4 text-[12px] tracking-[0.15em] uppercase hover:bg-[#1c1a17] transition-colors"
-          >
-            {t('cta.button')}
-            <span>-&gt;</span>
-          </button>
+          <RoomBookingButton 
+            room={{
+              id: '',
+              name: '',
+              price: '',
+              description: '',
+            }}
+            variant="full"
+            label={t('cta.button')}
+          />
         </div>
       </section>
       

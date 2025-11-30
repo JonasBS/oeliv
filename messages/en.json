@@ -204,6 +204,17 @@
     "toast": {
       "success": "Thank you for your enquiry! We'll get back to you soon.",
       "error": "An error occurred. Please try again."
+    },
+    "success": {
+      "title": "Thank you for your enquiry!",
+      "message": "We have received your enquiry and will get back to you within 24 hours with confirmation and further information.",
+      "summary": "Your enquiry",
+      "room": "Room",
+      "arrival": "Arrival",
+      "nights": "Nights",
+      "guests": "Guests",
+      "total": "Estimated total",
+      "close": "Close"
     }
   },
   "spa": {

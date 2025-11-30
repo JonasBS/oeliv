@@ -2,13 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { useBooking } from './BookingProvider';
+import { useBooking, type RoomType } from './BookingProvider';
 
-type BookingStep = 'dates' | 'room' | 'contact';
+type BookingStep = 'dates' | 'room' | 'contact' | 'success';
+
+const ROOMS: RoomType[] = [
+  { id: 'gaardvaerelse', name: 'Gaardvaerelse', price: '1.295', description: 'Dobbeltseng, eget bad, gaardsudsigt' },
+  { id: 'havevaerelse', name: 'Havevaerelse', price: '1.595', description: 'Kingsize seng, privat terrasse, have-adgang' },
+  { id: 'suite', name: 'Laerkegaard Suite', price: '2.195', description: 'Separat stue, havudsigt, privat terrasse' },
+];
 
 export const BookingModal = () => {
   const t = useTranslations('booking');
-  const { isOpen, closeBooking } = useBooking();
+  const { isOpen, selectedRoom, closeBooking } = useBooking();
   const [step, setStep] = useState<BookingStep>('dates');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -24,20 +30,31 @@ export const BookingModal = () => {
     message: '',
   });
 
+  // Handle pre-selected room
+  useEffect(() => {
+    if (isOpen && selectedRoom) {
+      setFormData(prev => ({ ...prev, roomId: selectedRoom.id }));
+      // If room is pre-selected, skip to dates step (or stay there)
+      setStep('dates');
+    }
+  }, [isOpen, selectedRoom]);
+
   // Reset form when modal closes
   useEffect(() => {
     if (!isOpen) {
-      setStep('dates');
-      setFormData({
-        arrivalDate: '',
-        nights: 2,
-        guests: 2,
-        roomId: '',
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
+      setTimeout(() => {
+        setStep('dates');
+        setFormData({
+          arrivalDate: '',
+          nights: 2,
+          guests: 2,
+          roomId: '',
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      }, 300);
     }
   }, [isOpen]);
 
@@ -55,16 +72,27 @@ export const BookingModal = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    
+    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Here you would send to your backend
+    console.log('Booking submitted:', formData);
+    
     setIsSubmitting(false);
-    closeBooking();
-    alert(t('toast.success'));
+    setStep('success');
   };
 
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('da-DK', { day: 'numeric', month: 'long', year: 'numeric' });
+  const getSelectedRoom = () => ROOMS.find(r => r.id === formData.roomId);
+
+  const calculateTotal = () => {
+    const room = getSelectedRoom();
+    if (!room) return 0;
+    return parseInt(room.price.replace('.', '')) * formData.nights;
+  };
+
+  const formatPrice = (price: number) => {
+    return price.toLocaleString('da-DK');
   };
 
   if (!isOpen) return null;
@@ -77,14 +105,14 @@ export const BookingModal = () => {
     >
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-[#1c1a17]/80 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#1c1a17]/80 backdrop-blur-sm animate-fadeIn"
         onClick={closeBooking}
       />
 
-      {/* Modal - Ett Hem inspired, minimal */}
-      <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-[#f4f2eb] shadow-2xl">
+      {/* Modal */}
+      <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-[#f4f2eb] shadow-2xl animate-slideUp">
         
-        {/* Close button - minimal */}
+        {/* Close button */}
         <button
           type="button"
           onClick={closeBooking}
@@ -96,245 +124,392 @@ export const BookingModal = () => {
           </svg>
         </button>
 
-        {/* Header - simple, elegant */}
-        <div className="px-10 pt-12 pb-8">
-          <p className="text-[11px] tracking-[0.2em] uppercase text-[#8a7a6a] mb-4">
-            ØLIV · Bornholm
-          </p>
-          <h2 className="font-display text-3xl text-[#2d2820] mb-2">
-            {t('title')}
-          </h2>
-          <p className="text-[#6b5a4a] font-light text-sm">
-            {t('subtitle')}
-          </p>
-        </div>
-
-        {/* Progress - minimal dots */}
-        <div className="px-10 pb-8">
-          <div className="flex items-center gap-3">
-            {(['dates', 'room', 'contact'] as const).map((s, index) => (
-              <div key={s} className="flex items-center gap-3">
-                <div 
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    step === s 
-                      ? 'bg-[#4a5a42] scale-125' 
-                      : index < ['dates', 'room', 'contact'].indexOf(step)
-                        ? 'bg-[#7a8a6e]'
-                        : 'bg-[#c8c0b0]'
-                  }`}
-                />
-                {index < 2 && (
-                  <div className={`w-12 h-[1px] ${
-                    index < ['dates', 'room', 'contact'].indexOf(step) ? 'bg-[#7a8a6e]' : 'bg-[#ddd8cc]'
-                  }`} />
-                )}
+        {/* Success State */}
+        {step === 'success' ? (
+          <div className="px-10 py-16 text-center">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#4a5a42] flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="#f4f2eb" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h2 className="font-display text-3xl text-[#2d2820] mb-4">
+              {t('success.title')}
+            </h2>
+            <p className="text-[#6b5a4a] mb-8 max-w-sm mx-auto">
+              {t('success.message')}
+            </p>
+            
+            {/* Booking Summary */}
+            <div className="bg-[#e8e4da] p-6 text-left mb-8">
+              <h3 className="text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-4">
+                {t('success.summary')}
+              </h3>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-[#8a7a6a]">{t('success.room')}</span>
+                  <span className="text-[#2d2820]">{getSelectedRoom()?.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8a7a6a]">{t('success.arrival')}</span>
+                  <span className="text-[#2d2820]">
+                    {new Date(formData.arrivalDate).toLocaleDateString('da-DK', { 
+                      day: 'numeric', month: 'long', year: 'numeric' 
+                    })}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8a7a6a]">{t('success.nights')}</span>
+                  <span className="text-[#2d2820]">{formData.nights}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#8a7a6a]">{t('success.guests')}</span>
+                  <span className="text-[#2d2820]">{formData.guests}</span>
+                </div>
+                <div className="flex justify-between pt-3 mt-3 border-t border-[#c8c0b0]">
+                  <span className="text-[#2d2820] font-medium">{t('success.total')}</span>
+                  <span className="text-[#4a5a42] font-medium">{formatPrice(calculateTotal())} kr</span>
+                </div>
               </div>
-            ))}
+            </div>
+            
+            <button
+              type="button"
+              onClick={closeBooking}
+              className="w-full py-4 bg-[#2d2820] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#1c1a17] transition-colors"
+            >
+              {t('success.close')}
+            </button>
           </div>
-        </div>
-
-        {/* Content */}
-        <div className="px-10 pb-10">
-          {/* Step 1: Dates */}
-          {step === 'dates' && (
-            <div className="space-y-8">
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
-                  {t('step1.arrival')}
-                </label>
-                <input
-                  type="date"
-                  value={formData.arrivalDate}
-                  onChange={(e) => setFormData({ ...formData, arrivalDate: e.target.value })}
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] text-lg font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
-                  {t('step1.nights')}
-                </label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5, 6, 7].map(n => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, nights: n })}
-                      className={`w-10 h-10 text-sm transition-all ${
-                        formData.nights === n
-                          ? 'bg-[#4a5a42] text-[#f4f2eb]'
-                          : 'text-[#6b5a4a] hover:bg-[#e8e4da]'
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
-                  {t('step1.guests')}
-                </label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4].map(n => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, guests: n })}
-                      className={`w-10 h-10 text-sm transition-all ${
-                        formData.guests === n
-                          ? 'bg-[#4a5a42] text-[#f4f2eb]'
-                          : 'text-[#6b5a4a] hover:bg-[#e8e4da]'
-                      }`}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setStep('room')}
-                disabled={!formData.arrivalDate}
-                className="w-full mt-4 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {t('step1.continue')} →
-              </button>
-            </div>
-          )}
-
-          {/* Step 2: Room */}
-          {step === 'room' && (
-            <div className="space-y-4">
-              {[
-                { id: '1', name: 'Gårdværelse', price: '1.295', desc: 'Dobbeltseng, eget bad' },
-                { id: '2', name: 'Haveværelse', price: '1.595', desc: 'Kingsize seng, adgang til haven' },
-                { id: '3', name: 'Lærkegaard Suite', price: '2.195', desc: 'Separat stue, privat terrasse' },
-              ].map((room) => (
-                <button
-                  key={room.id}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, roomId: room.id })}
-                  className={`w-full p-5 text-left border-b transition-all ${
-                    formData.roomId === room.id
-                      ? 'bg-[#e8e4da] border-[#4a5a42]'
-                      : 'border-[#ddd8cc] hover:bg-[#faf9f5]'
-                  }`}
-                >
-                  <div className="flex justify-between items-baseline">
-                    <div>
-                      <h3 className="font-display text-lg text-[#2d2820]">{room.name}</h3>
-                      <p className="text-sm text-[#8a7a6a] font-light mt-1">{room.desc}</p>
-                    </div>
-                    <p className="text-[#4a5a42] font-light">
-                      {room.price} <span className="text-xs text-[#8a7a6a]">kr/nat</span>
-                    </p>
-                  </div>
-                </button>
-              ))}
-
-              <div className="flex gap-4 mt-8">
-                <button
-                  type="button"
-                  onClick={() => setStep('dates')}
-                  className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
-                >
-                  ← {t('step2.back')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStep('contact')}
-                  disabled={!formData.roomId}
-                  className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {t('step2.continue')} →
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Contact */}
-          {step === 'contact' && (
-            <div className="space-y-6">
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                  {t('step3.name')} *
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                  {t('step3.email')} *
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                  {t('step3.phone')}
-                </label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                  {t('step3.message')}
-                </label>
-                <textarea
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  rows={3}
-                  placeholder={t('step3.messagePlaceholder')}
-                  className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors resize-none"
-                />
-              </div>
-
-              <div className="flex gap-4 mt-8">
-                <button
-                  type="button"
-                  onClick={() => setStep('room')}
-                  className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
-                >
-                  ← {t('step2.back')}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={!formData.name || !formData.email || isSubmitting}
-                  className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? t('step3.sending') : t('step3.submit')}
-                </button>
-              </div>
-
-              <p className="text-center text-xs text-[#8a7a6a] mt-4 font-light">
-                {t('step3.note')}
+        ) : (
+          <>
+            {/* Header */}
+            <div className="px-10 pt-12 pb-6">
+              <p className="text-[11px] tracking-[0.2em] uppercase text-[#8a7a6a] mb-4">
+                OELIV - Bornholm
               </p>
+              <h2 className="font-display text-3xl text-[#2d2820] mb-2">
+                {t('title')}
+              </h2>
+              
+              {/* Show selected room if pre-selected */}
+              {selectedRoom && (
+                <div className="mt-4 p-4 bg-[#e8e4da] border-l-2 border-[#4a5a42]">
+                  <p className="text-[10px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-1">
+                    Valgt vaerelse
+                  </p>
+                  <p className="font-display text-lg text-[#2d2820]">{selectedRoom.name}</p>
+                  <p className="text-sm text-[#4a5a42]">{selectedRoom.price} kr / nat</p>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+
+            {/* Progress */}
+            <div className="px-10 pb-6">
+              <div className="flex items-center gap-2">
+                {(['dates', 'room', 'contact'] as const).map((s, index) => {
+                  const stepIndex = ['dates', 'room', 'contact'].indexOf(step);
+                  const isActive = step === s;
+                  const isCompleted = index < stepIndex;
+                  
+                  // Skip room step indicator if room is pre-selected
+                  if (s === 'room' && selectedRoom) return null;
+                  
+                  return (
+                    <div key={s} className="flex items-center gap-2">
+                      <div 
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all ${
+                          isActive 
+                            ? 'bg-[#4a5a42] text-[#f4f2eb]' 
+                            : isCompleted
+                              ? 'bg-[#7a8a6e] text-[#f4f2eb]'
+                              : 'bg-[#e8e4da] text-[#8a7a6a]'
+                        }`}
+                      >
+                        {isCompleted ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                        ) : (
+                          selectedRoom ? (index === 0 ? 1 : 2) : index + 1
+                        )}
+                      </div>
+                      {index < (selectedRoom ? 1 : 2) && (
+                        <div className={`w-8 h-[1px] ${isCompleted ? 'bg-[#7a8a6e]' : 'bg-[#ddd8cc]'}`} />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="px-10 pb-10">
+              {/* Step 1: Dates */}
+              {step === 'dates' && (
+                <div className="space-y-8">
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
+                      {t('step1.arrival')}
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.arrivalDate}
+                      onChange={(e) => setFormData({ ...formData, arrivalDate: e.target.value })}
+                      min={new Date().toISOString().split('T')[0]}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] text-lg font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
+                      {t('step1.nights')}
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5, 6, 7].map(n => (
+                        <button
+                          key={n}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, nights: n })}
+                          className={`w-10 h-10 text-sm transition-all ${
+                            formData.nights === n
+                              ? 'bg-[#4a5a42] text-[#f4f2eb]'
+                              : 'text-[#6b5a4a] hover:bg-[#e8e4da]'
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
+                      {t('step1.guests')}
+                    </label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4].map(n => (
+                        <button
+                          key={n}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, guests: n })}
+                          className={`w-10 h-10 text-sm transition-all ${
+                            formData.guests === n
+                              ? 'bg-[#4a5a42] text-[#f4f2eb]'
+                              : 'text-[#6b5a4a] hover:bg-[#e8e4da]'
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Price preview if room selected */}
+                  {formData.roomId && (
+                    <div className="p-4 bg-[#e8e4da] mt-6">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="text-sm text-[#8a7a6a]">
+                            {getSelectedRoom()?.name} - {formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'}
+                          </p>
+                        </div>
+                        <p className="font-display text-xl text-[#2d2820]">
+                          {formatPrice(calculateTotal())} kr
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => setStep(selectedRoom ? 'contact' : 'room')}
+                    disabled={!formData.arrivalDate}
+                    className="w-full mt-4 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {t('step1.continue')} -&gt;
+                  </button>
+                </div>
+              )}
+
+              {/* Step 2: Room (only if no pre-selected room) */}
+              {step === 'room' && !selectedRoom && (
+                <div className="space-y-4">
+                  <p className="text-sm text-[#6b5a4a] mb-6">
+                    Vaelg det vaerelse der passer bedst til dit ophold
+                  </p>
+                  
+                  {ROOMS.map((room) => (
+                    <button
+                      key={room.id}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, roomId: room.id })}
+                      className={`w-full p-5 text-left border transition-all ${
+                        formData.roomId === room.id
+                          ? 'bg-[#e8e4da] border-[#4a5a42]'
+                          : 'border-[#ddd8cc] hover:bg-[#faf9f5] hover:border-[#c8c0b0]'
+                      }`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div className="flex-1">
+                          <h3 className="font-display text-lg text-[#2d2820]">{room.name}</h3>
+                          <p className="text-sm text-[#8a7a6a] font-light mt-1">{room.description}</p>
+                        </div>
+                        <div className="text-right ml-4">
+                          <p className="text-[#4a5a42] font-display text-lg">
+                            {room.price} kr
+                          </p>
+                          <p className="text-xs text-[#8a7a6a]">pr. nat</p>
+                        </div>
+                      </div>
+                      
+                      {formData.roomId === room.id && (
+                        <div className="mt-4 pt-4 border-t border-[#c8c0b0]">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-[#8a7a6a]">{formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'}</span>
+                            <span className="text-[#2d2820] font-medium">
+                              {formatPrice(parseInt(room.price.replace('.', '')) * formData.nights)} kr total
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </button>
+                  ))}
+
+                  <div className="flex gap-4 mt-8">
+                    <button
+                      type="button"
+                      onClick={() => setStep('dates')}
+                      className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
+                    >
+                      &lt;- {t('step2.back')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStep('contact')}
+                      disabled={!formData.roomId}
+                      className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {t('step2.continue')} -&gt;
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Contact */}
+              {step === 'contact' && (
+                <div className="space-y-6">
+                  {/* Booking summary */}
+                  <div className="p-4 bg-[#e8e4da] mb-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-display text-lg text-[#2d2820]">{getSelectedRoom()?.name}</p>
+                        <p className="text-sm text-[#8a7a6a]">
+                          {new Date(formData.arrivalDate).toLocaleDateString('da-DK', { 
+                            day: 'numeric', month: 'short' 
+                          })} - {formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'} - {formData.guests} {formData.guests === 1 ? 'gaest' : 'gaester'}
+                        </p>
+                      </div>
+                      <p className="font-display text-xl text-[#4a5a42]">
+                        {formatPrice(calculateTotal())} kr
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
+                      {t('step3.name')} *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
+                      {t('step3.email')} *
+                    </label>
+                    <input
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
+                      {t('step3.phone')}
+                    </label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
+                      {t('step3.message')}
+                    </label>
+                    <textarea
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      rows={3}
+                      placeholder={t('step3.messagePlaceholder')}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors resize-none"
+                    />
+                  </div>
+
+                  <div className="flex gap-4 mt-8">
+                    <button
+                      type="button"
+                      onClick={() => setStep(selectedRoom ? 'dates' : 'room')}
+                      className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
+                    >
+                      &lt;- {t('step2.back')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={!formData.name || !formData.email || isSubmitting}
+                      className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? t('step3.sending') : t('step3.submit')}
+                    </button>
+                  </div>
+
+                  <p className="text-center text-xs text-[#8a7a6a] mt-4 font-light">
+                    {t('step3.note')}
+                  </p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        .animate-slideUp {
+          animation: slideUp 0.4s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

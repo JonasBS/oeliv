@@ -363,6 +363,17 @@
     "toast": {
       "success": "Tak for din forespørgsel! Vi vender tilbage snarest.",
       "error": "Der opstod en fejl. Prøv venligst igen."
+    },
+    "success": {
+      "title": "Tak for din forespørgsel!",
+      "message": "Vi har modtaget din forespørgsel og vender tilbage inden for 24 timer med bekræftelse og yderligere information.",
+      "summary": "Din forespørgsel",
+      "room": "Værelse",
+      "arrival": "Ankomst",
+      "nights": "Nætter",
+      "guests": "Gæster",
+      "total": "Estimeret total",
+      "close": "Luk"
     }
   },
   "about": {
