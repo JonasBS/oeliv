@@ -1,16 +1,19 @@
 import express from 'express';
-import CompetitorScraper from '../services/competitor-scraper.js';
 import PriceOptimizer from '../services/price-optimizer.js';
 
 export default (db) => {
   const router = express.Router();
-  const scraper = new CompetitorScraper(db);
   const optimizer = new PriceOptimizer(db);
 
   // Get all competitor prices (latest)
   router.get('/competitors/prices', async (req, res) => {
     try {
-      const prices = await scraper.getLatestPrices();
+      const prices = await new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM competitor_prices ORDER BY scraped_at DESC LIMIT 50`, (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        });
+      });
       res.json(prices);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -21,118 +24,24 @@ export default (db) => {
   router.get('/competitors/history', async (req, res) => {
     try {
       const days = parseInt(req.query.days) || 30;
-      const history = await scraper.getHistoricalData(days);
+      const history = await new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM competitor_prices WHERE scraped_at >= datetime('now', '-${days} days') ORDER BY scraped_at DESC`, (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        });
+      });
       res.json(history);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });
 
-  // Trigger competitor scraping
+  // Trigger competitor scraping (disabled - puppeteer not available on server)
   router.post('/competitors/scrape', async (req, res) => {
-    try {
-      const { competitors } = req.body;
-      
-      if (!competitors || competitors.length === 0) {
-        return res.status(400).json({ error: 'No competitors provided' });
-      }
-
-      console.log(`🚀 Starting REAL scraping for ${competitors.length} competitors...`);
-      console.log(`   This may take 20-40 seconds per competitor...`);
-
-      // Try real Puppeteer scraping first
-      let results = [];
-      let scrapingMode = 'production';
-      
-      try {
-        // Set a reasonable timeout for the entire scraping operation
-        const scrapingPromise = scraper.scrapeAll(competitors);
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Scraping timeout after 120 seconds')), 120000)
-        );
-        
-        results = await Promise.race([scrapingPromise, timeoutPromise]);
-        
-        if (results.length > 0) {
-          console.log(`✅ Real scraping succeeded! Got ${results.length} results`);
-          scrapingMode = 'production';
-        } else {
-          console.log(`⚠️  Real scraping returned 0 results. Using fallback...`);
-          throw new Error('No results from scraping');
-        }
-      } catch (error) {
-        console.warn(`⚠️  Real scraping failed:`, error.message);
-        console.log(`📝 Falling back to realistic mock data...`);
-        scrapingMode = 'demo';
-        results = [];
-      }
-
-      // If no results from real scraping, use mock data as fallback
-      if (results.length === 0) {
-        console.log(`📊 Generating realistic mock data for ${competitors.length} competitors...`);
-        
-        for (const competitor of competitors) {
-          // Generate realistic price based on room type
-          let basePrice = 1200;
-          if (competitor.room_mapping === 'deluxe') basePrice = 1500;
-          if (competitor.room_mapping === 'suite') basePrice = 2000;
-          
-          // Add some variation (+/- 15%)
-          const variation = (Math.random() - 0.5) * basePrice * 0.3;
-          const price = Math.round(basePrice + variation);
-          
-          const mockData = {
-            source: competitor.source || competitor.name || 'Unknown',
-            url: competitor.url,
-            price: price,
-            availability: Math.random() > 0.3 ? 'available' : 'limited',
-            room_type: competitor.room_mapping || 'standard',
-            scraped_at: new Date().toISOString()
-          };
-
-          // Save to database
-          try {
-            await new Promise((resolve, reject) => {
-              db.run(`
-                INSERT INTO competitor_prices (
-                  source, url, price, availability, room_type, scraped_at
-                ) VALUES (?, ?, ?, ?, ?, ?)
-              `, [
-                mockData.source,
-                mockData.url,
-                mockData.price,
-                mockData.availability,
-                mockData.room_type,
-                mockData.scraped_at
-              ], function(err) {
-                if (err) reject(err);
-                else resolve();
-              });
-            });
-            
-            results.push(mockData);
-            console.log(`✅ Saved mock data for ${mockData.source}: ${mockData.price} DKK`);
-          } catch (error) {
-            console.error(`Error saving mock data:`, error);
-          }
-        }
-      }
-
-      console.log(`✅ Scraping complete. Total results: ${results.length} (mode: ${scrapingMode})`);
-
-      res.json({ 
-        success: true, 
-        scraped: results.length,
-        results,
-        mode: scrapingMode,
-        note: scrapingMode === 'demo' 
-          ? '⚠️  Real scraping timeout or blocked. Using realistic mock data for demo purposes.' 
-          : '✅ Real data successfully scraped from competitor websites!'
-      });
-    } catch (error) {
-      console.error('Scraping error:', error);
-      res.status(500).json({ error: error.message });
-    }
+    res.json({ 
+      success: false, 
+      message: 'Competitor scraping is disabled on this server. Use manual price entry instead.'
+    });
   });
 
   // Get competitor prices with date ranges (for calendar view)
