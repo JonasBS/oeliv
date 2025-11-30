@@ -73,10 +73,11 @@ export default async function SpaPage({ params }: Props) {
             </div>
             <div className="relative aspect-[4/5] overflow-hidden shadow-xl">
               <Image
-                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1200&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=1200&auto=format&fit=crop"
                 alt="Gaardsauna"
                 fill
                 className="object-cover"
+                unoptimized
               />
             </div>
           </div>
