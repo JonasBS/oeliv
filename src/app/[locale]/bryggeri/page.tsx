@@ -77,12 +77,13 @@ export default async function BreweryPage({ params }: Props) {
         <section className="py-20 bg-cream">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
+              <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1541959833400-049d37f97c86?q=80&w=1200&auto=format&fit=crop"
-                  alt="ØLIV Brew bryggeri"
+                  src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop"
+                  alt="Bornholmsk mark ved solnedgang"
                   fill
                   className="object-cover"
+                  unoptimized
                 />
               </div>
               <div className="max-w-xl">
