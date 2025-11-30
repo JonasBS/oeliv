@@ -109,22 +109,140 @@ export default async function BreweryPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Our Beers */}
-        <section className="py-20 bg-white">
+        {/* Our Beers - Illustrated Labels */}
+        <section className="py-24 bg-[#f4f2eb]">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <h2 className="font-display text-3xl md:text-4xl font-medium tracking-[0.05em] uppercase mb-12 text-charcoal text-center">
-              {t('beersSection.title')}
-            </h2>
+            <div className="text-center mb-16">
+              <span className="text-[11px] tracking-[0.3em] uppercase text-[#8a7a6a] mb-4 block">
+                Vores sortiment
+              </span>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-[#2d2820]">
+                {t('beersSection.title')}
+              </h2>
+            </div>
+            
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {beers.map((beer) => (
-                <div key={beer.name} className="p-6 bg-olive/5 rounded-2xl">
-                  <h3 className="font-display text-2xl font-medium mb-2 text-charcoal">
-                    {beer.name}
-                  </h3>
-                  <p className="text-sm text-muted uppercase tracking-wide mb-4">{beer.type}</p>
-                  <p className="text-muted leading-relaxed">{beer.description}</p>
+              {/* Kystlys */}
+              <div className="group">
+                <div className="bg-white p-8 mb-6 aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden border border-[#e8e4da] hover:border-[#c8c0b0] transition-colors">
+                  {/* Decorative frame */}
+                  <div className="absolute inset-4 border border-[#e8e4da]" />
+                  
+                  {/* Illustrated bottle - minimalist line art */}
+                  <svg viewBox="0 0 80 160" className="w-20 h-40 mb-4" fill="none" stroke="#4a5a42" strokeWidth="1">
+                    {/* Bottle shape */}
+                    <path d="M30 20 L30 35 C20 40 15 50 15 70 L15 145 C15 150 20 155 25 155 L55 155 C60 155 65 150 65 145 L65 70 C65 50 60 40 50 35 L50 20" />
+                    {/* Bottle neck */}
+                    <path d="M30 20 L30 10 C30 5 35 2 40 2 C45 2 50 5 50 10 L50 20" />
+                    {/* Cap */}
+                    <rect x="28" y="2" width="24" height="8" rx="2" fill="#4a5a42" />
+                    {/* Label area */}
+                    <rect x="20" y="70" width="40" height="50" rx="2" stroke="#b8a890" />
+                    {/* Sun rays - representing light/kyst */}
+                    <circle cx="40" cy="90" r="8" stroke="#b8a890" />
+                    <path d="M40 78 L40 72 M52 90 L58 90 M40 102 L40 108 M28 90 L22 90" stroke="#b8a890" />
+                    {/* Waves at bottom */}
+                    <path d="M25 130 Q32 125 40 130 Q48 135 55 130" stroke="#b8a890" />
+                  </svg>
+                  
+                  {/* Beer name on label style */}
+                  <div className="text-center relative z-10">
+                    <p className="font-display text-2xl text-[#2d2820] mb-1">Kystlys</p>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#8a7a6a]">Lys Lager - 4.5%</p>
+                  </div>
                 </div>
-              ))}
+                <p className="text-[#6b5a4a] text-sm leading-relaxed text-center">{t('beers.kystlys')}</p>
+              </div>
+
+              {/* Gaardens IPA */}
+              <div className="group">
+                <div className="bg-white p-8 mb-6 aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden border border-[#e8e4da] hover:border-[#c8c0b0] transition-colors">
+                  <div className="absolute inset-4 border border-[#e8e4da]" />
+                  
+                  <svg viewBox="0 0 80 160" className="w-20 h-40 mb-4" fill="none" stroke="#4a5a42" strokeWidth="1">
+                    <path d="M30 20 L30 35 C20 40 15 50 15 70 L15 145 C15 150 20 155 25 155 L55 155 C60 155 65 150 65 145 L65 70 C65 50 60 40 50 35 L50 20" />
+                    <path d="M30 20 L30 10 C30 5 35 2 40 2 C45 2 50 5 50 10 L50 20" />
+                    <rect x="28" y="2" width="24" height="8" rx="2" fill="#4a5a42" />
+                    <rect x="20" y="70" width="40" height="50" rx="2" stroke="#b8a890" />
+                    {/* Hop cone illustration */}
+                    <ellipse cx="40" cy="88" rx="6" ry="10" stroke="#4a5a42" />
+                    <path d="M34 85 Q30 82 28 88 M34 91 Q30 94 28 88" stroke="#4a5a42" />
+                    <path d="M46 85 Q50 82 52 88 M46 91 Q50 94 52 88" stroke="#4a5a42" />
+                    <path d="M40 78 L40 75 M38 76 L40 75 L42 76" stroke="#4a5a42" />
+                    {/* Leaf details */}
+                    <path d="M32 100 Q36 98 40 100 Q44 102 48 100" stroke="#b8a890" />
+                  </svg>
+                  
+                  <div className="text-center relative z-10">
+                    <p className="font-display text-2xl text-[#2d2820] mb-1">Gaardens IPA</p>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#8a7a6a]">IPA - 5.8%</p>
+                  </div>
+                </div>
+                <p className="text-[#6b5a4a] text-sm leading-relaxed text-center">{t('beers.ipa')}</p>
+              </div>
+
+              {/* Havbris */}
+              <div className="group">
+                <div className="bg-white p-8 mb-6 aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden border border-[#e8e4da] hover:border-[#c8c0b0] transition-colors">
+                  <div className="absolute inset-4 border border-[#e8e4da]" />
+                  
+                  <svg viewBox="0 0 80 160" className="w-20 h-40 mb-4" fill="none" stroke="#4a5a42" strokeWidth="1">
+                    <path d="M30 20 L30 35 C20 40 15 50 15 70 L15 145 C15 150 20 155 25 155 L55 155 C60 155 65 150 65 145 L65 70 C65 50 60 40 50 35 L50 20" />
+                    <path d="M30 20 L30 10 C30 5 35 2 40 2 C45 2 50 5 50 10 L50 20" />
+                    <rect x="28" y="2" width="24" height="8" rx="2" fill="#4a5a42" />
+                    <rect x="20" y="70" width="40" height="50" rx="2" stroke="#b8a890" />
+                    {/* Wheat illustration */}
+                    <path d="M40 78 L40 105" stroke="#b8a890" />
+                    <ellipse cx="40" cy="82" rx="3" ry="5" stroke="#b8a890" />
+                    <ellipse cx="36" cy="86" rx="3" ry="5" transform="rotate(-20 36 86)" stroke="#b8a890" />
+                    <ellipse cx="44" cy="86" rx="3" ry="5" transform="rotate(20 44 86)" stroke="#b8a890" />
+                    <ellipse cx="34" cy="92" rx="3" ry="5" transform="rotate(-30 34 92)" stroke="#b8a890" />
+                    <ellipse cx="46" cy="92" rx="3" ry="5" transform="rotate(30 46 92)" stroke="#b8a890" />
+                    {/* Wind lines */}
+                    <path d="M25 130 C30 128 35 132 40 130 C45 128 50 132 55 130" stroke="#b8a890" strokeWidth="0.5" />
+                    <path d="M28 135 C33 133 38 137 43 135 C48 133 53 137 55 135" stroke="#b8a890" strokeWidth="0.5" />
+                  </svg>
+                  
+                  <div className="text-center relative z-10">
+                    <p className="font-display text-2xl text-[#2d2820] mb-1">Havbris</p>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#8a7a6a]">Wheat Ale - 4.2%</p>
+                  </div>
+                </div>
+                <p className="text-[#6b5a4a] text-sm leading-relaxed text-center">{t('beers.havbris')}</p>
+              </div>
+
+              {/* Saesonens Stout */}
+              <div className="group">
+                <div className="bg-[#2d2820] p-8 mb-6 aspect-[3/4] flex flex-col items-center justify-center relative overflow-hidden border border-[#4a4238] hover:border-[#6b5a4a] transition-colors">
+                  <div className="absolute inset-4 border border-[#4a4238]" />
+                  
+                  <svg viewBox="0 0 80 160" className="w-20 h-40 mb-4" fill="none" stroke="#b8a890" strokeWidth="1">
+                    <path d="M30 20 L30 35 C20 40 15 50 15 70 L15 145 C15 150 20 155 25 155 L55 155 C60 155 65 150 65 145 L65 70 C65 50 60 40 50 35 L50 20" />
+                    <path d="M30 20 L30 10 C30 5 35 2 40 2 C45 2 50 5 50 10 L50 20" />
+                    <rect x="28" y="2" width="24" height="8" rx="2" fill="#b8a890" />
+                    <rect x="20" y="70" width="40" height="50" rx="2" stroke="#8a7a6a" />
+                    {/* Moon and stars - night/winter theme */}
+                    <circle cx="40" cy="85" r="8" stroke="#f4f2eb" />
+                    <circle cx="44" cy="82" r="6" fill="#2d2820" stroke="none" />
+                    {/* Stars */}
+                    <circle cx="28" cy="80" r="1" fill="#f4f2eb" />
+                    <circle cx="52" cy="95" r="1" fill="#f4f2eb" />
+                    <circle cx="30" cy="100" r="0.8" fill="#f4f2eb" />
+                    <circle cx="50" cy="78" r="0.8" fill="#f4f2eb" />
+                    {/* Coffee bean hint */}
+                    <ellipse cx="35" cy="108" rx="4" ry="6" stroke="#8a7a6a" />
+                    <path d="M35 104 L35 112" stroke="#8a7a6a" />
+                    <ellipse cx="45" cy="108" rx="4" ry="6" stroke="#8a7a6a" />
+                    <path d="M45 104 L45 112" stroke="#8a7a6a" />
+                  </svg>
+                  
+                  <div className="text-center relative z-10">
+                    <p className="font-display text-2xl text-[#f4f2eb] mb-1">Saesonens Stout</p>
+                    <p className="text-[10px] tracking-[0.2em] uppercase text-[#b8a890]">Stout - 6.0%</p>
+                  </div>
+                </div>
+                <p className="text-[#6b5a4a] text-sm leading-relaxed text-center">{t('beers.stout')}</p>
+              </div>
             </div>
           </div>
         </section>
