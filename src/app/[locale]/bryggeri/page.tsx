@@ -126,29 +126,29 @@ export default async function BreweryPage({ params }: Props) {
               
               {/* Kystlys */}
               <div className="group">
-                <div className="relative aspect-[3/4] bg-[#0a0a0a] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src="/images/beers/kystlys.png"
                     alt="Kystlys - OELIV Brew"
                     fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="mt-6 text-center">
                   <h3 className="font-display text-2xl text-[#2d2820] mb-1">Kystlys</h3>
-                  <p className="text-[11px] tracking-[0.15em] uppercase text-[#87CEEB] mb-3">Lys Lager - 4.5%</p>
+                  <p className="text-[11px] tracking-[0.15em] uppercase text-[#5F9EA0] mb-3">Lys Lager - 4.5%</p>
                   <p className="text-[#6b5a4a] text-sm leading-relaxed">{t('beers.kystlys')}</p>
                 </div>
               </div>
 
               {/* Gaardens IPA */}
               <div className="group">
-                <div className="relative aspect-[3/4] bg-[#0a0a0a] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src="/images/beers/gaardens-ipa.png"
                     alt="Gaardens IPA - OELIV Brew"
                     fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="mt-6 text-center">
@@ -160,12 +160,12 @@ export default async function BreweryPage({ params }: Props) {
 
               {/* Havbris */}
               <div className="group">
-                <div className="relative aspect-[3/4] bg-[#e8e4da] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src="/images/beers/havbris.png"
                     alt="Havbris - OELIV Brew"
                     fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="mt-6 text-center">
@@ -177,12 +177,12 @@ export default async function BreweryPage({ params }: Props) {
 
               {/* Saesonens Stout */}
               <div className="group">
-                <div className="relative aspect-[3/4] bg-[#0a0a0a] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src="/images/beers/saesonens-stout.png"
                     alt="Saesonens Stout - OELIV Brew"
                     fill
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                    className="object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="mt-6 text-center">
