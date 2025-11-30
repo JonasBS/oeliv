@@ -70,8 +70,8 @@ export default async function AccommodationPage({ params }: Props) {
       {/* Hero - Cinematic full-width */}
       <section className="relative h-[70vh] min-h-[500px] flex items-end">
         <Image
-          src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000&auto=format&fit=crop"
-          alt="OELIV Accommodation"
+          src="/images/accommodation/oeliv-gaardhave.png"
+          alt="OELIV Gaardhave - Overnatning paa Bornholm"
           fill
           className="object-cover"
           priority
