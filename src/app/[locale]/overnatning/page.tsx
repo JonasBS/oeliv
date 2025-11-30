@@ -63,12 +63,66 @@ export default async function AccommodationPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Rooms Grid - Dynamic from API */}
+        {/* Rooms Grid */}
         <section className="py-20 bg-cream">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="text-center text-muted py-12 bg-white rounded-2xl shadow-sm">
-              <p className="text-lg">Værelser indlæses fra booking-systemet...</p>
-              <p className="text-sm mt-2">Forbinder til API...</p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {/* Gårdværelse */}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                <div className="aspect-[4/3] relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800&auto=format&fit=crop" 
+                    alt="Gårdværelse"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-2xl font-medium mb-2 text-charcoal">Gårdværelse</h3>
+                  <p className="text-muted text-sm mb-4">Hyggeligt værelse med udsigt til gårdspladsen. Dobbeltseng, eget bad.</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-olive font-medium">Fra 1.295 kr/nat</span>
+                    <span className="text-xs text-muted">2 gæster</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Haveværelse */}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                <div className="aspect-[4/3] relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=800&auto=format&fit=crop" 
+                    alt="Haveværelse"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-2xl font-medium mb-2 text-charcoal">Haveværelse</h3>
+                  <p className="text-muted text-sm mb-4">Rummeligt værelse med direkte adgang til haven. Kingsize seng, eget bad.</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-olive font-medium">Fra 1.595 kr/nat</span>
+                    <span className="text-xs text-muted">2 gæster</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Suite */}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+                <div className="aspect-[4/3] relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop" 
+                    alt="Lærkegaard Suite"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="font-display text-2xl font-medium mb-2 text-charcoal">Lærkegaard Suite</h3>
+                  <p className="text-muted text-sm mb-4">Vores største værelse med separat opholdsstue, havudsigt og privat terrasse.</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-olive font-medium">Fra 2.195 kr/nat</span>
+                    <span className="text-xs text-muted">2-4 gæster</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
