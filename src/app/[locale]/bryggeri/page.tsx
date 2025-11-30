@@ -122,8 +122,25 @@ export default async function BreweryPage({ params }: Props) {
             </h2>
             </div>
             
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
               
+              {/* Kystlys */}
+              <div className="group">
+                <div className="relative aspect-[3/4] bg-[#0a0a0a] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                  <Image
+                    src="/images/beers/kystlys.png"
+                    alt="Kystlys - OELIV Brew"
+                    fill
+                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="mt-6 text-center">
+                  <h3 className="font-display text-2xl text-[#2d2820] mb-1">Kystlys</h3>
+                  <p className="text-[11px] tracking-[0.15em] uppercase text-[#87CEEB] mb-3">Lys Lager - 4.5%</p>
+                  <p className="text-[#6b5a4a] text-sm leading-relaxed">{t('beers.kystlys')}</p>
+                </div>
+              </div>
+
               {/* Gaardens IPA */}
               <div className="group">
                 <div className="relative aspect-[3/4] bg-[#0a0a0a] rounded-sm overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
@@ -176,18 +193,6 @@ export default async function BreweryPage({ params }: Props) {
               </div>
               
             </div>
-          </div>
-        </section>
-
-        {/* Kystlys - Coming Soon */}
-        <section className="py-16 bg-[#2d2820]">
-          <div className="max-w-3xl mx-auto px-6 lg:px-8 text-center">
-            <span className="text-[11px] tracking-[0.3em] uppercase text-[#8a7a6a] mb-4 block">
-              Kommer snart
-            </span>
-            <h3 className="font-display text-2xl md:text-3xl text-[#f4f2eb] mb-4">Kystlys</h3>
-            <p className="text-[#b8a890] mb-2">Lys Lager - 4.5%</p>
-            <p className="text-[#8a7a6a] text-sm">{t('beers.kystlys')}</p>
           </div>
         </section>
 
