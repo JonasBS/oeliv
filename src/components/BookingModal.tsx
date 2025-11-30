@@ -1,21 +1,136 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useBooking } from './BookingProvider';
 
 type BookingStep = 'dates' | 'room' | 'contact';
+
+// Custom Calendar Component
+const CustomCalendar = ({ 
+  selectedDate, 
+  onSelect, 
+  minDate 
+}: { 
+  selectedDate: Date | null;
+  onSelect: (date: Date) => void;
+  minDate?: Date;
+}) => {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  
+  const monthNames = ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 
+                      'Juli', 'August', 'September', 'Oktober', 'November', 'December'];
+  const dayNames = ['Ma', 'Ti', 'On', 'To', 'Fr', 'Lø', 'Sø'];
+
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = (firstDay.getDay() + 6) % 7; // Monday = 0
+    
+    const days: (Date | null)[] = [];
+    
+    // Empty cells before first day
+    for (let i = 0; i < startingDay; i++) {
+      days.push(null);
+    }
+    
+    // Days of month
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(new Date(year, month, i));
+    }
+    
+    return days;
+  };
+
+  const isDateDisabled = (date: Date | null) => {
+    if (!date) return true;
+    if (!minDate) return false;
+    return date < new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate());
+  };
+
+  const isDateSelected = (date: Date | null) => {
+    if (!date || !selectedDate) return false;
+    return date.toDateString() === selectedDate.toDateString();
+  };
+
+  const isToday = (date: Date | null) => {
+    if (!date) return false;
+    return date.toDateString() === new Date().toDateString();
+  };
+
+  const days = getDaysInMonth(currentMonth);
+
+  return (
+    <div className="bg-[#faf9f5] border border-[#ddd8cc] p-4">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <button
+          type="button"
+          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+          className="w-8 h-8 flex items-center justify-center text-[#8a7a6a] hover:text-[#4a5a42] transition-colors"
+        >
+          ‹
+        </button>
+        <span className="font-display text-lg text-[#2d2820]">
+          {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+        </span>
+        <button
+          type="button"
+          onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+          className="w-8 h-8 flex items-center justify-center text-[#8a7a6a] hover:text-[#4a5a42] transition-colors"
+        >
+          ›
+        </button>
+      </div>
+
+      {/* Day names */}
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {dayNames.map(day => (
+          <div key={day} className="text-center text-[10px] tracking-[0.1em] uppercase text-[#8a7a6a] py-1">
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* Days */}
+      <div className="grid grid-cols-7 gap-1">
+        {days.map((date, index) => (
+          <button
+            key={index}
+            type="button"
+            disabled={isDateDisabled(date)}
+            onClick={() => date && onSelect(date)}
+            className={`
+              aspect-square flex items-center justify-center text-sm transition-all
+              ${!date ? 'invisible' : ''}
+              ${isDateDisabled(date) ? 'text-[#c8c0b0] cursor-not-allowed' : 'hover:bg-[#4a5a42]/10'}
+              ${isDateSelected(date) ? 'bg-[#4a5a42] text-[#f4f2eb]' : ''}
+              ${isToday(date) && !isDateSelected(date) ? 'border border-[#4a5a42]' : ''}
+            `}
+          >
+            {date?.getDate()}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export const BookingModal = () => {
   const t = useTranslations('booking');
   const { isOpen, closeBooking } = useBooking();
   const [step, setStep] = useState<BookingStep>('dates');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
   
   // Form state
   const [formData, setFormData] = useState({
-    arrivalDate: '',
-    departureDate: '',
+    arrivalDate: null as Date | null,
+    nights: 2,
     guests: 2,
     roomId: '',
     name: '',

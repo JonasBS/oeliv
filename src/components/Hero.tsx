@@ -65,21 +65,6 @@ export const Hero = () => {
               {t('description')}
             </p>
 
-            {/* Badges - historic style */}
-            <div 
-              className="flex flex-wrap gap-3 mb-10 animate-fadeInUp opacity-0"
-              style={{ animationDelay: '1s', animationFillMode: 'forwards' }}
-            >
-              {['Stråtag & Pigsten', 'Gårdsauna', 'ØLIV Brew', '300m til havet'].map((badge, i) => (
-                <span 
-                  key={badge}
-                  className="px-4 py-2 text-[10px] tracking-[0.15em] uppercase text-[#ddd8cc] border border-[#b8a890]/30 bg-[#1c1a17]/30 backdrop-blur-sm"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
-
             {/* CTAs */}
             <div 
               className="flex flex-wrap gap-4 animate-fadeInUp opacity-0"
