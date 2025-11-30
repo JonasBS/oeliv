@@ -204,9 +204,7 @@ export default async function BreweryPage({ params }: Props) {
             </button>
           </div>
         </section>
-      </main>
-      
-    </>
+    </main>
   );
 }
 

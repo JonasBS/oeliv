@@ -158,9 +158,7 @@ export default async function AccommodationPage({ params }: Props) {
             </button>
           </div>
         </section>
-      </main>
-      
-    </>
+    </main>
   );
 }
 

@@ -219,9 +219,7 @@ export default async function AboutPage({ params }: Props) {
             </div>
           </div>
         </section>
-      </main>
-      
-    </>
+    </main>
   );
 }
 
