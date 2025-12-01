@@ -6,10 +6,30 @@ import { useBooking, type RoomType } from './BookingProvider';
 
 type BookingStep = 'dates' | 'room' | 'contact' | 'success';
 
-const ROOMS: RoomType[] = [
-  { id: 'gaardvaerelse', name: 'Gaardvaerelse', price: '1.295', description: 'Dobbeltseng, eget bad, gaardsudsigt' },
-  { id: 'havevaerelse', name: 'Havevaerelse', price: '1.595', description: 'Kingsize seng, privat terrasse, have-adgang' },
-  { id: 'suite', name: 'Laerkegaard Suite', price: '2.195', description: 'Separat stue, havudsigt, privat terrasse' },
+type RoomWithImage = RoomType & { image: string };
+
+const ROOMS: RoomWithImage[] = [
+  { 
+    id: 'gaardvaerelse', 
+    name: 'Gaardvaerelse', 
+    price: '1.295', 
+    description: 'Dobbeltseng, eget bad, gaardsudsigt',
+    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=400&auto=format&fit=crop'
+  },
+  { 
+    id: 'havevaerelse', 
+    name: 'Havevaerelse', 
+    price: '1.595', 
+    description: 'Kingsize seng, privat terrasse, have-adgang',
+    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=400&auto=format&fit=crop'
+  },
+  { 
+    id: 'suite', 
+    name: 'Laerkegaard Suite', 
+    price: '2.195', 
+    description: 'Separat stue, havudsigt, privat terrasse',
+    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=400&auto=format&fit=crop'
+  },
 ];
 
 const MONTHS_DA = [
@@ -477,7 +497,7 @@ export const BookingModal = () => {
                           {n}
                         </button>
                       ))}
-                    </div>
+                  </div>
                 </div>
 
                 <div>
@@ -531,67 +551,88 @@ export const BookingModal = () => {
 
               {/* Step 2: Room (only if no pre-selected room) */}
               {step === 'room' && !selectedRoom && (
-              <div className="space-y-4">
-                  <p className="text-sm text-[#6b5a4a] mb-6">
+                <div className="space-y-3">
+                  <p className="text-sm text-[#6b5a4a] mb-4">
                     Vaelg det vaerelse der passer bedst til dit ophold
                   </p>
                   
                   {ROOMS.map((room) => (
-                  <button
-                    key={room.id}
-                    type="button"
-                    onClick={() => setFormData({ ...formData, roomId: room.id })}
-                      className={`w-full p-5 text-left border transition-all ${
-                      formData.roomId === room.id
-                          ? 'bg-[#e8e4da] border-[#4a5a42]'
-                          : 'border-[#ddd8cc] hover:bg-[#faf9f5] hover:border-[#c8c0b0]'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                        <div className="flex-1">
-                          <h3 className="font-display text-lg text-[#2d2820]">{room.name}</h3>
-                          <p className="text-sm text-[#8a7a6a] font-light mt-1">{room.description}</p>
-                      </div>
-                        <div className="text-right ml-4">
-                          <p className="text-[#4a5a42] font-display text-lg">
-                            {room.price} kr
-                          </p>
-                        <p className="text-xs text-[#8a7a6a]">pr. nat</p>
-                      </div>
-                    </div>
-                      
-                    {formData.roomId === room.id && (
-                      <div className="mt-4 pt-4 border-t border-[#c8c0b0]">
-                          <div className="flex justify-between text-sm">
-                            <span className="text-[#8a7a6a]">{formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'}</span>
-                            <span className="text-[#2d2820] font-medium">
-                              {formatPrice(parseInt(room.price.replace('.', '')) * formData.nights)} kr total
-                            </span>
+                    <button
+                      key={room.id}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, roomId: room.id })}
+                      className={`w-full text-left border transition-all overflow-hidden ${
+                        formData.roomId === room.id
+                          ? 'border-[#4a5a42] ring-1 ring-[#4a5a42]'
+                          : 'border-[#ddd8cc] hover:border-[#c8c0b0]'
+                      }`}
+                    >
+                      <div className="flex">
+                        {/* Room Image */}
+                        <div className="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+                          <img 
+                            src={room.image} 
+                            alt={room.name}
+                            className="w-full h-full object-cover"
+                          />
+                          {formData.roomId === room.id && (
+                            <div className="absolute inset-0 bg-[#4a5a42]/20 flex items-center justify-center">
+                              <div className="w-6 h-6 bg-[#4a5a42] rounded-full flex items-center justify-center">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                  <path d="M5 13l4 4L19 7" stroke="#f4f2eb" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        
+                        {/* Room Info */}
+                        <div className="flex-1 p-3 flex flex-col justify-between">
+                          <div>
+                            <div className="flex justify-between items-start">
+                              <h3 className="font-display text-base text-[#2d2820]">{room.name}</h3>
+                              <div className="text-right">
+                                <p className="text-[#4a5a42] font-display text-base">
+                                  {room.price} kr
+                                </p>
+                                <p className="text-[10px] text-[#8a7a6a]">pr. nat</p>
+                              </div>
+                            </div>
+                            <p className="text-xs text-[#8a7a6a] font-light mt-1">{room.description}</p>
                           </div>
+                          
+                          {formData.roomId === room.id && (
+                            <div className="flex justify-between text-xs mt-2 pt-2 border-t border-[#ddd8cc]">
+                              <span className="text-[#8a7a6a]">{formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'}</span>
+                              <span className="text-[#2d2820] font-medium">
+                                {formatPrice(parseInt(room.price.replace('.', '')) * formData.nights)} kr total
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
-                  </button>
-                ))}
+                    </button>
+                  ))}
 
-              <div className="flex gap-4 mt-8">
-                <button
-                  type="button"
-                  onClick={() => setStep('dates')}
+                  <div className="flex gap-4 mt-6 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setStep('dates')}
                       className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
-                >
+                    >
                       ← {t('step2.back')}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setStep('contact')}
-                  disabled={!formData.roomId}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStep('contact')}
+                      disabled={!formData.roomId}
                       className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                >
+                    >
                       {t('step2.continue')} →
-                </button>
-              </div>
-            </div>
-          )}
+                    </button>
+                  </div>
+                </div>
+              )}
 
           {/* Step 3: Contact */}
           {step === 'contact' && (
