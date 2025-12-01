@@ -6,29 +6,51 @@ import { useBooking, type RoomType } from './BookingProvider';
 
 type BookingStep = 'dates' | 'room' | 'contact' | 'success';
 
-type RoomWithImage = RoomType & { image: string };
+type RoomWithImages = RoomType & { 
+  images: string[];
+  features: string[];
+  size: string;
+};
 
-const ROOMS: RoomWithImage[] = [
+const ROOMS: RoomWithImages[] = [
   { 
     id: 'gaardvaerelse', 
     name: 'Gaardvaerelse', 
     price: '1.295', 
     description: 'Dobbeltseng, eget bad, gaardsudsigt',
-    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=400&auto=format&fit=crop'
+    size: '18 m²',
+    features: ['Dobbeltseng', 'Eget bad', 'Regnbruser', 'Morgenlys'],
+    images: [
+      'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop',
+    ]
   },
   { 
     id: 'havevaerelse', 
     name: 'Havevaerelse', 
     price: '1.595', 
     description: 'Kingsize seng, privat terrasse, have-adgang',
-    image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=400&auto=format&fit=crop'
+    size: '24 m²',
+    features: ['Kingsize seng', 'Privat terrasse', 'Badekar', 'Have-adgang'],
+    images: [
+      'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?q=80&w=800&auto=format&fit=crop',
+    ]
   },
   { 
     id: 'suite', 
     name: 'Laerkegaard Suite', 
     price: '2.195', 
     description: 'Separat stue, havudsigt, privat terrasse',
-    image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=400&auto=format&fit=crop'
+    size: '42 m²',
+    features: ['Separat stue', 'Havudsigt', 'Privat terrasse', 'Pejs'],
+    images: [
+      'https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=800&auto=format&fit=crop',
+    ]
   },
 ];
 
@@ -193,12 +215,161 @@ const CustomCalendar = ({
   );
 };
 
+// Room Gallery Modal
+const RoomGalleryModal = ({
+  room,
+  onClose,
+  onSelect,
+  nights,
+}: {
+  room: RoomWithImages;
+  onClose: () => void;
+  onSelect: () => void;
+  nights: number;
+}) => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % room.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + room.images.length) % room.images.length);
+  };
+
+  const total = parseInt(room.price.replace('.', '')) * nights;
+
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-[#1c1a17]/90" onClick={onClose} />
+      
+      <div className="relative w-full max-w-3xl max-h-[90vh] bg-[#f4f2eb] overflow-hidden">
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 w-10 h-10 bg-[#f4f2eb]/90 flex items-center justify-center text-[#2d2820] hover:bg-[#f4f2eb] transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </button>
+
+        {/* Image Gallery */}
+        <div className="relative aspect-[16/10] bg-[#2d2820]">
+          <img
+            src={room.images[currentImage]}
+            alt={`${room.name} - billede ${currentImage + 1}`}
+            className="w-full h-full object-cover"
+          />
+          
+          {/* Navigation arrows */}
+          {room.images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#f4f2eb]/90 flex items-center justify-center text-[#2d2820] hover:bg-[#f4f2eb] transition-colors"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#f4f2eb]/90 flex items-center justify-center text-[#2d2820] hover:bg-[#f4f2eb] transition-colors"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5" />
+                </svg>
+              </button>
+            </>
+          )}
+
+          {/* Image dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+            {room.images.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setCurrentImage(index)}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === currentImage ? 'bg-[#f4f2eb]' : 'bg-[#f4f2eb]/50'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Thumbnails */}
+        <div className="flex gap-1 p-2 bg-[#e8e4da]">
+          {room.images.map((img, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setCurrentImage(index)}
+              className={`w-16 h-12 overflow-hidden transition-opacity ${
+                index === currentImage ? 'ring-2 ring-[#4a5a42]' : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <img src={img} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+
+        {/* Room Info */}
+        <div className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h3 className="font-display text-2xl text-[#2d2820]">{room.name}</h3>
+              <p className="text-sm text-[#8a7a6a] mt-1">{room.size} · {room.description}</p>
+            </div>
+            <div className="text-right">
+              <p className="font-display text-2xl text-[#4a5a42]">{room.price} kr</p>
+              <p className="text-xs text-[#8a7a6a]">pr. nat</p>
+            </div>
+          </div>
+
+          {/* Features */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {room.features.map((feature) => (
+              <span
+                key={feature}
+                className="text-[10px] tracking-[0.1em] uppercase text-[#6b5a4a] px-3 py-1.5 bg-[#e8e4da]"
+              >
+                {feature}
+              </span>
+            ))}
+          </div>
+
+          {/* Total & Select */}
+          <div className="flex items-center justify-between pt-4 border-t border-[#ddd8cc]">
+            <div>
+              <p className="text-sm text-[#8a7a6a]">{nights} {nights === 1 ? 'nat' : 'naetter'}</p>
+              <p className="font-display text-xl text-[#2d2820]">{total.toLocaleString('da-DK')} kr total</p>
+            </div>
+            <button
+              type="button"
+              onClick={onSelect}
+              className="px-8 py-3 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors"
+            >
+              Vaelg dette vaerelse
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const BookingModal = () => {
   const t = useTranslations('booking');
   const { isOpen, selectedRoom, closeBooking } = useBooking();
   const [step, setStep] = useState<BookingStep>('dates');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [galleryRoom, setGalleryRoom] = useState<RoomWithImages | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   
   // Form state
@@ -557,40 +728,63 @@ export const BookingModal = () => {
                   </p>
                   
                   {ROOMS.map((room) => (
-                    <button
+                    <div
                       key={room.id}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, roomId: room.id })}
-                      className={`w-full text-left border transition-all overflow-hidden ${
+                      className={`border transition-all overflow-hidden ${
                         formData.roomId === room.id
                           ? 'border-[#4a5a42] ring-1 ring-[#4a5a42]'
-                          : 'border-[#ddd8cc] hover:border-[#c8c0b0]'
+                          : 'border-[#ddd8cc]'
                       }`}
                     >
                       <div className="flex">
-                        {/* Room Image */}
-                        <div className="w-24 h-24 flex-shrink-0 relative overflow-hidden">
+                        {/* Room Image - clickable for gallery */}
+                        <button
+                          type="button"
+                          onClick={() => setGalleryRoom(room)}
+                          className="w-24 h-24 flex-shrink-0 relative overflow-hidden group"
+                        >
                           <img 
-                            src={room.image} 
+                            src={room.images[0]} 
                             alt={room.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover transition-transform group-hover:scale-105"
                           />
+                          {/* Expand icon */}
+                          <div className="absolute inset-0 bg-[#1c1a17]/0 group-hover:bg-[#1c1a17]/40 transition-colors flex items-center justify-center">
+                            <svg 
+                              width="20" 
+                              height="20" 
+                              viewBox="0 0 24 24" 
+                              fill="none" 
+                              className="text-[#f4f2eb] opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            </svg>
+                          </div>
+                          {/* Image count badge */}
+                          <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-[#1c1a17]/70 text-[#f4f2eb] text-[9px]">
+                            {room.images.length} 📷
+                          </div>
                           {formData.roomId === room.id && (
-                            <div className="absolute inset-0 bg-[#4a5a42]/20 flex items-center justify-center">
-                              <div className="w-6 h-6 bg-[#4a5a42] rounded-full flex items-center justify-center">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                                  <path d="M5 13l4 4L19 7" stroke="#f4f2eb" strokeWidth="2" strokeLinecap="round"/>
-                                </svg>
-                              </div>
+                            <div className="absolute top-1 left-1 w-5 h-5 bg-[#4a5a42] rounded-full flex items-center justify-center">
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 13l4 4L19 7" stroke="#f4f2eb" strokeWidth="2" strokeLinecap="round"/>
+                              </svg>
                             </div>
                           )}
-                        </div>
+                        </button>
                         
-                        {/* Room Info */}
-                        <div className="flex-1 p-3 flex flex-col justify-between">
+                        {/* Room Info - clickable to select */}
+                        <button
+                          type="button"
+                          onClick={() => setFormData({ ...formData, roomId: room.id })}
+                          className="flex-1 p-3 flex flex-col justify-between text-left hover:bg-[#faf9f5] transition-colors"
+                        >
                           <div>
                             <div className="flex justify-between items-start">
-                              <h3 className="font-display text-base text-[#2d2820]">{room.name}</h3>
+                              <div>
+                                <h3 className="font-display text-base text-[#2d2820]">{room.name}</h3>
+                                <p className="text-[10px] text-[#8a7a6a]">{room.size}</p>
+                              </div>
                               <div className="text-right">
                                 <p className="text-[#4a5a42] font-display text-base">
                                   {room.price} kr
@@ -598,7 +792,7 @@ export const BookingModal = () => {
                                 <p className="text-[10px] text-[#8a7a6a]">pr. nat</p>
                               </div>
                             </div>
-                            <p className="text-xs text-[#8a7a6a] font-light mt-1">{room.description}</p>
+                            <p className="text-xs text-[#8a7a6a] font-light mt-1 line-clamp-1">{room.description}</p>
                           </div>
                           
                           {formData.roomId === room.id && (
@@ -609,9 +803,9 @@ export const BookingModal = () => {
                               </span>
                             </div>
                           )}
-                        </div>
+                        </button>
                       </div>
-                    </button>
+                    </div>
                   ))}
 
                   <div className="flex gap-4 mt-6 pt-2">
@@ -632,6 +826,19 @@ export const BookingModal = () => {
                     </button>
                   </div>
                 </div>
+              )}
+
+              {/* Room Gallery Modal */}
+              {galleryRoom && (
+                <RoomGalleryModal
+                  room={galleryRoom}
+                  onClose={() => setGalleryRoom(null)}
+                  onSelect={() => {
+                    setFormData({ ...formData, roomId: galleryRoom.id });
+                    setGalleryRoom(null);
+                  }}
+                  nights={formData.nights}
+                />
               )}
 
           {/* Step 3: Contact */}
