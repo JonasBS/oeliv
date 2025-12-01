@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { useBooking, type RoomType } from './BookingProvider';
 
@@ -12,15 +12,178 @@ const ROOMS: RoomType[] = [
   { id: 'suite', name: 'Laerkegaard Suite', price: '2.195', description: 'Separat stue, havudsigt, privat terrasse' },
 ];
 
+const MONTHS_DA = [
+  'Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni',
+  'Juli', 'August', 'September', 'Oktober', 'November', 'December'
+];
+
+const WEEKDAYS_DA = ['Ma', 'Ti', 'On', 'To', 'Fr', 'Lo', 'So'];
+
+// Custom Calendar Component
+const CustomCalendar = ({
+  selectedDate,
+  onSelect,
+  onClose,
+}: {
+  selectedDate: Date | null;
+  onSelect: (date: Date) => void;
+  onClose: () => void;
+}) => {
+  const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date());
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = (firstDay.getDay() + 6) % 7; // Monday = 0
+
+    const days: (Date | null)[] = [];
+
+    for (let i = 0; i < startingDay; i++) {
+      days.push(null);
+    }
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push(new Date(year, month, i));
+    }
+
+    return days;
+  };
+
+  const isDateDisabled = (date: Date | null) => {
+    if (!date) return true;
+    return date < today;
+  };
+
+  const isDateSelected = (date: Date | null) => {
+    if (!date || !selectedDate) return false;
+    return date.toDateString() === selectedDate.toDateString();
+  };
+
+  const isToday = (date: Date | null) => {
+    if (!date) return false;
+    return date.toDateString() === today.toDateString();
+  };
+
+  const days = getDaysInMonth(currentMonth);
+
+  const prevMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  const canGoPrev = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1) > today;
+
+  return (
+    <div className="absolute top-full left-0 right-0 mt-2 bg-[#f4f2eb] border border-[#ddd8cc] shadow-xl z-50">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-[#e8e4da]">
+        <button
+          type="button"
+          onClick={prevMonth}
+          disabled={!canGoPrev}
+          className={`w-8 h-8 flex items-center justify-center transition-colors ${
+            canGoPrev ? 'text-[#2d2820] hover:bg-[#e8e4da]' : 'text-[#c8c0b0] cursor-not-allowed'
+          }`}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </button>
+        <span className="font-display text-lg text-[#2d2820]">
+          {MONTHS_DA[currentMonth.getMonth()]} {currentMonth.getFullYear()}
+        </span>
+        <button
+          type="button"
+          onClick={nextMonth}
+          className="w-8 h-8 flex items-center justify-center text-[#2d2820] hover:bg-[#e8e4da] transition-colors"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Weekday headers */}
+      <div className="grid grid-cols-7 border-b border-[#e8e4da]">
+        {WEEKDAYS_DA.map((day) => (
+          <div
+            key={day}
+            className="py-2 text-center text-[10px] tracking-[0.1em] uppercase text-[#8a7a6a]"
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* Days grid */}
+      <div className="grid grid-cols-7 p-2">
+        {days.map((date, index) => (
+          <button
+            key={index}
+            type="button"
+            disabled={isDateDisabled(date)}
+            onClick={() => {
+              if (date && !isDateDisabled(date)) {
+                onSelect(date);
+                onClose();
+              }
+            }}
+            className={`
+              aspect-square flex items-center justify-center text-sm transition-all m-0.5
+              ${!date ? 'invisible' : ''}
+              ${isDateDisabled(date) ? 'text-[#c8c0b0] cursor-not-allowed' : 'hover:bg-[#4a5a42] hover:text-[#f4f2eb]'}
+              ${isDateSelected(date) ? 'bg-[#4a5a42] text-[#f4f2eb]' : ''}
+              ${isToday(date) && !isDateSelected(date) ? 'border border-[#4a5a42] text-[#4a5a42]' : ''}
+            `}
+          >
+            {date?.getDate()}
+          </button>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className="flex justify-between items-center p-3 border-t border-[#e8e4da]">
+        <button
+          type="button"
+          onClick={() => {
+            onSelect(today);
+            onClose();
+          }}
+          className="text-[11px] tracking-[0.1em] uppercase text-[#4a5a42] hover:text-[#2d2820] transition-colors"
+        >
+          I dag
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="text-[11px] tracking-[0.1em] uppercase text-[#8a7a6a] hover:text-[#2d2820] transition-colors"
+        >
+          Luk
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export const BookingModal = () => {
   const t = useTranslations('booking');
   const { isOpen, selectedRoom, closeBooking } = useBooking();
   const [step, setStep] = useState<BookingStep>('dates');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const calendarRef = useRef<HTMLDivElement>(null);
   
   // Form state
   const [formData, setFormData] = useState({
-    arrivalDate: '',
+    arrivalDate: null as Date | null,
     nights: 2,
     guests: 2,
     roomId: '',
@@ -30,11 +193,21 @@ export const BookingModal = () => {
     message: '',
   });
 
+  // Close calendar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setShowCalendar(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Handle pre-selected room
   useEffect(() => {
     if (isOpen && selectedRoom) {
       setFormData(prev => ({ ...prev, roomId: selectedRoom.id }));
-      // If room is pre-selected, skip to dates step (or stay there)
       setStep('dates');
     }
   }, [isOpen, selectedRoom]);
@@ -44,8 +217,9 @@ export const BookingModal = () => {
     if (!isOpen) {
       setTimeout(() => {
         setStep('dates');
+        setShowCalendar(false);
         setFormData({
-          arrivalDate: '',
+          arrivalDate: null,
           nights: 2,
           guests: 2,
           roomId: '',
@@ -72,13 +246,8 @@ export const BookingModal = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Here you would send to your backend
     console.log('Booking submitted:', formData);
-    
     setIsSubmitting(false);
     setStep('success');
   };
@@ -93,6 +262,23 @@ export const BookingModal = () => {
 
   const formatPrice = (price: number) => {
     return price.toLocaleString('da-DK');
+  };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return '';
+    return date.toLocaleDateString('da-DK', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  const formatDateShort = (date: Date | null) => {
+    if (!date) return '';
+    return date.toLocaleDateString('da-DK', {
+      day: 'numeric',
+      month: 'short'
+    });
   };
 
   if (!isOpen) return null;
@@ -151,11 +337,7 @@ export const BookingModal = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#8a7a6a]">{t('success.arrival')}</span>
-                  <span className="text-[#2d2820]">
-                    {new Date(formData.arrivalDate).toLocaleDateString('da-DK', { 
-                      day: 'numeric', month: 'long', year: 'numeric' 
-                    })}
-                  </span>
+                  <span className="text-[#2d2820]">{formatDate(formData.arrivalDate)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#8a7a6a]">{t('success.nights')}</span>
@@ -211,7 +393,6 @@ export const BookingModal = () => {
                   const isActive = step === s;
                   const isCompleted = index < stepIndex;
                   
-                  // Skip room step indicator if room is pre-selected
                   if (s === 'room' && selectedRoom) return null;
                   
                   return (
@@ -247,17 +428,34 @@ export const BookingModal = () => {
               {/* Step 1: Dates */}
               {step === 'dates' && (
                 <div className="space-y-8">
-                  <div>
+                  {/* Custom Date Picker */}
+                  <div ref={calendarRef} className="relative">
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
                       {t('step1.arrival')}
                     </label>
-                    <input
-                      type="date"
-                      value={formData.arrivalDate}
-                      onChange={(e) => setFormData({ ...formData, arrivalDate: e.target.value })}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] text-lg font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCalendar(!showCalendar)}
+                      className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-left text-lg font-light focus:border-[#4a5a42] focus:outline-none transition-colors flex items-center justify-between"
+                    >
+                      <span className={formData.arrivalDate ? 'text-[#2d2820]' : 'text-[#b8a890]'}>
+                        {formData.arrivalDate ? formatDate(formData.arrivalDate) : 'Vaelg dato...'}
+                      </span>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-[#8a7a6a]">
+                        <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M3 9H21" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M8 2V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        <path d="M16 2V6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                      </svg>
+                    </button>
+                    
+                    {showCalendar && (
+                      <CustomCalendar
+                        selectedDate={formData.arrivalDate}
+                        onSelect={(date) => setFormData({ ...formData, arrivalDate: date })}
+                        onClose={() => setShowCalendar(false)}
+                      />
+                    )}
                   </div>
 
                   <div>
@@ -326,7 +524,7 @@ export const BookingModal = () => {
                     disabled={!formData.arrivalDate}
                     className="w-full mt-4 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
-                    {t('step1.continue')} -&gt;
+                    {t('step1.continue')} →
                   </button>
                 </div>
               )}
@@ -381,7 +579,7 @@ export const BookingModal = () => {
                       onClick={() => setStep('dates')}
                       className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
                     >
-                      &lt;- {t('step2.back')}
+                      ← {t('step2.back')}
                     </button>
                     <button
                       type="button"
@@ -389,7 +587,7 @@ export const BookingModal = () => {
                       disabled={!formData.roomId}
                       className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      {t('step2.continue')} -&gt;
+                      {t('step2.continue')} →
                     </button>
                   </div>
                 </div>
@@ -404,9 +602,7 @@ export const BookingModal = () => {
                       <div>
                         <p className="font-display text-lg text-[#2d2820]">{getSelectedRoom()?.name}</p>
                         <p className="text-sm text-[#8a7a6a]">
-                          {new Date(formData.arrivalDate).toLocaleDateString('da-DK', { 
-                            day: 'numeric', month: 'short' 
-                          })} - {formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'} - {formData.guests} {formData.guests === 1 ? 'gaest' : 'gaester'}
+                          {formatDateShort(formData.arrivalDate)} - {formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'} - {formData.guests} {formData.guests === 1 ? 'gaest' : 'gaester'}
                         </p>
                       </div>
                       <p className="font-display text-xl text-[#4a5a42]">
@@ -472,7 +668,7 @@ export const BookingModal = () => {
                       onClick={() => setStep(selectedRoom ? 'dates' : 'room')}
                       className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
                     >
-                      &lt;- {t('step2.back')}
+                      ← {t('step2.back')}
                     </button>
                     <button
                       type="button"
