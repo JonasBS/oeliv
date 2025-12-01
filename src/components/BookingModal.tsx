@@ -19,7 +19,7 @@ const MONTHS_DA = [
 
 const WEEKDAYS_DA = ['Ma', 'Ti', 'On', 'To', 'Fr', 'Lo', 'So'];
 
-// Custom Calendar Component
+// Custom Calendar Component - Compact version
 const CustomCalendar = ({
   selectedDate,
   onSelect,
@@ -39,7 +39,7 @@ const CustomCalendar = ({
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
-    const startingDay = (firstDay.getDay() + 6) % 7; // Monday = 0
+    const startingDay = (firstDay.getDay() + 6) % 7;
 
     const days: (Date | null)[] = [];
 
@@ -82,49 +82,49 @@ const CustomCalendar = ({
   const canGoPrev = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1) > today;
 
   return (
-    <div className="absolute top-full left-0 right-0 mt-2 bg-[#f4f2eb] border border-[#ddd8cc] shadow-xl z-50">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-[#e8e4da]">
+    <div className="absolute top-full left-0 right-0 mt-1 bg-[#f4f2eb] border border-[#ddd8cc] shadow-lg z-50">
+      {/* Header - compact */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-[#e8e4da]">
         <button
           type="button"
           onClick={prevMonth}
           disabled={!canGoPrev}
-          className={`w-8 h-8 flex items-center justify-center transition-colors ${
+          className={`w-6 h-6 flex items-center justify-center transition-colors ${
             canGoPrev ? 'text-[#2d2820] hover:bg-[#e8e4da]' : 'text-[#c8c0b0] cursor-not-allowed'
           }`}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </button>
-        <span className="font-display text-lg text-[#2d2820]">
+        <span className="font-display text-sm text-[#2d2820]">
           {MONTHS_DA[currentMonth.getMonth()]} {currentMonth.getFullYear()}
         </span>
         <button
           type="button"
           onClick={nextMonth}
-          className="w-8 h-8 flex items-center justify-center text-[#2d2820] hover:bg-[#e8e4da] transition-colors"
+          className="w-6 h-6 flex items-center justify-center text-[#2d2820] hover:bg-[#e8e4da] transition-colors"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
             <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="1.5" />
           </svg>
         </button>
       </div>
 
-      {/* Weekday headers */}
-      <div className="grid grid-cols-7 border-b border-[#e8e4da]">
+      {/* Weekday headers - compact */}
+      <div className="grid grid-cols-7 px-1">
         {WEEKDAYS_DA.map((day) => (
           <div
             key={day}
-            className="py-2 text-center text-[10px] tracking-[0.1em] uppercase text-[#8a7a6a]"
+            className="py-1 text-center text-[9px] tracking-[0.05em] uppercase text-[#8a7a6a]"
           >
             {day}
           </div>
         ))}
       </div>
 
-      {/* Days grid */}
-      <div className="grid grid-cols-7 p-2">
+      {/* Days grid - compact */}
+      <div className="grid grid-cols-7 gap-0.5 p-1">
         {days.map((date, index) => (
           <button
             key={index}
@@ -137,11 +137,11 @@ const CustomCalendar = ({
               }
             }}
             className={`
-              aspect-square flex items-center justify-center text-sm transition-all m-0.5
+              w-8 h-8 flex items-center justify-center text-xs transition-all rounded-sm
               ${!date ? 'invisible' : ''}
               ${isDateDisabled(date) ? 'text-[#c8c0b0] cursor-not-allowed' : 'hover:bg-[#4a5a42] hover:text-[#f4f2eb]'}
               ${isDateSelected(date) ? 'bg-[#4a5a42] text-[#f4f2eb]' : ''}
-              ${isToday(date) && !isDateSelected(date) ? 'border border-[#4a5a42] text-[#4a5a42]' : ''}
+              ${isToday(date) && !isDateSelected(date) ? 'ring-1 ring-[#4a5a42] text-[#4a5a42]' : ''}
             `}
           >
             {date?.getDate()}
@@ -149,22 +149,22 @@ const CustomCalendar = ({
         ))}
       </div>
 
-      {/* Footer */}
-      <div className="flex justify-between items-center p-3 border-t border-[#e8e4da]">
+      {/* Footer - compact */}
+      <div className="flex justify-between items-center px-3 py-2 border-t border-[#e8e4da]">
         <button
           type="button"
           onClick={() => {
             onSelect(today);
             onClose();
           }}
-          className="text-[11px] tracking-[0.1em] uppercase text-[#4a5a42] hover:text-[#2d2820] transition-colors"
+          className="text-[10px] tracking-[0.1em] uppercase text-[#4a5a42] hover:text-[#2d2820] transition-colors"
         >
           I dag
         </button>
         <button
           type="button"
           onClick={onClose}
-          className="text-[11px] tracking-[0.1em] uppercase text-[#8a7a6a] hover:text-[#2d2820] transition-colors"
+          className="text-[10px] tracking-[0.1em] uppercase text-[#8a7a6a] hover:text-[#2d2820] transition-colors"
         >
           Luk
         </button>
@@ -216,18 +216,18 @@ export const BookingModal = () => {
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
-        setStep('dates');
+      setStep('dates');
         setShowCalendar(false);
-        setFormData({
+      setFormData({
           arrivalDate: null,
           nights: 2,
-          guests: 2,
-          roomId: '',
-          name: '',
-          email: '',
-          phone: '',
-          message: '',
-        });
+        guests: 2,
+        roomId: '',
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      });
       }, 300);
     }
   }, [isOpen]);
@@ -297,7 +297,7 @@ export const BookingModal = () => {
 
       {/* Modal */}
       <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-[#f4f2eb] shadow-2xl animate-slideUp">
-        
+
         {/* Close button */}
         <button
           type="button"
@@ -370,8 +370,8 @@ export const BookingModal = () => {
                 OELIV - Bornholm
               </p>
               <h2 className="font-display text-3xl text-[#2d2820] mb-2">
-                {t('title')}
-              </h2>
+            {t('title')}
+          </h2>
               
               {/* Show selected room if pre-selected */}
               {selectedRoom && (
@@ -383,7 +383,7 @@ export const BookingModal = () => {
                   <p className="text-sm text-[#4a5a42]">{selectedRoom.price} kr / nat</p>
                 </div>
               )}
-            </div>
+        </div>
 
             {/* Progress */}
             <div className="px-10 pb-6">
@@ -413,20 +413,20 @@ export const BookingModal = () => {
                         ) : (
                           selectedRoom ? (index === 0 ? 1 : 2) : index + 1
                         )}
-                      </div>
+                  </div>
                       {index < (selectedRoom ? 1 : 2) && (
                         <div className={`w-8 h-[1px] ${isCompleted ? 'bg-[#7a8a6e]' : 'bg-[#ddd8cc]'}`} />
                       )}
-                    </div>
+                </div>
                   );
                 })}
-              </div>
-            </div>
+          </div>
+        </div>
 
-            {/* Content */}
+        {/* Content */}
             <div className="px-10 pb-10">
-              {/* Step 1: Dates */}
-              {step === 'dates' && (
+          {/* Step 1: Dates */}
+          {step === 'dates' && (
                 <div className="space-y-8">
                   {/* Custom Date Picker */}
                   <div ref={calendarRef} className="relative">
@@ -478,28 +478,28 @@ export const BookingModal = () => {
                         </button>
                       ))}
                     </div>
-                  </div>
+                </div>
 
-                  <div>
+                <div>
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-3">
-                      {t('step1.guests')}
-                    </label>
+                    {t('step1.guests')}
+                  </label>
                     <div className="flex gap-2">
-                      {[1, 2, 3, 4].map(n => (
-                        <button
-                          key={n}
-                          type="button"
-                          onClick={() => setFormData({ ...formData, guests: n })}
+                    {[1, 2, 3, 4].map(n => (
+                      <button
+                        key={n}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, guests: n })}
                           className={`w-10 h-10 text-sm transition-all ${
-                            formData.guests === n
+                          formData.guests === n
                               ? 'bg-[#4a5a42] text-[#f4f2eb]'
                               : 'text-[#6b5a4a] hover:bg-[#e8e4da]'
-                          }`}
-                        >
-                          {n}
-                        </button>
-                      ))}
-                    </div>
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
                   </div>
 
                   {/* Price preview if room selected */}
@@ -514,88 +514,88 @@ export const BookingModal = () => {
                         <p className="font-display text-xl text-[#2d2820]">
                           {formatPrice(calculateTotal())} kr
                         </p>
-                      </div>
-                    </div>
+                </div>
+              </div>
                   )}
 
-                  <button
-                    type="button"
+              <button
+                type="button"
                     onClick={() => setStep(selectedRoom ? 'contact' : 'room')}
-                    disabled={!formData.arrivalDate}
+                disabled={!formData.arrivalDate}
                     className="w-full mt-4 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
+              >
                     {t('step1.continue')} →
-                  </button>
-                </div>
-              )}
+              </button>
+            </div>
+          )}
 
               {/* Step 2: Room (only if no pre-selected room) */}
               {step === 'room' && !selectedRoom && (
-                <div className="space-y-4">
+              <div className="space-y-4">
                   <p className="text-sm text-[#6b5a4a] mb-6">
                     Vaelg det vaerelse der passer bedst til dit ophold
                   </p>
                   
                   {ROOMS.map((room) => (
-                    <button
-                      key={room.id}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, roomId: room.id })}
+                  <button
+                    key={room.id}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, roomId: room.id })}
                       className={`w-full p-5 text-left border transition-all ${
-                        formData.roomId === room.id
+                      formData.roomId === room.id
                           ? 'bg-[#e8e4da] border-[#4a5a42]'
                           : 'border-[#ddd8cc] hover:bg-[#faf9f5] hover:border-[#c8c0b0]'
-                      }`}
-                    >
-                      <div className="flex justify-between items-start">
+                    }`}
+                  >
+                    <div className="flex justify-between items-start">
                         <div className="flex-1">
                           <h3 className="font-display text-lg text-[#2d2820]">{room.name}</h3>
                           <p className="text-sm text-[#8a7a6a] font-light mt-1">{room.description}</p>
-                        </div>
+                      </div>
                         <div className="text-right ml-4">
                           <p className="text-[#4a5a42] font-display text-lg">
                             {room.price} kr
                           </p>
-                          <p className="text-xs text-[#8a7a6a]">pr. nat</p>
-                        </div>
+                        <p className="text-xs text-[#8a7a6a]">pr. nat</p>
                       </div>
+                    </div>
                       
-                      {formData.roomId === room.id && (
-                        <div className="mt-4 pt-4 border-t border-[#c8c0b0]">
+                    {formData.roomId === room.id && (
+                      <div className="mt-4 pt-4 border-t border-[#c8c0b0]">
                           <div className="flex justify-between text-sm">
                             <span className="text-[#8a7a6a]">{formData.nights} {formData.nights === 1 ? 'nat' : 'naetter'}</span>
                             <span className="text-[#2d2820] font-medium">
                               {formatPrice(parseInt(room.price.replace('.', '')) * formData.nights)} kr total
                             </span>
                           </div>
-                        </div>
-                      )}
-                    </button>
-                  ))}
+                      </div>
+                    )}
+                  </button>
+                ))}
 
-                  <div className="flex gap-4 mt-8">
-                    <button
-                      type="button"
-                      onClick={() => setStep('dates')}
+              <div className="flex gap-4 mt-8">
+                <button
+                  type="button"
+                  onClick={() => setStep('dates')}
                       className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
-                    >
+                >
                       ← {t('step2.back')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setStep('contact')}
-                      disabled={!formData.roomId}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setStep('contact')}
+                  disabled={!formData.roomId}
                       className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
+                >
                       {t('step2.continue')} →
-                    </button>
-                  </div>
-                </div>
-              )}
+                </button>
+              </div>
+            </div>
+          )}
 
-              {/* Step 3: Contact */}
-              {step === 'contact' && (
-                <div className="space-y-6">
+          {/* Step 3: Contact */}
+          {step === 'contact' && (
+              <div className="space-y-6">
                   {/* Booking summary */}
                   <div className="p-4 bg-[#e8e4da] mb-6">
                     <div className="flex justify-between items-start">
@@ -611,81 +611,81 @@ export const BookingModal = () => {
                     </div>
                   </div>
 
-                  <div>
+                <div>
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
                       {t('step3.name')} *
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                      required
-                    />
-                  </div>
+                    required
+                  />
+                </div>
 
-                  <div>
+                <div>
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
                       {t('step3.email')} *
-                    </label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                      required
-                    />
-                  </div>
+                    required
+                  />
+                </div>
 
-                  <div>
+                <div>
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                      {t('step3.phone')}
-                    </label>
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    {t('step3.phone')}
+                  </label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors"
-                    />
-                  </div>
+                  />
+                </div>
 
-                  <div>
+                <div>
                     <label className="block text-[11px] tracking-[0.15em] uppercase text-[#8a7a6a] mb-2">
-                      {t('step3.message')}
-                    </label>
-                    <textarea
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    {t('step3.message')}
+                  </label>
+                  <textarea
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       rows={3}
-                      placeholder={t('step3.messagePlaceholder')}
+                    placeholder={t('step3.messagePlaceholder')}
                       className="w-full px-0 py-3 bg-transparent border-0 border-b border-[#c8c0b0] text-[#2d2820] font-light focus:border-[#4a5a42] focus:outline-none transition-colors resize-none"
-                    />
-                  </div>
+                  />
+              </div>
 
-                  <div className="flex gap-4 mt-8">
-                    <button
-                      type="button"
+              <div className="flex gap-4 mt-8">
+                <button
+                  type="button"
                       onClick={() => setStep(selectedRoom ? 'dates' : 'room')}
                       className="text-[#8a7a6a] text-sm hover:text-[#2d2820] transition-colors"
-                    >
+                >
                       ← {t('step2.back')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleSubmit}
-                      disabled={!formData.name || !formData.email || isSubmitting}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!formData.name || !formData.email || isSubmitting}
                       className="flex-1 py-4 bg-[#4a5a42] text-[#f4f2eb] text-[11px] tracking-[0.2em] uppercase hover:bg-[#3d4a35] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? t('step3.sending') : t('step3.submit')}
-                    </button>
-                  </div>
+                >
+                  {isSubmitting ? t('step3.sending') : t('step3.submit')}
+                </button>
+              </div>
 
                   <p className="text-center text-xs text-[#8a7a6a] mt-4 font-light">
-                    {t('step3.note')}
-                  </p>
-                </div>
-              )}
+                {t('step3.note')}
+              </p>
             </div>
+          )}
+        </div>
           </>
         )}
       </div>
