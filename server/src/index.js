@@ -41,15 +41,18 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static files from root directory (HTML files, client build, etc.)
+// Serve static files
 const rootDir = path.join(__dirname, '..', '..');
-app.use(express.static(rootDir));
-app.use('/client', express.static(path.join(rootDir, 'client')));
+const clientDistPath = path.join(rootDir, 'client', 'dist');
+
+// Serve client build (Vite output)
+app.use(express.static(clientDistPath));
 app.use('/uploads', express.static(path.join(rootDir, 'uploads')));
 
-// Serve static files from public directory if needed
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('public'));
+// In development, also serve from root for HTML files
+if (process.env.NODE_ENV !== 'production') {
+  app.use(express.static(rootDir));
+  app.use('/client', express.static(path.join(rootDir, 'client')));
 }
 
 // Initialize database
@@ -90,9 +93,19 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+// Catch-all: serve client app for non-API routes (SPA routing)
+app.get('*', (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+  
+  const clientDistPath = path.join(__dirname, '..', '..', 'client', 'dist', 'index.html');
+  res.sendFile(clientDistPath, (err) => {
+    if (err) {
+      res.status(404).json({ error: 'Route not found' });
+    }
+  });
 });
 
 // Start server
